@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "142536551485",
+    "project_id": "unicampus-c2d20",
+    "storage_bucket": "unicampus-c2d20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142536551485:android:4b5ba15c4dd7de619cce54",
+        "android_client_info": {
+          "package_name": "com.example.uni_campus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142536551485-uc9lbectkn8osguohv7of1mfq4v3haok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrbzm1hOe37rxzYQxqg1lI5bFdBUtasmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142536551485-uc9lbectkn8osguohv7of1mfq4v3haok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
