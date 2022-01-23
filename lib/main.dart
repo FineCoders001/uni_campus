@@ -17,7 +17,6 @@ class _MyAppState extends State<MyApp> {
     return Column(
       children: [
         Container(),
-        Container()
       ],
     );
   }
