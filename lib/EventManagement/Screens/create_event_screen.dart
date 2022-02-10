@@ -7,11 +7,14 @@ class CreateEventScreen extends StatefulWidget {
   _CreateEventScreenState createState() => _CreateEventScreenState();
 }
 
+enum Dept { interdept, intradept }
+
 class _CreateEventScreenState extends State<CreateEventScreen> {
   String date = "";
   DateTime selectedDate = DateTime.now();
   DateTime initialDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+  Dept _d = Dept.interdept;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +58,45 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       _selectTime(context);
                     },
                     child: const Text("Choose Time"),
+                  ),
+                ],
+              ),
+              TextFormField(
+                decoration: const InputDecoration(hintText: "Event Duration"),
+              ),
+              Row(
+                children: [
+                  const Text(
+                    "Department:",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Column(
+                    children: [
+                      ListTile(
+                        title: const Text("Interdepartment"),
+                        leading: Radio(
+                          value: Dept.interdept,
+                          groupValue: _d,
+                          onChanged: (Dept? value) {
+                            setState(() {
+                              _d = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text("Intradepartment"),
+                        leading: Radio(
+                          value: Dept.intradept,
+                          groupValue: _d,
+                          onChanged: (Dept? value) {
+                            setState(() {
+                              _d = value!;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
