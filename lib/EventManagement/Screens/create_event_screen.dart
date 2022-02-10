@@ -18,10 +18,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Event Details"),
+      ),
       body: Form(
         child: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
           child: ListView(
             children: [
               TextFormField(
@@ -39,32 +42,33 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
                   ElevatedButton(
                     onPressed: () {
                       _selectDate(context);
                     },
                     child: const Text("Choose Date"),
                   ),
+                  Text(
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("${selectedTime.hour}:${selectedTime.minute}"),
                   ElevatedButton(
                     onPressed: () {
                       _selectTime(context);
                     },
                     child: const Text("Choose Time"),
                   ),
+                  Text("${selectedTime.hour}:${selectedTime.minute}"),
                 ],
               ),
               TextFormField(
                 decoration: const InputDecoration(hintText: "Event Duration"),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
                     "Department:",
@@ -72,33 +76,43 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                   Column(
                     children: [
-                      ListTile(
-                        title: const Text("Interdepartment"),
-                        leading: Radio(
-                          value: Dept.interdept,
-                          groupValue: _d,
-                          onChanged: (Dept? value) {
-                            setState(() {
-                              _d = value!;
-                            });
-                          },
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.60,
+                        child: ListTile(
+                          title: const Text("Interdepartment"),
+                          leading: Radio(
+                            value: Dept.interdept,
+                            groupValue: _d,
+                            onChanged: (Dept? value) {
+                              setState(() {
+                                _d = value!;
+                              });
+                            },
+                          ),
                         ),
                       ),
-                      ListTile(
-                        title: const Text("Intradepartment"),
-                        leading: Radio(
-                          value: Dept.intradept,
-                          groupValue: _d,
-                          onChanged: (Dept? value) {
-                            setState(() {
-                              _d = value!;
-                            });
-                          },
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.60,
+                        child: ListTile(
+                          title: const Text("Intradepartment"),
+                          leading: Radio(
+                            value: Dept.intradept,
+                            groupValue: _d,
+                            onChanged: (Dept? value) {
+                              setState(() {
+                                _d = value!;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ],
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Submit"),
               ),
             ],
           ),
