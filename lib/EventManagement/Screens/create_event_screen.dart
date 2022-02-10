@@ -11,6 +11,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   String date = "";
   DateTime selectedDate = DateTime.now();
   DateTime initialDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +33,31 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               TextFormField(
                 decoration: const InputDecoration(hintText: "Event Venue"),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  _selectDate(context);
-                },
-                child: const Text("Choose Date"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
+                  ElevatedButton(
+                    onPressed: () {
+                      _selectDate(context);
+                    },
+                    child: const Text("Choose Date"),
+                  ),
+                ],
               ),
-              Text(
-                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${selectedTime.hour}:${selectedTime.minute}"),
+                  ElevatedButton(
+                    onPressed: () {
+                      _selectTime(context);
+                    },
+                    child: const Text("Choose Time"),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -51,12 +69,22 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: selectedDate,
+      firstDate: DateTime.parse(DateTime.now().toString()),
       lastDate: DateTime(2025),
     );
     if (selected != null && selected != selectedDate) {
       setState(() {
         selectedDate = selected;
+      });
+    }
+  }
+
+  _selectTime(BuildContext context) async {
+    final TimeOfDay? selectedt =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (selectedt != null && selectedt != selectedTime) {
+      setState(() {
+        selectedTime = selectedt;
       });
     }
   }
