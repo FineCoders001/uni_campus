@@ -34,18 +34,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TimeOfDay selectedTime = TimeOfDay.now();
   Dept _d = Dept.interdept;
 
-  final _event = EventsDetail(
-   eventName: "",
-    venue: "",
-    description: "",
-    eventDate: DateTime.now(),
-    eventStartTime: TimeOfDay.now(),
-    deptLevel: ""
-  );
+  late EventsDetail _event = EventsDetail(
+      eventName: "",
+      venue: "",
+      description: "",
+      eventDate: DateTime.now(),
+      eventStartTime: TimeOfDay.now(),
+      deptLevel: "");
 
   Future<void> _saveForm(context) async {
-
-
     final isValid = _form.currentState?.validate();
     if (!isValid!) {
       return;
@@ -55,7 +52,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
     // Navigator.of(context).pop();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +111,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               ),
                               hintText: "Title",
                             ),
+                            onSaved: (value) {
+                              _event = EventsDetail(
+                                  eventName: _event.eventName,
+                                  venue: value.toString(),
+                                  description: _event.description,
+                                  deptLevel: _event.deptLevel,
+                                  eventDate: _event.eventDate,
+                                  eventStartTime: _event.eventStartTime);
+                            },
                           ),
                         ),
                         Padding(
@@ -134,18 +139,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               ),
                             ),
                             validator: (value) {
-                              if (value!=null && value.isEmpty) {
+                              if (value != null && value.isEmpty) {
                                 return 'Please provide a value!';
                               }
                               return null;
                             },
-
-                            onSaved: (value){
+                            onSaved: (value) {
                               _event = EventsDetail(
-                                  eventName: eventName,
-                                  venue: venue,
-                                  description: description,
-                                  deptLevel: deptLevel, eventDate: eventDate, eventStartTime: eventStartTime)
+                                  eventName: _event.eventName,
+                                  venue: value.toString(),
+                                  description: _event.description,
+                                  deptLevel: _event.deptLevel,
+                                  eventDate: _event.eventDate,
+                                  eventStartTime: _event.eventStartTime);
                             },
                           ),
                         ),
@@ -168,12 +174,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                     BorderSide(color: Colors.grey, width: 2.0),
                               ),
                             ),
-
                             validator: (value) {
-                              if (value!= null && value.isEmpty) {
+                              if (value != null && value.isEmpty) {
                                 return 'Please enter a description.';
                               }
-                              if (value!= null && value.length < 10) {
+                              if (value != null && value.length < 10) {
                                 return 'Should be at least 10 characters long.';
                               }
                               return null;
@@ -242,6 +247,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                   ),
                 ),
+
                 Card(
                   elevation: 5.0,
                   child: Container(
@@ -266,6 +272,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             ),
                           ),
                         ),
+
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: GestureDetector(
@@ -277,7 +284,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               width: double.infinity,
                               height: 50,
                               child: Text(
-                                "${months[selectedDate.month - 1]} ${selectedDate.day}, ${selectedDate.year}",
+                                "${months[selectedDate.month - 1]}${selectedDate.day} ,${selectedDate.year}",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               decoration: BoxDecoration(
@@ -291,6 +298,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             ),
                           ),
                         ),
+
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: GestureDetector(
@@ -302,7 +310,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               width: double.infinity,
                               height: 50,
                               child: Text(
-                                "${selectedTime.hour == 12 ? selectedTime.hour : selectedTime.hour % 12}:${selectedTime.minute < 10 ? "0${selectedTime.minute}" : "${selectedTime.minute}"} ${selectedTime.period.toString().substring(10).toUpperCase()} ",
+                                "${selectedTime.hour == 12 ? selectedTime.hour : selectedTime.hour % 12}:${selectedTime.minute < 10 ? "0${selectedTime.minute}" : "${selectedTime.minute}"}${selectedTime.period.toString().substring(10).toUpperCase()}",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               decoration: BoxDecoration(
@@ -316,6 +324,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             ),
                           ),
                         ),
+
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
@@ -324,7 +333,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 alignment: Alignment.centerLeft,
                                 padding: EdgeInsets.only(bottom: 12),
                                 child: Text(
-                                  "Event Duration: ",
+                                  "Event Duration:",
                                   style: GoogleFonts.ubuntu(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
@@ -362,11 +371,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                     hint: du == null
                                         ? const Text("Select")
                                         : Text(du),
+
                                     items:
                                         <String>["Hour", "Day"].map((String v) {
                                       return DropdownMenuItem(
                                           value: v, child: Text(v));
                                     }).toList(),
+
                                     onChanged: (String? newdu) {
                                       setState(() {
                                         du = newdu as String;
@@ -405,6 +416,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                   ),
                 ),
+
                 // TextFormField(
                 //   decoration: const InputDecoration(hintText: "Event Duration"),
                 // ),
@@ -412,6 +424,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 const SizedBox(
                   height: 2,
                 ),
+
                 Container(
                   margin: const EdgeInsets.all(15),
                   alignment: Alignment.center,
@@ -428,6 +441,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         Colors.cyan,
                       ],
                     ),
+
                     // border: Border.all(width: 5.0, color: Colors.grey),
                     borderRadius: BorderRadius.all(
                       Radius.circular(5.0),
