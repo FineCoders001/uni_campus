@@ -271,7 +271,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             children: [
                               Container(
                                 alignment: Alignment.centerLeft,
-                                padding: EdgeInsets.only(bottom: 12),
+                                padding: const EdgeInsets.only(bottom: 12),
                                 child: Text(
                                   "Event Duration: ",
                                   style: GoogleFonts.ubuntu(
