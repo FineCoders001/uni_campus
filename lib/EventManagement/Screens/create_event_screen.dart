@@ -26,6 +26,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     'December'
   ];
   String date = "";
+  String du = "Hour";
   DateTime selectedDate = DateTime.now();
   DateTime initialDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -262,6 +263,68 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 ),
                               ),
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(bottom: 12),
+                                child: Text(
+                                  "Event Duration: ",
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: 2 *
+                                        MediaQuery.of(context).size.width /
+                                        3,
+                                    child: TextFormField(
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 2.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                        hintText: "Duration",
+                                      ),
+                                    ),
+                                  ),
+                                  DropdownButton<String>(
+                                    // ignore: unnecessary_null_comparison
+                                    hint: du == null
+                                        ? const Text("Select")
+                                        : Text(du),
+                                    items:
+                                        <String>["Hour", "Day"].map((String v) {
+                                      return DropdownMenuItem(
+                                          value: v, child: Text(v));
+                                    }).toList(),
+                                    onChanged: (String? newdu) {
+                                      setState(() {
+                                        du = newdu as String;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         // Row(
