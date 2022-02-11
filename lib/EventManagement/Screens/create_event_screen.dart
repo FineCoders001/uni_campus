@@ -40,8 +40,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       description: "",
       eventDate: DateTime.now(),
       eventStartTime: TimeOfDay.now(),
-      deptLevel: ""
-  );
+      deptLevel: "");
 
   Future<void> _saveForm(context) async {
     final isValid = _form.currentState?.validate();
@@ -53,7 +52,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
     // Navigator.of(context).pop();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +101,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               filled: true,
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.grey, width: 2.0),
+                                    BorderSide(color: Colors.grey, width: 2.0),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -121,156 +119,32 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                   deptLevel: _event.deptLevel,
                                   eventDate: _event.eventDate,
                                   eventStartTime: _event.eventStartTime);
-                            }
-
-
-                            ,
-
-
-                          )
-
-                          ,
-
-                        )
-
-                        ,
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              12.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          TextFormField
-
-                            (
-
-                            decoration
-                                :
-
-                            const InputDecoration
-
-                              (
-
-                              fillColor
-                                  :
-
-                              Colors.white
-
-                              ,
-
-                              filled
-                                  :
-
-                              true
-
-                              ,
-
-                              hintText: "Venue"
-
-
-                              ,
-
-                              focusedBorder
-                                  :
-
-                              OutlineInputBorder
-
-                                (
-
-                                borderSide
-                                    :
-
-                                BorderSide
-
-                                  (
-
-                                    color
-                                        :
-
-                                    Colors.grey
-
-                                    ,
-
-                                    width
-                                        :
-
-                                    2.0
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                              enabledBorder
-                                  :
-
-                              OutlineInputBorder
-
-                                (
-
-                                borderSide
-                                    :
-
-                                BorderSide
-
-                                  (
-
-                                    color
-                                        :
-
-                                    Colors.grey
-
-                                    ,
-
-                                    width
-                                        :
-
-                                    2.0
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                            )
-
-                            ,
-
-                            validator
-                                :
-
-                                (value) {
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Venue",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                            ),
+                            validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return 'Please provide a value!';
                               }
                               return null;
                             },
-
-                            onSaved
-                                :
-
-                                (value) {
+                            onSaved: (value) {
                               _event = EventsDetail(
                                   eventName: _event.eventName,
                                   venue: value.toString(),
@@ -279,170 +153,28 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                   eventDate: _event.eventDate,
                                   eventStartTime: _event.eventStartTime);
                             },
-
-                          )
-
-                          ,
-
-                        )
-
-                        ,
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              12.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          TextFormField
-
-                            (
-
-                            maxLines
-                                :
-
-                            3
-
-                            ,
-
-                            keyboardType
-                                :
-
-                            TextInputType.multiline
-
-                            ,
-
-                            decoration
-                                :
-
-                            const InputDecoration
-
-                              (
-
-                              fillColor
-                                  :
-
-                              Colors.white
-
-                              ,
-
-                              filled
-                                  :
-
-                              true
-
-                              ,
-
-                              contentPadding
-                                  :
-
-                              EdgeInsets.all
-
-                                (
-
-                                  15
-
-                              )
-
-                              ,
-
-                              hintText
-                                  :
-
-                              "Description"
-
-                              ,
-
-                              focusedBorder
-                                  :
-
-                              OutlineInputBorder
-
-                                (
-
-                                borderSide
-                                    :
-
-                                BorderSide
-
-                                  (
-
-                                    color
-                                        :
-
-                                    Colors.grey
-
-                                    ,
-
-                                    width
-                                        :
-
-                                    2.0
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                              enabledBorder
-                                  :
-
-                              OutlineInputBorder
-
-                                (
-
-                                borderSide
-                                    :
-
-                                BorderSide
-
-                                  (
-
-                                    color
-                                        :
-
-                                    Colors.grey
-
-                                    ,
-
-                                    width
-                                        :
-
-                                    2.0
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                            )
-
-                            ,
-
-                            validator
-                                :
-
-                                (value) {
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: TextFormField(
+                            maxLines: 3,
+                            keyboardType: TextInputType.multiline,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding: EdgeInsets.all(15),
+                              hintText: "Description",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                            ),
+                            validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return 'Please enter a description.';
                               }
@@ -451,284 +183,53 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               }
                               return null;
                             },
-
-                          )
-
-                          ,
-
-                        )
-
-                        ,
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              12.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          Container
-
-                            (
-
-                            decoration
-                                :
-
-                            BoxDecoration
-
-                              (
-
-                              color
-                                  :
-
-                              Colors.white
-
-                              ,
-
-                              border
-                                  :
-
-                              Border.all
-
-                                (
-
-                                  width
-                                      :
-
-                                  2.0
-
-                                  ,
-
-                                  color
-                                      :
-
-                                  Colors.grey
-
-                              )
-
-                              ,
-
-                              borderRadius
-                                  :
-
-                              const BorderRadius.all
-
-                                (
-
-                                Radius.circular
-
-                                  (
-
-                                    5.0
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                            )
-
-                            ,
-
-                            child
-                                :
-
-                            Row
-
-                              (
-
-                              mainAxisAlignment
-                                  :
-
-                              MainAxisAlignment.center
-
-                              ,
-
-                              children
-                                  :
-
-                              [
-
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border:
+                                  Border.all(width: 2.0, color: Colors.grey),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5.0),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 // const Text(
                                 //   "Department:",
                                 //   style: TextStyle(fontSize: 18),
                                 // ),
-                                Column
-
-                                  (
-
-                                  children
-                                      :
-
-                                  [
-
-                                    SizedBox
-
-                                      (
-
-                                      width
-                                          :
-
-                                      MediaQuery
-                                          .of(context)
-
-                                          .
-                                      size
-                                          .width
-
-                                          *
-
-                                          0.60
-
-                                      ,
-
-                                      child
-                                          :
-
-                                      ListTile
-
-                                        (
-
-                                        title
-                                            :
-
-                                        const Text
-
-                                          (
-
-                                            "Interdepartment"
-
-                                        )
-
-                                        ,
-
-                                        leading
-                                            :
-
-                                        Radio
-
-                                          (
-
-                                          value
-                                              :
-
-                                          Dept.interdept
-
-                                          ,
-
-                                          groupValue
-                                              :
-
-                                          _d
-
-                                          ,
-
-                                          onChanged
-                                              :
-
-                                              (Dept? value) {
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.60,
+                                      child: ListTile(
+                                        title: const Text("Interdepartment"),
+                                        leading: Radio(
+                                          value: Dept.interdept,
+                                          groupValue: _d,
+                                          onChanged: (Dept? value) {
                                             setState(() {
                                               _d = value!;
                                             });
                                           },
-
-                                        )
-
-                                        ,
-
-                                      )
-
-                                      ,
-
-                                    )
-
-                                    ,
-
-                                    SizedBox
-
-                                      (
-
-                                      width
-                                          :
-
-                                      MediaQuery
-                                          .of(context)
-
-                                          .
-                                      size
-                                          .width
-
-                                          *
-
-                                          0.60
-
-                                      ,
-
-                                      child
-                                          :
-
-                                      ListTile
-
-                                        (
-
-                                        title
-                                            :
-
-                                        const Text
-
-                                          (
-
-                                            "
-
-                                            Intradepartment
-
-                                            "
-
-                                        )
-
-                                        ,
-
-                                        leading
-                                            :
-
-                                        Radio
-
-                                          (
-
-                                          value
-                                              :
-
-                                          Dept.intradept
-
-                                          ,
-
-                                          groupValue
-                                              :
-
-                                          _d
-
-                                          ,
-
-                                          onChanged
-                                              :
-
-                                              (Dept? value) {
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.60,
+                                      child: ListTile(
+                                        title: const Text("Intradepartment"),
+                                        leading: Radio(
+                                          value: Dept.intradept,
+                                          groupValue: _d,
+                                          onChanged: (Dept? value) {
                                             setState(() {
                                               _d = value!;
                                             });
@@ -743,901 +244,141 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           ),
                         ),
                       ],
-
-                    )
-
-                    ,
-
-                  )
-
-                  ,
-
-                )
-
-                ,
-
-                Card
-
-                  (
-
-                  elevation
-                      :
-
-                  5.0
-
-                  ,
-
-                  child
-                      :
-
-                  Container
-
-                    (
-
-                    decoration
-                        :
-
-                    const BoxDecoration
-
-                      (
-
-                      image
-                          :
-
-                      DecorationImage
-
-                        (
-
-                        image
-                            :
-
-                        AssetImage
-
-                          (
-
-                            "
-
-                            assets/images/Card.png
-
-                            "
-
-                        )
-
-                        ,
-
-                        fit
-                            :
-
-                        BoxFit.cover
-
-                        ,
-
-                      )
-
-                      ,
-
-                    )
-
-                    ,
-
-                    child
-                        :
-
-                    Column
-
-                      (
-
-                      children
-                          :
-
-                      [
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              10.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          Container
-
-                            (
-
-                            alignment
-                                :
-
-                            Alignment.centerLeft
-
-                            ,
-
-                            child
-                                :
-
-                            const Text
-
-                              (
-
-                              "
-
-                              Event Time
-
-                              "
-
-                              ,
-
-                              style
-                                  :
-
-                              TextStyle
-
-                                (
-
-                                  fontSize
-                                      :
-
-                                  25
-
-                                  ,
-
-                                  color
-                                      :
-
-                                  Colors.black
-
-                                  ,
-
-                                  fontWeight
-                                      :
-
-                                  FontWeight.bold
-
-                              )
-
-                              ,
-
-                            )
-
-                            ,
-
-                          )
-
-                          ,
-
-                        )
-
-                        ,
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              12.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          GestureDetector
-
-                            (
-
-                            onTap
-                                : () {
+                    ),
+                  ),
+                ),
+
+                Card(
+                  elevation: 5.0,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/Card.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: const Text(
+                              "Event Time",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: GestureDetector(
+                            onTap: () {
                               _selectDate(context);
                             },
-
-                            child
-                                :
-
-                            Container
-
-                              (
-
-                              alignment
-                                  :
-
-                              Alignment.center
-
-                              ,
-
-                              width
-                                  :
-
-                              double.infinity
-
-                              ,
-
-                              height
-                                  :
-
-                              50
-
-                              ,
-
-                              child
-                                  :
-
-                              Text
-
-                                (
-
-                                "
-
-                                ${
-
-                              months
-
-                              [
-
-                              selectedDate.month
-
-                              -
-
-                              1
-
-                              ]
-
-                              }
-
-
-                                ${
-
-                              selectedDate.day
-
-                              }
-
-                                ,
-
-                                ${
-
-                              selectedDate
-                                  .year
-
-                              }
-
-                                "
-
-                                ,
-
-                                style
-                                    :
-
-                                const TextStyle
-
-                                  (
-
-                                    fontSize
-                                        :
-
-                                    20
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                              decoration
-                                  :
-
-                              BoxDecoration
-
-                                (
-
-                                color
-                                    :
-
-                                Colors.white
-
-                                ,
-
-                                border
-                                    :
-
-                                Border.all
-
-                                  (
-
-                                    width
-                                        :
-
-                                    2.0
-
-                                    ,
-
-                                    color
-                                        :
-
-                                    Colors.grey
-
-                                )
-
-                                ,
-
-                                borderRadius
-                                    :
-
-                                const BorderRadius.all
-
-                                  (
-
-                                  Radius.circular
-
-                                    (
-
-                                      5.0),
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              height: 50,
+                              child: Text(
+                                "${months[selectedDate.month - 1]}${selectedDate.day} ,${selectedDate.year}",
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(width: 2.0, color: Colors.grey),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(5.0),
                                 ),
                               ),
                             ),
                           ),
-                        )
+                        ),
 
-                        ,
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              12.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          GestureDetector
-
-                            (
-
-                            onTap
-                                : () {
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: GestureDetector(
+                            onTap: () {
                               _selectTime(context);
                             },
-
-                            child
-                                :
-
-                            Container
-
-                              (
-
-                              alignment
-                                  :
-
-                              Alignment.center
-
-                              ,
-
-                              width
-                                  :
-
-                              double.infinity
-
-                              ,
-
-                              height
-                                  :
-
-                              50
-
-                              ,
-
-                              child
-                                  :
-
-                              Text
-
-                                (
-
-                                "
-
-                                ${
-
-                              selectedTime.hour
-
-                              ==
-
-                              12
-
-                              ?
-
-                              selectedTime.hour
-
-                                  :
-
-                              selectedTime.hour
-
-                              %
-
-                              12
-
-                              }
-
-                                    :
-
-                                ${
-
-                              selectedTime
-                                  .minute
-
-                              <
-
-                              10
-
-                              ?
-
-                              "
-
-                              0
-
-                              ${
-
-                              selectedTime.minute
-
-                              }
-
-                              "
-
-                                  :
-
-                              "
-
-                              ${
-
-                              selectedTime.minute
-
-                              }
-
-                              "
-
-                              }
-
-
-                                ${
-
-                              selectedTime
-                                  .period.toString
-
-                              (
-
-                              )
-
-                                  .
-
-                              substring
-
-                              (
-
-                              10
-
-                              )
-
-                                  .
-
-                              toUpperCase()
-
-                              }
-
-
-                                "
-
-                                ,
-
-                                style
-                                    :
-
-                                const TextStyle
-
-                                  (
-
-                                    fontSize
-                                        :
-
-                                    20
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                              decoration
-                                  :
-
-                              BoxDecoration
-
-                                (
-
-                                color
-                                    :
-
-                                Colors.white
-
-                                ,
-
-                                border
-                                    :
-
-                                Border.all
-
-                                  (
-
-                                    width
-                                        :
-
-                                    2.0
-
-                                    ,
-
-                                    color
-                                        :
-
-                                    Colors.grey
-
-                                )
-
-                                ,
-
-                                borderRadius
-                                    :
-
-                                const BorderRadius.all
-
-                                  (
-
-                                  Radius.circular
-
-                                    (
-
-                                      5.0),
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              height: 50,
+                              child: Text(
+                                "${selectedTime.hour == 12 ? selectedTime.hour : selectedTime.hour % 12}:${selectedTime.minute < 10 ? "0${selectedTime.minute}" : "${selectedTime.minute}"}${selectedTime.period.toString().substring(10).toUpperCase()}",
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(width: 2.0, color: Colors.grey),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(5.0),
                                 ),
                               ),
                             ),
                           ),
-                        )
-
-                        ,
-
-                        Padding
-
-                          (
-
-                          padding
-                              :
-
-                          const EdgeInsets.all
-
-                            (
-
-                              10.0
-
-                          )
-
-                          ,
-
-                          child
-                              :
-
-                          Column
-
-                            (
-
-                            children
-                                :
-
-                            [
-
-                              Container
-
-                                (
-
-                                alignment
-                                    :
-
-                                Alignment.centerLeft
-
-                                ,
-
-                                padding
-                                    :
-
-                                EdgeInsets.only
-
-                                  (
-
-                                    bottom
-                                        :
-
-                                    12
-
-                                )
-
-                                ,
-
-                                child
-                                    :
-
-                                Text
-
-                                  (
-
-                                  "
-
-                                  Event Duration:
-
-                                  "
-
-                                  ,
-
-                                  style
-                                      :
-
-                                  GoogleFonts.ubuntu
-
-                                    (
-
-                                    fontSize
-                                        :
-
-                                    25
-
-                                    ,
-
-                                    fontWeight
-                                        :
-
-                                    FontWeight.bold
-
-                                    ,
-
-                                  )
-
-                                  ,
-
-                                )
-
-                                ,
-
-                              )
-
-                              ,
-
-                              Row
-
-                                (
-
-                                mainAxisAlignment
-                                    :
-
-                                MainAxisAlignment.spaceEvenly
-
-                                ,
-
-                                children
-                                    :
-
-                                [
-
-                                  Container
-
-                                    (
-
-                                    width
-                                        :
-
-                                    2
-
-                                        *
-
-                                        MediaQuery
-                                            .of(context)
-
-                                            .
-                                        size
-                                            .width
-
-                                        /
-
-                                        3
-
-                                    ,
-
-                                    child
-                                        :
-
-                                    TextFormField
-
-                                      (
-
-                                      decoration
-                                          :
-
-                                      const InputDecoration
-
-                                        (
-
-                                        fillColor
-                                            :
-
-                                        Colors.white
-
-                                        ,
-
-                                        filled
-                                            :
-
-                                        true
-
-                                        ,
-
-                                        focusedBorder
-                                            :
-
-                                        OutlineInputBorder
-
-                                          (
-
-                                          borderSide
-                                              :
-
-                                          BorderSide
-
-                                            (
-
-                                              color
-                                                  :
-
-                                              Colors.grey
-
-                                              ,
-
-                                              width
-                                                  :
-
-                                              2.0
-
-                                          )
-
-                                          ,
-
-                                        )
-
-                                        ,
-
-                                        enabledBorder
-                                            :
-
-                                        OutlineInputBorder
-
-                                          (
-
-                                          borderSide
-                                              :
-
-                                          BorderSide
-
-                                            (
-
-                                            color
-                                                :
-
-                                            Colors.grey
-
-                                            ,
-
-                                            width
-                                                :
-
-                                            2.0
-
-                                            ,
-
-                                          )
-
-                                          ,
-
-                                        )
-
-                                        ,
-
-                                        hintText
-                                            : "Duration",
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(bottom: 12),
+                                child: Text(
+                                  "Event Duration:",
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: 2 *
+                                        MediaQuery.of(context).size.width /
+                                        3,
+                                    child: TextFormField(
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 2.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.grey,
+                                            width: 2.0,
+                                          ),
+                                        ),
+                                        hintText: "Duration",
                                       ),
                                     ),
                                   ),
-                                  DropdownButton<String>
-
-                                    (
-
+                                  DropdownButton<String>(
                                     // ignore: unnecessary_null_comparison
-                                    hint
-                                        :
+                                    hint: du == null
+                                        ? const Text("Select")
+                                        : Text(du),
 
-                                    du
+                                    items:
+                                        <String>["Hour", "Day"].map((String v) {
+                                      return DropdownMenuItem(
+                                          value: v, child: Text(v));
+                                    }).toList(),
 
-                                        ==
-
-                                        null
-
-                                        ?
-
-                                    const Text
-
-                                      (
-
-                                        "
-
-                                        Select
-
-                                        "
-
-                                    )
-
-                                        :
-
-                                    Text(du)
-
-                                    ,
-
-                                    items
-                                        :
-
-                                    <
-                                        String
-                                    >["Hour", "Day"].map
-
-                                      (
-
-                                            (String v) {
-                                          return DropdownMenuItem(
-                                              value: v, child: Text(v));
-                                        })
-
-                                        .
-                                    toList()
-
-                                    ,
-
-                                    onChanged
-                                        :
-
-                                        (String? newdu) {
+                                    onChanged: (String? newdu) {
                                       setState(() {
                                         du = newdu as String;
                                       });
@@ -1680,186 +421,40 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 //   decoration: const InputDecoration(hintText: "Event Duration"),
                 // ),
 
-                const SizedBox
+                const SizedBox(
+                  height: 2,
+                ),
 
-                  (
-
-                  height
-                      :
-
-                  2
-
-                  ,
-
-                )
-
-                ,
-
-                Container
-
-                  (
-
-                  margin
-                      :
-
-                  const EdgeInsets.all
-
-                    (
-
-                      15
-
-                  )
-
-                  ,
-
-                  alignment
-                      :
-
-                  Alignment.center
-
-                  ,
-
-                  decoration
-                      :
-
-                  const BoxDecoration
-
-                    (
-
+                Container(
+                  margin: const EdgeInsets.all(15),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
                     // image: const DecorationImage(
                     //   image: AssetImage("assets/images/Card.png"),
                     //   fit: BoxFit.cover,
                     // ),
-                    gradient
-                        :
-
-                    LinearGradient
-
-                      (
-
-                      begin
-                          :
-
-                      Alignment.topRight
-
-                      ,
-
-                      end
-                          :
-
-                      Alignment.bottomLeft
-
-                      ,
-
-                      colors
-                          :
-
-                      [
-
-                        Colors.blue
-
-                        ,
-
-                        Colors.cyan
-
-                        ,
-
-                      ]
-
-                      ,
-
-                    )
-
-                    ,
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Colors.blue,
+                        Colors.cyan,
+                      ],
+                    ),
 
                     // border: Border.all(width: 5.0, color: Colors.grey),
-                    borderRadius
-                        :
-
-                    BorderRadius.all
-
-                      (
-
-                      Radius.circular
-
-                        (
-
-                          5.0
-
-                      )
-
-                      ,
-
-                    )
-
-                    ,
-
-                  )
-
-                  ,
-
-                  child
-                      :
-
-                  Padding
-
-                    (
-
-                    padding
-                        :
-
-                    const EdgeInsets.all
-
-                      (
-
-                        15.0
-
-                    )
-
-                    ,
-
-                    child
-                        :
-
-                    Text
-
-                      (
-
-                      "
-
-                      Request for the event
-
-                      "
-
-                      ,
-
-                      style
-                          :
-
-                      GoogleFonts.ubuntu
-
-                        (
-
-                        fontSize
-                            :
-
-                        25
-
-                        ,
-
-                        fontWeight
-                            :
-
-                        FontWeight.bold
-
-                        ,
-
-                        color
-                            :
-
-                        Colors.white
-
-                        ,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      "Request for the event",
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -1888,7 +483,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   _selectTime(BuildContext context) async {
     final TimeOfDay? selectedt =
-    await showTimePicker(context: context, initialTime: TimeOfDay.now());
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (selectedt != null && selectedt != selectedTime) {
       setState(() {
         selectedTime = selectedt;
