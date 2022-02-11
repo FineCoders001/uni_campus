@@ -300,35 +300,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(primary: Colors.red),
-                          onPressed: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color.fromARGB(255, 61, 182, 65)),
-                          onPressed: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Submit",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                          ),
-                        ),
-                      ),
+                      Container(
+                        child: Text("Request for "),
+                      )
                     ],
                   ),
                 ),
