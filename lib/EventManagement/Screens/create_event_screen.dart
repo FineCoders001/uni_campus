@@ -250,7 +250,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               width: double.infinity,
                               height: 50,
                               child: Text(
-                                "${selectedTime.hour % 12}:${selectedTime.minute} ${selectedTime.period.toString().substring(10).toUpperCase()} ",
+                                "${selectedTime.hour == 12 ? selectedTime.hour : selectedTime.hour % 12}:${selectedTime.minute < 10 ? "0${selectedTime.minute}" : "${selectedTime.minute}"} ${selectedTime.period.toString().substring(10).toUpperCase()} ",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               decoration: BoxDecoration(
@@ -295,41 +295,40 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 //   decoration: const InputDecoration(hintText: "Event Duration"),
                 // ),
 
-                Card(
-                  elevation: 5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(primary: Colors.red),
-                          onPressed: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                          ),
-                        ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Container(
+                  margin: const EdgeInsets.all(4),
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    // image: const DecorationImage(
+                    //   image: AssetImage("assets/images/Card.png"),
+                    //   fit: BoxFit.cover,
+                    // ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Colors.blue,
+                        Colors.cyan,
+                      ],
+                    ),
+                    // border: Border.all(width: 5.0, color: Colors.grey),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5.0),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Request for the event",
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: const Color.fromARGB(255, 61, 182, 65)),
-                          onPressed: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Submit",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ],
