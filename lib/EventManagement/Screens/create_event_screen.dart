@@ -384,11 +384,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("Request for the event",
-                        style: GoogleFonts.ubuntu(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                    child: Text(
+                      "Request for the event",
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],
