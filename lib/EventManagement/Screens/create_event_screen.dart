@@ -299,7 +299,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   height: 2,
                 ),
                 Container(
-                  margin: const EdgeInsets.all(4),
+                  margin: const EdgeInsets.all(15),
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     // image: const DecorationImage(
@@ -320,7 +320,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Text(
                       "Request for the event",
                       style: GoogleFonts.ubuntu(
