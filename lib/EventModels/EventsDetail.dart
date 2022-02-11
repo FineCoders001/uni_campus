@@ -4,7 +4,7 @@ class EventsDetail{
   late final String eventName;
   late final String venue;
   late final String description;
-  late final bool deptLevel;
+  late final String deptLevel;
   late final DateTime eventDate;
   late final TimeOfDay eventStartTime;
 
