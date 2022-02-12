@@ -14,6 +14,4 @@ class EventsDetail{
     required this.deptLevel,required this.eventDate,required this.eventStartTime});
 
 
-
-
 }

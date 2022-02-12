@@ -1,9 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uni_campus/EventModels/EventsDetail.dart';
+import 'package:uni_campus/EventModels/event_details.dart';
 
-class events{
-
+class Events{
   List _event=[];
 
   requestEvent(EventsDetail event) async {
@@ -18,5 +16,4 @@ class events{
         }
     );
   }
-
 }

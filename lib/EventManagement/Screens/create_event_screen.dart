@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/EventModels/EventsDetail.dart';
+import 'package:uni_campus/EventModels/event_details.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -331,7 +331,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             children: [
                               Container(
                                 alignment: Alignment.centerLeft,
-                                padding: EdgeInsets.only(bottom: 12),
+                                padding: const EdgeInsets.only(bottom: 12),
                                 child: Text(
                                   "Event Duration:",
                                   style: GoogleFonts.ubuntu(
@@ -344,7 +344,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 2 *
                                         MediaQuery.of(context).size.width /
                                         3,
