@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'create_event_screen.dart';
@@ -12,6 +13,36 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    List<DocumentSnapshot> documentList = [];
+    Future fetchFirstList() async {
+      try {
+        documentList = (await FirebaseFirestore.instance
+                .collection("RequestEvent")
+                .limit(5)
+                .get())
+            .docs;
+      } catch (e) {
+        print("kuch nahi mila");
+      }
+    }
+
+    fetchNextMovies() async {
+      try {
+        print("document ki length ${documentList.length}");
+        List<DocumentSnapshot> newDocumentList = (await FirebaseFirestore
+                .instance
+                .collection("RequestEvent")
+                .startAfterDocument(documentList[documentList.length - 1])
+                .limit(5)
+                .get())
+            .docs;
+        documentList.addAll(newDocumentList);
+        print("document ki length ${documentList.length}");
+      } catch (e) {
+        print("Firse kuch nahi mila ${e}");
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Unicampus"),
