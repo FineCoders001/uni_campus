@@ -1,6 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventModels/EventsDetail.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../EventModels/Events.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -38,11 +43,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       eventName: "",
       venue: "",
       description: "",
-      eventDate: DateTime.now(),
-      eventStartTime: TimeOfDay.now(),
+      eventDate: DateTime.now().toString(),
+      eventStartTime: "",
+      eventDuration: "",
       deptLevel: "");
 
-  Future<void> _saveForm(context) async {
+  Future<void> _saveForm(context, AllEvents counter) async {
     final isValid = _form.currentState?.validate();
     if (!isValid!) {
       return;
@@ -50,11 +56,24 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
     _form.currentState?.save();
 
+    _event = EventsDetail(
+        eventName: _event.eventName,
+        venue: _event.venue,
+        description: _event.description,
+        deptLevel: _d.toString(),
+        eventDate: selectedDate.toString(),
+        eventStartTime: selectedTime.toString(),
+        eventDuration: _event.eventDuration+" "+du,
+    );
+    counter.requestEvent(_event);
+
     // Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       // appBar: AppBar(
       //   centerTitle: true,
@@ -88,10 +107,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
                             alignment: Alignment.centerLeft,
-                            child: Text("Event Details",
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 25, fontWeight: FontWeight.bold)),
-                          ),
+                                 // print("entered");
+
+                           child: Consumer(
+                             builder: (context, ref, child) {
+
+                                // Like HookConsumerWidget, we can use hooks inside the builder
+                                //final state = useState(0);
+                                // We can also use the ref parameter to listen to providers.
+                                final counter = ref.watch(eventProvider);
+                                return Text("Event Details ${counter.event1.length}",
+                                    style: GoogleFonts.ubuntu(
+                                        fontSize: 25, fontWeight: FontWeight.bold));
+                              },
+                            ),
+
+
+
+                              )
+
+
+
                         ),
                         Padding(
                           padding: const EdgeInsets.all(12.0),
@@ -111,15 +147,22 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               ),
                               hintText: "Title",
                             ),
+                            validator: (value) {
+                              if (value != null && value.isEmpty) {
+                                return 'Please provide a value!';
+                              }
+                              return null;
+                            },
                             onSaved: (value) {
                               _event = EventsDetail(
-                                  eventName: _event.eventName,
-                                  venue: value.toString(),
+                                  eventName: value.toString(),
+                                  venue: _event.venue,
                                   description: _event.description,
                                   deptLevel: _event.deptLevel,
                                   eventDate: _event.eventDate,
-                                  eventStartTime: _event.eventStartTime);
-                            },
+                                  eventStartTime: _event.eventStartTime,
+                                  eventDuration:_event.eventDuration);
+                            }
                           ),
                         ),
                         Padding(
@@ -151,7 +194,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                   description: _event.description,
                                   deptLevel: _event.deptLevel,
                                   eventDate: _event.eventDate,
-                                  eventStartTime: _event.eventStartTime);
+                                  eventStartTime: _event.eventStartTime,
+                                eventDuration: _event.eventDuration,
+                              );
                             },
                           ),
                         ),
@@ -183,6 +228,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               }
                               return null;
                             },
+                            onSaved: (value) {
+                              _event = EventsDetail(
+                                  eventName: _event.eventName,
+                                  venue: _event.venue,
+                                  description: value.toString(),
+                                  deptLevel: _event.deptLevel,
+                                  eventDate: _event.eventDate,
+                                  eventStartTime: _event.eventStartTime,
+                                eventDuration: _event.eventDuration
+                              );
+                            },
+
                           ),
                         ),
                         Padding(
@@ -349,6 +406,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         MediaQuery.of(context).size.width /
                                         3,
                                     child: TextFormField(
+                                      keyboardType: TextInputType.number,
                                       decoration: const InputDecoration(
                                         fillColor: Colors.white,
                                         filled: true,
@@ -364,6 +422,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         ),
                                         hintText: "Duration",
                                       ),
+
+                                      validator: (value) {
+                                        if (value != null && value.isEmpty) {
+                                          return 'Please enter a value.';
+                                        }
+                                       // return null;
+                                      },
+                                      onSaved: (value) {
+                                        _event = EventsDetail(
+                                            eventName: _event.eventName,
+                                            venue: _event.venue,
+                                            description: _event.description,
+                                            deptLevel: _event.deptLevel,
+                                            eventDate: _event.eventDate,
+                                            eventStartTime: _event.eventStartTime,
+                                            eventDuration: value.toString());
+                                      },
                                     ),
                                   ),
                                   DropdownButton<String>(
@@ -389,81 +464,77 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             ],
                           ),
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     ElevatedButton(
-                        //       onPressed: () {
-                        //         _selectDate(context);
-                        //       },
-                        //       child: const Text("Choose Date"),
-                        //     ),
-                        //     Text(
-                        //         "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
-                        //   ],
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     ElevatedButton(
-                        //       onPressed: () {},
-                        //       child: const Text("Choose Time"),
-                        //     ),
-                        //     Text("${selectedTime.hour}:${selectedTime.minute}"),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
 
-                // TextFormField(
-                //   decoration: const InputDecoration(hintText: "Event Duration"),
-                // ),
 
                 const SizedBox(
                   height: 2,
                 ),
 
-                Container(
-                  margin: const EdgeInsets.all(15),
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    // image: const DecorationImage(
-                    //   image: AssetImage("assets/images/Card.png"),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Colors.blue,
-                        Colors.cyan,
-                      ],
-                    ),
+                        HookConsumer(
+                          builder: (context, ref, child) {
 
-                    // border: Border.all(width: 5.0, color: Colors.grey),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5.0),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      "Request for the event",
-                      style: GoogleFonts.ubuntu(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                            // Like HookConsumerWidget, we can use hooks inside the builder
+                            //final state = useState(0);
+
+                            // We can also use the ref parameter to listen to providers.
+                             final counter = ref.watch(eventProvider);
+                              return GestureDetector(
+                                onTap: (){
+                                  //context.read(eventProvider)
+
+                                  _saveForm(context,counter);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.all(15),
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                    // image: const DecorationImage(
+                                    //   image: AssetImage("assets/images/Card.png"),
+                                    //   fit: BoxFit.cover,
+                                    // ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft,
+                                      colors: [
+                                        Colors.blue,
+                                        Colors.cyan,
+                                      ],
+                                    ),
+
+                                    // border: Border.all(width: 5.0, color: Colors.grey),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Text(
+                                      "Request for the event",
+                                      style: GoogleFonts.ubuntu(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                          },
+                        ),
+
+
+
+
+
               ],
             ),
           ),
         ),
-      ),
+    ]
+            )
+    )
+      )
+    )
     );
   }
 
