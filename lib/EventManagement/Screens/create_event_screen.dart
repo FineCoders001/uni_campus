@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../EventModels/Events.dart';
+import '../../EventModels/events.dart';
 import '../../EventModels/event_details.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -427,7 +426,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         if (value != null && value.isEmpty) {
                                           return 'Please enter a value.';
                                         }
-                                       // return null;
+                                        return null;
                                       },
                                       onSaved: (value) {
                                         _event = EventsDetail(

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class EventsDetail{
   late final String eventName;
@@ -21,21 +20,21 @@ class EventsDetail{
       description: json['description'] as String,
       deptLevel: json['deptLevel'] as String,
       eventStartTime: json['eventStartTime'] as String,
-      eventDate: json['eventDate'].toString() as String,
-        eventDuration: json['eventDuration'].toString() as String
+      eventDate: json['eventDate'].toString(),
+        eventDuration: json['eventDuration'].toString(),
   );
 
 
 
   Map<String,Object> toJson() {
     return {
-      'eventName':this.eventName,
-      'venue':this.venue,
-      'description':this.description,
-      'deptLevel':this.deptLevel,
-      'eventDate':this.eventDate,
-      'eventStartTime':this.eventStartTime,
-      'eventDuration':this.eventDuration,
+      'eventName':eventName,
+      'venue':venue,
+      'description':description,
+      'deptLevel':deptLevel,
+      'eventDate':eventDate,
+      'eventStartTime':eventStartTime,
+      'eventDuration':eventDuration,
     };
   }
 }

@@ -14,6 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     List<DocumentSnapshot> documentList = [];
+
+    // testing upcoming items in list
+    
+    // ignore: unused_element
     Future fetchFirstList() async {
       try {
         documentList = (await FirebaseFirestore.instance
@@ -22,13 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 .get())
             .docs;
       } catch (e) {
-        print("kuch nahi mila");
+        return 0;
       }
     }
-
+    // ignore: unused_element
     fetchNextMovies() async {
       try {
-        print("document ki length ${documentList.length}");
         List<DocumentSnapshot> newDocumentList = (await FirebaseFirestore
                 .instance
                 .collection("RequestEvent")
@@ -37,9 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 .get())
             .docs;
         documentList.addAll(newDocumentList);
-        print("document ki length ${documentList.length}");
       } catch (e) {
-        print("Firse kuch nahi mila ${e}");
+        return 0;
       }
     }
 
@@ -112,4 +114,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
