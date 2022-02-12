@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../EventModels/events.dart';
+import '../../EventModels/all_events.dart';
 import '../../EventModels/event_details.dart';
 
 class CreateEventScreen extends StatefulWidget {
