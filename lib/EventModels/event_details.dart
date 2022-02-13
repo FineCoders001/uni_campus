@@ -1,5 +1,6 @@
 
 class EventsDetail{
+
   late final String eventName;
   late final String venue;
   late final String description;
@@ -7,11 +8,13 @@ class EventsDetail{
   late final String eventDate;
   late final String eventStartTime;
   late final String eventDuration;
+  final String id;
+
 
 
 
   EventsDetail({required this.eventName,required this.venue,required this.description,
-    required this.deptLevel,required this.eventDate,required this.eventStartTime,required this.eventDuration});
+    required this.deptLevel,required this.eventDate,required this.eventStartTime,required this.eventDuration,this.id=""});
 
     EventsDetail.fromJson(Map  json)
       : this(
@@ -22,6 +25,7 @@ class EventsDetail{
       eventStartTime: json['eventStartTime'] as String,
       eventDate: json['eventDate'].toString(),
         eventDuration: json['eventDuration'].toString(),
+      id: json['id'].toString(),
   );
 
 
@@ -35,6 +39,7 @@ class EventsDetail{
       'eventDate':eventDate,
       'eventStartTime':eventStartTime,
       'eventDuration':eventDuration,
+      'id':id
     };
   }
 }

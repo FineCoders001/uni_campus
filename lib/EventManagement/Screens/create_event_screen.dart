@@ -17,6 +17,7 @@ enum Dept { interdept, intradept }
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
   final _form = GlobalKey<FormState>();
+  var isLoading = false;
   List<String> months = [
     'January',
     'February',
@@ -64,7 +65,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         eventStartTime: selectedTime.toString(),
         eventDuration: _event.eventDuration+" "+du,
     );
-    counter.requestEvent(_event);
+
+    try{
+      await counter.requestEvent(_event);
+    }catch(e){
+      await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Oops!'),
+          content: Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                //return;
+              },
+            )
+          ],
+        ),
+      );
+    }
 
     // Navigator.of(context).pop();
   }
@@ -78,7 +99,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       //   centerTitle: true,
       //   title: const Text("Event Details"),
       // ),
-      body: Container(
+      body: isLoading?
+      Center(child: CircularProgressIndicator()) :
+      Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Background.png"),
@@ -115,17 +138,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 //final state = useState(0);
                                 // We can also use the ref parameter to listen to providers.
                                 final counter = ref.watch(eventProvider);
-                                return Text("Event Details ${counter.event1.length}",
+                                return Text("Event Details",
                                     style: GoogleFonts.ubuntu(
                                         fontSize: 25, fontWeight: FontWeight.bold));
                               },
                             ),
 
-
-
                               )
-
-
 
                         ),
                         Padding(
@@ -478,10 +497,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             // We can also use the ref parameter to listen to providers.
                              final counter = ref.watch(eventProvider);
                               return GestureDetector(
-                                onTap: (){
+                                onTap: () async {
                                   //context.read(eventProvider)
-
-                                  _saveForm(context,counter);
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  await _saveForm(context,counter);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.all(15),
@@ -542,7 +566,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       context: context,
       initialDate: initialDate,
       firstDate: DateTime.parse(DateTime.now().toString()),
-      lastDate: DateTime(2025),
+      lastDate: DateTime(2050),
     );
     if (selected != null && selected != selectedDate) {
       setState(() {

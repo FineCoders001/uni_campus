@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_campus/approve_event.dart';
 
 import 'create_event_screen.dart';
 
@@ -48,6 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Unicampus"),
+        actions: [
+          IconButton(onPressed:(){
+            Navigator.push(context, MaterialPageRoute(
+              builder: (BuildContext context) =>
+              const ApproveEvent(),
+            ),);
+          } , icon: Icon(Icons.north_east_rounded))
+        ],
       ),
       body: Column(
         children: [
