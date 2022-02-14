@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:uni_campus/LibraryManagement/MethodAssistant/add_books.dart';
+import 'package:uni_campus/LibraryManagement/MethodAssistant/add_book.dart';
 
 class AddBookScreen extends StatefulWidget {
   const AddBookScreen({Key? key}) : super(key: key);
