@@ -72,11 +72,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text('Oops!'),
-          content: Text('Something went wrong'),
+          title: const Text('Oops!'),
+          content: const Text('Something went wrong'),
           actions: <Widget>[
             TextButton(
-              child: Text('Okay'),
+              child: const Text('Okay'),
               onPressed: () {
                 Navigator.of(ctx).pop();
                 //return;
@@ -100,7 +100,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       //   title: const Text("Event Details"),
       // ),
       body: isLoading?
-      Center(child: CircularProgressIndicator()) :
+      const Center(child: CircularProgressIndicator()) :
       Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

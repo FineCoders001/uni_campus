@@ -19,7 +19,7 @@ class _ApproveEventState extends State<ApproveEvent> {
       .collection('RequestEvent')
       .withConverter(
         fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-        toFirestore: (EventsDetail, _) => EventsDetail!.toJson(),
+        toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
       );
 
   @override
@@ -27,7 +27,7 @@ class _ApproveEventState extends State<ApproveEvent> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: Text("Pending Events",
+        title: const Text("Pending Events",
           style: TextStyle(
             fontSize: 20
           ),
@@ -147,7 +147,7 @@ class _ApproveEventState extends State<ApproveEvent> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.date_range),
+                                  const Icon(Icons.date_range),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -187,7 +187,7 @@ class _ApproveEventState extends State<ApproveEvent> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(Icons.access_time),
+                                  const Icon(Icons.access_time),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -309,8 +309,8 @@ class _ApproveEventState extends State<ApproveEvent> {
               );
             },
             child: Container(
-              margin: EdgeInsets.all(12),
-              padding: EdgeInsets.symmetric(vertical:20),
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(vertical:20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,

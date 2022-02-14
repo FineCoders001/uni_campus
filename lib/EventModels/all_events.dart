@@ -89,7 +89,7 @@ class FinalizeEvent{
         'id':event.id
       });
     }catch(e){
-      print("error is ${e}");
+      print("error is $e");
 
     }
 
@@ -100,7 +100,7 @@ class FinalizeEvent{
       FirebaseFirestore docRef = FirebaseFirestore.instance;
       docRef.collection("RequestEvent").doc(event.id).delete();
     }catch(e){
-      print("error is ${e}");
+      print("error is $e");
 
     }
   }

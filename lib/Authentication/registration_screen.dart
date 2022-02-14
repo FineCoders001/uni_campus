@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Users/user.dart';
-
 import '../main.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -56,7 +55,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading?Center(child: CircularProgressIndicator()):Stack(
+      body: isLoading?const Center(child: CircularProgressIndicator()):Stack(
         children: [
           Container(
             height: MediaQuery.of(context).size.height,

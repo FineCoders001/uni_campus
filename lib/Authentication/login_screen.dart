@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Form(
                   child: ListView(
                     children: [
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height * 0.35,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

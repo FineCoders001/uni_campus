@@ -8,8 +8,6 @@ import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'approve_event.dart';
 
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -40,14 +38,14 @@ class _MyAppState extends State<MyApp> {
         stream:  FirebaseAuth.instance.authStateChanges(),
         builder: (ctx,userSnapshot){
           if(userSnapshot.connectionState == ConnectionState.waiting){
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
           else if(userSnapshot.hasData){
-            return HomeScreen();
+            return const HomeScreen();
           }else if(userSnapshot.hasError){
-            return  Center(
+            return  const Center(
               child: Text(
                 "Something Went Wrong",
                 style: TextStyle(
@@ -56,7 +54,7 @@ class _MyAppState extends State<MyApp> {
               ),
             );
           }else{
-            return RegistrationScreen();
+            return const RegistrationScreen();
           }
 
         },

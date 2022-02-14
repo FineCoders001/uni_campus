@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed:(){
               
             } ,
-            icon: Icon(Icons.menu)
+            icon: const Icon(Icons.menu)
         ),
         actions: [
           IconButton(onPressed:(){
@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (BuildContext context) =>
               const ApproveEvent(),
             ),);
-          } , icon: Icon(Icons.north_east_rounded))
+          } , icon: const Icon(Icons.north_east_rounded))
         ],
       ),
       body: Column(
