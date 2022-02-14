@@ -51,10 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Form(
                   child: ListView(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50.0, vertical: 10),
-                        child: Image.asset("assets/images/Login.png"),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50.0, vertical: 10),
+                          child: Image.asset("assets/images/Login.png"),
+                        ),
                       ),
                       Column(
                         children: [

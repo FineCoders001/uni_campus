@@ -1,6 +1,13 @@
 // Design Inspiration:https://dribbble.com/shots/16916440-Sign-Up-Login-Mobile-App/attachments/11984787?mode=media
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
+import 'package:uni_campus/Users/user.dart';
+
+import '../main.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -10,10 +17,46 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  var isLoading = false;
+  final _auth = FirebaseAuth.instance;
+  var userDetails = UserProfile(
+      userName: "",
+      email: "",
+      password: ""
+  );
+
+  void trySubmit() async{
+    setState(() {
+      isLoading = true;
+    });
+
+    //CircularProgressIndicator();
+    UserCredential user;
+    final isValid = _formkey.currentState?.validate();
+    FocusScope.of(context).unfocus();
+    if(!isValid!) {
+      return;
+    }
+    _formkey.currentState?.save();
+
+    user = await _auth.createUserWithEmailAndPassword(email: userDetails.email.trim(), password: userDetails.password.trim());
+      await FirebaseFirestore.instance.collection('users')
+          .doc(user.user?.uid)
+          .set({'username' : userDetails.userName,'email':userDetails.email});
+      await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const HomeScreen()),(_) => false);
+
+    setState(() {
+      isLoading = false;
+    });
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: isLoading?Center(child: CircularProgressIndicator()):Stack(
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
@@ -48,6 +91,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
+                  key: _formkey,
                   child: ListView(
                     children: [
                       Padding(
@@ -75,6 +119,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       width: 2.5),
                                 ),
                               ),
+
+                              //validator: (value) => EmailValidator.validate(value!) ? null : "Please enter a valid email",
+
+                              onSaved: (value){
+                                userDetails = UserProfile(
+                                    userName: userDetails.userName,
+                                    email: value.toString(),
+                                    password: userDetails.password
+                                );
+                              },
                             ),
                           ),
                           Padding(
@@ -95,6 +149,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       width: 2.5),
                                 ),
                               ),
+                              validator: (value){
+
+                                if(value!=null && value.isEmpty){
+                                  return "Enter valid username";
+                                }
+                                else{
+                                  return null;
+                                }
+
+                              },
+
+                              onSaved: (value){
+                                userDetails = UserProfile(
+                                    userName: value.toString(),
+                                    email: userDetails.email,
+                                    password: userDetails.password
+                                );
+                              },
                             ),
                           ),
                           Padding(
@@ -118,6 +190,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       width: 2.5),
                                 ),
                               ),
+                              validator: (value){
+                                if(value!= null && value.length < 8){
+                                  return "Password must be atleast 8 characters long";
+                                }
+                                else{
+                                  return null;
+                                }
+                              },
+                              onSaved: (value){
+                                userDetails = UserProfile(
+                                    userName: userDetails.userName,
+                                    email: userDetails.email,
+                                    password: value.toString()
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -141,21 +228,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 73, 128, 255),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Sign Up",
-                              style: GoogleFonts.ubuntu(
-                                  fontSize: 25, color: Colors.white),
+                      GestureDetector(
+                        onTap: (){
+                          trySubmit();
+
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Sign Up",
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 25, color: Colors.white),
+                              ),
                             ),
                           ),
                         ),

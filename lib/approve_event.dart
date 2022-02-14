@@ -25,7 +25,18 @@ class _ApproveEventState extends State<ApproveEvent> {
   @override
   build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.grey,
+        title: Text("Pending Events",
+          style: TextStyle(
+            fontSize: 20
+          ),
+        ),
+        centerTitle: true,
+
+
+
+      ),
       body: FirestoreListView<EventsDetail>(
         pageSize: 3,
         query: queryEvent,
@@ -48,6 +59,24 @@ class _ApproveEventState extends State<ApproveEvent> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed:(){
+
+                                  Navigator.pop(context);
+
+                                },
+                                icon: const CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                    child: Icon(Icons.clear_rounded,color: Colors.white,)
+                                )
+                            ),
+                          ],
+                        ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -273,18 +302,36 @@ class _ApproveEventState extends State<ApproveEvent> {
                             ),
                           ],
                         )
-
-
                       ],
                     ),
                   );
                 },
               );
             },
-            child: ListTile(
+            child: Container(
+              margin: EdgeInsets.all(12),
+              padding: EdgeInsets.symmetric(vertical:20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 12.0,
+                  ),
+                ],
+              ),
+              child: ListTile(
+                title: Text(post.eventName,
+                  style: const TextStyle(
+                    fontSize: 20
+                  ),
+                ),
+                subtitle: Text(post.description),
+                //leading: Icon(Icons.event),
 
-              title: Text(post.eventName),
-              subtitle: Text(post.description),
+              ),
             ),
           );
         },

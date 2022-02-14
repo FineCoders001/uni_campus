@@ -14,41 +14,47 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    List<DocumentSnapshot> documentList = [];
-
-    // testing upcoming items in list
-    
-    // ignore: unused_element
-    Future fetchFirstList() async {
-      try {
-        documentList = (await FirebaseFirestore.instance
-                .collection("RequestEvent")
-                .limit(5)
-                .get())
-            .docs;
-      } catch (e) {
-        return 0;
-      }
-    }
-    // ignore: unused_element
-    fetchNextMovies() async {
-      try {
-        List<DocumentSnapshot> newDocumentList = (await FirebaseFirestore
-                .instance
-                .collection("RequestEvent")
-                .startAfterDocument(documentList[documentList.length - 1])
-                .limit(5)
-                .get())
-            .docs;
-        documentList.addAll(newDocumentList);
-      } catch (e) {
-        return 0;
-      }
-    }
+    // List<DocumentSnapshot> documentList = [];
+    //
+    // // testing upcoming items in list
+    //
+    // // ignore: unused_element
+    // Future fetchFirstList() async {
+    //   try {
+    //     documentList = (await FirebaseFirestore.instance
+    //             .collection("RequestEvent")
+    //             .limit(5)
+    //             .get())
+    //         .docs;
+    //   } catch (e) {
+    //     return 0;
+    //   }
+    // }
+    // // ignore: unused_element
+    // fetchNextMovies() async {
+    //   try {
+    //     List<DocumentSnapshot> newDocumentList = (await FirebaseFirestore
+    //             .instance
+    //             .collection("RequestEvent")
+    //             .startAfterDocument(documentList[documentList.length - 1])
+    //             .limit(5)
+    //             .get())
+    //         .docs;
+    //     documentList.addAll(newDocumentList);
+    //   } catch (e) {
+    //     return 0;
+    //   }
+    // }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Unicampus"),
+        leading: IconButton(
+            onPressed:(){
+              
+            } ,
+            icon: Icon(Icons.menu)
+        ),
         actions: [
           IconButton(onPressed:(){
             Navigator.push(context, MaterialPageRoute(
