@@ -62,20 +62,21 @@ class _OnboardingState extends State<Onboarding> {
             ),
           ),
           Expanded(
-              flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                          l.length, (index) => _builddots(index, _currentpage)),
-                    ),
-                  )
-                ],
-              ))
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                        l.length, (index) => _builddots(index, _currentpage)),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
