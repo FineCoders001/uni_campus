@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/approve_event.dart';
+import 'package:uni_campus/onboarding_screen.dart';
 
 import 'create_event_screen.dart';
 
@@ -140,11 +144,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 40),
               )),
             ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Onboarding()));
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.blue,
+                ),
+                child: const Center(
+                  child: Text("Onboarding"),
+                ),
+              ),
+            ),
             const ListTile(
               leading: Icon(Icons.account_circle),
               title: Text("Profile"),
               //onTap: (){} ,
-            )
+            ),
           ],
         ),
       ),
