@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_campus/approve_event.dart';
+import 'package:uni_campus/onboarding_screen.dart';
 
 import 'create_event_screen.dart';
 
@@ -48,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Unicampus"),
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        title: const Text("UniCampus"),
+        //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
           IconButton(
               onPressed: () {
@@ -127,12 +128,41 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
-              accountName: const Text("Demo"),
+              accountName:
+                  Text(FirebaseAuth.instance.currentUser!.email.toString()),
               accountEmail:
                   Text(FirebaseAuth.instance.currentUser!.email.toString()),
-              currentAccountPicture: const CircleAvatar(child: Text("D")),
+              currentAccountPicture: const CircleAvatar(
+                  child: Text(
+                "D",
+                style: TextStyle(fontSize: 40),
+              )),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Onboarding()));
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.blue,
+                ),
+                child: const Center(
+                  child: Text("Onboarding"),
+                ),
+              ),
+            ),
+            const ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text("Profile"),
+              //onTap: (){} ,
             ),
           ],
         ),
