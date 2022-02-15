@@ -104,9 +104,13 @@ class _OnboardingState extends State<Onboarding> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25),
                               ),
-                              color: Colors.blue,
+                              color: Color.fromARGB(255, 73, 128, 255),
                             ),
-                            child: const Center(child: Text("Take me there!")),
+                            child: const Center(
+                                child: Text(
+                              "Take me there!",
+                              style: TextStyle(fontSize: 20),
+                            )),
                           ),
                         )
                       ],
@@ -148,8 +152,9 @@ AnimatedContainer _builddots(int index, int _currentpage) {
   return AnimatedContainer(
     duration: const Duration(milliseconds: 300),
     decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(50)),
-        color: Colors.cyan),
+      borderRadius: BorderRadius.all(Radius.circular(50)),
+      color: Color.fromARGB(255, 73, 128, 255),
+    ),
     margin: const EdgeInsets.only(right: 5),
     height: 10,
     curve: Curves.easeIn,
