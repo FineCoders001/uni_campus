@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_campus/approve_event.dart';
 
@@ -48,19 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Unicampus"),
-        leading: IconButton(
-            onPressed:(){
-              
-            } ,
-            icon: const Icon(Icons.menu)
-        ),
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
-          IconButton(onPressed:(){
-            Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) =>
-              const ApproveEvent(),
-            ),);
-          } , icon: const Icon(Icons.north_east_rounded))
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const ApproveEvent(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.north_east_rounded))
         ],
       ),
       body: Column(
@@ -124,6 +124,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           )
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: const Text("Demo"),
+              accountEmail:
+                  Text(FirebaseAuth.instance.currentUser!.email.toString()),
+              currentAccountPicture: const CircleAvatar(child: Text("D")),
+            ),
+          ],
+        ),
       ),
     );
   }
