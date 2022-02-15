@@ -127,14 +127,24 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
               accountName:
                   Text(FirebaseAuth.instance.currentUser!.email.toString()),
               accountEmail:
                   Text(FirebaseAuth.instance.currentUser!.email.toString()),
-              currentAccountPicture: const CircleAvatar(child: Text("D")),
+              currentAccountPicture: const CircleAvatar(
+                  child: Text(
+                "D",
+                style: TextStyle(fontSize: 40),
+              )),
             ),
+            const ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text("Profile"),
+              //onTap: (){} ,
+            )
           ],
         ),
       ),
