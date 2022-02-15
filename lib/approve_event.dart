@@ -13,8 +13,6 @@ class ApproveEvent extends StatefulWidget {
 }
 
 class _ApproveEventState extends State<ApproveEvent> {
-
-
   final queryEvent = FirebaseFirestore.instance
       .collection('RequestEvent')
       .withConverter(
@@ -27,15 +25,11 @@ class _ApproveEventState extends State<ApproveEvent> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: const Text("Pending Events",
-          style: TextStyle(
-            fontSize: 20
-          ),
+        title: const Text(
+          "Pending Events",
+          style: TextStyle(fontSize: 20),
         ),
         centerTitle: true,
-
-
-
       ),
       body: FirestoreListView<EventsDetail>(
         pageSize: 3,
@@ -48,35 +42,33 @@ class _ApproveEventState extends State<ApproveEvent> {
             onTap: () {
               showModalBottomSheet(
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(25))
-                ),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(25))),
                 context: context,
                 isScrollControlled: true,
                 builder: (BuildContext context) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 12),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed:(){
-
+                                onPressed: () {
                                   Navigator.pop(context);
-
                                 },
                                 icon: const CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                    child: Icon(Icons.clear_rounded,color: Colors.white,)
-                                )
-                            ),
+                                    backgroundColor: Colors.red,
+                                    child: Icon(
+                                      Icons.clear_rounded,
+                                      color: Colors.white,
+                                    ))),
                           ],
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -84,27 +76,31 @@ class _ApproveEventState extends State<ApproveEvent> {
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
                                 post.eventName,
-                                style: GoogleFonts.ubuntu(fontSize: 38,fontWeight: FontWeight.bold),
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 38, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0,),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                          ),
                           child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "About Event",
-                                    style: GoogleFonts.ubuntu(
-                                        fontSize: 24, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    post.description,
-                                    style: GoogleFonts.ubuntu(fontSize: 18,color: Colors.grey),
-                                  ),
-                                ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "About Event",
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
                               ),
+                              Text(
+                                post.description,
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 18, color: Colors.grey),
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -118,7 +114,8 @@ class _ApproveEventState extends State<ApproveEvent> {
                               ),
                               Text(
                                 post.venue,
-                                style: GoogleFonts.ubuntu(fontSize: 18, color: Colors.grey),
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 18, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -133,8 +130,10 @@ class _ApproveEventState extends State<ApproveEvent> {
                                 style: GoogleFonts.ubuntu(
                                     fontSize: 24, fontWeight: FontWeight.bold),
                               ),
-                              Text("${post.deptLevel.split('.')[1]}",
-                                style: GoogleFonts.ubuntu(fontSize: 18, color: Colors.grey),
+                              Text(
+                                post.deptLevel.split('.')[1],
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 18, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -158,32 +157,30 @@ class _ApproveEventState extends State<ApproveEvent> {
                                             fontSize: 22,
                                             color: Colors.black,
                                           ),
-                                          children:  <TextSpan>[
-                                            TextSpan(text: ' ${monthName[date.month]}',
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: ' ${monthName[date.month]}',
                                               style: GoogleFonts.zillaSlab(
                                                 fontSize: 24,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.black,
-
-                                              ),),
+                                              ),
+                                            ),
                                             //TextSpan(text: ' world!'),
                                           ],
                                         ),
                                       ),
-                                      Text("${weekDayName[date.weekday]}",
+                                      Text(
+                                        "${weekDayName[date.weekday]}",
                                         style: GoogleFonts.zillaSlab(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.grey
-                                        ),
+                                            color: Colors.grey),
                                       )
                                     ],
                                   ),
-
-                                    ],
-
-                                  ),
-
+                                ],
+                              ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -191,30 +188,26 @@ class _ApproveEventState extends State<ApproveEvent> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-
-                                      Text('   ${post.eventStartTime.split('(')[1].
-                                      substring(0,post.eventStartTime.split('(')[1].length-1)}',
+                                      Text(
+                                        '   ${post.eventStartTime.split('(')[1].substring(0, post.eventStartTime.split('(')[1].length - 1)}',
                                         style: GoogleFonts.abrilFatface(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold
-                                        ),
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold),
                                       ),
-
-                                      Text("${post.eventDuration}",
+                                      Text(
+                                        post.eventDuration,
                                         style: GoogleFonts.zillaSlab(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.grey
-                                        ),
+                                            color: Colors.grey),
                                       )
-                                ],
-                                )
+                                    ],
+                                  )
                                 ],
                               )
                             ],
                           ),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -259,7 +252,6 @@ class _ApproveEventState extends State<ApproveEvent> {
                                 ),
                               ),
                             ),
-
                             GestureDetector(
                               onTap: () async {
                                 Navigator.pop(context);
@@ -310,7 +302,7 @@ class _ApproveEventState extends State<ApproveEvent> {
             },
             child: Container(
               margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.symmetric(vertical:20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
@@ -323,14 +315,12 @@ class _ApproveEventState extends State<ApproveEvent> {
                 ],
               ),
               child: ListTile(
-                title: Text(post.eventName,
-                  style: const TextStyle(
-                    fontSize: 20
-                  ),
+                title: Text(
+                  post.eventName,
+                  style: const TextStyle(fontSize: 20),
                 ),
                 subtitle: Text(post.description),
                 //leading: Icon(Icons.event),
-
               ),
             ),
           );
