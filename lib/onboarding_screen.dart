@@ -12,18 +12,21 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   final List<Map<String, String>> l = [
     {
-      "title": "Page 1",
-      "subtitle": "Page 1 info",
+      "title": "EVENTS",
+      "subtitle": "Know, Create and Participate.",
+      "info": "Get information of events in your college.",
       "image": "assets/images/Login.png",
     },
     {
-      "title": "Page 2",
-      "subtitle": "Page 2 info",
+      "title": "LIBRARY",
+      "subtitle": "Issue, Request and Return.",
+      "info": "Now Digitally..",
       "image": "assets/images/Login.png",
     },
     {
-      "title": "Page 3",
-      "subtitle": "Page info",
+      "title": "AND MUCH MORE...",
+      "subtitle": "On your fingertips",
+      "info": "Start now",
       "image": "assets/images/Login.png",
     }
   ];
@@ -54,9 +57,16 @@ class _OnboardingState extends State<Onboarding> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15, top: 100),
                           child: Text(l[index]["title"]!,
-                              style: const TextStyle(fontSize: 27)),
+                              style: const TextStyle(fontSize: 30)),
                         ),
-                        Text(l[index]["subtitle"]!),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            l[index]["subtitle"]!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        Text(l[index]["info"]!),
                         Image.asset(l[index]["image"]!),
                       ],
                     );
@@ -68,7 +78,14 @@ class _OnboardingState extends State<Onboarding> {
                           child: Text(l[index]["title"]!,
                               style: const TextStyle(fontSize: 27)),
                         ),
-                        Text(l[index]["subtitle"]!),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            l[index]["subtitle"]!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        Text(l[index]["info"]!),
                         Image.asset(l[index]["image"]!),
                         const SizedBox(
                           height: 40,
@@ -82,7 +99,7 @@ class _OnboardingState extends State<Onboarding> {
                           },
                           child: Container(
                             width: 3 * MediaQuery.of(context).size.width / 4,
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(15),
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(25),
