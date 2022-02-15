@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Unicampus"),
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
           IconButton(
               onPressed: () {
@@ -129,7 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: const Text("Demo"),
+              accountName:
+                  Text(FirebaseAuth.instance.currentUser!.email.toString()),
               accountEmail:
                   Text(FirebaseAuth.instance.currentUser!.email.toString()),
               currentAccountPicture: const CircleAvatar(child: Text("D")),
