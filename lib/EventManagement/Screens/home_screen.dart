@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/approve_event.dart';
-import 'package:uni_campus/onboarding_screen.dart';
 
 import 'create_event_screen.dart';
 
@@ -14,8 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     // List<DocumentSnapshot> documentList = [];
@@ -133,51 +129,43 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Material(
           color: Colors.blue,
           child: ListView(
-            padding: EdgeInsets.only(left: 8,right: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8),
             children: [
-
               InkWell(
-                onTap: (){
-
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                      const ProfileScreen(),
+                      builder: (BuildContext context) => const ProfileScreen(),
                     ),
                   );
-
                 },
                 focusColor: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.only(top:50.0,bottom: 20),
+                  padding: const EdgeInsets.only(top: 50.0, bottom: 20),
                   child: Container(
-                    child:Row(
-
+                    child: Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
-                          child: Text("K",style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white
-                          ),),
-
+                          child: Text(
+                            "K",
+                            style: TextStyle(fontSize: 24, color: Colors.white),
+                          ),
                         ),
-
                         Padding(
-                          padding: const EdgeInsets.only(left:15.0),
+                          padding: const EdgeInsets.only(left: 15.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("kartik",style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white
-                              ),),
-                              Text("kksingh@gmail.com",
-                               style:TextStyle(
-
-                                  color: Colors.white
+                              Text(
+                                "kartik",
+                                style: TextStyle(
+                                    fontSize: 24, color: Colors.white),
                               ),
+                              Text(
+                                "kksingh@gmail.com",
+                                style: TextStyle(color: Colors.white),
                               )
                             ],
                           ),
@@ -187,32 +175,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
               Divider(
                 thickness: 1,
                 color: Colors.white,
               ),
-
-              buildItem(
-                  "Approve Events",Icons.event_available_sharp
-              ),
-
-              buildItem(
-                "Logout",Icons.logout
-              )
+              buildItem("Approve Events", Icons.event_available_sharp),
+              buildItem("Logout", Icons.logout)
             ],
           ),
         ),
       ),
     );
-
   }
-  Widget buildItem(String title , IconData icon){
+
+  Widget buildItem(String title, IconData icon) {
     return ListTile(
-      title: Text(title,style: TextStyle(
-          color: Colors.white
-      ),),
-      leading: Icon(icon,color: Colors.white,),
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
+      leading: Icon(
+        icon,
+        color: Colors.white,
+      ),
     );
   }
 }
