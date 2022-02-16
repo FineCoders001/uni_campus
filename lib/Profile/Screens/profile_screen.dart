@@ -22,8 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Container(
             color: const Color.fromARGB(255, 71, 123, 114),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: 866.2857142857143.h,
+            width: 411.42857142857144.w,
             child: Padding(
               padding:  EdgeInsets.symmetric(vertical: 45.h, horizontal: 15.w),
               child: Text(
