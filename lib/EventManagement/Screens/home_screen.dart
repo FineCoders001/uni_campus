@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
@@ -13,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     // List<DocumentSnapshot> documentList = [];
@@ -127,46 +130,89 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName:
-                  Text(FirebaseAuth.instance.currentUser!.email.toString()),
-              accountEmail:
-                  Text(FirebaseAuth.instance.currentUser!.email.toString()),
-              currentAccountPicture: const CircleAvatar(
-                  child: Text(
-                "D",
-                style: TextStyle(fontSize: 40),
-              )),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
+        child: Material(
+          color: Colors.blue,
+          child: ListView(
+            padding: EdgeInsets.only(left: 8,right: 8),
+            children: [
+
+              InkWell(
+                onTap: (){
+
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Onboarding()));
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.blue,
-                ),
-                child: const Center(
-                  child: Text("Onboarding"),
+                      builder: (BuildContext context) =>
+                      const ProfileScreen(),
+                    ),
+                  );
+
+                },
+                focusColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(top:50.0,bottom: 20),
+                  child: Container(
+                    child:Row(
+
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          child: Text("K",style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white
+                          ),),
+
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left:15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("kartik",style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white
+                              ),),
+                              Text("kksingh@gmail.com",
+                               style:TextStyle(
+
+                                  color: Colors.white
+                              ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text("Profile"),
-              //onTap: (){} ,
-            ),
-          ],
+
+              Divider(
+                thickness: 1,
+                color: Colors.white,
+              ),
+
+              buildItem(
+                  "Approve Events",Icons.event_available_sharp
+              ),
+
+              buildItem(
+                "Logout",Icons.logout
+              )
+            ],
+          ),
         ),
       ),
+    );
+
+  }
+  Widget buildItem(String title , IconData icon){
+    return ListTile(
+      title: Text(title,style: TextStyle(
+          color: Colors.white
+      ),),
+      leading: Icon(icon,color: Colors.white,),
     );
   }
 }
