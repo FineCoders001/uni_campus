@@ -28,7 +28,13 @@ class _OnboardingState extends State<Onboarding> {
       "subtitle": "On your fingertips",
       "info": "Start now",
       "image": "assets/images/Login.png",
-    }
+    },
+    // {
+    //   "title": "SET PROFILE",
+    //   "subtitle": "On your fingertips",
+    //   "info": "Start now",
+    //   "image": "assets/images/Login.png",
+    // }
   ];
   final _controller = PageController();
   var _currentpage = 0;
@@ -48,10 +54,10 @@ class _OnboardingState extends State<Onboarding> {
             Expanded(
               flex: 7,
               child: PageView.builder(
-                itemCount: l.length,
+                itemCount: l.length + 1,
                 controller: _controller,
                 itemBuilder: (BuildContext context, int index) {
-                  if (index != l.length - 1) {
+                  if (index <= l.length - 1) {
                     return Column(
                       children: [
                         Padding(
@@ -72,24 +78,32 @@ class _OnboardingState extends State<Onboarding> {
                     );
                   } else {
                     return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15, top: 100),
-                          child: Text(l[index]["title"]!,
-                              style: const TextStyle(fontSize: 27)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            l[index]["subtitle"]!,
-                            style: const TextStyle(fontSize: 20),
+                        const Text("hello", style: TextStyle(fontSize: 27)),
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration:
+                                    const BoxDecoration(color: Colors.blue),
+                                child: const Text("Hellodasd"),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(l[index]["info"]!),
-                        Image.asset(l[index]["image"]!),
-                        const SizedBox(
-                          height: 40,
-                        ),
+                        // const Padding(
+                        //   padding: EdgeInsets.all(10),
+                        //   child: Text(
+                        //     "dummy",
+                        //     style: TextStyle(fontSize: 20),
+                        //   ),
+                        // ),
+                        // Text(l[index]["info"]!),
+                        // Image.asset(l[index]["image"]!),
+                        // const SizedBox(
+                        //   height: 40,
+                        // ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -108,7 +122,7 @@ class _OnboardingState extends State<Onboarding> {
                             ),
                             child: const Center(
                                 child: Text(
-                              "Take me there!",
+                              "CREATE PROFILE",
                               style: TextStyle(fontSize: 20),
                             )),
                           ),
@@ -134,8 +148,8 @@ class _OnboardingState extends State<Onboarding> {
                     padding: const EdgeInsets.only(top: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                          l.length, (index) => _builddots(index, _currentpage)),
+                      children: List.generate(l.length + 1,
+                          (index) => _builddots(index, _currentpage)),
                     ),
                   )
                 ],

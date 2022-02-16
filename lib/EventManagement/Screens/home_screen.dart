@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/approve_event.dart';
+import 'package:uni_campus/onboarding_screen.dart';
 
 import 'create_event_screen.dart';
 
@@ -180,6 +181,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               buildItem("Approve Events", Icons.event_available_sharp),
+              GestureDetector(
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Onboarding()));
+                }),
+                child: Text("Onboarding"),
+              ),
               buildItem("Logout", Icons.logout)
             ],
           ),
