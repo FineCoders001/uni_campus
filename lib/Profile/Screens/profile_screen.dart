@@ -22,8 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Container(
             color: const Color.fromARGB(255, 71, 123, 114),
-            height: MediaQuery.of(context).size.height.h,
-            width: MediaQuery.of(context).size.width.w,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             child: Padding(
               padding:  EdgeInsets.symmetric(vertical: 45.h, horizontal: 15.w),
               child: Text(
@@ -152,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30.r),
                               topRight: Radius.circular(30.r))),
-                      height: MediaQuery.of(context).size.height.h * 0.45,
+                      height: 300,
                       child: ListView(
                         children: [
                           Padding(
