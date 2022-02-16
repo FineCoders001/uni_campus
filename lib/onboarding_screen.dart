@@ -52,7 +52,7 @@ class _OnboardingState extends State<Onboarding> {
         child: Column(
           children: [
             Expanded(
-              flex: 7,
+              flex: 9,
               child: PageView.builder(
                 itemCount: l.length + 1,
                 controller: _controller,
@@ -81,15 +81,114 @@ class _OnboardingState extends State<Onboarding> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Text("hello", style: TextStyle(fontSize: 27)),
-                        SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration:
-                                    const BoxDecoration(color: Colors.blue),
-                                child: const Text("Hellodasd"),
+                        Container(
+                          color: Colors.amber,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 2,
+                            child: Center(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          hintText: "Enrollment Number",
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 73, 128, 255),
+                                                width: 2.5),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 73, 128, 255),
+                                                width: 2.5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          hintText: "College Name",
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 73, 128, 255),
+                                                width: 2.5),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 73, 128, 255),
+                                                width: 2.5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          hintText: "Department Name",
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 73, 128, 255),
+                                                width: 2.5),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 73, 128, 255),
+                                                width: 2.5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              const Text("Enter Starting year"),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              const Text("Enter Starting year"),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              const Text(
+                                                  "Enter Current Semester"),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
                         // const Padding(
