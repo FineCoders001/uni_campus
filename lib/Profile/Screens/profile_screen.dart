@@ -22,8 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Container(
             color: const Color.fromARGB(255, 71, 123, 114),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: 866.2857142857143.h,
+            width: 411.42857142857144.w,
             child: Padding(
               padding:  EdgeInsets.symmetric(vertical: 45.h, horizontal: 15.w),
               child: Text(
@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Padding(
-                          padding:  EdgeInsets.symmetric(vertical:8.0.h,horizontal: 8.w),
+                          padding:  EdgeInsets.symmetric(vertical:10.0.h,horizontal: 10.w),
                           child: Text(
                             "User Name",
                             style: GoogleFonts.ubuntu(
@@ -78,198 +78,205 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     // )
                     Row(
+
                       children: [
-                        Padding(
-                          padding:  EdgeInsets.symmetric(vertical:8.0.h,horizontal: 8.w),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width.w * 0.40,
-                            child: Card(
-                              elevation: 7,
-                              color: const Color.fromARGB(255, 71, 123, 114),
-                              child: Padding(
-                                padding:  EdgeInsets.symmetric(vertical:15.0.h,horizontal: 15.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "My",
-                                      style: GoogleFonts.ubuntu(
-                                          fontSize: 12, color: Colors.white),
-                                    ),
+                        Expanded(
+                          flex:1,
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(vertical:8.0.h,horizontal: 20.w),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width.w * 0.40,
+                              child: Card(
+                                elevation: 7,
+                                color: const Color.fromARGB(255, 71, 123, 114),
+                                child: Padding(
+                                  padding:  EdgeInsets.symmetric(vertical:20.0.h,horizontal: 15.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "My",
+                                        style: GoogleFonts.ubuntu(
+                                            fontSize: 12.sp, color: Colors.white),
+                                      ),
 
-                                    Text(
-                                      "Results",
-                                      style: GoogleFonts.ubuntu(
-                                          fontSize: 24.sp, color: Colors.white),
-                                    ),
+                                      Text(
+                                        "Results",
+                                        style: GoogleFonts.ubuntu(
+                                            fontSize: 24.sp, color: Colors.white),
+                                      ),
 
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding:  EdgeInsets.symmetric(vertical:8.0.h,horizontal:8.w),
-                          child: Card(
-                            elevation: 7,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                //borderRadius: BorderRadius.circular(8),
-                                color: Color.fromARGB(255, 247, 186, 52),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "My",
-                                      style: GoogleFonts.ubuntu(
-                                          fontSize: 12, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "TODO List",
-                                      style: GoogleFonts.ubuntu(
-                                          fontSize: 24, color: Colors.white),
-                                    ),
-
-                                  ],
+                        Expanded(
+                          flex:1,
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(vertical:8.0.h,horizontal:20.w),
+                            child: Card(
+                              elevation: 7,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  //borderRadius: BorderRadius.circular(8),
+                                  color: Color.fromARGB(255, 247, 186, 52),
                                 ),
+                                child: Padding(
+                                  padding:  EdgeInsets.symmetric(vertical: 20.h,horizontal: 10.w),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "My",
+                                        style: GoogleFonts.ubuntu(
+                                            fontSize: 12.sp, color: Colors.white),
+                                      ),
+                                      Text(
+                                        "TODO List",
+                                        style: GoogleFonts.ubuntu(
+                                            fontSize: 24.sp, color: Colors.white),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+
                               ),
-                              width: MediaQuery.of(context).size.width.w * 0.42,
                             ),
                           ),
                         ),
                       ],
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     ),
-                    Container(
-                      margin:EdgeInsets.only(top: 8.h) ,
-                      padding: EdgeInsets.only(top: 8.h),
-                      decoration:  BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.r),
-                              topRight: Radius.circular(30.r))),
-                      height: 300,
-                      child: ListView(
-                        children: [
-                          Padding(
-                            padding:  EdgeInsets.symmetric(
-                                horizontal: 10.0.h),
-                            child: Container(
-                              color: Colors.white,
-                              child:  ListTile(
-                                leading: Icon(
-                                  Icons.school_outlined,
-                                  size: 40.sp,
-                                ),
-                                subtitle: Text(
-                                  "Enrollment",
-                                  style: TextStyle(fontSize: 18.sp),
-                                ),
-                                title: Text(
-                                  "180310116019",
-                                  style: TextStyle(fontSize: 20.sp),
-                                ),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              ),
-                            ),
-                          ),
-                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0.w, vertical: 5.h),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.symmetric(
-                                horizontal: 10.0.w, vertical: 5.h),
-                            child: Container(
-                              color: Colors.white,
-                              child:  ListTile(
-                                leading: Icon(Icons.school_outlined),
-                                subtitle:
-                                Text("2018 - 2022", style: TextStyle(fontSize: 18.sp)),
-                                title:
-                                Text("LEC Morbi", style: TextStyle(fontSize: 20.sp)),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              ),
-                            ),
-                          ),
-                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0.w, vertical: 5.h),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Padding(
-                            padding:  EdgeInsets.symmetric(
-                                horizontal: 10.0.w, vertical: 5.h),
-                            child: Container(
-                              color: Colors.white,
-                              child:  ListTile(
-                                leading: Icon(Icons.school_outlined),
-                                subtitle:
-                                Text("Department", style: TextStyle(fontSize: 18.sp)),
-                                title: Text("Information Technology",
-                                    style: TextStyle(fontSize: 20.sp)),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              ),
-                            ),
-                          ),
-                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0.w, vertical: 5.h),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.0.w, vertical: 5.h),
-                            child: Container(
-                              color: Colors.white,
-                              child:  ListTile(
-                                leading: Icon(Icons.school_outlined),
-                                subtitle:
-                                Text("Semester", style: TextStyle(fontSize: 18.sp)),
-                                title: Text("VIII", style: TextStyle(fontSize: 20.sp)),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              ),
-                            ),
-                          ),
-                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0.w, vertical: 5.h),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
                   ],
                 ),
-                height: MediaQuery.of(context).size.height * 0.85),
+                height:(866.2857142857143*0.87).h),
 
             bottom: 0,
             left: 0,
             right: 0,
-          ),
-          // Positioned(
-          //   child:
-          //   bottom: 0,
-          //   left: 0,
-          //   right: 0,
-          // )
+           ),
+           Positioned(
+             child:Container(
+              // margin:EdgeInsets.only(top: 8.h) ,
+              // padding: EdgeInsets.only(top: 8.h),
+               decoration:  BoxDecoration(
+                   color: Colors.white,
+                   borderRadius: BorderRadius.only(
+                       topLeft: Radius.circular(30.r),
+                       topRight: Radius.circular(30.r))),
+               height: 390.h,
+               child: ListView(
+                 children: [
+                   Padding(
+                     padding:  EdgeInsets.symmetric(
+                         horizontal: 10.0.h),
+                     child: Container(
+                       color: Colors.white,
+                       child:  ListTile(
+                         leading: Icon(
+                           Icons.school_outlined,
+                           size: 40.sp,
+                         ),
+                         subtitle: Text(
+                           "Enrollment",
+                           style: TextStyle(fontSize: 18.sp),
+                         ),
+                         title: Text(
+                           "180310116019",
+                           style: TextStyle(fontSize: 20.sp),
+                         ),
+                         trailing: Icon(Icons.arrow_forward_ios),
+                       ),
+                     ),
+                   ),
+                   Padding(
+                     padding: EdgeInsets.symmetric(
+                         horizontal: 20.0.w, vertical: 5.h),
+                     child: Divider(
+                       thickness: 1,
+                       color: Colors.grey,
+                     ),
+                   ),
+                   Padding(
+                     padding:  EdgeInsets.symmetric(
+                         horizontal: 10.0.w, vertical: 5.h),
+                     child: Container(
+                       color: Colors.white,
+                       child:  ListTile(
+                         leading: Icon(Icons.school_outlined),
+                         subtitle:
+                         Text("2018 - 2022", style: TextStyle(fontSize: 18.sp)),
+                         title:
+                         Text("LEC Morbi", style: TextStyle(fontSize: 20.sp)),
+                         trailing: Icon(Icons.arrow_forward_ios),
+                       ),
+                     ),
+                   ),
+                   Padding(
+                     padding: EdgeInsets.symmetric(
+                         horizontal: 20.0.w, vertical: 5.h),
+                     child: Divider(
+                       thickness: 1,
+                       color: Colors.grey,
+                     ),
+                   ),
+                   Padding(
+                     padding:  EdgeInsets.symmetric(
+                         horizontal: 10.0.w, vertical: 5.h),
+                     child: Container(
+                       color: Colors.white,
+                       child:  ListTile(
+                         leading: Icon(Icons.school_outlined),
+                         subtitle:
+                         Text("Department", style: TextStyle(fontSize: 18.sp)),
+                         title: Text("Information Technology",
+                             style: TextStyle(fontSize: 20.sp)),
+                         trailing: Icon(Icons.arrow_forward_ios),
+                       ),
+                     ),
+                   ),
+                   Padding(
+                     padding: EdgeInsets.symmetric(
+                         horizontal: 20.0.w, vertical: 5.h),
+                     child: Divider(
+                       thickness: 1,
+                       color: Colors.grey,
+                     ),
+                   ),
+                   Padding(
+                     padding: EdgeInsets.symmetric(
+                         horizontal: 10.0.w, vertical: 5.h),
+                     child: Container(
+                       color: Colors.white,
+                       child:  ListTile(
+                         leading: Icon(Icons.school_outlined),
+                         subtitle:
+                         Text("Semester", style: TextStyle(fontSize: 18.sp)),
+                         title: Text("VIII", style: TextStyle(fontSize: 20.sp)),
+                         trailing: Icon(Icons.arrow_forward_ios),
+                       ),
+                     ),
+                   ),
+                   Padding(
+                     padding: EdgeInsets.symmetric(
+                         horizontal: 20.0.w, vertical: 5.h),
+                     child: Divider(
+                       thickness: 1,
+                       color: Colors.grey,
+                     ),
+                   ),
+                 ],
+               ),
+             ),
+            bottom: 0,
+            left: 0,
+            right: 0,
+           )
         ],
       ),
     );

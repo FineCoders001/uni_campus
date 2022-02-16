@@ -1,5 +1,3 @@
-import 'package:csv/csv.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -133,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Material(
           color: Colors.blue,
           child: ListView(
-            padding: EdgeInsets.only(left: 8, right: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8),
             children: [
               InkWell(
                 onTap: () {
@@ -150,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
                           child: Text(
                             "K",
@@ -184,6 +182,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               buildItem("Approve Events", Icons.event_available_sharp),
+              GestureDetector(
+                onTap: (() {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Onboarding()));
+                }),
+                child: Text("Onboarding"),
+              ),
               buildItem("Logout", Icons.logout)
             ],
           ),
@@ -196,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return ListTile(
       title: Text(
         title,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       leading: Icon(
         icon,
