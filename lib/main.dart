@@ -9,8 +9,19 @@ import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
-   runApp(
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+        name: "UniCampus",
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyCck4jYwBKMTba1LVHrJXHFTy1zuEyBmxg",
+            authDomain: "unicampus-c2d20.firebaseapp.com",
+            projectId: "unicampus-c2d20",
+            storageBucket: "unicampus-c2d20.appspot.com",
+            messagingSenderId: "142536551485",
+            appId: "1:142536551485:web:1603614567f6e4909cce54",
+            measurementId: "G-FCRTTT21CT"));
+  }
+  runApp(
     const ProviderScope(
       child: MyApp(),
     ),
@@ -32,8 +43,7 @@ class _MyAppState extends State<MyApp> {
       designSize: Size(411.42857142857144, 866.2857142857143),
       //minTextAdapt: true,
       //splitScreenMode: true,
-      builder: () =>
-       MaterialApp(
+      builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         //home: ApproveEvent()
         home: StreamBuilder(
