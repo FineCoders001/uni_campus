@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
+import 'package:uni_campus/Storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +41,8 @@ Future<void> main() async {
   );
 }
 
+//Store o =new Store();
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -47,12 +52,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   User? user = FirebaseAuth.instance.currentUser;
+
+
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(411.42857142857144, 866.2857142857143),
+      //designSize: Size(411.42857142857144, 866.2857142857143),
       //minTextAdapt: true,
       //splitScreenMode: true,
+
+        designSize: Size(360, 690),
+
+        minTextAdapt: true,
+
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         //home: ApproveEvent()
