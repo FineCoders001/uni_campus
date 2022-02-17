@@ -17,7 +17,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   var isLoading = false;
   final _auth = FirebaseAuth.instance;
-  var userDetails = UserProfile(userName: "", email: "", password: "");
+  var userDetails = UserProfile(
+      userName: "",
+      email: "",
+      password: "",
+      styear: "",
+      enroll: "",
+      collegename: "",
+      deptname: "",
+      enyear: "");
 
   void trySubmit() async {
     setState(() {
@@ -125,7 +133,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       userDetails = UserProfile(
                                           userName: userDetails.userName,
                                           email: value.toString(),
-                                          password: userDetails.password);
+                                          password: userDetails.password,
+                                          enroll: userDetails.enroll,
+                                          collegename: userDetails.collegename,
+                                          enyear: userDetails.enyear,
+                                          styear: userDetails.styear,
+                                          deptname: userDetails.deptname);
                                     },
                                   ),
                                 ),
@@ -160,7 +173,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       userDetails = UserProfile(
                                           userName: value.toString(),
                                           email: userDetails.email,
-                                          password: userDetails.password);
+                                          password: userDetails.password,
+                                          enroll: userDetails.enroll,
+                                          collegename: userDetails.collegename,
+                                          enyear: userDetails.enyear,
+                                          styear: userDetails.styear,
+                                          deptname: userDetails.deptname);
                                     },
                                   ),
                                 ),
@@ -198,7 +216,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       userDetails = UserProfile(
                                           userName: userDetails.userName,
                                           email: userDetails.email,
-                                          password: value.toString());
+                                          password: value.toString(),
+                                          enroll: userDetails.enroll,
+                                          collegename: userDetails.collegename,
+                                          enyear: userDetails.enyear,
+                                          styear: userDetails.styear,
+                                          deptname: userDetails.deptname);
                                     },
                                   ),
                                 ),
