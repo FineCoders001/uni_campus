@@ -10,6 +10,7 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+  //final _fkey = GlobalKey<FormState>;
   final List<Map<String, String>> l = [
     {
       "title": "EVENTS",
@@ -38,6 +39,7 @@ class _OnboardingState extends State<Onboarding> {
   ];
   final _controller = PageController();
   var _currentpage = 0;
+  //final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -77,157 +79,7 @@ class _OnboardingState extends State<Onboarding> {
                       ],
                     );
                   } else {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text("hello", style: TextStyle(fontSize: 27)),
-                        Container(
-                          color: Colors.amber,
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Center(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        decoration: const InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          hintText: "Enrollment Number",
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 73, 128, 255),
-                                                width: 2.5),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 73, 128, 255),
-                                                width: 2.5),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        decoration: const InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          hintText: "College Name",
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 73, 128, 255),
-                                                width: 2.5),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 73, 128, 255),
-                                                width: 2.5),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                        decoration: const InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          hintText: "Department Name",
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 73, 128, 255),
-                                                width: 2.5),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color.fromARGB(
-                                                    255, 73, 128, 255),
-                                                width: 2.5),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              const Text("Enter Starting year"),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              const Text("Enter Starting year"),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                  "Enter Current Semester"),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // const Padding(
-                        //   padding: EdgeInsets.all(10),
-                        //   child: Text(
-                        //     "dummy",
-                        //     style: TextStyle(fontSize: 20),
-                        //   ),
-                        // ),
-                        // Text(l[index]["info"]!),
-                        // Image.asset(l[index]["image"]!),
-                        // const SizedBox(
-                        //   height: 40,
-                        // ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()));
-                          },
-                          child: Container(
-                            width: 3 * MediaQuery.of(context).size.width / 4,
-                            padding: const EdgeInsets.all(15),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              color: Color.fromARGB(255, 73, 128, 255),
-                            ),
-                            child: const Center(
-                                child: Text(
-                              "CREATE PROFILE",
-                              style: TextStyle(fontSize: 20),
-                            )),
-                          ),
-                        )
-                      ],
-                    );
+                    return ProfileForm();
                   }
                 },
                 onPageChanged: (value) => setState(() {
@@ -257,6 +109,205 @@ class _OnboardingState extends State<Onboarding> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProfileForm extends StatefulWidget {
+  const ProfileForm({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<ProfileForm> createState() => _ProfileFormState();
+}
+
+class _ProfileFormState extends State<ProfileForm> {
+  //final _fkey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        const Text("Profile", style: TextStyle(fontSize: 27)),
+        Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color.fromARGB(255, 73, 128, 255), Colors.white]),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: SizedBox(
+            height: 5 * MediaQuery.of(context).size.height / 8,
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Enrollment Number",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "College Name",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Department Name",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Current Semester",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Batch Starting Year (Ex:2018)",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Batch Ending Year (Ex:2022)",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                width: 2.5),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            //_submit();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+            // if (_fkey.currentState!.validate()) {
+            //   print("works");
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: ((context) => const HomeScreen()),
+            //     ),
+            //   );
+            // } else {}
+          },
+          child: Container(
+            width: 3 * MediaQuery.of(context).size.width / 4,
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(25),
+              ),
+              color: Color.fromARGB(255, 73, 128, 255),
+            ),
+            child: const Center(
+                child: Text(
+              "CREATE PROFILE",
+              style: TextStyle(fontSize: 20),
+            )),
+          ),
+        )
+      ],
     );
   }
 }
