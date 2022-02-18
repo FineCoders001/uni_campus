@@ -9,6 +9,8 @@ import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Storage.dart';
 
+import 'Profile/Screens/TodoList.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -52,6 +54,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   User? user = FirebaseAuth.instance.currentUser;
+
 
 
 
