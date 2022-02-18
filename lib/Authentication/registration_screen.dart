@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Users/user.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
@@ -48,7 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .doc(user.user?.uid)
         .set({'username': userDetails.userName, 'email': userDetails.email});
     await Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (_) => const Onboarding()), (_) => false);
+        MaterialPageRoute(builder: (_) => const HomeScreen()), (_) => false);
 
     setState(() {
       isLoading = false;

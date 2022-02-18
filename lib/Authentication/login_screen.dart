@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
+import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,10 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-
-
-
+  // Map<String, String> user = {
+  //   "email": "",
+  //   "password": "",
+  // };
+  final econ = TextEditingController();
+  final pcin = TextEditingController();
+  final _fkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
+                  key: _fkey,
                   child: ListView(
                     children: [
                       SizedBox(
@@ -69,6 +74,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: TextFormField(
+                              controller: econ,
+                              // onSaved: (value) {
+                              //   user["email"] = value.toString();
+                              // },
+                              validator: (value) {
+                                if (value == null && value!.isEmpty) {
+                                  return "Please enter a valid email";
+                                } else {
+                                  return null;
+                                }
+                              },
                               decoration: const InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -89,6 +105,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: TextFormField(
+                              controller: pcin,
+                              // onSaved: (newValue) {
+                              //   user["password"] = newValue.toString();
+                              // },
+                              validator: (value) {
+                                if (value == null && value!.isEmpty) {
+                                  return "Please enter a valid password";
+                                } else {
+                                  return null;
+                                }
+                              },
                               obscureText: true,
                               enableSuggestions: false,
                               autocorrect: false,
@@ -132,19 +159,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 73, 128, 255),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Login",
-                              style: GoogleFonts.ubuntu(
-                                  fontSize: 25, color: Colors.white),
+                        child: GestureDetector(
+                          onTap: () {
+                            _submit();
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 73, 128, 255),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Login",
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 25, color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
@@ -184,5 +216,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+
+  void _submit() async {
+    if (_fkey.currentState!.validate()) {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: econ.text, password: pcin.text);
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/Authentication/login_screen.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Storage.dart';
@@ -55,9 +56,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   User? user = FirebaseAuth.instance.currentUser;
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -65,9 +63,9 @@ class _MyAppState extends State<MyApp> {
       //minTextAdapt: true,
       //splitScreenMode: true,
 
-        designSize: Size(360, 690),
+      designSize: Size(360, 690),
 
-        minTextAdapt: true,
+      minTextAdapt: true,
 
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -90,7 +88,8 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             } else {
-              return const RegistrationScreen();
+              return const LoginScreen();
+              // return const RegistrationScreen();
             }
           },
         ),
