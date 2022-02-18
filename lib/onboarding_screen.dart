@@ -53,23 +53,25 @@ class _OnboardingState extends State<Onboarding> {
                 controller: _controller,
                 itemBuilder: (BuildContext context, int index) {
                   if (index <= l.length - 1) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15, top: 100),
-                          child: Text(l[index]["title"]!,
-                              style: const TextStyle(fontSize: 30)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            l[index]["subtitle"]!,
-                            style: const TextStyle(fontSize: 20),
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 15, top: 100),
+                            child: Text(l[index]["title"]!,
+                                style: const TextStyle(fontSize: 30)),
                           ),
-                        ),
-                        Text(l[index]["info"]!),
-                        Image.asset(l[index]["image"]!),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              l[index]["subtitle"]!,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Text(l[index]["info"]!),
+                          Image.asset(l[index]["image"]!),
+                        ],
+                      ),
                     );
                   } else {
                     return const SingleChildScrollView(
@@ -126,7 +128,7 @@ class _ProfileFormState extends State<ProfileForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text("Profile", style: TextStyle(fontSize: 27)),
+          const Text("Profile", style: TextStyle(fontSize: 27,),),
           SizedBox(
             height: 30,
           ),
@@ -149,7 +151,7 @@ class _ProfileFormState extends State<ProfileForm> {
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Please enter a valid enrollment numbrer";
+                              return "Please enter a valid enrollment number";
                             } else {
                               return null;
                             }
@@ -347,7 +349,7 @@ class _ProfileFormState extends State<ProfileForm> {
               child: const Center(
                   child: Text(
                 "CREATE PROFILE",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20,color: Colors.white),
               )),
             ),
           )
