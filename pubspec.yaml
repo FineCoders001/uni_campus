@@ -38,6 +38,7 @@ dependencies:
   email_validator: ^2.0.1
   fluttertoast: ^8.0.8
   flutter_screenutil: ^5.2.0
+  shared_preferences: ^2.0.13
   csv: ^5.0.1
   file_picker: ^4.4.0
   firebase_storage: ^10.2.7
@@ -77,8 +78,6 @@ flutter:
     - assets/images/Background.png
     - assets/images/Card.png
     - assets/images/Login.png
-    - assets/csv/Enrollment.csv
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Users/user.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
@@ -17,7 +18,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   var isLoading = false;
   final _auth = FirebaseAuth.instance;
-  var userDetails = UserProfile(userName: "", email: "", password: "");
+  var userDetails = UserProfile(
+      userName: "",
+      email: "",
+      password: "",
+      styear: "",
+      enroll: "",
+      collegename: "",
+      deptname: "",
+      enyear: "");
 
   void trySubmit() async {
     setState(() {
@@ -40,7 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .doc(user.user?.uid)
         .set({'username': userDetails.userName, 'email': userDetails.email});
     await Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (_) => const Onboarding()), (_) => false);
+        MaterialPageRoute(builder: (_) => const HomeScreen()), (_) => false);
 
     setState(() {
       isLoading = false;
@@ -125,7 +134,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       userDetails = UserProfile(
                                           userName: userDetails.userName,
                                           email: value.toString(),
-                                          password: userDetails.password);
+                                          password: userDetails.password,
+                                          enroll: userDetails.enroll,
+                                          collegename: userDetails.collegename,
+                                          enyear: userDetails.enyear,
+                                          styear: userDetails.styear,
+                                          deptname: userDetails.deptname);
                                     },
                                   ),
                                 ),
@@ -160,7 +174,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       userDetails = UserProfile(
                                           userName: value.toString(),
                                           email: userDetails.email,
-                                          password: userDetails.password);
+                                          password: userDetails.password,
+                                          enroll: userDetails.enroll,
+                                          collegename: userDetails.collegename,
+                                          enyear: userDetails.enyear,
+                                          styear: userDetails.styear,
+                                          deptname: userDetails.deptname);
                                     },
                                   ),
                                 ),
@@ -198,7 +217,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       userDetails = UserProfile(
                                           userName: userDetails.userName,
                                           email: userDetails.email,
-                                          password: value.toString());
+                                          password: value.toString(),
+                                          enroll: userDetails.enroll,
+                                          collegename: userDetails.collegename,
+                                          enyear: userDetails.enyear,
+                                          styear: userDetails.styear,
+                                          deptname: userDetails.deptname);
                                     },
                                   ),
                                 ),

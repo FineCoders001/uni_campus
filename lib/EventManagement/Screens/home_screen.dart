@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -191,7 +192,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 }),
                 child: Text("Onboarding"),
               ),
-              buildItem("Logout", Icons.logout)
+              // buildItem("Logout", Icons.logout),
+              ListTile(
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                leading: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  "Logout",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),

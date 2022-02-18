@@ -25,7 +25,7 @@ Map weekDayName = {
   4:'Wednesday',
   5:'Thursday',
   6:'Friday',
-  7:'Satday',
+  7:'Saturday',
 };
 
 
