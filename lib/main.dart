@@ -7,6 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
+import 'package:uni_campus/SeatingManagement/Screens/fetch_arrangement.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +49,6 @@ class _MyAppState extends State<MyApp> {
       //splitScreenMode: true,
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        //home: ApproveEvent()
         home: StreamBuilder(
           // stream: FirebaseAuth.instance.authStateChanges(),
           stream: FirebaseAuth.instance.authStateChanges(),
