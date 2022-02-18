@@ -72,9 +72,11 @@ class _OnboardingState extends State<Onboarding> {
                       ],
                     );
                   } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 50.0),
-                      child: ProfileForm(),
+                    return const SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 50.0),
+                        child: ProfileForm(),
+                      ),
                     );
                   }
                 },
