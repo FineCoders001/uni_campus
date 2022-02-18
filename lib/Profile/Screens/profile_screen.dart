@@ -37,10 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [
-                      Colors.red,
-                      Color.fromARGB(0,174, 18, 227)
-                    ],
+                    colors: [Colors.red, Color.fromARGB(0, 174, 18, 227)],
                   ),
                 ),
                 child: Column(
@@ -79,80 +76,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.symmetric(vertical:8.0.h,
-                       horizontal: 8.w
-                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 8.0.h, horizontal: 8.w),
                       child: Row(
                         children: [
-                          Material(
-                              color: Colors.amber,
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10))),
-                              child: InkWell(
-                                onTap: (){
-
-                                },
-
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 20.0.h, horizontal: 15.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "My",
-                                        style: GoogleFonts.ubuntu(
-                                            fontSize: 12.sp,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        "Results",
-                                        style: GoogleFonts.ubuntu(
-                                            fontSize: 24.sp,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-
                           Material(
                             color: Colors.amber,
                             elevation: 5,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10))),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             child: InkWell(
-                              onTap: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                     TodoList(),
-                                  ),
-                                );
-                              },
-
+                              onTap: () {},
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 20.h, horizontal: 10.w),
+                                    vertical: 20.0.h, horizontal: 15.w),
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "My",
                                       style: GoogleFonts.ubuntu(
-                                          fontSize: 12.sp,
-                                          color: Colors.white),
+                                          fontSize: 12.sp, color: Colors.white),
+                                    ),
+                                    Text(
+                                      "Results",
+                                      style: GoogleFonts.ubuntu(
+                                          fontSize: 24.sp, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Material(
+                            color: Colors.amber,
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        TodoList(),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20.h, horizontal: 10.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "My",
+                                      style: GoogleFonts.ubuntu(
+                                          fontSize: 12.sp, color: Colors.white),
                                     ),
                                     Text(
                                       "TODO List",
                                       style: GoogleFonts.ubuntu(
-                                          fontSize: 24.sp,
-                                          color: Colors.white),
+                                          fontSize: 24.sp, color: Colors.white),
                                     ),
                                   ],
                                 ),
@@ -172,10 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               buildItem("VIII", "Semester")
             ],
           ),
-        )
-
-
-        );
+        ));
   }
 
   Widget buildItem(String title, String subtitle) {
