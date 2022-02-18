@@ -147,7 +147,7 @@ class _FetchArrangementState extends State<FetchArrangement> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             GestureDetector(

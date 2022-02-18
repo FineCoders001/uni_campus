@@ -39,10 +39,10 @@ class _ExamScreenState extends State<ExamScreen> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
-        Container(
+        SizedBox(
           height: MediaQuery.of(context).size.height * 0.7,
           child: ListView.builder(
             itemCount: 5,
@@ -52,7 +52,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   showModalBottomSheet(
                     context: context,
                     builder: (context) {
-                      return Container(
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         child: Column(
                           children: [
@@ -126,11 +126,11 @@ class _ExamScreenState extends State<ExamScreen> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 7,
                                       ),
                                       ListTile(
-                                        leading: Icon(Icons.school_outlined),
+                                        leading: const Icon(Icons.school_outlined),
                                         title: Text(
                                           "Department  : IT",
                                           style: GoogleFonts.ubuntu(
@@ -140,7 +140,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                       ),
                                       ListTile(
                                         leading:
-                                            Icon(Icons.meeting_room_outlined),
+                                            const Icon(Icons.meeting_room_outlined),
                                         title: Text(
                                           "Room No.       : 5",
                                           style: GoogleFonts.ubuntu(
@@ -150,7 +150,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                       ),
                                       ListTile(
                                         leading:
-                                            Icon(Icons.event_seat_outlined),
+                                            const Icon(Icons.event_seat_outlined),
                                         title: Text(
                                           "Bench              : 15",
                                           style: GoogleFonts.ubuntu(

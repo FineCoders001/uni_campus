@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
@@ -160,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 "kartik",
                                 style: TextStyle(
@@ -178,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
                 color: Colors.white,
               ),
@@ -190,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       MaterialPageRoute(
                           builder: (context) => const Onboarding()));
                 }),
-                child: Text("Onboarding"),
+                child: const Text("Onboarding"),
               ),
               // buildItem("Logout", Icons.logout),
               ListTile(

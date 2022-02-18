@@ -64,7 +64,7 @@ class AllEvents extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      throw e;
+      rethrow;
     }
     notifyListeners();
   }

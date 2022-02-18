@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 // height: 200,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Material(
                             color: Colors.amber,
                             elevation: 5,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             child: InkWell(
@@ -112,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Material(
                             color: Colors.amber,
                             elevation: 5,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             child: InkWell(
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        TodoList(),
+                                        const TodoList(),
                                   ),
                                 );
                               },
@@ -167,12 +167,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.all(8.0),
       child: Material(
         elevation: 5,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            leading: Icon(Icons.school),
+            leading: const Icon(Icons.school),
             title: Text(
               title,
             ),

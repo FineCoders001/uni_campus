@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -129,7 +128,7 @@ class _ProfileFormState extends State<ProfileForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Text("Profile", style: TextStyle(fontSize: 27,),),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Container(
@@ -142,182 +141,184 @@ class _ProfileFormState extends State<ProfileForm> {
               child: Center(
                 child: Form(
                   key: _fkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a valid enrollment number";
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "Enrollment Number",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a valid string";
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "College Name",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid enrollment number";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Enrollment Number",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a valid name";
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "Department Name",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enbter a valid value";
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "Current Semester",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid string";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "College Name",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a valid value";
-                            } else {
-                              return null;
-                            }
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "Batch Starting Year (Ex:2018)",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a valid value";
-                            } else {
-                              return null;
-                            }
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "Batch Ending Year (Ex:2022)",
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 73, 128, 255),
-                                  width: 2.5),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid name";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Department Name",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enbter a valid value";
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Current Semester",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid value";
+                              } else {
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Batch Starting Year (Ex:2018)",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid value";
+                              } else {
+                                return null;
+                              }
+                            },
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Batch Ending Year (Ex:2022)",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 73, 128, 255),
+                                    width: 2.5),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           GestureDetector(

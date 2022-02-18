@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -24,9 +23,9 @@ class Task {
 
   Map<String, Object> toJson() {
     return {
-      'title': this.title,
-      'description': this.description,
-      'status' : this.status
+      'title': title,
+      'description': description,
+      'status' : status
     };
   }
 
@@ -46,9 +45,9 @@ class Store extends ChangeNotifier{
     _taskList.clear();
     String? v = await prefs.getString("tasks");
     //var v1 = v?.substring(1,v.length-1).split(",");
-    print("value of sharedprefernces is ${v}");
+    print("value of sharedprefernces is $v");
     var v1 = json.decode(v!);
-    print("value   KAERGTGTYV is ${v1}");
+    print("value   KAERGTGTYV is $v1");
 
 
      for(int i=0 ; v1!=null&&i<v1.length  ; i++){
@@ -65,7 +64,7 @@ class Store extends ChangeNotifier{
      _taskList[index]=t;
      final SharedPreferences prefs = await _prefs;
      var v = json.encode(_taskList);
-     print("${v}");
+     print(v);
      await prefs.setString("tasks", v);
   }
 
@@ -76,7 +75,7 @@ class Store extends ChangeNotifier{
     _taskList[index]=t;
     final SharedPreferences prefs = await _prefs;
     var v = json.encode(_taskList);
-    print("${v}");
+    print(v);
     await prefs.setString("tasks", v);
   }
 
@@ -88,12 +87,12 @@ class Store extends ChangeNotifier{
       _taskList.add(t);
 
       var v = json.encode(_taskList);
-      print("${v}");
+      print(v);
       await prefs.setString("tasks", v);
 
       notifyListeners();
     }catch(e){
-      throw e;
+      rethrow;
     }
   }
 
@@ -103,11 +102,11 @@ class Store extends ChangeNotifier{
      _taskList.removeAt(index);
      final SharedPreferences prefs = await _prefs;
      var v = json.encode(_taskList);
-     print("${v}");
+     print(v);
      await prefs.setString("tasks", v);
       notifyListeners();
     }catch(e){
-      throw e;
+      rethrow;
     }
   }
 

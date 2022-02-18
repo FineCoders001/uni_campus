@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../Storage.dart';
-import '../../main.dart';
 
 final storageProvider = ChangeNotifierProvider((ref) {
   return Store();
@@ -51,7 +49,7 @@ class TodoListState extends ConsumerState<TodoList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text(
+        title: const Text(
           "TODO",
           style: TextStyle(color: Colors.white),
         ),
@@ -62,15 +60,15 @@ class TodoListState extends ConsumerState<TodoList> {
               onSelected: (item) => onSelected(context,item),
                 itemBuilder: (context) {
               return [
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 0,
                   child: Text("All"),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value:1,
                   child: Text("Completed"),
                 ),
-                PopupMenuItem(
+                const PopupMenuItem(
                   value:2,
                   child: Text("Pending"),
                 )
@@ -91,11 +89,11 @@ class TodoListState extends ConsumerState<TodoList> {
                 //
                 if(item==2){
                   return taskList[index].status=="pending"?
-                  TaskTile(v, taskList, index):SizedBox(height: 0,);
+                  TaskTile(v, taskList, index):const SizedBox(height: 0,);
                 }
                 else if(item==1){
                   return taskList[index].status=="completed"?
-                     TaskTile(v, taskList, index):SizedBox(height: 0,);
+                     TaskTile(v, taskList, index):const SizedBox(height: 0,);
                 }else{
                   return TaskTile(v, taskList, index);
                 }
@@ -103,15 +101,15 @@ class TodoListState extends ConsumerState<TodoList> {
               },
               itemCount: taskList.length,
             )
-          : Center(
+          : const Center(
               child: Text("No Added Task"),
             ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           bottomSheet();
         },
-        label: Text("Add Task"),
-        icon: Icon(Icons.add),
+        label: const Text("Add Task"),
+        icon: const Icon(Icons.add),
         backgroundColor: Colors.red,
       ),
     );
@@ -141,7 +139,7 @@ class TodoListState extends ConsumerState<TodoList> {
                             GestureDetector(
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 8.0.h),
-                                  child: CircleAvatar(
+                                  child: const CircleAvatar(
                                       backgroundColor: Colors.red,
                                       child: Icon(Icons.clear)),
                                 ),
@@ -160,11 +158,11 @@ class TodoListState extends ConsumerState<TodoList> {
                         Padding(
                           padding: EdgeInsets.only(top: 15.h),
                           child: TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Title',
                               border: OutlineInputBorder(
                                 //borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(),
+                                borderSide: BorderSide(),
                               ),
                             ),
                             textInputAction: TextInputAction.next,
@@ -185,14 +183,14 @@ class TodoListState extends ConsumerState<TodoList> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.only(top: 15),
                           child: TextFormField(
                             //initialValue: _initValues['description'],
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Description',
                               border: OutlineInputBorder(
                                 //borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(),
+                                borderSide: BorderSide(),
                               ),
                             ),
                             maxLines: 3,
@@ -224,7 +222,7 @@ class TodoListState extends ConsumerState<TodoList> {
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
                                         vertical: 20.0.h, horizontal: 10.w),
-                                    child: Text("ADD_TASK"),
+                                    child: const Text("ADD_TASK"),
                                   )),
                             ],
                           ),
@@ -324,7 +322,7 @@ class _TaskTileState extends State<TaskTile> {
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
       child: Material(
         elevation: 7,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -335,7 +333,7 @@ class _TaskTileState extends State<TaskTile> {
                       widget.v.completeTask(widget.index);
                       setState(() {});
                     },
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                         backgroundColor: Colors.red,
                         child: Icon(
                           Icons.check,
@@ -346,7 +344,7 @@ class _TaskTileState extends State<TaskTile> {
                       widget.v.pendingTask(widget.index);
                       setState(() {});
                     },
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                         backgroundColor: Colors.green,
                         child: Icon(
                           Icons.check,
@@ -354,13 +352,13 @@ class _TaskTileState extends State<TaskTile> {
                   ),
             //child: Text("${widget.index+1}"),
 
-            title: Text("${widget.taskList[widget.index].title}"),
-            subtitle: Text("${widget.taskList[widget.index].description}"),
+            title: Text(widget.taskList[widget.index].title),
+            subtitle: Text(widget.taskList[widget.index].description),
             trailing: GestureDetector(
               onTap: () async {
                 widget.v.remove(widget.index);
               },
-              child: Icon(Icons.delete_forever),
+              child: const Icon(Icons.delete_forever),
             ),
           ),
         ),
