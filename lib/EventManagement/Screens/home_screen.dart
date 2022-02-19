@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
+import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
@@ -106,7 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () => {},
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const ExamScreen(),
+                    ),
+                  )
+                },
                 child: Padding(
                   padding: EdgeInsets.all(
                       (MediaQuery.of(context).size.width / 3) / 4),
@@ -114,17 +123,60 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: MediaQuery.of(context).size.width / 3,
                     height: MediaQuery.of(context).size.height / 8,
                     color: Colors.blue,
-                    child: const Center(
-                      child: Text(
-                        "Event",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "Exam",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            "Time Table",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
             ],
-          )
+          ),
+          GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const UploadExamDetails(),
+                ),
+              )
+            },
+            child: Padding(
+              padding:
+                  EdgeInsets.all((MediaQuery.of(context).size.width / 3) / 4),
+              child: Container(
+                width: MediaQuery.of(context).size.width / 3,
+                height: MediaQuery.of(context).size.height / 8,
+                color: Colors.blue,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Upload",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      Text(
+                        "Exam Details",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       drawer: Drawer(
