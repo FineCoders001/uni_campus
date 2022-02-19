@@ -197,36 +197,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 focusColor: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 20),
-                  child: Container(
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 30,
-                          child: Text(
-                            "K",
-                            style: TextStyle(fontSize: 24, color: Colors.white),
-                          ),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 30,
+                        child: Text(
+                          "K",
+                          style: TextStyle(fontSize: 24, color: Colors.white),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "kartik",
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                              Text(
-                                FirebaseAuth.instance.currentUser!.email
-                                    .toString(),
-                                style: const TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "kartik",
+                              style: TextStyle(
+                                  fontSize: 24, color: Colors.white),
+                            ),
+                            Text(
+                              FirebaseAuth.instance.currentUser!.email
+                                  .toString(),
+                              style: const TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
