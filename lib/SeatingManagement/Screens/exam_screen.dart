@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -309,8 +308,8 @@ class _ExamScreenState extends State<ExamScreen> {
     final dir = await getExternalStorageDirectory();
     String check = dir?.path.toString() as String;
     check = check + '/SeatingArrangement.csv';
-    
-      int found = -1;
+
+    int found = -1;
     FilesIO filesIO = FilesIO();
     List<List<dynamic>> table = await filesIO.readFile(check);
     for (int i = 1; i < table.length; i++) {
@@ -324,7 +323,7 @@ class _ExamScreenState extends State<ExamScreen> {
       seatingArrangement.add(map);
     }
     setState(() {
-      fetched = found-1;
+      fetched = found - 1;
     });
   }
 }
