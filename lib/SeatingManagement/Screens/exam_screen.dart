@@ -18,13 +18,6 @@ class _ExamScreenState extends State<ExamScreen> {
   int fetched = -1;
   int enroll = 180310116019;
   int n = 0;
-  // List<Map> myMap = [
-  //   {"date": "15 Jan", "subject": "DSA", "code": "311001", "status": "Done"},
-  //   {"date": "16 Jan", "subject": "DBMS", "code": "311002", "status": "Done"},
-  //   {"date": "17 Jan", "subject": "CN", "code": "311003", "status": "Done"},
-  //   {"date": "18 Jan", "subject": "OS", "code": "311004", "status": "No"},
-  //   {"date": "19 Jan", "subject": "COA", "code": "311005", "status": "No"}
-  // ];
   @override
   void initState() {
     fetchTimeTable();
@@ -35,8 +28,18 @@ class _ExamScreenState extends State<ExamScreen> {
   @override
   Widget build(BuildContext context) {
     if (n == 0) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        body: Center(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Syncing Time table",style: GoogleFonts.ubuntu(fontSize: 25),),
+            const SizedBox(height: 25,),
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: CircularProgressIndicator(),
+            ),
+          ],
+        )),
       );
     } else {
       return Scaffold(
