@@ -213,8 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             const Text(
                               "kartik",
-                              style: TextStyle(
-                                  fontSize: 24, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 24, color: Colors.white),
                             ),
                             Text(
                               FirebaseAuth.instance.currentUser!.email
