@@ -14,6 +14,7 @@ class ExamScreen extends StatefulWidget {
 
 class _ExamScreenState extends State<ExamScreen> {
   List<Map> timeTable = [];
+  String examType = "";
   List<Map> seatingArrangement = [];
   int fetched = -1;
   int enroll = 180310116019;
@@ -29,11 +30,17 @@ class _ExamScreenState extends State<ExamScreen> {
   Widget build(BuildContext context) {
     if (n == 0) {
       return Scaffold(
-        body: Center(child: Column(
+        body: Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Syncing Time table",style: GoogleFonts.ubuntu(fontSize: 25),),
-            const SizedBox(height: 25,),
+            Text(
+              "Syncing Time table",
+              style: GoogleFonts.ubuntu(fontSize: 25),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
             const Padding(
               padding: EdgeInsets.all(12.0),
               child: CircularProgressIndicator(),
@@ -56,7 +63,7 @@ class _ExamScreenState extends State<ExamScreen> {
             Container(
               alignment: Alignment.center,
               child: Text(
-                "Time Table",
+                examType,
                 style: GoogleFonts.ubuntu(
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
@@ -185,7 +192,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                                   leading: const Icon(
                                                       Icons.school_outlined),
                                                   title: Text(
-                                                    "Department  : ${seatingArrangement[fetched]["Department"]??seatingArrangement[fetched]["department"]}",
+                                                    "Department  : ${seatingArrangement[fetched]["Department"] ?? seatingArrangement[fetched]["department"]}",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                     ),
@@ -281,8 +288,34 @@ class _ExamScreenState extends State<ExamScreen> {
   }
 
   Future fetchTimeTable() async {
+    String tempPath = "";
     UploadDownload uploadDownload = UploadDownload();
-    uploadDownload.downloadFile("files/", "TimeTable.csv").then((value) async {
+    try {
+      uploadDownload.downloadFile(
+          "ExamFiles/Mid Semester/TimeTable", "TimeTable.csv");
+      tempPath = "Mid Semester";
+    } catch (e) {
+      rethrow;
+    }
+    try {
+      uploadDownload.downloadFile(
+          "ExamFiles/End Semester/TimeTable", "TimeTable.csv");
+      tempPath = "Mid Semester";
+    } catch (e) {
+      rethrow;
+    }
+    try {
+      uploadDownload.downloadFile("ExamFiles/Viva/TimeTable", "TimeTable.csv");
+      tempPath = "Mid Semester";
+    } catch (e) {
+      rethrow;
+    }
+    setState(() {
+      examType = tempPath;
+    });
+    uploadDownload
+        .downloadFile("ExamFiles/$tempPath/TimeTable", "TimeTable.csv")
+        .then((value) async {
       final dir = await getExternalStorageDirectory();
       String check = dir?.path.toString() as String;
       check = check + '/TimeTable.csv';
@@ -313,29 +346,35 @@ class _ExamScreenState extends State<ExamScreen> {
 
   Future fetchArrangement() async {
     UploadDownload uploadDownload = UploadDownload();
-    uploadDownload
-        .downloadFile("files/", "SeatingArrangement.csv")
-        .then((value) async {
-      final dir = await getExternalStorageDirectory();
-      String check = dir?.path.toString() as String;
-      check = check + '/SeatingArrangement.csv';
+    try {
+      uploadDownload
+          .downloadFile("ExamFiles/$examType/SeatingArrangement",
+              "SeatingArrangement.csv")
+          .then((value) async {
+        final dir = await getExternalStorageDirectory();
+        String check = dir?.path.toString() as String;
+        check = check + '/SeatingArrangement.csv';
 
-      int found = -1;
-      FilesIO filesIO = FilesIO();
-      List<List<dynamic>> table = await filesIO.readFile(check);
-      for (int i = 1; i < table.length; i++) {
-        Map map = {};
-        for (int j = 0; j < table[i].length; j++) {
-          map[table[0][j]] = table[i][j];
+        int found = -1;
+        FilesIO filesIO = FilesIO();
+        List<List<dynamic>> table = await filesIO.readFile(check);
+        for (int i = 1; i < table.length; i++) {
+          Map map = {};
+          for (int j = 0; j < table[i].length; j++) {
+            map[table[0][j]] = table[i][j];
+          }
+          if (map["Enrollment"].toString() == enroll.toString() ||
+              map["enrollment"].toString() == enroll.toString()) {
+            found = i;
+          }
+          seatingArrangement.add(map);
         }
-        if (map["Enrollment"].toString() == enroll.toString() || map["enrollment"].toString() == enroll.toString()) {
-          found = i;
-        }
-        seatingArrangement.add(map);
-      }
-      setState(() {
-        fetched = found - 1;
+        setState(() {
+          fetched = found - 1;
+        });
       });
-    });
+    } catch (e) {
+      rethrow;
+    }
   }
 }
