@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../Storage.dart';
+import '../../storage.dart';
 
 final storageProvider = ChangeNotifierProvider((ref) {
   return Store();
@@ -20,7 +20,7 @@ class TodoListState extends ConsumerState<TodoList> {
   final _desFocusNode = FocusNode();
   late String title;
   late String description;
-  int item=0;
+  int item = 0;
   List<Task> taskList = [];
 
   fetchTask() {
@@ -40,8 +40,7 @@ class TodoListState extends ConsumerState<TodoList> {
   Widget build(BuildContext context) {
     final v = ref.watch(storageProvider);
 
-   taskList = v.taskList;
-
+    taskList = v.taskList;
 
     //fetchTask();
 
@@ -57,23 +56,23 @@ class TodoListState extends ConsumerState<TodoList> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: PopupMenuButton(
-              onSelected: (item) => onSelected(context,item),
+                onSelected: (item) => onSelected(context, item),
                 itemBuilder: (context) {
-              return [
-                const PopupMenuItem(
-                  value: 0,
-                  child: Text("All"),
-                ),
-                const PopupMenuItem(
-                  value:1,
-                  child: Text("Completed"),
-                ),
-                const PopupMenuItem(
-                  value:2,
-                  child: Text("Pending"),
-                )
-              ];
-            }),
+                  return [
+                    const PopupMenuItem(
+                      value: 0,
+                      child: Text("All"),
+                    ),
+                    const PopupMenuItem(
+                      value: 1,
+                      child: Text("Completed"),
+                    ),
+                    const PopupMenuItem(
+                      value: 2,
+                      child: Text("Pending"),
+                    )
+                  ];
+                }),
           )
         ],
       ),
@@ -87,17 +86,21 @@ class TodoListState extends ConsumerState<TodoList> {
                 //   break;
                 // }
                 //
-                if(item==2){
-                  return taskList[index].status=="pending"?
-                  TaskTile(v, taskList, index):const SizedBox(height: 0,);
-                }
-                else if(item==1){
-                  return taskList[index].status=="completed"?
-                     TaskTile(v, taskList, index):const SizedBox(height: 0,);
-                }else{
+                if (item == 2) {
+                  return taskList[index].status == "pending"
+                      ? TaskTile(v, taskList, index)
+                      : const SizedBox(
+                          height: 0,
+                        );
+                } else if (item == 1) {
+                  return taskList[index].status == "completed"
+                      ? TaskTile(v, taskList, index)
+                      : const SizedBox(
+                          height: 0,
+                        );
+                } else {
                   return TaskTile(v, taskList, index);
                 }
-
               },
               itemCount: taskList.length,
             )
@@ -273,30 +276,29 @@ class TodoListState extends ConsumerState<TodoList> {
         ),
       );
     }
-    print("save 2 ${title} and description is ${description}");
+    print("save 2 $title and description is $description");
     Navigator.pop(context);
 
     // Navigator.of(context).pop();
   }
 
   onSelected(BuildContext context, Object? i) {
-    switch(i){
+    switch (i) {
       case 0:
         setState(() {
-          item=0;
+          item = 0;
         });
         break;
       case 1:
         setState(() {
-          item=1;
+          item = 1;
         });
         break;
       case 2:
         setState(() {
-          item=2;
+          item = 2;
         });
         break;
-
     }
   }
 }
@@ -314,7 +316,6 @@ class TaskTile extends StatefulWidget {
 }
 
 class _TaskTileState extends State<TaskTile> {
-
   @override
   Widget build(BuildContext context) {
     print("status of item is ${widget.taskList[widget.index].status}");

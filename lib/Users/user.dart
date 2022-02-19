@@ -7,6 +7,7 @@ class UserProfile {
   final String deptname;
   final String styear;
   final String enyear;
+  //String auth = "student";
 
   UserProfile(
       {required this.userName,
