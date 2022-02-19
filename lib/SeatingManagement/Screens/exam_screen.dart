@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uni_campus/SeatingManagement/AssistantMethod/files_io.dart';
+import 'package:uni_campus/SeatingManagement/AssistantMethod/upload_download.dart';
 
 class ExamScreen extends StatefulWidget {
   const ExamScreen({Key? key}) : super(key: key);
@@ -137,7 +138,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Card(
-                                    child: fetched == -1
+                                    child: fetched < 0
                                         ? Center(
                                             child: Padding(
                                               padding:
@@ -182,7 +183,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                                   leading: const Icon(
                                                       Icons.school_outlined),
                                                   title: Text(
-                                                    "Department  : ${seatingArrangement[fetched]["Department"]}",
+                                                    "Department  : ${seatingArrangement[fetched]["Department"]??seatingArrangement[fetched]["department"]}",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                     ),
@@ -192,7 +193,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                                   leading: const Icon(Icons
                                                       .meeting_room_outlined),
                                                   title: Text(
-                                                    "Room No.       : ${seatingArrangement[fetched]["Room"]}",
+                                                    "Room No.       : ${seatingArrangement[fetched]["Room"] ?? seatingArrangement[fetched]["room"]}",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                     ),
@@ -202,7 +203,7 @@ class _ExamScreenState extends State<ExamScreen> {
                                                   leading: const Icon(Icons
                                                       .event_seat_outlined),
                                                   title: Text(
-                                                    "Bench              : ${seatingArrangement[fetched]["Bench"]}",
+                                                    "Bench              : ${seatingArrangement[fetched]["Bench"] ?? seatingArrangement[fetched]["bench"]}",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                     ),
@@ -278,53 +279,61 @@ class _ExamScreenState extends State<ExamScreen> {
   }
 
   Future fetchTimeTable() async {
-    final dir = await getExternalStorageDirectory();
-    String check = dir?.path.toString() as String;
-    check = check + '/TimeTable.csv';
-    FilesIO filesIO = FilesIO();
-    List<List<dynamic>> table = await filesIO.readFile(check);
-    for (int i = 1; i < table.length; i++) {
-      Map map = {};
-      for (int j = 0; j < table[i].length; j++) {
-        map[table[0][j]] = table[i][j];
+    UploadDownload uploadDownload = UploadDownload();
+    uploadDownload.downloadFile("files/", "TimeTable.csv").then((value) async {
+      final dir = await getExternalStorageDirectory();
+      String check = dir?.path.toString() as String;
+      check = check + '/TimeTable.csv';
+      FilesIO filesIO = FilesIO();
+      List<List<dynamic>> table = await filesIO.readFile(check);
+      for (int i = 1; i < table.length; i++) {
+        Map map = {};
+        for (int j = 0; j < table[i].length; j++) {
+          map[table[0][j]] = table[i][j];
+        }
+        timeTable.add(map);
       }
-      timeTable.add(map);
-    }
 
-    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
-    DateFormat inputFormat = DateFormat("dd/MM/yy");
-    for (int i = 0; i < timeTable.length; i++) {
-      var output = inputFormat.parse(timeTable[i]["Date"]);
-      // print(output);
-      // print(DateFormat('dd-MM-yyyy').format(output));
-      timeTable[i]["Date"] = outputFormat.parse(output.toString()).toString();
-    }
-    setState(() {
-      n = timeTable.length;
+      DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+      DateFormat inputFormat = DateFormat("dd/MM/yy");
+      for (int i = 0; i < timeTable.length; i++) {
+        var output = inputFormat.parse(timeTable[i]["Date"]);
+        // print(output);
+        // print(DateFormat('dd-MM-yyyy').format(output));
+        timeTable[i]["Date"] = outputFormat.parse(output.toString()).toString();
+      }
+      setState(() {
+        n = timeTable.length;
+      });
+      return null;
     });
-    return null;
   }
 
   Future fetchArrangement() async {
-    final dir = await getExternalStorageDirectory();
-    String check = dir?.path.toString() as String;
-    check = check + '/SeatingArrangement.csv';
-    
+    UploadDownload uploadDownload = UploadDownload();
+    uploadDownload
+        .downloadFile("files/", "SeatingArrangement.csv")
+        .then((value) async {
+      final dir = await getExternalStorageDirectory();
+      String check = dir?.path.toString() as String;
+      check = check + '/SeatingArrangement.csv';
+
       int found = -1;
-    FilesIO filesIO = FilesIO();
-    List<List<dynamic>> table = await filesIO.readFile(check);
-    for (int i = 1; i < table.length; i++) {
-      Map map = {};
-      for (int j = 0; j < table[i].length; j++) {
-        map[table[0][j]] = table[i][j];
-        if (map["Enrollment"].toString() == enroll.toString()) {
+      FilesIO filesIO = FilesIO();
+      List<List<dynamic>> table = await filesIO.readFile(check);
+      for (int i = 1; i < table.length; i++) {
+        Map map = {};
+        for (int j = 0; j < table[i].length; j++) {
+          map[table[0][j]] = table[i][j];
+        }
+        if (map["Enrollment"].toString() == enroll.toString() || map["enrollment"].toString() == enroll.toString()) {
           found = i;
         }
+        seatingArrangement.add(map);
       }
-      seatingArrangement.add(map);
-    }
-    setState(() {
-      fetched = found-1;
+      setState(() {
+        fetched = found - 1;
+      });
     });
   }
 }
