@@ -159,15 +159,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 "kartik",
                                 style: TextStyle(
                                     fontSize: 24, color: Colors.white),
                               ),
                               Text(
-                                "kksingh@gmail.com",
-                                style: TextStyle(color: Colors.white),
+                                FirebaseAuth.instance.currentUser!.email
+                                    .toString(),
+                                style: const TextStyle(color: Colors.white),
                               )
                             ],
                           ),

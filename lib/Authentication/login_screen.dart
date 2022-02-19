@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_campus/Authentication/forgot_password.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -138,7 +139,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       GestureDetector(
-                        onTap: () => {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const ForgotPassword())));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
