@@ -6,14 +6,14 @@ import 'package:uni_campus/userCrud.dart';
 
 import 'main.dart';
 
-class Onboarding extends StatefulWidget {
-  const Onboarding({Key? key}) : super(key: key);
+class OnBoarding extends StatefulWidget {
+  const OnBoarding({Key? key}) : super(key: key);
 
   @override
-  State<Onboarding> createState() => _OnboardingState();
+  State<OnBoarding> createState() => _OnBoardingState();
 }
 
-class _OnboardingState extends State<Onboarding> {
+class _OnBoardingState extends State<OnBoarding> {
   //final _fkey = GlobalKey<FormState>;
   final List<Map<String, String>> l = [
     {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Users/user.dart';
+import 'package:uni_campus/onboarding_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     user = await _auth.createUserWithEmailAndPassword(
         email: emailText.text.trim(), password: passwordText.text.trim());
     await Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (_) => const Onboarding()), (_) => false);
+        MaterialPageRoute(builder: (_) => const OnBoarding()), (_) => false);
 
     setState(() {
       isLoading = false;
