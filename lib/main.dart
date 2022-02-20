@@ -54,16 +54,7 @@ class MyApp extends StatefulHookConsumerWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  fetchTask() async {
-    await ref.read(userCrudProvider).fetchUserProfile();
-  }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchTask();
-  }
 
   @override
   Widget build(BuildContext context) {

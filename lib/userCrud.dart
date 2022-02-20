@@ -74,6 +74,10 @@ class UserCrud extends ChangeNotifier {
       await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set(v);
     }
 
+    v=user;
+
+    notifyListeners();
+
 
   }
 }
