@@ -1,10 +1,7 @@
 // Design Inspiration:https://dribbble.com/shots/16916440-Sign-Up-Login-Mobile-App/attachments/11984787?mode=media
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
-import 'package:uni_campus/Users/user.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
 import '../onboarding_screen.dart';

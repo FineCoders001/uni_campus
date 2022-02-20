@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Users/user.dart';
-import 'package:uni_campus/userCrud.dart';
 
 import 'main.dart';
 
@@ -194,8 +193,8 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
       context: context,
       builder: (ctx) =>
           AlertDialog(
-            title: Text("kkj"),
-            content: Text("jgjhguhhui"),
+            title: const Text("kkj"),
+            content: const Text("jgjhguhhui"),
             actions: <Widget>[
               TextButton(
                 child: const Text('Okay'),
@@ -253,10 +252,10 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Specify your role'),
+          title: const Text('Specify your role'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: const <Widget>[
 
                 Text('Are you a student or faculty'),
               ],
@@ -264,7 +263,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Student'),
+              child: const Text('Student'),
               onPressed: () {
 
                 setState(() {
@@ -275,7 +274,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
               },
             ),
             TextButton(
-              child: Text('Faculty'),
+              child: const Text('Faculty'),
               onPressed: () {
                 role = "faculty";
                 Navigator.of(context).pop();
@@ -299,16 +298,16 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.only(top: 40.0),
+              child: Text(
                 "Profile",
                 style: TextStyle(
                   fontSize: 27,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -711,7 +710,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             GestureDetector(

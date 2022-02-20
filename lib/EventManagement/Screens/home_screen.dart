@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/userCrud.dart';
@@ -82,7 +82,75 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
+          ),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const UploadExamDetails(),
+                    ),
+                  )
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(
+                      (MediaQuery.of(context).size.width / 3) / 4),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3,
+                    height: MediaQuery.of(context).size.height / 8,
+                    color: Colors.blue,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            "Upload",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          Text(
+                            "Exam Details",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => {
+                UserCrud().fetchUserProfile(),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const UploadExamDetails(),
+                    ),
+                  )
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(
+                      (MediaQuery.of(context).size.width / 3) / 4),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3,
+                    height: MediaQuery.of(context).size.height / 8,
+                    color: Colors.blue,
+                    child: const Center(
+                      child: Text(
+                        "Time Table",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           )
+        
         ],
       ),
       drawer: Drawer(
@@ -103,39 +171,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 focusColor: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 20),
-                  child: Container(
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 30,
-                          child: Text(
-                            "K",
-                            style: TextStyle(fontSize: 24, color: Colors.white),
-                          ),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 30,
+                        child: Text(
+                          "K",
+                          style: TextStyle(fontSize: 24, color: Colors.white),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "kartik",
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                              Text(
-                                "kksingh@gmail.com",
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              "kartik",
+                              style: TextStyle(
+                                  fontSize: 24, color: Colors.white),
+                            ),
+                            Text(
+                              "kksingh@gmail.com",
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
                 color: Colors.white,
               ),
@@ -157,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       MaterialPageRoute(
                           builder: (context) => const OnBoarding()));
                 }),
-                child: Text("Onboarding"),
+                child: const Text("Onboarding"),
               ),
               // buildItem("Logout", Icons.logout),
               ListTile(

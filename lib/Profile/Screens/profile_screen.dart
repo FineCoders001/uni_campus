@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 // height: 200,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -62,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ProfilePic(),
+                    const ProfilePic(),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0.h, horizontal: 10.w),
@@ -90,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Material(
                             color: Colors.amber,
                             elevation: 5,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             child: InkWell(
@@ -119,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Material(
                             color: Colors.amber,
                             elevation: 5,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             child: InkWell(
@@ -128,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        TodoList(),
+                                        const TodoList(),
                                   ),
                                 );
                               },
@@ -174,12 +173,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.all(8.0),
       child: Material(
         elevation: 5,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            leading: Icon(Icons.school),
+            leading: const Icon(Icons.school),
             title: Text(
               title,
             ),
@@ -262,7 +261,7 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                         }
                         //setState(() {});
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                           radius: 25,
                           backgroundColor: Colors.amber,
                           child: Icon(

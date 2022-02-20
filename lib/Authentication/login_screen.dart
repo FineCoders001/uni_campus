@@ -201,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       GestureDetector(
                         onTap: () async => {
                         await Navigator.pushAndRemoveUntil(context,
-                        MaterialPageRoute(builder: (_) =>  RegistrationScreen()), (_) => false)
+                        MaterialPageRoute(builder: (_) =>  const RegistrationScreen()), (_) => false)
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

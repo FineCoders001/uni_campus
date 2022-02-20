@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,13 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
-import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/Storage.dart';
 import 'package:uni_campus/userCrud.dart';
 
-import 'Profile/Screens/TodoList.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,7 +72,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       //minTextAdapt: true,
       //splitScreenMode: true,
 
-      designSize: Size(360, 690),
+      designSize: const Size(360, 690),
 
       minTextAdapt: true,
 
