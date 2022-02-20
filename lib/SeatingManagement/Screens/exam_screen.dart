@@ -85,7 +85,7 @@ class _ExamScreenState extends State<ExamScreen> {
                         builder: (context) {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.5,
-                            child: Column(
+                            child: ListView(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
