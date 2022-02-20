@@ -18,7 +18,6 @@ class HomeScreen extends StatefulHookConsumerWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
   fetchTask() async {
     await ref.read(userCrudProvider).fetchUserProfile();
   }
@@ -97,7 +96,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
           ),
-            Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
@@ -137,12 +136,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () => {
-                UserCrud().fetchUserProfile(),
-                Navigator.push(
+                  UserCrud().fetchUserProfile(),
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const ExamScreen(),
+                      builder: (BuildContext context) => const ExamScreen(),
                     ),
                   )
                 },
@@ -164,7 +162,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
           )
-        
         ],
       ),
       drawer: Drawer(
@@ -201,8 +198,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: const [
                             Text(
                               "kartik",
-                              style: TextStyle(
-                                  fontSize: 24, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 24, color: Colors.white),
                             ),
                             Text(
                               "kksingh@gmail.com",
@@ -220,14 +217,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 color: Colors.white,
               ),
               InkWell(
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const ApproveEvent(),
-                    ),
-                  );
-                },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const ApproveEvent(),
+                      ),
+                    );
+                  },
                   child:
                       buildItem("Approve Events", Icons.event_available_sharp)),
               GestureDetector(
