@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Users/user.dart';
 
+import '../onboarding_screen.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
