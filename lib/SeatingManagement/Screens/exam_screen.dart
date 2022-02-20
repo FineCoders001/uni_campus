@@ -22,7 +22,7 @@ class _ExamScreenState extends State<ExamScreen> {
   @override
   void initState() {
     fetchTimeTable().then((value) => fetchArrangement());
-   
+
     super.initState();
   }
 
@@ -296,11 +296,11 @@ class _ExamScreenState extends State<ExamScreen> {
             "ExamFiles/Mid Semester/TimeTable", "TimeTable.csv") ==
         0) {
       tempPath = "Mid Semester";
-    }else if (await uploadDownload.downloadFile(
+    } else if (await uploadDownload.downloadFile(
             "ExamFiles/End Semester/TimeTable", "TimeTable.csv") ==
         0) {
       tempPath = "End Semester";
-    }else if (await uploadDownload.downloadFile(
+    } else if (await uploadDownload.downloadFile(
             "ExamFiles/Viva/TimeTable", "TimeTable.csv") ==
         0) {
       tempPath = "Viva";
@@ -325,17 +325,32 @@ class _ExamScreenState extends State<ExamScreen> {
       }
 
       DateFormat outputFormat = DateFormat('yyyy-MM-dd');
-      DateFormat inputFormat = DateFormat("dd/MM/yy");
       for (int i = 0; i < timeTable.length; i++) {
-        var output = inputFormat.parse(timeTable[i]["Date"]);
-        // print(output);
-        // print(DateFormat('dd-MM-yyyy').format(output));
-        timeTable[i]["Date"] = outputFormat.parse(output.toString()).toString();
+        late var output;
+        try {
+          DateFormat inputFormat = DateFormat("dd/MM/yy");
+          output = inputFormat.parse(timeTable[i]["Date"]);
+          timeTable[i]["Date"] =
+              outputFormat.parse(output.toString()).toString();
+
+          setState(() {
+            n = timeTable.length;
+          });
+        } catch (e) {
+          try {
+            DateFormat inputFormat2 = DateFormat("dd-MM-yy");
+            output = inputFormat2.parse(timeTable[i]["Date"]);
+            timeTable[i]["Date"] =
+                outputFormat.parse(output.toString()).toString();
+
+            setState(() {
+              n = timeTable.length;
+            });
+          } catch (e) {
+            rethrow;
+          }
+        }
       }
-      setState(() {
-        n = timeTable.length;
-      });
-      return null;
     });
   }
 
