@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
+import 'package:uni_campus/EventScreen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
@@ -22,9 +23,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   var isloading = false;
 
   fetchTask() async {
-
     await ref.read(userCrudProvider).fetchUserProfile();
-
   }
 
   @override
@@ -38,115 +37,123 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);
     var u = data.user;
+    var reference = FirebaseFirestore.instance
+        .collection("RequestEvent")
+        .doc("N0WrlsSimOQXTaDUU4J58WPiJT22")
+        .get().then((value) => print("idhar: ${value.data()}"));
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text("UniCampus"),
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
-      body: isloading?CircularProgressIndicator():Column(
-        children: [
-          GestureDetector(
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                  const EventScreen(),
-                ),
-              )
-            },
-            child: Padding(
-              padding: EdgeInsets.all(
-                  (MediaQuery.of(context).size.width / 3) / 4),
-              child: Container(
-                width: MediaQuery.of(context).size.width / 3,
-                height: MediaQuery.of(context).size.height / 8,
-                color: Colors.blue,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-
-                      Text(
-                        "Events",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+      body: isloading
+          ? CircularProgressIndicator()
+          : Column(
+              children: [
+                GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const EventScreen(),
                       ),
-                    ],
+                    )
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                        (MediaQuery.of(context).size.width / 3) / 4),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: MediaQuery.of(context).size.height / 8,
+                      color: Colors.blue,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Events",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const UploadExamDetails(),
+                          ),
+                        )
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(
+                            (MediaQuery.of(context).size.width / 3) / 4),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.height / 8,
+                          color: Colors.blue,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  "Upload",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                                Text(
+                                  "Exam Details",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => {
+                        UserCrud().fetchUserProfile(),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const ExamScreen(),
+                          ),
+                        )
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(
+                            (MediaQuery.of(context).size.width / 3) / 4),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.height / 8,
+                          color: Colors.blue,
+                          child: const Center(
+                            child: Text(
+                              "Time Table",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                      const UploadExamDetails(),
-                    ),
-                  )
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(
-                      (MediaQuery.of(context).size.width / 3) / 4),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.height / 8,
-                    color: Colors.blue,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            "Upload",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          Text(
-                            "Exam Details",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => {
-                  UserCrud().fetchUserProfile(),
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                      const ExamScreen(),
-                    ),
-                  )
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(
-                      (MediaQuery.of(context).size.width / 3) / 4),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.height / 8,
-                    color: Colors.blue,
-                    child: const Center(
-                      child: Text(
-                        "Time Table",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )
-
-        ],
-      ),
       drawer: Drawer(
         child: Material(
           color: Colors.blue,
@@ -165,40 +172,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 focusColor: Colors.white,
                 child: Padding(
                     padding: const EdgeInsets.only(top: 50.0, bottom: 20),
-                    child: u['userName']!=null?Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          child: Text(
-                            u['userName'][0],
-                            style: TextStyle(fontSize: 24, color: Colors.white),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    child: u['userName'] != null
+                        ? Row(
                             children: [
-                              Text( u['userName'],
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.white),
+                              CircleAvatar(
+                                radius: 30,
+                                child: Text(
+                                  u['userName'][0],
+                                  style: TextStyle(
+                                      fontSize: 24, color: Colors.white),
+                                ),
                               ),
-                              Text("${currentUser?.email}",
-                                style: TextStyle(color: Colors.white),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      u['userName'],
+                                      style: TextStyle(
+                                          fontSize: 24, color: Colors.white),
+                                    ),
+                                    Text(
+                                      "${currentUser?.email}",
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
                               )
                             ],
-                          ),
-                        )
-                      ],
-                    ):CircularProgressIndicator()
-                ),
+                          )
+                        : CircularProgressIndicator()),
               ),
               const Divider(
                 thickness: 1,
                 color: Colors.white,
               ),
               InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -207,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     );
                   },
                   child:
-                  buildItem("Approve Events", Icons.event_available_sharp)),
+                      buildItem("Approve Events", Icons.event_available_sharp)),
               GestureDetector(
                 onTap: (() {
                   Navigator.push(
