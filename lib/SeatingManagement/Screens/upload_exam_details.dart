@@ -167,7 +167,7 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                                     UploadDownload();
                                 await uploadDownload
                                     .uploadFile(
-                                        arrangement!, "$examType/SeatingArrangement")
+                                        arrangement!, "$examType/SeatingArrangement","SeatingArrangement.csv")
                                     .then((value) => Fluttertoast.showToast(
                                         msg: "File Uploaded Successfully"));
                               }
@@ -300,7 +300,7 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                                     UploadDownload();
                                 await uploadDownload
                                     .uploadFile(
-                                        timeTable!, "$examType/TimeTable")
+                                        timeTable!, "$examType/TimeTable","TimeTable.csv")
                                     .then((value) => Fluttertoast.showToast(
                                         msg: "File Uploaded Successfully"));
                               }

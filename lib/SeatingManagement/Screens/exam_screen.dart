@@ -21,8 +21,8 @@ class _ExamScreenState extends State<ExamScreen> {
   int n = 0;
   @override
   void initState() {
-    fetchTimeTable();
-    fetchArrangement();
+    fetchTimeTable().then((value) => fetchArrangement());
+   
     super.initState();
   }
 
@@ -289,26 +289,21 @@ class _ExamScreenState extends State<ExamScreen> {
 
   Future fetchTimeTable() async {
     String tempPath = "";
+
     UploadDownload uploadDownload = UploadDownload();
-    try {
-      uploadDownload.downloadFile(
-          "ExamFiles/Mid Semester/TimeTable", "TimeTable.csv");
+
+    if (await uploadDownload.downloadFile(
+            "ExamFiles/Mid Semester/TimeTable", "TimeTable.csv") ==
+        0) {
       tempPath = "Mid Semester";
-    } catch (e) {
-      rethrow;
-    }
-    try {
-      uploadDownload.downloadFile(
-          "ExamFiles/End Semester/TimeTable", "TimeTable.csv");
-      tempPath = "Mid Semester";
-    } catch (e) {
-      rethrow;
-    }
-    try {
-      uploadDownload.downloadFile("ExamFiles/Viva/TimeTable", "TimeTable.csv");
-      tempPath = "Mid Semester";
-    } catch (e) {
-      rethrow;
+    }else if (await uploadDownload.downloadFile(
+            "ExamFiles/End Semester/TimeTable", "TimeTable.csv") ==
+        0) {
+      tempPath = "End Semester";
+    }else if (await uploadDownload.downloadFile(
+            "ExamFiles/Viva/TimeTable", "TimeTable.csv") ==
+        0) {
+      tempPath = "Viva";
     }
     setState(() {
       examType = tempPath;
@@ -345,6 +340,7 @@ class _ExamScreenState extends State<ExamScreen> {
   }
 
   Future fetchArrangement() async {
+    print("Here: ${examType}");
     UploadDownload uploadDownload = UploadDownload();
     try {
       uploadDownload

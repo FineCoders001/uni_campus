@@ -4,8 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
 class UploadDownload {
-  Future uploadFile(FilePickerResult fileSelected,String path) async {
-    final fileName = fileSelected.files.single.name;
+  Future uploadFile(
+      FilePickerResult fileSelected, String path, String fileName) async {
+    //final fileName = fileSelected.files.single.name;
     final destination = "ExamFiles/$path/$fileName";
     try {
       final ref = FirebaseStorage.instance.ref(destination);
@@ -22,10 +23,14 @@ class UploadDownload {
   }
 
   Future downloadFile(String path, String fileName) async {
-    final ref = FirebaseStorage.instance.ref('$path/$fileName');
-    final dir = await getExternalStorageDirectory();
-    final file = File("${dir?.path}/$fileName");
-    await ref.writeToFile(file);
-    
+    try {
+      final ref = FirebaseStorage.instance.ref('$path/$fileName');
+      final dir = await getExternalStorageDirectory();
+      final file = File("${dir?.path}/$fileName");
+      await ref.writeToFile(file);
+      return 0;
+    } catch (e) {
+      return 1;
+    }
   }
 }
