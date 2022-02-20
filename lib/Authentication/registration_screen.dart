@@ -18,15 +18,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   var isLoading = false;
   final _auth = FirebaseAuth.instance;
-  var userDetails = UserProfile(
-      userName: "",
-      email: "",
-      password: "",
-      styear: "",
-      enroll: "",
-      collegename: "",
-      deptname: "",
-      enyear: "");
+  final emailText = TextEditingController();
+  final passwordText = TextEditingController();
 
   void trySubmit() async {
     setState(() {
@@ -40,16 +33,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (!isValid!) {
       return;
     }
-    _formkey.currentState?.save();
+   // _formkey.currentState?.save();
 
     user = await _auth.createUserWithEmailAndPassword(
-        email: userDetails.email.trim(), password: userDetails.password.trim());
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.user?.uid)
-        .set({'username': userDetails.userName, 'email': userDetails.email});
+        email: emailText.text.trim(), password: passwordText.text.trim());
     await Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()), (_) => false);
+        MaterialPageRoute(builder: (_) => const Onboarding()), (_) => false);
 
     setState(() {
       isLoading = false;
@@ -110,6 +99,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: TextFormField(
+                                    controller: emailText,
                                     decoration: const InputDecoration(
                                       fillColor: Colors.white,
                                       filled: true,
@@ -130,62 +120,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                                     //validator: (value) => EmailValidator.validate(value!) ? null : "Please enter a valid email",
 
-                                    onSaved: (value) {
-                                      userDetails = UserProfile(
-                                          userName: userDetails.userName,
-                                          email: value.toString(),
-                                          password: userDetails.password,
-                                          enroll: userDetails.enroll,
-                                          collegename: userDetails.collegename,
-                                          enyear: userDetails.enyear,
-                                          styear: userDetails.styear,
-                                          deptname: userDetails.deptname);
-                                    },
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: TextFormField(
-                                    decoration: const InputDecoration(
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                      hintText: "Username",
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromARGB(
-                                                255, 73, 128, 255),
-                                            width: 2.5),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromARGB(
-                                                255, 73, 128, 255),
-                                            width: 2.5),
-                                      ),
-                                    ),
-                                    validator: (value) {
-                                      if (value != null && value.isEmpty) {
-                                        return "Enter valid username";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    onSaved: (value) {
-                                      userDetails = UserProfile(
-                                          userName: value.toString(),
-                                          email: userDetails.email,
-                                          password: userDetails.password,
-                                          enroll: userDetails.enroll,
-                                          collegename: userDetails.collegename,
-                                          enyear: userDetails.enyear,
-                                          styear: userDetails.styear,
-                                          deptname: userDetails.deptname);
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: TextFormField(
+                                    controller: passwordText,
                                     obscureText: true,
                                     enableSuggestions: false,
                                     autocorrect: false,
@@ -213,17 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         return null;
                                       }
                                     },
-                                    onSaved: (value) {
-                                      userDetails = UserProfile(
-                                          userName: userDetails.userName,
-                                          email: userDetails.email,
-                                          password: value.toString(),
-                                          enroll: userDetails.enroll,
-                                          collegename: userDetails.collegename,
-                                          enyear: userDetails.enyear,
-                                          styear: userDetails.styear,
-                                          deptname: userDetails.deptname);
-                                    },
+
                                   ),
                                 ),
                               ],

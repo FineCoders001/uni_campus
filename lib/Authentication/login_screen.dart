@@ -20,6 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final econ = TextEditingController();
   final pcin = TextEditingController();
   final _fkey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    econ.dispose();
+    pcin.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,14 +193,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 10,
                       ),
                       GestureDetector(
-                        onTap: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const RegistrationScreen(),
-                            ),
-                          )
+                        onTap: () async => {
+                        await Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (_) =>  RegistrationScreen()), (_) => false)
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

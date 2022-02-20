@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/userCrud.dart';
 
 import '../../Storage.dart';
 import '../../main.dart';
@@ -26,8 +27,8 @@ class TodoListState extends ConsumerState<TodoList> {
   List<Task> taskList = [];
 
   fetchTask() {
-    final v = ref.read(storageProvider);
-    v.fetchTasks();
+    //final v = ref.read(storageProvider);
+    UserCrud().fetchUserProfile();
   }
 
   @override

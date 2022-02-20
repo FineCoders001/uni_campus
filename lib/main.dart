@@ -8,7 +8,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Storage.dart';
+import 'package:uni_campus/userCrud.dart';
 
 import 'Profile/Screens/TodoList.dart';
 
@@ -45,16 +47,27 @@ Future<void> main() async {
 }
 
 //Store o =new Store();
+User? currentUser = FirebaseAuth.instance.currentUser;
+UserCrud obj= new UserCrud();
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatefulHookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  User? user = FirebaseAuth.instance.currentUser;
+class _MyAppState extends ConsumerState<MyApp> {
+  fetchTask() async {
+    await ref.read(userCrudProvider).fetchUserProfile();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchTask();
+  }
 
   @override
   Widget build(BuildContext context) {

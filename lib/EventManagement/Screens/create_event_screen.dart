@@ -160,7 +160,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                               width: 2.0,
                                             ),
                                           ),
-                                          hintText: "Titl",
+                                          hintText: "Title",
                                         ),
                                         validator: (value) {
                                           if (value != null && value.isEmpty) {

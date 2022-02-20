@@ -4,8 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
+import 'package:uni_campus/userCrud.dart';
 
 import 'create_event_screen.dart';
+
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,39 +19,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
   @override
   Widget build(BuildContext context) {
-    // List<DocumentSnapshot> documentList = [];
-    //
-    // // testing upcoming items in list
-    //
-    // // ignore: unused_element
-    // Future fetchFirstList() async {
-    //   try {
-    //     documentList = (await FirebaseFirestore.instance
-    //             .collection("RequestEvent")
-    //             .limit(5)
-    //             .get())
-    //         .docs;
-    //   } catch (e) {
-    //     return 0;
-    //   }
-    // }
-    // // ignore: unused_element
-    // fetchNextMovies() async {
-    //   try {
-    //     List<DocumentSnapshot> newDocumentList = (await FirebaseFirestore
-    //             .instance
-    //             .collection("RequestEvent")
-    //             .startAfterDocument(documentList[documentList.length - 1])
-    //             .limit(5)
-    //             .get())
-    //         .docs;
-    //     documentList.addAll(newDocumentList);
-    //   } catch (e) {
-    //     return 0;
-    //   }
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -107,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () => {},
+                onTap: () => {
+                UserCrud().fetchUserProfile()
+                },
                 child: Padding(
                   padding: EdgeInsets.all(
                       (MediaQuery.of(context).size.width / 3) / 4),

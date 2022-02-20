@@ -1,20 +1,26 @@
 class UserProfile {
   final String userName;
-  final String email;
-  final String password;
   final String enroll;
   final String collegename;
   final String deptname;
+  final String semester;
   final String styear;
   final String enyear;
+  final String profilePicture;
+  final String role;
 
   UserProfile(
       {required this.userName,
-      required this.email,
-      required this.password,
-      required this.enroll,
+     this.enroll="",
       required this.collegename,
-      required this.deptname,
-      required this.enyear,
-      required this.styear});
+       this.deptname = "",
+        this.semester="",
+       this.enyear="",
+       this.styear="",
+        this.profilePicture="",
+        required this.role,
+      });
+
+
+
 }
