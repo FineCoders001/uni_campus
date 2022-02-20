@@ -7,6 +7,7 @@ import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/approve_event.dart';
+import 'package:uni_campus/circular_fab.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/userCrud.dart';
 import '../../main.dart';
@@ -40,8 +41,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var reference = FirebaseFirestore.instance
         .collection("RequestEvent")
         .doc("N0WrlsSimOQXTaDUU4J58WPiJT22")
-        .get().then((value) => print("idhar: ${value.data()}"));
-    
+        .get()
+        .then((value) => print("idhar: ${value.data()}"));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("UniCampus"),
@@ -246,6 +248,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
+      floatingActionButton: const CircularFabWidget(),
     );
   }
 
