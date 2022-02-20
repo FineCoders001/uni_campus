@@ -8,6 +8,7 @@ import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/userCrud.dart';
 
+import '../../EventScreen.dart';
 import '../../main.dart';
 import 'create_event_screen.dart';
 
@@ -19,7 +20,7 @@ class HomeScreen extends StatefulHookConsumerWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
- var isloading = false;
+  var isloading = false;
 
   fetchTask() async {
 
@@ -45,6 +46,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: isloading?CircularProgressIndicator():Column(
         children: [
+          GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                  const EventScreen(),
+                ),
+              )
+            },
+            child: Padding(
+              padding: EdgeInsets.all(
+                  (MediaQuery.of(context).size.width / 3) / 4),
+              child: Container(
+                width: MediaQuery.of(context).size.width / 3,
+                height: MediaQuery.of(context).size.height / 8,
+                color: Colors.blue,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+
+                      Text(
+                        "Events",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -54,65 +87,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          const CreateEventScreen(),
-                    ),
-                  )
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(
-                      (MediaQuery.of(context).size.width / 3) / 4),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.height / 8,
-                    color: Colors.blue,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            "Create",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          Text(
-                            "Event",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => {UserCrud().fetchUserProfile()},
-                child: Padding(
-                  padding: EdgeInsets.all(
-                      (MediaQuery.of(context).size.width / 3) / 4),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.height / 8,
-                    color: Colors.blue,
-                    child: const Center(
-                      child: Text(
-                        "Event",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-            Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const UploadExamDetails(),
+                      const UploadExamDetails(),
                     ),
                   )
                 },
@@ -143,12 +118,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () => {
-                UserCrud().fetchUserProfile(),
-                Navigator.push(
+                  UserCrud().fetchUserProfile(),
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          const ExamScreen(),
+                      const ExamScreen(),
                     ),
                   )
                 },
@@ -170,7 +145,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
           )
-        
+
         ],
       ),
       drawer: Drawer(
@@ -190,33 +165,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
                 focusColor: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 50.0, bottom: 20),
-                  child: u['userName']!=null?Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        child: Text(
-                          u['userName'][0],
-                          style: TextStyle(fontSize: 24, color: Colors.white),
+                    padding: const EdgeInsets.only(top: 50.0, bottom: 20),
+                    child: u['userName']!=null?Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          child: Text(
+                            u['userName'][0],
+                            style: TextStyle(fontSize: 24, color: Colors.white),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text( u['userName'],
-                              style: TextStyle(
-                                  fontSize: 24, color: Colors.white),
-                            ),
-                            Text("${currentUser?.email}",
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ):CircularProgressIndicator()
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text( u['userName'],
+                                style: TextStyle(
+                                    fontSize: 24, color: Colors.white),
+                              ),
+                              Text("${currentUser?.email}",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ):CircularProgressIndicator()
                 ),
               ),
               const Divider(
@@ -224,16 +199,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 color: Colors.white,
               ),
               InkWell(
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const ApproveEvent(),
-                    ),
-                  );
-                },
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const ApproveEvent(),
+                      ),
+                    );
+                  },
                   child:
-                      buildItem("Approve Events", Icons.event_available_sharp)),
+                  buildItem("Approve Events", Icons.event_available_sharp)),
               GestureDetector(
                 onTap: (() {
                   Navigator.push(

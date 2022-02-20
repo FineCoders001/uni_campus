@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventModels/event_details.dart';
@@ -18,6 +19,7 @@ import 'package:uni_campus/EventModels/event_details.dart';
   12:'December'
 };
 
+
 Map weekDayName = {
   1:'Sunday',
   2:'Monday',
@@ -27,6 +29,8 @@ Map weekDayName = {
   6:'Friday',
   7:'Saturday',
 };
+
+
 
 
 final eventProvider = ChangeNotifierProvider((ref) {
@@ -39,17 +43,17 @@ class AllEvents extends ChangeNotifier {
 
   requestEvent(EventsDetail event) async {
     try {
-      DocumentReference docRef =
-          await FirebaseFirestore.instance.collection('RequestEvent').add({
-        'eventName': event.eventName,
-        'venue': event.venue,
-        'description': event.description,
-        'deptLevel': event.deptLevel,
-        'eventDate': event.eventDate,
-        'eventStartTime': event.eventStartTime,
-        'eventDuration': event.eventDuration
-      });
-      await FirebaseFirestore.instance.collection('RequestEvent').doc(docRef.id,).update(
+      // DocumentReference docRef =
+      //     await FirebaseFirestore.instance.collection('RequestEvent').add({
+      //   'eventName': event.eventName,
+      //   'venue': event.venue,
+      //   'description': event.description,
+      //   'deptLevel': event.deptLevel,
+      //   'eventDate': event.eventDate,
+      //   'eventStartTime': event.eventStartTime,
+      //   'eventDuration': event.eventDuration
+      // });
+      await FirebaseFirestore.instance.collection('RequestEvent').doc(FirebaseAuth.instance.currentUser?.uid).set(
           {
             'eventName': event.eventName,
             'venue': event.venue,
@@ -58,7 +62,7 @@ class AllEvents extends ChangeNotifier {
             'eventDate': event.eventDate,
             'eventStartTime': event.eventStartTime,
             'eventDuration': event.eventDuration,
-            'id':docRef.id,
+            //'id':docRef.id,
           }
       );
 
@@ -74,20 +78,33 @@ class FinalizeEvent{
 
   approveEvent(event) async {
     try{
+     //
+     // await FirebaseFirestore.instance.collection("RequestEvent").doc(event.id).delete();
+     //
+     //  await FirebaseFirestore.instance.collection('ApprovedEvent').doc(event.id).set({
+     //    'eventName': event.eventName,
+     //    'venue': event.venue,
+     //    'description': event.description,
+     //    'deptLevel': event.deptLevel,
+     //    'eventDate': event.eventDate,
+     //    'eventStartTime': event.eventStartTime,
+     //    'eventDuration': event.eventDuration,
+     //    'id':event.id
+     //  });
+      await FirebaseFirestore.instance.collection("RequestEvent").doc(FirebaseAuth.instance.currentUser?.uid).delete();
 
-     await FirebaseFirestore.instance.collection("RequestEvent").doc(event.id).delete();
+       await FirebaseFirestore.instance.collection('ApprovedEvent').doc(FirebaseAuth.instance.currentUser?.uid).set({
+         'eventName': event.eventName,
+         'venue': event.venue,
+         'description': event.description,
+         'deptLevel': event.deptLevel,
+         'eventDate': event.eventDate,
+         'eventStartTime': event.eventStartTime,
+         'eventDuration': event.eventDuration,
+        // 'id':event.id
+       });
 
 
-      await FirebaseFirestore.instance.collection('ApprovedEvent').doc(event.id).set({
-        'eventName': event.eventName,
-        'venue': event.venue,
-        'description': event.description,
-        'deptLevel': event.deptLevel,
-        'eventDate': event.eventDate,
-        'eventStartTime': event.eventStartTime,
-        'eventDuration': event.eventDuration,
-        'id':event.id
-      });
     }catch(e){
       print("error is $e");
 
@@ -106,5 +123,9 @@ class FinalizeEvent{
   }
 
 
+
+}
+
+class ApprovedEvents{
 
 }
