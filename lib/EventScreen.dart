@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,8 +18,16 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
+  // final queryEvent = FirebaseFirestore.instance
+  //     .collection('ApprovedEvent')
+  //     .withConverter(
+  //       fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
+  //       toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
+  //     );
   final queryEvent = FirebaseFirestore.instance
-      .collection('ApprovedEvent')
+      .collection('RequestEvent')
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .collection("MyRequestedEvents")
       .withConverter(
         fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
         toFirestore: (EventsDetail, _) => EventsDetail.toJson(),

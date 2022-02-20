@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
+
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/userCrud.dart';
+import '../../EventScreen.dart';
 import '../../main.dart';
 import 'create_event_screen.dart';
 
@@ -38,6 +40,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);
     var u = data.user;
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("UniCampus"),

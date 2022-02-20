@@ -14,7 +14,7 @@ class ApproveEvent extends StatefulWidget {
 
 class _ApproveEventState extends State<ApproveEvent> {
   final queryEvent = FirebaseFirestore.instance
-      .collection('RequestEvent')
+      .collection('RequestEventAdmin')
       .withConverter(
         fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
         toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
@@ -215,7 +215,9 @@ class _ApproveEventState extends State<ApproveEvent> {
                               onTap: () async {
                                 //context.read(eventProvider)
                                 Navigator.pop((context));
+                                print(" user id is ${post.userId}");
                                 await FinalizeEvent().approveEvent(post);
+
                               },
                               child: Container(
                                 margin: const EdgeInsets.all(15),
