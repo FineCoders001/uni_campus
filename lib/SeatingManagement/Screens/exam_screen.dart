@@ -1,18 +1,20 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/AssistantMethod/files_io.dart';
 import 'package:uni_campus/SeatingManagement/AssistantMethod/upload_download.dart';
 
-class ExamScreen extends StatefulWidget {
+class ExamScreen extends StatefulHookConsumerWidget {
   const ExamScreen({Key? key}) : super(key: key);
 
   @override
   _ExamScreenState createState() => _ExamScreenState();
 }
 
-class _ExamScreenState extends State<ExamScreen> {
+class _ExamScreenState extends ConsumerState<ExamScreen> {
   List<Map> timeTable = [];
   String examType = "";
   List<Map> seatingArrangement = [];
@@ -22,12 +24,15 @@ class _ExamScreenState extends State<ExamScreen> {
   @override
   void initState() {
     fetchTimeTable().then((value) => fetchArrangement());
-   
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var data = ref.watch(userCrudProvider);
+    var userData = data.user;
+    enroll = int.parse(userData['enroll']);
     if (n == 0) {
       return Scaffold(
         body: Center(
@@ -296,11 +301,11 @@ class _ExamScreenState extends State<ExamScreen> {
             "ExamFiles/Mid Semester/TimeTable", "TimeTable.csv") ==
         0) {
       tempPath = "Mid Semester";
-    }else if (await uploadDownload.downloadFile(
+    } else if (await uploadDownload.downloadFile(
             "ExamFiles/End Semester/TimeTable", "TimeTable.csv") ==
         0) {
       tempPath = "End Semester";
-    }else if (await uploadDownload.downloadFile(
+    } else if (await uploadDownload.downloadFile(
             "ExamFiles/Viva/TimeTable", "TimeTable.csv") ==
         0) {
       tempPath = "Viva";
@@ -325,24 +330,41 @@ class _ExamScreenState extends State<ExamScreen> {
       }
 
       DateFormat outputFormat = DateFormat('yyyy-MM-dd');
-      DateFormat inputFormat = DateFormat("dd/MM/yy");
       for (int i = 0; i < timeTable.length; i++) {
-        var output = inputFormat.parse(timeTable[i]["Date"]);
-        // print(output);
-        // print(DateFormat('dd-MM-yyyy').format(output));
-        timeTable[i]["Date"] = outputFormat.parse(output.toString()).toString();
+        try {
+          DateFormat inputFormat = DateFormat("dd/MM/yy");
+          var output = inputFormat.parse(timeTable[i]["Date"]);
+          timeTable[i]["Date"] =
+              outputFormat.parse(output.toString()).toString();
+
+          setState(() {
+            n = timeTable.length;
+          });
+        } catch (e) {
+          try {
+            DateFormat inputFormat2 = DateFormat("dd-MM-yy");
+            var output = inputFormat2.parse(timeTable[i]["Date"]);
+            timeTable[i]["Date"] =
+                outputFormat.parse(output.toString()).toString();
+
+            setState(() {
+              n = timeTable.length;
+            });
+          } catch (e) {
+            rethrow;
+          }
+        }
       }
-      setState(() {
-        n = timeTable.length;
-      });
-      return null;
     });
   }
 
   Future fetchArrangement() async {
-    print("Here: ${examType}");
     UploadDownload uploadDownload = UploadDownload();
-    try {
+
+    if (await uploadDownload.downloadFile(
+            "ExamFiles/$examType/SeatingArrangement",
+            "SeatingArrangement.csv") ==
+        0) {
       uploadDownload
           .downloadFile("ExamFiles/$examType/SeatingArrangement",
               "SeatingArrangement.csv")
@@ -369,8 +391,6 @@ class _ExamScreenState extends State<ExamScreen> {
           fetched = found - 1;
         });
       });
-    } catch (e) {
-      rethrow;
     }
   }
 }

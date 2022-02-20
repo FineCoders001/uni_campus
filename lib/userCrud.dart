@@ -6,53 +6,60 @@ import 'package:uni_campus/Users/user.dart';
 import 'main.dart';
 
 class UserCrud extends ChangeNotifier {
-   Map<String,dynamic> user={};
+  Map<String, dynamic> user = {};
 
   fetchUserProfile() async {
-    var doc = await FirebaseFirestore.instance.collection('users').doc(
-        currentUser?.uid).get();
+    var doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser?.uid)
+        .get();
     user = doc.data()!;
     print("data inside document is ${doc.data()}");
     notifyListeners();
+    
   }
 
   addProfilePicture(String urlLink) async {
     var v;
-   if(user['role']=='student'){
-     print("ghus gya");
-     v={
-       'userName': user['userName'],
-       'enroll': user['enroll'],
-       'collegename': user['collegename'],
-       'deptname': user['deptname'],
-       'semester': user['semester'],
-       'enyear': user['enyear'],
-       'styear': user['styear'],
-       "profilePicture": urlLink,
-       "role": user['role']
-     };
-     await FirebaseFirestore.instance.collection("users").doc(
-         currentUser?.uid.toString()).update(v);
-   }else{
-     v={
-       'userName': user['userName'],
-       'collegename': user['collegename'],
-       "profilePicture": urlLink,
-       "role": user['role']
-     };
-     await FirebaseFirestore.instance.collection("users").doc(
-         currentUser?.uid.toString()).update(v);
-   }
-   user=v;
-   notifyListeners();
+    if (user['role'] == 'student') {
+      print("ghus gya");
+      v = {
+        'userName': user['userName'],
+        'enroll': user['enroll'],
+        'collegename': user['collegename'],
+        'deptname': user['deptname'],
+        'semester': user['semester'],
+        'enyear': user['enyear'],
+        'styear': user['styear'],
+        "profilePicture": urlLink,
+        "role": user['role']
+      };
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser?.uid.toString())
+          .update(v);
+    } else {
+      v = {
+        'userName': user['userName'],
+        'collegename': user['collegename'],
+        "profilePicture": urlLink,
+        "role": user['role']
+      };
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser?.uid.toString())
+          .update(v);
+    }
+    user = v;
+    notifyListeners();
   }
 
   add(UserProfile u) async {
-    Map<String,dynamic> v;
+    Map<String, dynamic> v;
     print("afetr entry ${FirebaseAuth.instance.currentUser?.uid}");
 
-    if(u.role=="student"){
-      v={
+    if (u.role == "student") {
+      v = {
         'userName': u.userName,
         'enroll': u.enroll,
         'collegename': u.collegename,
@@ -61,23 +68,27 @@ class UserCrud extends ChangeNotifier {
         'enyear': u.enyear,
         'styear': u.styear,
         'role': u.role,
-        'profilePicture':""
+        'profilePicture': ""
       };
-      await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set(v);
-    }else{
-      v= {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .set(v);
+    } else {
+      v = {
         'userName': u.userName,
         'collegename': u.collegename,
         'role': u.role,
-        'profilePicture':""
+        'profilePicture': ""
       };
-      await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser?.uid).set(v);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .set(v);
     }
 
-    v=user;
+    v = user;
 
     notifyListeners();
-
-
   }
 }

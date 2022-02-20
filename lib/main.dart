@@ -6,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
-import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/userCrud.dart';
 
 
 Future<void> main() async {
