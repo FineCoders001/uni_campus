@@ -15,14 +15,14 @@ final userCrudProvider = ChangeNotifierProvider((ref) {
   return UserCrud();
 });
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late PlatformFile file1;
 
   void initState() {
@@ -33,6 +33,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     print("Screen heigth is ${MediaQuery.of(context).size.height}");
     print("Screen heigth is ${MediaQuery.of(context).size.width}");
+    var data = ref.watch(userCrudProvider);
+    var u = data.user;
 
     return Scaffold(
         appBar: AppBar(
@@ -66,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: EdgeInsets.symmetric(
                           vertical: 10.0.h, horizontal: 10.w),
                       child: Text(
-                        "User Name",
+                        u['userName'],
                         style: GoogleFonts.ubuntu(
                             fontSize: 25.sp,
                             fontWeight: FontWeight.bold,
@@ -75,8 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 15.h),
-                      child: Text(
-                        "Email",
+                      child: Text("${currentUser?.email}",
                         style: GoogleFonts.ubuntu(
                             fontSize: 15.sp, color: Colors.white),
                       ),
@@ -159,10 +160,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              buildItem("180310116027", "Enrollment"),
-              buildItem("LEC Morbi", "2018 - 2022"),
-              buildItem("Information Technology", "Department"),
-              buildItem("VIII", "Semester")
+              buildItem( u['enroll'], "Enrollment"),
+              buildItem(u['collegename'], "2018 - 2022"),
+              buildItem(u['deptname'], "Department"),
+              buildItem(u['semester'], "Semester")
             ],
           ),
         ));
@@ -213,11 +214,18 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
             child: Stack(
               children: [
                 u['profilePicture'] == ""
-                    ? CircleAvatar(
+                    ? Material(
+                        elevation: 5.0,
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        color: Colors.transparent,
                         child: Image.asset(
-                        "assets/images/Login.png",
-                        //height: 866.2857142857143.h / 9,
-                      ))
+                          "assets/images/Login.png",
+                          height: 128,
+                          width: 128,
+                          fit: BoxFit.cover,
+                        ),
+                      )
                     : buildImage(u['profilePicture']),
                 Positioned(
                     bottom: 0,
@@ -227,8 +235,8 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                         // var result = await FilePicker.platform.pickFiles(type: FileType.image);
                         // if (result == null) return;
                         // var file = result!.files.first;
-                        FilePickerResult? result =
-                        await FilePicker.platform.pickFiles(type: FileType.image);
+                        FilePickerResult? result = await FilePicker.platform
+                            .pickFiles(type: FileType.image);
 
                         if (result != null) {
                           PlatformFile file = result.files.first;
@@ -251,7 +259,8 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
 
                           UploadTask task = ref.putFile(f);
                           final snapshot = await task.whenComplete(() => null);
-                          final downloadLink = await snapshot.ref.getDownloadURL();
+                          final downloadLink =
+                              await snapshot.ref.getDownloadURL();
                           print("download link ${downloadLink}");
                           await pic.addProfilePicture(downloadLink);
                           //setState(() {});
@@ -270,10 +279,8 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                             size: 30,
                           )),
                     ))
-
               ],
             )),
-
       ],
     );
   }
