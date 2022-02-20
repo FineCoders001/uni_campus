@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_campus/Authentication/login_screen.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
 import '../onboarding_screen.dart';
@@ -32,7 +33,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (!isValid!) {
       return;
     }
-   // _formkey.currentState?.save();
+    // _formkey.currentState?.save();
 
     user = await _auth.createUserWithEmailAndPassword(
         email: emailText.text.trim(), password: passwordText.text.trim());
@@ -118,7 +119,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     ),
 
                                     //validator: (value) => EmailValidator.validate(value!) ? null : "Please enter a valid email",
-
                                   ),
                                 ),
                                 Padding(
@@ -152,7 +152,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         return null;
                                       }
                                     },
-
                                   ),
                                 ),
                               ],
@@ -204,7 +203,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               height: 5,
                             ),
                             GestureDetector(
-                              onTap: () => {Navigator.pop(context)},
+                              onTap: () async => {
+                                await Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const LoginScreen()),
+                                    (_) => false)
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(

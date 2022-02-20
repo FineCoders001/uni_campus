@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'EventManagement/Screens/create_event_screen.dart';
 import 'EventModels/all_events.dart';
 import 'EventModels/event_details.dart';
@@ -40,7 +37,7 @@ class _EventScreenState extends State<EventScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Event screen",
           style: TextStyle(color: Colors.grey, fontSize: 24),
         ),
@@ -114,7 +111,7 @@ class _EventScreenState extends State<EventScreen> {
             //   ),
             // ),
 
-            Container(
+            SizedBox(
               height: 500,
               child: FirestoreListView<EventsDetail>(
                 //pageSize: 3,

@@ -55,13 +55,11 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
       );
     } else {
       return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.white,
-        //   title: const Text(
-        //     "Exam",
-        //     style: TextStyle(color: Colors.black),
-        //   ),
-        // ),
+        appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: const Text("Exam Time-Table"),
+        centerTitle: true,
+      ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -74,9 +72,6 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 5,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,

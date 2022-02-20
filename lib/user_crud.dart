@@ -16,11 +16,10 @@ class UserCrud extends ChangeNotifier {
     user = doc.data()!;
     print("data inside document is ${doc.data()}");
     notifyListeners();
-    
   }
 
   addProfilePicture(String urlLink) async {
-    var v;
+    Map<String, dynamic> v;
     if (user['role'] == 'student') {
       print("ghus gya");
       v = {
