@@ -43,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         title: const Text("UniCampus"),
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
-      body: isloading?CircularProgressIndicator():Column(
+      body: isloading?const CircularProgressIndicator():Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -197,7 +197,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         radius: 30,
                         child: Text(
                           u['userName'][0],
-                          style: TextStyle(fontSize: 24, color: Colors.white),
+                          style: const TextStyle(fontSize: 24, color: Colors.white),
                         ),
                       ),
                       Padding(
@@ -206,17 +206,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text( u['userName'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 24, color: Colors.white),
                             ),
                             Text("${currentUser?.email}",
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             )
                           ],
                         ),
                       )
                     ],
-                  ):CircularProgressIndicator()
+                  ):const CircularProgressIndicator()
                 ),
               ),
               const Divider(
