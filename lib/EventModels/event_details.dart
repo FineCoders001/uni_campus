@@ -10,9 +10,6 @@ class EventsDetail{
   late final String eventDuration;
   final String id;
 
-
-
-
   EventsDetail({required this.eventName,required this.venue,required this.description,
     required this.deptLevel,required this.eventDate,required this.eventStartTime,required this.eventDuration,this.id=""});
 

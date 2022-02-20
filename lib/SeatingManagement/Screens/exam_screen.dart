@@ -33,7 +33,6 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
     var data = ref.watch(userCrudProvider);
     var userData = data.user;
     enroll = int.parse(userData['enroll']);
-    print("enroll: $enroll");
     if (n == 0) {
       return Scaffold(
         body: Center(
@@ -332,10 +331,9 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
 
       DateFormat outputFormat = DateFormat('yyyy-MM-dd');
       for (int i = 0; i < timeTable.length; i++) {
-        late var output;
         try {
           DateFormat inputFormat = DateFormat("dd/MM/yy");
-          output = inputFormat.parse(timeTable[i]["Date"]);
+          var output = inputFormat.parse(timeTable[i]["Date"]);
           timeTable[i]["Date"] =
               outputFormat.parse(output.toString()).toString();
 
@@ -345,7 +343,7 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
         } catch (e) {
           try {
             DateFormat inputFormat2 = DateFormat("dd-MM-yy");
-            output = inputFormat2.parse(timeTable[i]["Date"]);
+            var output = inputFormat2.parse(timeTable[i]["Date"]);
             timeTable[i]["Date"] =
                 outputFormat.parse(output.toString()).toString();
 
@@ -361,7 +359,6 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
   }
 
   Future fetchArrangement() async {
-    print("Here: ${examType}");
     UploadDownload uploadDownload = UploadDownload();
 
     if (await uploadDownload.downloadFile(

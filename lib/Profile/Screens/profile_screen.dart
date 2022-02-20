@@ -11,6 +11,20 @@ import 'package:uni_campus/userCrud.dart';
 
 import '../../main.dart';
 
+Map semRoman = {
+  1:'I',
+  2:'II',
+  3:'III',
+  4:'IV',
+  5:'V',
+  6:'VI',
+  7:'VII',
+  8:'VIII',
+  9:'IX',
+  10:'X',
+
+};
+
 final userCrudProvider = ChangeNotifierProvider((ref) {
   return UserCrud();
 });
@@ -163,7 +177,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               buildItem( u['enroll'], "Enrollment"),
               buildItem(u['collegename'], "2018 - 2022"),
               buildItem(u['deptname'], "Department"),
-              buildItem(u['semester'], "Semester")
+              buildItem(semRoman[int.parse(u['semester'])], "Semester")
             ],
           ),
         ));

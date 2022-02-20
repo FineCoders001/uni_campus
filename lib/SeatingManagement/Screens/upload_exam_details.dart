@@ -159,7 +159,7 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Card(
@@ -291,16 +291,14 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                             .ref("ExamFiles/${examTypes[i]}/TimeTable")
                             .listAll();
                     if (seatingArrangement.items.isNotEmpty) {
-                      seatingArrangement.items.forEach(
-                        (element) async {
-                          print(
-                              "Found Files at:${await element.getDownloadURL()}");
-                          FirebaseStorage.instance
-                              .refFromURL(await element.getDownloadURL())
-                              .delete();
-                          print("Deleted Successfully");
-                        },
-                      );
+                      for (var element in seatingArrangement.items) {
+                        // print(
+                        //     "Found Files at:${await element.getDownloadURL()}");
+                        FirebaseStorage.instance
+                            .refFromURL(await element.getDownloadURL())
+                            .delete();
+                        // print("Deleted Successfully");
+                      }
                     }
                   }
                   for (int i = 0; i < examTypes.length; i++) {
@@ -309,16 +307,14 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                             .ref("ExamFiles/${examTypes[i]}/SeatingArrangement")
                             .listAll();
                     if (seatingArrangement.items.isNotEmpty) {
-                      seatingArrangement.items.forEach(
-                        (element) async {
-                          print(
-                              "Found Files at:${await element.getDownloadURL()}");
+                      for (var element in seatingArrangement.items) {
+                          // print(
+                          //     "Found Files at:${await element.getDownloadURL()}");
                           FirebaseStorage.instance
                               .refFromURL(await element.getDownloadURL())
                               .delete();
-                          print("Deleted Successfully");
-                        },
-                      );
+                          // print("Deleted Successfully");
+                        }
                     }
                   }
                   UploadDownload uploadDownload = UploadDownload();
