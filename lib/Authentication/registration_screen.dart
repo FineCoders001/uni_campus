@@ -7,6 +7,8 @@ import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Users/user.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 
+import '../onboarding_screen.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
