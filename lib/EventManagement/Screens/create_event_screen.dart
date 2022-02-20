@@ -363,7 +363,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         width: double.infinity,
                                         height: 50,
                                         child: Text(
-                                          "${months[selectedDate.month - 1]}${selectedDate.day} ,${selectedDate.year}",
+                                          "${months[selectedDate.month - 1]}${selectedDate.day}, ${selectedDate.year}",
                                           style: const TextStyle(fontSize: 20),
                                         ),
                                         decoration: BoxDecoration(
@@ -388,7 +388,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                         width: double.infinity,
                                         height: 50,
                                         child: Text(
-                                          "${selectedTime.hour == 12 ? selectedTime.hour : selectedTime.hour % 12}:${selectedTime.minute < 10 ? "0${selectedTime.minute}" : "${selectedTime.minute}"}${selectedTime.period.toString().substring(10).toUpperCase()}",
+                                          "${selectedTime.hour == 12 ? selectedTime.hour : selectedTime.hour % 12}:${selectedTime.minute < 10 ? "0${selectedTime.minute}" : "${selectedTime.minute}"} ${selectedTime.period.toString().substring(10).toUpperCase()}",
                                           style: const TextStyle(fontSize: 20),
                                         ),
                                         decoration: BoxDecoration(
