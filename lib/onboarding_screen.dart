@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Users/user.dart';
 
 import 'main.dart';
@@ -101,7 +103,7 @@ class _OnBoardingState extends State<OnBoarding> {
                             onTap: () async {
                               await Navigator.pushAndRemoveUntil(context,
                                   MaterialPageRoute(
-                                      builder: (_) => const ProfileForm()), (
+                                      builder: (_) =>  ProfileForm()), (
                                       _) => false);
                             },
                             child: Container(
@@ -157,16 +159,13 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 }
 
-class ProfileForm extends StatefulWidget {
-  const ProfileForm({
-    Key? key,
-  }) : super(key: key);
+class ProfileForm extends StatefulHookConsumerWidget {
 
   @override
-  State<ProfileForm> createState() => _ProfileFormState();
+  _ProfileFormState createState() => _ProfileFormState();
 }
 
-class _ProfileFormState extends State<ProfileForm> {
+class _ProfileFormState extends ConsumerState<ProfileForm> {
   final _fkey = GlobalKey<FormState>();
   var isLoading = false;
   String role = "";
@@ -224,9 +223,9 @@ class _ProfileFormState extends State<ProfileForm> {
       }
       _fkey.currentState?.save();
       if(role=="student"){
-        await obj.add(user);
+        await ref.read(userCrudProvider).add(user);
       }else{
-        await obj.add(userFaculty);
+        await ref.read(userCrudProvider).add(userFaculty);
       }
 
       await Navigator.pushAndRemoveUntil(context,
@@ -743,12 +742,6 @@ class _ProfileFormState extends State<ProfileForm> {
     );
   }
 
-  void _submit() {
-    if (_fkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("DONE")));
-    } else {}
-  }
 }
 
 AnimatedContainer _builddots(int index, int _currentpage) {

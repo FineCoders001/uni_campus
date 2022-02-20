@@ -44,7 +44,7 @@ Future<void> main() async {
 
 //Store o =new Store();
 User? currentUser = FirebaseAuth.instance.currentUser;
-UserCrud obj= new UserCrud();
+
 
 class MyApp extends StatefulHookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);

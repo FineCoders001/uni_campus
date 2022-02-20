@@ -205,8 +205,7 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
     // print(currentUser?.uid);
     var pic = ref.watch(userCrudProvider);
     var u = pic.user;
-    print("profile picture ${obj.user['profilePicture']}");
-    print(obj.user);
+
     return Stack(
       children: [
         Padding(

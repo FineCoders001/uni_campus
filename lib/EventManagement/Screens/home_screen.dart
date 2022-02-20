@@ -9,9 +9,6 @@ import 'package:uni_campus/userCrud.dart';
 
 import 'create_event_screen.dart';
 
-
-
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -20,27 +17,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("UniCampus"),
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => const ApproveEvent(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.north_east_rounded))
-        ],
       ),
       body: Column(
         children: [
@@ -83,9 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () => {
-                UserCrud().fetchUserProfile()
-                },
+                onTap: () => {UserCrud().fetchUserProfile()},
                 child: Padding(
                   padding: EdgeInsets.all(
                       (MediaQuery.of(context).size.width / 3) / 4),
@@ -226,7 +206,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 thickness: 1,
                 color: Colors.white,
               ),
-              buildItem("Approve Events", Icons.event_available_sharp),
+              InkWell(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const ApproveEvent(),
+                    ),
+                  );
+                },
+                  child:
+                      buildItem("Approve Events", Icons.event_available_sharp)),
               GestureDetector(
                 onTap: (() {
                   Navigator.push(
