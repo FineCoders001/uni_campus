@@ -5,8 +5,6 @@ import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Users/user.dart';
 
-import 'main.dart';
-
 class OnBoarding extends StatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);
 
@@ -21,13 +19,13 @@ class _OnBoardingState extends State<OnBoarding> {
       "title": "EVENTS",
       "subtitle": "Know, Create and Participate.",
       "info": "Get information of events in your college.",
-      "image": "assets/images/Login.png",
+      "image": "assets/images/Event.png",
     },
     {
       "title": "LIBRARY",
       "subtitle": "Issue, Request and Return.",
       "info": "Now Digitally..",
-      "image": "assets/images/Login.png",
+      "image": "assets/images/Library.png",
     },
     {
       "title": "AND MUCH MORE...",
@@ -63,7 +61,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         children: [
                           Padding(
                             padding:
-                            const EdgeInsets.only(bottom: 15, top: 100),
+                                const EdgeInsets.only(bottom: 15, top: 100),
                             child: Text(l[index]["title"]!,
                                 style: const TextStyle(fontSize: 30)),
                           ),
@@ -75,7 +73,14 @@ class _OnBoardingState extends State<OnBoarding> {
                             ),
                           ),
                           Text(l[index]["info"]!),
-                          Image.asset(l[index]["image"]!),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          FittedBox(
+                              child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  child: Image.asset(l[index]["image"]!))),
                         ],
                       ),
                     );
@@ -85,7 +90,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         children: [
                           Padding(
                             padding:
-                            const EdgeInsets.only(bottom: 15, top: 100),
+                                const EdgeInsets.only(bottom: 15, top: 100),
                             child: Text(l[index]["title"]!,
                                 style: const TextStyle(fontSize: 30)),
                           ),
@@ -97,20 +102,24 @@ class _OnBoardingState extends State<OnBoarding> {
                             ),
                           ),
                           Text(l[index]["info"]!),
-                          Image.asset(l[index]["image"]!),
-
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          FittedBox(
+                              child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  child: Image.asset(l[index]["image"]!))),
                           GestureDetector(
                             onTap: () async {
-                              await Navigator.pushAndRemoveUntil(context,
+                              await Navigator.pushAndRemoveUntil(
+                                  context,
                                   MaterialPageRoute(
-                                      builder: (_) =>  ProfileForm()), (
-                                      _) => false);
+                                      builder: (_) => ProfileForm()),
+                                  (_) => false);
                             },
                             child: Container(
-                              width: 3 * MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width / 4,
+                              width: 3 * MediaQuery.of(context).size.width / 4,
                               padding: const EdgeInsets.all(15),
                               decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
@@ -120,10 +129,10 @@ class _OnBoardingState extends State<OnBoarding> {
                               ),
                               child: const Center(
                                   child: Text(
-                                    "Start your journey",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
-                                  )),
+                                "Start your journey",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              )),
                             ),
                           )
                         ],
@@ -146,8 +155,8 @@ class _OnBoardingState extends State<OnBoarding> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(l.length,
-                            (index) => _builddots(index, _currentpage)),
+                    children: List.generate(
+                        l.length, (index) => _builddots(index, _currentpage)),
                   )
                 ],
               ),
@@ -160,7 +169,6 @@ class _OnBoardingState extends State<OnBoarding> {
 }
 
 class ProfileForm extends StatefulHookConsumerWidget {
-
   @override
   _ProfileFormState createState() => _ProfileFormState();
 }
@@ -181,33 +189,27 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
     role: "",
   );
 
-  UserProfile userFaculty = UserProfile(
-      userName: "",
-      collegename: "",
-      deptname: "",
-      role: ""
-  );
+  UserProfile userFaculty =
+      UserProfile(userName: "", collegename: "", deptname: "", role: "");
 
   show(context) async {
     showDialog(
       context: context,
-      builder: (ctx) =>
-          AlertDialog(
-            title: const Text("kkj"),
-            content: const Text("jgjhguhhui"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Okay'),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                  //return;
-                },
-              )
-            ],
-          ),
+      builder: (ctx) => AlertDialog(
+        title: const Text("kkj"),
+        content: const Text("jgjhguhhui"),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              //return;
+            },
+          )
+        ],
+      ),
     );
   }
-
 
   void trySubmit() async {
     try {
@@ -222,9 +224,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
         return;
       }
       _fkey.currentState?.save();
-      if(role=="student"){
+      if (role == "student") {
         await ref.read(userCrudProvider).add(user);
-      }else{
+      } else {
         await ref.read(userCrudProvider).add(userFaculty);
       }
 
@@ -238,12 +240,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
     }
   }
 
-
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback(
-            (_) => _showStartDialog()
-    );
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _showStartDialog());
   }
 
   Future<void> _showStartDialog() async {
@@ -256,7 +255,6 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[
-
                 Text('Are you a student or faculty'),
               ],
             ),
@@ -265,11 +263,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
             TextButton(
               child: const Text('Student'),
               onPressed: () {
-
                 setState(() {
                   role = "student";
                   Navigator.of(context).pop();
-
                 });
               },
             ),
@@ -278,9 +274,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
               onPressed: () {
                 role = "faculty";
                 Navigator.of(context).pop();
-               setState(() {
-
-               });
+                setState(() {});
               },
             ),
           ],
@@ -312,400 +306,391 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
             ),
             Container(
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 73, 128, 255),
-                        Colors.white
-                      ]),
+                  gradient: LinearGradient(colors: [
+                    Color.fromARGB(255, 73, 128, 255),
+                    Colors.white
+                  ]),
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: SizedBox(
-                height: 5 * MediaQuery
-                    .of(context)
-                    .size
-                    .height / 8,
+                height: 5 * MediaQuery.of(context).size.height / 8,
                 child: Center(
                   child: Form(
                     key: _fkey,
                     child: SingleChildScrollView(
-                        child: role == "student" ? Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a Username";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Username",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                        child: role == "student"
+                            ? Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a Username";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "Username",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                          userName: value.toString().trim(),
+                                          enroll: user.enroll,
+                                          collegename: user.collegename,
+                                          deptname: user.deptname,
+                                          semester: user.semester,
+                                          enyear: user.enyear,
+                                          styear: user.enyear,
+                                          role: role,
+                                        );
+                                      },
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid enrollment number";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "Enrollment Number",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                            userName: user.userName,
+                                            enroll: value.toString().trim(),
+                                            collegename: user.collegename,
+                                            deptname: user.deptname,
+                                            semester: user.semester,
+                                            enyear: user.enyear,
+                                            styear: user.enyear,
+                                            role: user.role);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                    userName: value.toString().trim(),
-                                    enroll: user.enroll,
-                                    collegename: user.collegename,
-                                    deptname: user.deptname,
-                                    semester: user.semester,
-                                    enyear: user.enyear,
-                                    styear: user.enyear,
-                                    role: role,
-
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid enrollment number";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Enrollment Number",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid string";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "College Name",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                            userName: user.userName,
+                                            enroll: user.enroll,
+                                            collegename:
+                                                value.toString().trim(),
+                                            deptname: user.deptname,
+                                            semester: user.semester,
+                                            enyear: user.enyear,
+                                            styear: user.enyear,
+                                            role: user.role);
+                                      },
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid name";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "Department Name",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                            userName: user.userName,
+                                            enroll: user.enroll,
+                                            collegename: user.collegename,
+                                            deptname: value.toString().trim(),
+                                            semester: user.semester,
+                                            enyear: user.enyear,
+                                            styear: user.enyear,
+                                            role: user.role);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                      userName: user.userName,
-                                      enroll: value.toString().trim(),
-                                      collegename: user.collegename,
-                                      deptname: user.deptname,
-                                      semester: user.semester,
-                                      enyear: user.enyear,
-                                      styear: user.enyear,
-                                      role: user.role
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid string";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "College Name",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enbter a valid value";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "Current Semester",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                            userName: user.userName,
+                                            enroll: user.enroll,
+                                            collegename: user.collegename,
+                                            deptname: user.deptname,
+                                            semester: value.toString().trim(),
+                                            enyear: user.enyear,
+                                            styear: user.enyear,
+                                            role: user.role);
+                                      },
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid value";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText:
+                                            "Batch Starting Year (Ex:2018)",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                            userName: user.userName,
+                                            enroll: user.enroll,
+                                            collegename: user.collegename,
+                                            deptname: user.deptname,
+                                            semester: user.semester,
+                                            enyear: value.toString().trim(),
+                                            styear: user.enyear,
+                                            role: user.role);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                      userName: user.userName,
-                                      enroll: user.enroll,
-                                      collegename: value.toString().trim(),
-                                      deptname: user.deptname,
-                                      semester: user.semester,
-                                      enyear: user.enyear,
-                                      styear: user.enyear,
-                                      role: user.role
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid name";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Department Name",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid value";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "Batch Ending Year (Ex:2022)",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        user = UserProfile(
+                                            userName: user.userName,
+                                            enroll: user.enroll,
+                                            collegename: user.collegename,
+                                            deptname: user.deptname,
+                                            semester: user.semester,
+                                            enyear: user.enyear,
+                                            styear: value.toString().trim(),
+                                            role: user.role);
+                                      },
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a Username";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "Username",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        userFaculty = UserProfile(
+                                            userName: value.toString().trim(),
+                                            collegename:
+                                                userFaculty.collegename,
+                                            role: role);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                      userName: user.userName,
-                                      enroll: user.enroll,
-                                      collegename: user.collegename,
-                                      deptname: value.toString().trim(),
-                                      semester: user.semester,
-                                      enyear: user.enyear,
-                                      styear: user.enyear,
-                                      role: user.role
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enbter a valid value";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Current Semester",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid string";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText: "College Name",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        userFaculty = UserProfile(
+                                            userName: userFaculty.userName,
+                                            collegename:
+                                                value.toString().trim(),
+                                            role: role);
+                                      },
+                                    ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                      userName: user.userName,
-                                      enroll: user.enroll,
-                                      collegename: user.collegename,
-                                      deptname: user.deptname,
-                                      semester: value.toString().trim(),
-                                      enyear: user.enyear,
-                                      styear: user.enyear,
-                                      role: user.role
-                                  );
-                                },
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid value";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Batch Starting Year (Ex:2018)",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                      userName: user.userName,
-                                      enroll: user.enroll,
-                                      collegename: user.collegename,
-                                      deptname: user.deptname,
-                                      semester: user.semester,
-                                      enyear: value.toString().trim(),
-                                      styear: user.enyear,
-                                      role: user.role
-                                  );
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid value";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Batch Ending Year (Ex:2022)",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                ),
-                                onSaved: (value) {
-                                  user = UserProfile(
-                                      userName: user.userName,
-                                      enroll: user.enroll,
-                                      collegename: user.collegename,
-                                      deptname: user.deptname,
-                                      semester: user.semester,
-                                      enyear: user.enyear,
-                                      styear: value.toString().trim(),
-                                      role: user.role
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ) : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a Username";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Username",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                ),
-                                onSaved: (value) {
-                                  userFaculty = UserProfile(
-                                      userName:value.toString().trim(),
-                                      collegename: userFaculty.collegename,
-                                      role: role
-                                  );
-                                },
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter a valid string";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "College Name",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 73, 128, 255),
-                                        width: 2.5),
-                                  ),
-                                ),
-                                onSaved: (value) {
-                                  userFaculty = UserProfile(
-                                      userName:userFaculty.userName,
-                                      collegename: value.toString().trim(),
-                                      role: role
-                                  );
-                                },
-                              ),
-                            ),
-
-                          ],
-                        )
-                    ),
+                                ],
+                              )),
                   ),
                 ),
               ),
@@ -718,10 +703,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                 trySubmit();
               },
               child: Container(
-                width: 3 * MediaQuery
-                    .of(context)
-                    .size
-                    .width / 4,
+                width: 3 * MediaQuery.of(context).size.width / 4,
                 padding: const EdgeInsets.all(15),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
@@ -731,9 +713,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                 ),
                 child: const Center(
                     child: Text(
-                      "CREATE PROFILE",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    )),
+                  "CREATE PROFILE",
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                )),
               ),
             )
           ],
@@ -741,7 +723,6 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
       ),
     );
   }
-
 }
 
 AnimatedContainer _builddots(int index, int _currentpage) {
