@@ -8,6 +8,7 @@ import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/userCrud.dart';
 
+import '../../main.dart';
 import 'create_event_screen.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
@@ -18,8 +19,12 @@ class HomeScreen extends StatefulHookConsumerWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+ var isloading = false;
+
   fetchTask() async {
+
     await ref.read(userCrudProvider).fetchUserProfile();
+
   }
 
   @override
@@ -31,12 +36,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var data = ref.watch(userCrudProvider);
+    var u = data.user;
     return Scaffold(
       appBar: AppBar(
         title: const Text("UniCampus"),
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
-      body: Column(
+      body: isloading?CircularProgressIndicator():Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
           ),
-          Row(
+            Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GestureDetector(
@@ -136,11 +143,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () => {
-                  UserCrud().fetchUserProfile(),
-                  Navigator.push(
+                UserCrud().fetchUserProfile(),
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const ExamScreen(),
+                      builder: (BuildContext context) =>
+                          const ExamScreen(),
                     ),
                   )
                 },
@@ -162,6 +170,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
           )
+        
         ],
       ),
       drawer: Drawer(
@@ -182,12 +191,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 focusColor: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 20),
-                  child: Row(
+                  child: u['userName']!=null?Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 30,
                         child: Text(
-                          "K",
+                          u['userName'][0],
                           style: TextStyle(fontSize: 24, color: Colors.white),
                         ),
                       ),
@@ -195,21 +204,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "kartik",
-                              style:
-                                  TextStyle(fontSize: 24, color: Colors.white),
+                          children: [
+                            Text( u['userName'],
+                              style: TextStyle(
+                                  fontSize: 24, color: Colors.white),
                             ),
-                            Text(
-                              "kksingh@gmail.com",
+                            Text("${currentUser?.email}",
                               style: TextStyle(color: Colors.white),
                             )
                           ],
                         ),
                       )
                     ],
-                  ),
+                  ):CircularProgressIndicator()
                 ),
               ),
               const Divider(
@@ -217,14 +224,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 color: Colors.white,
               ),
               InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const ApproveEvent(),
-                      ),
-                    );
-                  },
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const ApproveEvent(),
+                    ),
+                  );
+                },
                   child:
                       buildItem("Approve Events", Icons.event_available_sharp)),
               GestureDetector(
