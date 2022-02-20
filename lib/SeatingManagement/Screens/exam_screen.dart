@@ -1,18 +1,20 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/AssistantMethod/files_io.dart';
 import 'package:uni_campus/SeatingManagement/AssistantMethod/upload_download.dart';
 
-class ExamScreen extends StatefulWidget {
+class ExamScreen extends StatefulHookConsumerWidget {
   const ExamScreen({Key? key}) : super(key: key);
 
   @override
   _ExamScreenState createState() => _ExamScreenState();
 }
 
-class _ExamScreenState extends State<ExamScreen> {
+class _ExamScreenState extends ConsumerState<ExamScreen> {
   List<Map> timeTable = [];
   String examType = "";
   List<Map> seatingArrangement = [];
@@ -28,6 +30,10 @@ class _ExamScreenState extends State<ExamScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var data = ref.watch(userCrudProvider);
+    var userData = data.user;
+    enroll = int.parse(userData['enroll']);
+    print("enroll: $enroll");
     if (n == 0) {
       return Scaffold(
         body: Center(
@@ -357,7 +363,11 @@ class _ExamScreenState extends State<ExamScreen> {
   Future fetchArrangement() async {
     print("Here: ${examType}");
     UploadDownload uploadDownload = UploadDownload();
-    try {
+
+    if (await uploadDownload.downloadFile(
+            "ExamFiles/$examType/SeatingArrangement",
+            "SeatingArrangement.csv") ==
+        0) {
       uploadDownload
           .downloadFile("ExamFiles/$examType/SeatingArrangement",
               "SeatingArrangement.csv")
@@ -384,8 +394,6 @@ class _ExamScreenState extends State<ExamScreen> {
           fetched = found - 1;
         });
       });
-    } catch (e) {
-      rethrow;
     }
   }
 }
