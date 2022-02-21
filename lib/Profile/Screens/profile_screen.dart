@@ -193,7 +193,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.school),
+                        leading: const Icon(Icons.library_books_outlined),
                         title: Text(
                           u['enroll'],
                         ),
@@ -205,7 +205,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.school),
+                        leading: const Icon(Icons.school_outlined),
                         title: Text(
                           u['collegename'],
                         ),
@@ -217,7 +217,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.school),
+                        leading: const Icon(Icons.local_library_outlined),
                         title: Text(
                           u['deptname'],
                         ),
@@ -229,7 +229,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.school),
+                        leading: const Icon(Icons.calendar_month_outlined),
                         title: Text(
                           semRoman[int.parse(u['semester'])],
                         ),
