@@ -72,6 +72,7 @@ class AllEvents extends ChangeNotifier {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
+        //'participants':[],
         //'id':docRef.id,
       });
 
@@ -110,6 +111,8 @@ class AllEvents extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+
 }
 
 class FinalizeEvent {
@@ -136,10 +139,8 @@ class FinalizeEvent {
       await FirebaseFirestore.instance
           .collection("RequestEvent")
           .doc(event.userId).collection("MyRequestedEvents").doc(event.id).delete();
+
       await FirebaseFirestore.instance.collection("RequestEventAdmin").doc(event.id).delete();
-
-
-
 
       await FirebaseFirestore.instance
           .collection('ApprovedEvent')
@@ -152,7 +153,8 @@ class FinalizeEvent {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
-        'id':event.id
+        'id':event.id,
+        'participants':[]
       });
 
       await FirebaseFirestore.instance.collection('AllApprovedEvents').doc(event.id).set({
@@ -165,6 +167,7 @@ class FinalizeEvent {
         'eventDuration': event.eventDuration,
         'userId':FirebaseAuth.instance.currentUser?.uid,
         'id':event.id,
+        'participants':[]
       });
 
 
@@ -203,4 +206,47 @@ class FinalizeEvent {
   }
 }
 
-class ApprovedEvents {}
+class ParticipateEvents {
+
+
+  participate(EventsDetail event, user) async {
+    Map<String, String> m = {
+      "userId": (FirebaseAuth.instance.currentUser?.uid).toString(),
+      "enrollmentId": user['enroll'],
+      "department": user['deptname']
+    };
+    List l=[m];
+    if (event.participants != null) {
+      event.participants.add(m);
+    } else {
+      event.participants.add(m);
+    }
+    await FirebaseFirestore.instance
+        .collection('ApprovedEvent')
+        .doc(event.userId).collection("MyApprovedEvents").doc(event.id)
+        .update({
+      'eventName': event.eventName,
+      'venue': event.venue,
+      'description': event.description,
+      'deptLevel': event.deptLevel,
+      'eventDate': event.eventDate,
+      'eventStartTime': event.eventStartTime,
+      'eventDuration': event.eventDuration,
+      'id': event.id,
+      'participants': event.participants,
+    });
+
+    await FirebaseFirestore.instance.collection('AllApprovedEvents').doc(
+        event.id).update({
+      'eventName': event.eventName,
+      'venue': event.venue,
+      'description': event.description,
+      'deptLevel': event.deptLevel,
+      'eventDate': event.eventDate,
+      'eventStartTime': event.eventStartTime,
+      'eventDuration': event.eventDuration,
+      'id': event.id,
+      'participants': event.participants,
+    });
+  }
+}

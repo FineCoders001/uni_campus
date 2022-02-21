@@ -5,33 +5,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
 import 'EventManagement/Screens/create_event_screen.dart';
 import 'EventModels/all_events.dart';
 import 'EventModels/event_details.dart';
 
-class EventScreen extends StatefulWidget {
+class EventScreen extends StatefulHookConsumerWidget {
   const EventScreen({Key? key}) : super(key: key);
 
   @override
   _EventScreenState createState() => _EventScreenState();
 }
 
-class _EventScreenState extends State<EventScreen> {
+class _EventScreenState extends ConsumerState<EventScreen> {
   // final queryEvent = FirebaseFirestore.instance
   //     .collection('ApprovedEvent')
   //     .withConverter(
   //       fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
   //       toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
   //     );
+  //
+  // final queryEvent = FirebaseFirestore.instance
+  //     .collection('RequestEvent')
+  //     .doc(FirebaseAuth.instance.currentUser?.uid)
+  //     .collection("MyRequestedEvents")
+  //     .withConverter(
+  //   fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
+  //   toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
+  // );
+
   final queryEvent = FirebaseFirestore.instance
-      .collection('RequestEvent')
-      .doc(FirebaseAuth.instance.currentUser?.uid)
-      .collection("MyRequestedEvents")
+      .collection('AllApprovedEvents')
       .withConverter(
-        fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-        toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
-      );
+    fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
+    toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
+  );
+
+
+  var u;
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    u=ref.read(userCrudProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +144,9 @@ class _EventScreenState extends State<EventScreen> {
                 itemBuilder: (context, snapshot) {
                   final post = snapshot.data();
                   final date = DateTime.parse(post.eventDate);
+                  print("participant entry");
+                  print("participants are ${post.participants}");
+                  print("participant exit");
                   return GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
@@ -318,6 +343,8 @@ class _EventScreenState extends State<EventScreen> {
                                     GestureDetector(
                                       onTap: () async {
                                         //context.read(eventProvider)
+
+                                        ParticipateEvents().participate(post, u.user);
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.all(15),
