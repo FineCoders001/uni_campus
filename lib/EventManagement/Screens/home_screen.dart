@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
       body: isloading
-          ? const CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
                 GestureDetector(
@@ -76,102 +77,85 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () => {
+                bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
+                  containerForGridview(
+                    "Generate QR Code",
+                    const Color.fromARGB(255, 60, 138, 63),
+                  ),
+                  containerForGridview(
+                    "My Attendance",
+                    const Color.fromARGB(255, 60, 138, 63),
+                  ),
+                ]),
+                bigCard(context, "Event", Icons.event_outlined, [
+                  containerForGridview(
+                    "Request Event",
+                    Colors.redAccent,
+                  ),
+                  containerForGridview(
+                    "Approved Event",
+                    Colors.redAccent,
+                  ),
+                  containerForGridview(
+                    "Upcoming Event",
+                    Colors.redAccent,
+                  ),
+                  containerForGridview(
+                    "Ongoing Event",
+                    Colors.redAccent,
+                  ),
+                ]),
+                bigCard(
+                  context,
+                  "Exam Details",
+                  Icons.event_note_outlined,
+                  [
+                    //Widget for Exam Time Table
+                    InkWell(
+                      onTap: (() => {
+                            UserCrud().fetchUserProfile(),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const ExamScreen(),
+                              ),
+                            ),
+                          }),
+                      child: containerForGridview(
+                        "Exam Time Table",
+                        Colors.blueAccent,
+                      ),
+                    ),
+
+                    //Widget for Upload Exam Details
+                    InkWell(
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 const UploadExamDetails(),
                           ),
-                        )
+                        );
                       },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            (MediaQuery.of(context).size.width / 3) / 4),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: MediaQuery.of(context).size.height / 8,
-                          color: Colors.blue,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "Upload",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                                Text(
-                                  "Exam Details",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => {
-                        UserCrud().fetchUserProfile(),
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const ExamScreen(),
-                          ),
-                        )
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            (MediaQuery.of(context).size.width / 3) / 4),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: MediaQuery.of(context).size.height / 8,
-                          color: Colors.blue,
-                          child: const Center(
-                            child: Text(
-                              "Time Table",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ),
-                        ),
+                      child: containerForGridview(
+                        "Upload Exam Details",
+                        Colors.blueAccent,
                       ),
                     ),
                   ],
                 ),
-                bigCard(context, "Event", Icons.event_outlined, [
-                  containerForGridview(
-                      "Request Event", Colors.redAccent, () {}),
-                  containerForGridview(
-                      "Approved Event", Colors.redAccent, () {}),
-                  containerForGridview(
-                      "Upcoming Event", Colors.redAccent, () {}),
-                  containerForGridview(
-                      "Ongoing Event", Colors.redAccent, () {}),
-                ]),
-                bigCard(context, "Exam Details", Icons.event_note_outlined, [
-                  containerForGridview(
-                      "Exam Time Table", Colors.blueAccent, () {}),
-                  containerForGridview(
-                      "Upload Exam Details", Colors.blueAccent, () {}),
-                ]),
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
-                  containerForGridview("Issue Book",
-                      const Color.fromARGB(255, 82, 72, 200), () {}),
-                  containerForGridview("Return Book",
-                      const Color.fromARGB(255, 82, 72, 200), () {}),
-                  containerForGridview("Request Book",
-                      const Color.fromARGB(255, 82, 72, 200), () {}),
-                  containerForGridview("Search Book",
-                      const Color.fromARGB(255, 82, 72, 200), () {}),
+                  containerForGridview(
+                      "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Return Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Request Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Search Book", const Color.fromARGB(255, 82, 72, 200)),
                 ]),
               ],
             ),
@@ -250,7 +234,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                     ),
                                                   )
                                                 : const CircularProgressIndicator()
-                                            : buildImage(u['profilePicture']),
+                                            : buildImage(
+                                                u['profilePicture'], u),
                                         Column(
                                           children: [
                                             Text(
@@ -376,17 +361,18 @@ Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
               ),
             ),
             GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  // mainAxisExtent: 3,
-                  crossAxisSpacing: 25,
-                  mainAxisSpacing: 25,
-                ),
-                itemCount: widget.length,
-                itemBuilder: (BuildContext ctx, index) {
-                  return widget[index];
-                }),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                // mainAxisExtent: 3,
+                crossAxisSpacing: 25,
+                mainAxisSpacing: 25,
+              ),
+              itemCount: widget.length,
+              itemBuilder: (BuildContext ctx, index) {
+                return widget[index];
+              },
+            ),
           ],
         ),
       ),
@@ -394,26 +380,23 @@ Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
   );
 }
 
-Widget containerForGridview(String title, Color colors, Function function) {
-  return InkWell(
-    onTap: function(),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
-          borderRadius: const BorderRadius.all(Radius.circular(25)),
-          color: colors,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.ubuntu(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
+Widget containerForGridview(String title, Color colors) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
+        color: colors,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.ubuntu(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     ),
@@ -437,19 +420,42 @@ Widget buildItem(String title, IconData icon) {
   );
 }
 
-Widget buildImage(var img) {
+Widget buildImage(var img, u) {
   return ClipOval(
     child: Material(
-      elevation: 5.0,
       shape: const CircleBorder(),
-      clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       color: Colors.transparent,
-      child: Ink.image(
-        image: NetworkImage(img),
+      child: CachedNetworkImage(
         fit: BoxFit.cover,
         width: 128,
         height: 128,
+        imageUrl: img,
+        placeholder: (context, url) => ClipOval(
+          child: Material(
+            elevation: 5.0,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: const Color.fromARGB(255, 65, 198, 255),
+            child: Center(
+              child: Text(
+                u['userName'][0],
+                style: GoogleFonts.ubuntu(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
+      // Ink.image(
+      //   image: NetworkImage(img),
+      //   fit: BoxFit.cover,
+      //   width: 128,
+      //   height: 128,
+      // ),
     ),
   );
 }

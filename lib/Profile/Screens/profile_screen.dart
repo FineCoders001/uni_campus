@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -314,7 +315,7 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                           ),
                         )
                       : const CircularProgressIndicator()
-                  : buildImage(u['profilePicture']),
+                  : buildImage(u['profilePicture'], u),
               Positioned(
                 bottom: 0,
                 right: 0,
@@ -375,19 +376,43 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
     );
   }
 
-  buildImage(var img) {
+  buildImage(var img, u) {
     return ClipOval(
       child: Material(
         elevation: 5.0,
         shape: const CircleBorder(),
         clipBehavior: Clip.hardEdge,
         color: Colors.transparent,
-        child: Ink.image(
-          image: NetworkImage(img),
+        child: CachedNetworkImage(
           fit: BoxFit.cover,
           width: 128,
           height: 128,
+          imageUrl: img,
+          placeholder: (context, url) => ClipOval(
+            child: Material(
+              elevation: 5.0,
+              shape: const CircleBorder(),
+              clipBehavior: Clip.hardEdge,
+              color: const Color.fromARGB(255, 65, 198, 255),
+              child: Center(
+                child: Text(
+                  u['userName'][0],
+                  style: GoogleFonts.ubuntu(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
+        // Ink.image(
+        //   image: NetworkImage(img),
+        //   fit: BoxFit.cover,
+        //   width: 128,
+        //   height: 128,
+        // ),
       ),
     );
   }
