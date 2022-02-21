@@ -146,7 +146,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
-                bigCard(context, "Event", [
+                bigCard(context, "Event", Icons.event_outlined, [
                   containerForGridview(
                       "Request Event", Colors.redAccent, () {}),
                   containerForGridview(
@@ -156,13 +156,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   containerForGridview(
                       "Ongoing Event", Colors.redAccent, () {}),
                 ]),
-                bigCard(context, "Exam Details", [
+                bigCard(context, "Exam Details", Icons.event_note_outlined, [
                   containerForGridview(
                       "Exam Time Table", Colors.blueAccent, () {}),
                   containerForGridview(
                       "Upload Exam Details", Colors.blueAccent, () {}),
                 ]),
-                bigCard(context, "Library Management", [
+                bigCard(context, "Library Management",
+                    Icons.local_library_outlined, [
                   containerForGridview("Issue Book",
                       const Color.fromARGB(255, 82, 72, 200), () {}),
                   containerForGridview("Return Book",
@@ -182,6 +183,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Expanded(
                       child: ListView(
+                        padding: EdgeInsets.zero,
                         children: [
                           InkWell(
                             onTap: () {
@@ -208,7 +210,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                                 child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 25),
+                                        vertical: 35),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -345,7 +347,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-Widget bigCard(context, String title, List<Widget> widget) {
+Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
   return Padding(
     padding: const EdgeInsets.all(25.0),
     child: Container(
@@ -359,15 +361,18 @@ Widget bigCard(context, String title, List<Widget> widget) {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            ListTile(
-              leading: const Icon(
-                Icons.abc_outlined,
-                size: 45,
-              ),
-              title: Text(
-                title,
-                style: GoogleFonts.ubuntu(
-                    fontSize: 25, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                leading: Icon(
+                  icon,
+                  size: 45,
+                ),
+                title: Text(
+                  title,
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 25, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             GridView.builder(
