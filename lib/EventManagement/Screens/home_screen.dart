@@ -150,14 +150,96 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
       drawer: isloading == false
           ? Drawer(
-              child: Material(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          InkWell(
+            child: Material(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const ProfileScreen(),
+                              ),
+                            );
+                          },
+                          focusColor: Colors.white,
+                          child: Container(
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.pinkAccent,
+                                    Colors.redAccent,
+                                    Colors.orangeAccent,
+                                  ],
+                                ),
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 25),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      u['profilePicture'] == null ||
+                                              u['profilePicture'] == ""
+                                          ? u['userName'] != null
+                                              ? ClipOval(
+                                                  child: Material(
+                                                    elevation: 5.0,
+                                                    shape:
+                                                        const CircleBorder(),
+                                                    clipBehavior:
+                                                        Clip.hardEdge,
+                                                    color: const Color
+                                                            .fromARGB(
+                                                        255, 65, 198, 255),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .all(45.0),
+                                                      child: Text(
+                                                        u['userName'][0],
+                                                        style: GoogleFonts.ubuntu(
+                                                            color: Colors
+                                                                .white,
+                                                            fontSize: 35,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : const CircularProgressIndicator()
+                                          : buildImage(u['profilePicture']),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            u['userName'],
+                                            style: GoogleFonts.ubuntu(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            "${currentUser?.email}",
+                                            style: GoogleFonts.ubuntu(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ))),
+                        ),
+                        InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -167,155 +249,67 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                               );
                             },
-                            focusColor: Colors.white,
-                            child: Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Colors.pinkAccent,
-                                      Colors.redAccent,
-                                      Colors.orangeAccent,
-                                    ],
-                                  ),
+                            child: buildItem("My Profile",
+                                Icons.person_outline_outlined)),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const ApproveEvent(),
                                 ),
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 25),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        u['profilePicture'] == null ||
-                                                u['profilePicture'] == ""
-                                            ? u['userName'] != null
-                                                ? ClipOval(
-                                                    child: Material(
-                                                      elevation: 5.0,
-                                                      shape:
-                                                          const CircleBorder(),
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              65,
-                                                              198,
-                                                              255),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(45.0),
-                                                        child: Text(
-                                                          u['userName'][0],
-                                                          style: GoogleFonts
-                                                              .ubuntu(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 35,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : const CircularProgressIndicator()
-                                            : buildImage(u['profilePicture']),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              u['userName'],
-                                              style: GoogleFonts.ubuntu(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                            Text(
-                                              "${currentUser?.email}",
-                                              style: GoogleFonts.ubuntu(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ))),
-                          ),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const ProfileScreen(),
-                                  ),
-                                );
-                              },
-                              child: buildItem(
-                                  "My Profile", Icons.person_outline_outlined)),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const ApproveEvent(),
-                                  ),
-                                );
-                              },
-                              child: buildItem("Approve Events",
-                                  Icons.event_available_sharp)),
-                          // GestureDetector(
-                          //   onTap: (() {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (context) => const OnBoarding()));
-                          //   }),
-                          //   child: const Text("Onboarding"),
-                          // ),
-                          InkWell(
-                            child: buildItem("Logout", Icons.logout_outlined),
-                            onTap: () {
-                              FirebaseAuth.instance.signOut();
+                              );
                             },
-                          ),
-                        ],
-                      ),
+                            child: buildItem("Approve Events",
+                                Icons.event_available_sharp)),
+                        // GestureDetector(
+                        //   onTap: (() {
+                        //     Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => const OnBoarding()));
+                        //   }),
+                        //   child: const Text("Onboarding"),
+                        // ),
+                        InkWell(
+                          child: buildItem("Logout", Icons.logout_outlined),
+                          onTap: () {
+                            FirebaseAuth.instance.signOut();
+                          },
+                        ),
+                      ],
                     ),
-                    Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: Column(
-                        children: <Widget>[
-                          const Divider(
-                            thickness: 1.5,
-                            color: Color.fromARGB(255, 104, 100, 100),
+                  ),
+                  Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Column(
+                      children: <Widget>[
+                        const Divider(
+                          thickness: 1.5,
+                          color: Color.fromARGB(255, 104, 100, 100),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: buildItem(
+                            "Settings",
+                            Icons.settings_outlined,
                           ),
-                          InkWell(
-                            onTap: () {
-                            },
-                            child: buildItem(
-                              "Settings",
-                              Icons.settings_outlined,
-                            ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: buildItem(
+                            "Feedback",
+                            Icons.feedback_outlined,
                           ),
-                          InkWell(
-                            onTap: () {
-                            },
-                            child: buildItem(
-                              "Feedback",
-                              Icons.feedback_outlined,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )
+            ),
+          )
           : const CircularProgressIndicator(),
     );
   }

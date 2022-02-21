@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uni_campus/Users/user.dart';
-
 import 'main.dart';
 
 class UserCrud extends ChangeNotifier {
