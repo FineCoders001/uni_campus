@@ -14,7 +14,6 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
   late Animation<double> controller;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     anicon = AnimationController(
       duration: const Duration(milliseconds: 250),
@@ -24,7 +23,6 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     anicon.dispose();
     super.dispose();
   }
@@ -76,7 +74,6 @@ class FlowMenuDelegate extends FlowDelegate {
       final theta = i * pi * 0.5 / (n - 2);
       final x = (context.size.width - 80) - setValue(radius * cos(theta));
       final y = (context.size.height - 80) - setValue(radius * sin(theta));
-      // TODO: implement paintChildren
       context.paintChild(
         i,
         transform: Matrix4.identity()..translate(x, y, 0),

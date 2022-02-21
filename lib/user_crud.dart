@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uni_campus/Users/user.dart';
-
 import 'main.dart';
 
 class UserCrud extends ChangeNotifier {
@@ -16,11 +15,10 @@ class UserCrud extends ChangeNotifier {
     user = doc.data()!;
     print("data inside document is ${doc.data()}");
     notifyListeners();
-    
   }
 
   addProfilePicture(String urlLink) async {
-    var v;
+    Map<String, dynamic> v;
     if (user['role'] == 'student') {
       print("ghus gya");
       v = {

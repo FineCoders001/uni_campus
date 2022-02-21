@@ -76,11 +76,12 @@ class _OnBoardingState extends State<OnBoarding> {
                           const SizedBox(
                             height: 30,
                           ),
-                          FittedBox(
-                              child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
-                                  child: Image.asset(l[index]["image"]!))),
+                          Image.asset(l[index]["image"]!,height: MediaQuery.of(context).size.height / 2,fit: BoxFit.fill,),
+                          // FittedBox(
+                          //     child: SizedBox(
+                          //         height:
+                          //             MediaQuery.of(context).size.height / 2,
+                          //         child: Image.asset(l[index]["image"]!,))),
                         ],
                       ),
                     );
@@ -105,11 +106,12 @@ class _OnBoardingState extends State<OnBoarding> {
                           const SizedBox(
                             height: 30,
                           ),
-                          FittedBox(
-                              child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
-                                  child: Image.asset(l[index]["image"]!))),
+                          Image.asset(l[index]["image"]!,height: MediaQuery.of(context).size.height / 2,fit: BoxFit.fill,),
+                          // FittedBox(
+                          //     child: SizedBox(
+                          //         height:
+                          //             MediaQuery.of(context).size.height / 2,
+                          //         child: Image.asset(l[index]["image"]!))),
                           GestureDetector(
                             onTap: () async {
                               await Navigator.pushAndRemoveUntil(
@@ -358,7 +360,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                           deptname: user.deptname,
                                           semester: user.semester,
                                           enyear: user.enyear,
-                                          styear: user.enyear,
+                                          styear: user.styear,
                                           role: role,
                                         );
                                       },
@@ -400,7 +402,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             deptname: user.deptname,
                                             semester: user.semester,
                                             enyear: user.enyear,
-                                            styear: user.enyear,
+                                            styear: user.styear,
                                             role: user.role);
                                       },
                                     ),
@@ -441,7 +443,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             deptname: user.deptname,
                                             semester: user.semester,
                                             enyear: user.enyear,
-                                            styear: user.enyear,
+                                            styear: user.styear,
                                             role: user.role);
                                       },
                                     ),
@@ -481,7 +483,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             deptname: value.toString().trim(),
                                             semester: user.semester,
                                             enyear: user.enyear,
-                                            styear: user.enyear,
+                                            styear: user.styear,
                                             role: user.role);
                                       },
                                     ),
@@ -522,7 +524,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             deptname: user.deptname,
                                             semester: value.toString().trim(),
                                             enyear: user.enyear,
-                                            styear: user.enyear,
+                                            styear: user.styear,
                                             role: user.role);
                                       },
                                     ),
@@ -563,8 +565,8 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             collegename: user.collegename,
                                             deptname: user.deptname,
                                             semester: user.semester,
-                                            enyear: value.toString().trim(),
-                                            styear: user.enyear,
+                                            styear: value.toString().trim(),
+                                            enyear: user.enyear,
                                             role: user.role);
                                       },
                                     ),
@@ -604,8 +606,8 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             collegename: user.collegename,
                                             deptname: user.deptname,
                                             semester: user.semester,
-                                            enyear: user.enyear,
-                                            styear: value.toString().trim(),
+                                            styear: user.styear,
+                                            enyear: value.toString().trim(),
                                             role: user.role);
                                       },
                                     ),

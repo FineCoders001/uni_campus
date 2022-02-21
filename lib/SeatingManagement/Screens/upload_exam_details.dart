@@ -39,10 +39,12 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Text(
-              "Note: Uploading new Time Table will automatically delete old Seating Arrangement and Time Table.",
-              style:
-                  GoogleFonts.ubuntu(fontWeight: FontWeight.bold, fontSize: 15),
-            ),
+                "Note: Uploading new Time Table will automatically delete old Seating Arrangement and Time Table.",
+                style: GoogleFonts.ubuntu(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.redAccent,
+                )),
           ),
           const SizedBox(
             height: 10,
@@ -308,13 +310,13 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                             .listAll();
                     if (seatingArrangement.items.isNotEmpty) {
                       for (var element in seatingArrangement.items) {
-                          // print(
-                          //     "Found Files at:${await element.getDownloadURL()}");
-                          FirebaseStorage.instance
-                              .refFromURL(await element.getDownloadURL())
-                              .delete();
-                          // print("Deleted Successfully");
-                        }
+                        // print(
+                        //     "Found Files at:${await element.getDownloadURL()}");
+                        FirebaseStorage.instance
+                            .refFromURL(await element.getDownloadURL())
+                            .delete();
+                        // print("Deleted Successfully");
+                      }
                     }
                   }
                   UploadDownload uploadDownload = UploadDownload();

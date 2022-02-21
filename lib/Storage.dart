@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +35,7 @@ class Store extends ChangeNotifier {
   Future<void> fetchTasks() async {
     final SharedPreferences prefs = await _prefs;
     _taskList.clear();
-    String? v = await prefs.getString("tasks");
+    String? v = prefs.getString("tasks");
     //var v1 = v?.substring(1,v.length-1).split(",");
     print("value of sharedprefernces is $v");
     var v1 = json.decode(v!);
