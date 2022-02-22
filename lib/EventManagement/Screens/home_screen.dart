@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,8 +43,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
       body: isloading
-          ? const CircularProgressIndicator()
-          : Column(
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
               children: [
                 GestureDetector(
                   onTap: () => {
@@ -76,170 +77,99 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () => {
+                bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
+                  containerForGridview(
+                    "Generate QR Code",
+                    const Color.fromARGB(255, 60, 138, 63),
+                  ),
+                  containerForGridview(
+                    "My Attendance",
+                    const Color.fromARGB(255, 60, 138, 63),
+                  ),
+                ]),
+                bigCard(context, "Event", Icons.event_outlined, [
+                  containerForGridview(
+                    "Request Event",
+                    Colors.redAccent,
+                  ),
+                  containerForGridview(
+                    "Approved Event",
+                    Colors.redAccent,
+                  ),
+                  containerForGridview(
+                    "Upcoming Event",
+                    Colors.redAccent,
+                  ),
+                  containerForGridview(
+                    "Ongoing Event",
+                    Colors.redAccent,
+                  ),
+                ]),
+                bigCard(
+                  context,
+                  "Exam Details",
+                  Icons.event_note_outlined,
+                  [
+                    //Widget for Exam Time Table
+                    InkWell(
+                      onTap: (() => {
+                            UserCrud().fetchUserProfile(),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const ExamScreen(),
+                              ),
+                            ),
+                          }),
+                      child: containerForGridview(
+                        "Exam Time Table",
+                        Colors.blueAccent,
+                      ),
+                    ),
+
+                    //Widget for Upload Exam Details
+                    InkWell(
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 const UploadExamDetails(),
                           ),
-                        )
+                        );
                       },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            (MediaQuery.of(context).size.width / 3) / 4),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: MediaQuery.of(context).size.height / 8,
-                          color: Colors.blue,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "Upload",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                                Text(
-                                  "Exam Details",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => {
-                        UserCrud().fetchUserProfile(),
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const ExamScreen(),
-                          ),
-                        )
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            (MediaQuery.of(context).size.width / 3) / 4),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 3,
-                          height: MediaQuery.of(context).size.height / 8,
-                          color: Colors.blue,
-                          child: const Center(
-                            child: Text(
-                              "Time Table",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ),
-                        ),
+                      child: containerForGridview(
+                        "Upload Exam Details",
+                        Colors.blueAccent,
                       ),
                     ),
                   ],
-                )
+                ),
+                bigCard(context, "Library Management",
+                    Icons.local_library_outlined, [
+                  containerForGridview(
+                      "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Return Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Request Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Search Book", const Color.fromARGB(255, 82, 72, 200)),
+                ]),
               ],
             ),
       drawer: isloading == false
           ? Drawer(
-            child: Material(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const ProfileScreen(),
-                              ),
-                            );
-                          },
-                          focusColor: Colors.white,
-                          child: Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.pinkAccent,
-                                    Colors.redAccent,
-                                    Colors.orangeAccent,
-                                  ],
-                                ),
-                              ),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 25),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      u['profilePicture'] == null ||
-                                              u['profilePicture'] == ""
-                                          ? u['userName'] != null
-                                              ? ClipOval(
-                                                  child: Material(
-                                                    elevation: 5.0,
-                                                    shape:
-                                                        const CircleBorder(),
-                                                    clipBehavior:
-                                                        Clip.hardEdge,
-                                                    color: const Color
-                                                            .fromARGB(
-                                                        255, 65, 198, 255),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets
-                                                              .all(45.0),
-                                                      child: Text(
-                                                        u['userName'][0],
-                                                        style: GoogleFonts.ubuntu(
-                                                            color: Colors
-                                                                .white,
-                                                            fontSize: 35,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : const CircularProgressIndicator()
-                                          : buildImage(u['profilePicture']),
-                                      Column(
-                                        children: [
-                                          Text(
-                                            u['userName'],
-                                            style: GoogleFonts.ubuntu(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                          Text(
-                                            "${currentUser?.email}",
-                                            style: GoogleFonts.ubuntu(
-                                                fontSize: 18,
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ))),
-                        ),
-                        InkWell(
+              child: Material(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -249,102 +179,283 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                               );
                             },
-                            child: buildItem("My Profile",
-                                Icons.person_outline_outlined)),
-                        InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const ApproveEvent(),
+                            focusColor: Colors.white,
+                            child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.pinkAccent,
+                                      Colors.redAccent,
+                                      Colors.orangeAccent,
+                                    ],
+                                  ),
                                 ),
-                              );
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 35),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        u['profilePicture'] == null ||
+                                                u['profilePicture'] == ""
+                                            ? u['userName'] != null
+                                                ? ClipOval(
+                                                    child: Material(
+                                                      elevation: 5.0,
+                                                      shape:
+                                                          const CircleBorder(),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              65,
+                                                              198,
+                                                              255),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(45.0),
+                                                        child: Text(
+                                                          u['userName'][0],
+                                                          style: GoogleFonts
+                                                              .ubuntu(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 35,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : const CircularProgressIndicator()
+                                            : buildImage(
+                                                u['profilePicture'], u),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              u['userName'],
+                                              style: GoogleFonts.ubuntu(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                            Text(
+                                              "${currentUser?.email}",
+                                              style: GoogleFonts.ubuntu(
+                                                  fontSize: 18,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ))),
+                          ),
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const ProfileScreen(),
+                                  ),
+                                );
+                              },
+                              child: buildItem(
+                                  "My Profile", Icons.person_outline_outlined)),
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const ApproveEvent(),
+                                  ),
+                                );
+                              },
+                              child: buildItem("Approve Events",
+                                  Icons.event_available_sharp)),
+                          // GestureDetector(
+                          //   onTap: (() {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => const OnBoarding()));
+                          //   }),
+                          //   child: const Text("Onboarding"),
+                          // ),
+                          InkWell(
+                            child: buildItem("Logout", Icons.logout_outlined),
+                            onTap: () {
+                              FirebaseAuth.instance.signOut();
                             },
-                            child: buildItem("Approve Events",
-                                Icons.event_available_sharp)),
-                        // GestureDetector(
-                        //   onTap: (() {
-                        //     Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => const OnBoarding()));
-                        //   }),
-                        //   child: const Text("Onboarding"),
-                        // ),
-                        InkWell(
-                          child: buildItem("Logout", Icons.logout_outlined),
-                          onTap: () {
-                            FirebaseAuth.instance.signOut();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Column(
-                      children: <Widget>[
-                        const Divider(
-                          thickness: 1.5,
-                          color: Color.fromARGB(255, 104, 100, 100),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: buildItem(
-                            "Settings",
-                            Icons.settings_outlined,
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: buildItem(
-                            "Feedback",
-                            Icons.feedback_outlined,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: Column(
+                        children: <Widget>[
+                          const Divider(
+                            thickness: 1.5,
+                            color: Color.fromARGB(255, 104, 100, 100),
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: buildItem(
+                              "Settings",
+                              Icons.settings_outlined,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: buildItem(
+                              "Feedback",
+                              Icons.feedback_outlined,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
+            )
           : const CircularProgressIndicator(),
-    );
-  }
-
-  Widget buildItem(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: ListTile(
-        title: Text(
-          title,
-          style: GoogleFonts.ubuntu(fontSize: 17),
-        ),
-        leading: Icon(
-          icon,
-          size: 25,
-          color: Colors.black,
-        ),
-      ),
     );
   }
 }
 
-buildImage(var img) {
+Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
+  return Padding(
+    padding: const EdgeInsets.all(25.0),
+    child: Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 7.0)],
+      ),
+      //height: MediaQuery.of(context).size.height / 3,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                leading: Icon(
+                  icon,
+                  size: 45,
+                ),
+                title: Text(
+                  title,
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                // mainAxisExtent: 3,
+                crossAxisSpacing: 25,
+                mainAxisSpacing: 25,
+              ),
+              itemCount: widget.length,
+              itemBuilder: (BuildContext ctx, index) {
+                return widget[index];
+              },
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget containerForGridview(String title, Color colors) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
+        color: colors,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.ubuntu(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildItem(String title, IconData icon) {
+  return Padding(
+    padding: const EdgeInsets.all(6.0),
+    child: ListTile(
+      title: Text(
+        title,
+        style: GoogleFonts.ubuntu(fontSize: 17),
+      ),
+      leading: Icon(
+        icon,
+        size: 25,
+        color: Colors.black,
+      ),
+    ),
+  );
+}
+
+Widget buildImage(var img, u) {
   return ClipOval(
     child: Material(
-      elevation: 5.0,
       shape: const CircleBorder(),
-      clipBehavior: Clip.hardEdge,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       color: Colors.transparent,
-      child: Ink.image(
-        image: NetworkImage(img),
+      child: CachedNetworkImage(
         fit: BoxFit.cover,
         width: 128,
         height: 128,
+        imageUrl: img,
+        placeholder: (context, url) => ClipOval(
+          child: Material(
+            elevation: 5.0,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: const Color.fromARGB(255, 65, 198, 255),
+            child: Center(
+              child: Text(
+                u['userName'][0],
+                style: GoogleFonts.ubuntu(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
+      // Ink.image(
+      //   image: NetworkImage(img),
+      //   fit: BoxFit.cover,
+      //   width: 128,
+      //   height: 128,
+      // ),
     ),
   );
 }
