@@ -93,6 +93,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         // appBar: AppBar(
         //   centerTitle: true,
         //   title: const Text("Event Details"),
@@ -112,6 +113,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         padding:
                             const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: ListView(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                   // color: Colors.white,
+
+                                  )),
+                            ],
+                          ),
                           Card(
                             elevation: 5,
                             child: Container(

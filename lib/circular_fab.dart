@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'EventManagement/Screens/create_event_screen.dart';
+import 'MyEvent.dart';
+
 class CircularFabWidget extends StatefulWidget {
   const CircularFabWidget({Key? key}) : super(key: key);
   @override
@@ -32,8 +35,8 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
     return Flow(
       delegate: FlowMenuDelegate(controller: anicon),
       children: [
-        buildFAB("MAIL", const Icon(Icons.mail)),
-        buildFAB("CALL", const Icon(Icons.call)),
+        buildFAB("Add Event", const Icon(Icons.add)),
+        buildFAB("My Event", const Icon(Icons.event)),
         buildFAB(null, const Icon(Icons.menu))
       ].toList(),
     );
@@ -43,6 +46,23 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
     return SizedBox(
       child: FloatingActionButton(
           onPressed: () {
+            if(m=='Add Event'){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const CreateEventScreen(),
+                ),
+              );
+            }
+            if(m=='My Event'){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const MyEvent(),
+                ),
+              );
+            }
+
             if (m == null) {
               if (anicon.status == AnimationStatus.completed) {
                 anicon.reverse();
@@ -50,11 +70,12 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
                 anicon.forward();
               }
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(m),
-              ));
+              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //   content: Text(m),
+              // ));
             }
           },
+          tooltip: m,
           child: e),
     );
   }

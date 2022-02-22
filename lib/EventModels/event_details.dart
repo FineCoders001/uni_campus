@@ -9,6 +9,8 @@ class EventsDetail {
   final String id; //event id
   final String userId;
   late final participants;
+  late final eventStatus;
+
 
   EventsDetail(
       {required this.eventName,
@@ -20,7 +22,9 @@ class EventsDetail {
       required this.eventDuration,
       this.id = "",
       this.userId = "",
-      this.participants});
+      this.participants,
+        this.eventStatus
+      });
 
   EventsDetail.fromJson(Map json)
       : this(
@@ -33,6 +37,7 @@ class EventsDetail {
           eventDuration: json['eventDuration'].toString(),
           id: json['id'].toString(),
           userId: json['userId'].toString(),
+          eventStatus: json['eventStatus'].toString(),
           participants: json['participants'],
         );
 
@@ -47,6 +52,7 @@ class EventsDetail {
       'eventDuration': eventDuration,
       'id': id,
       'userId': userId,
+      'eventStatus':eventStatus,
       'participants': participants
     };
   }
