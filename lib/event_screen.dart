@@ -81,8 +81,8 @@ class _EventScreenState extends ConsumerState<EventScreen> {
           var status = "Ongoing Registration";
           final date = DateTime.parse(post.eventDate);
           print("participant entry");
-          print("participants are ${post.participants}");
-          print("participant exit");
+          print("participants are ${ref.read(userCrudProvider).user['deptname']}");
+          print("participant exit ${post.deptLevel.substring(14,post.deptLevel.length)}");
 
           var time = int.parse(post.eventStartTime.substring(10, 12)) +
               int.parse(post.eventDuration.split(" ")[0]) +
@@ -111,6 +111,21 @@ class _EventScreenState extends ConsumerState<EventScreen> {
               participated = true;
             }
           }
+
+          if(post.deptLevel.substring(0,14) == "Dept.intradept"){
+            if(!(ref.read(userCrudProvider).user['deptname'].toString().trim() == post.deptLevel.substring(14,post.deptLevel.length).trim())){
+              print("deptlevel ka lafda");
+              return SizedBox(height:0);
+            }
+          }
+
+          if(!(post.eventForSem.toString().split(" ").contains(ref.read(userCrudProvider).user['semester']))){
+            print("sem ka lafda");
+            return SizedBox(height:0);
+          }
+
+
+
           return GestureDetector(
             onTap: () {
               if (status == "Registration closed") {

@@ -230,7 +230,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.calendar_month_outlined),
+                        leading:  Icon(Icons.arrow_right),
                         title: Text(
                           semRoman[int.parse(u['semester'])],
                         ),

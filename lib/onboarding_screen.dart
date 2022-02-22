@@ -76,7 +76,11 @@ class _OnBoardingState extends State<OnBoarding> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Image.asset(l[index]["image"]!,height: MediaQuery.of(context).size.height / 2,fit: BoxFit.fill,),
+                          Image.asset(
+                            l[index]["image"]!,
+                            height: MediaQuery.of(context).size.height / 2,
+                            fit: BoxFit.fill,
+                          ),
                           // FittedBox(
                           //     child: SizedBox(
                           //         height:
@@ -106,7 +110,11 @@ class _OnBoardingState extends State<OnBoarding> {
                           const SizedBox(
                             height: 30,
                           ),
-                          Image.asset(l[index]["image"]!,height: MediaQuery.of(context).size.height / 2,fit: BoxFit.fill,),
+                          Image.asset(
+                            l[index]["image"]!,
+                            height: MediaQuery.of(context).size.height / 2,
+                            fit: BoxFit.fill,
+                          ),
                           // FittedBox(
                           //     child: SizedBox(
                           //         height:
@@ -179,6 +187,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
   final _fkey = GlobalKey<FormState>();
   var isLoading = false;
   String role = "";
+  String department="";
 
   UserProfile user = UserProfile(
     userName: "",
@@ -190,6 +199,53 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
     styear: "",
     role: "",
   );
+
+
+
+
+  buildDepartment() {
+    return Container(
+      margin: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        // borderRadius: BorderRadius.all(
+        //   Radius.circular(10),
+        // ),
+      ),
+      child: Row(
+        children: [
+          //Text("department",style: TextStyle(fontSize: 18,color: Colors.grey),),
+          DropdownButton<String>(
+            // ignore: unnecessary_null_comparison
+            hint: department == ""
+                ? const Text("Select")
+                : Text(department),
+
+            items: <String>[
+              "Information Technology",
+              "Mechanical",
+              "Civil",
+              "Chemical",
+              "Power Electronics",
+              "Industrial",
+              "Electrical",
+              "Computer Engineering"
+            ].map((String v) {
+              return DropdownMenuItem(value: v, child: Text(v));
+            }).toList(),
+
+            onChanged: (value) {
+              setState(() {
+                department=value!;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
 
   UserProfile userFaculty =
       UserProfile(userName: "", collegename: "", deptname: "", role: "");
@@ -226,6 +282,16 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
         return;
       }
       _fkey.currentState?.save();
+      user=UserProfile(
+        userName: user.userName,
+        enroll: user.enroll,
+        collegename: user.collegename,
+        deptname: department,
+        semester: user.semester,
+        enyear: user.enyear,
+        styear: user.styear,
+        role: role,
+      );
       if (role == "student") {
         await ref.read(userCrudProvider).add(user);
       } else {
@@ -448,53 +514,53 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                       },
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter a valid name";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      decoration: const InputDecoration(
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        hintText: "Department Name",
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 73, 128, 255),
-                                              width: 2.5),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 73, 128, 255),
-                                              width: 2.5),
-                                        ),
-                                      ),
-                                      onSaved: (value) {
-                                        user = UserProfile(
-                                            userName: user.userName,
-                                            enroll: user.enroll,
-                                            collegename: user.collegename,
-                                            deptname: value.toString().trim(),
-                                            semester: user.semester,
-                                            enyear: user.enyear,
-                                            styear: user.styear,
-                                            role: user.role);
-                                      },
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(8.0),
+                                  //   child: TextFormField(
+                                  //     validator: (value) {
+                                  //       if (value == null || value.isEmpty) {
+                                  //         return "Please enter a valid name";
+                                  //       } else {
+                                  //         return null;
+                                  //       }
+                                  //     },
+                                  //     decoration: const InputDecoration(
+                                  //       fillColor: Colors.white,
+                                  //       filled: true,
+                                  //       hintText: "Department Name",
+                                  //       focusedBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color.fromARGB(
+                                  //                 255, 73, 128, 255),
+                                  //             width: 2.5),
+                                  //       ),
+                                  //       enabledBorder: OutlineInputBorder(
+                                  //         borderSide: BorderSide(
+                                  //             color: Color.fromARGB(
+                                  //                 255, 73, 128, 255),
+                                  //             width: 2.5),
+                                  //       ),
+                                  //     ),
+                                  //     onSaved: (value) {
+                                  //       user = UserProfile(
+                                  //           userName: user.userName,
+                                  //           enroll: user.enroll,
+                                  //           collegename: user.collegename,
+                                  //           deptname: value.toString().trim(),
+                                  //           semester: user.semester,
+                                  //           enyear: user.enyear,
+                                  //           styear: user.styear,
+                                  //           role: user.role);
+                                  //     },
+                                  //   ),
+                                  // ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return "Please enbter a valid value";
+                                          return "Please enter a valid value";
                                         } else {
                                           return null;
                                         }
@@ -612,6 +678,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                       },
                                     ),
                                   ),
+                                  buildDepartment()
                                 ],
                               )
                             : Column(
@@ -691,6 +758,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                       },
                                     ),
                                   ),
+                                  buildDepartment()
                                 ],
                               )),
                   ),
@@ -726,6 +794,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
     );
   }
 }
+
 
 AnimatedContainer _builddots(int index, int _currentpage) {
   return AnimatedContainer(

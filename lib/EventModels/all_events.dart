@@ -72,6 +72,7 @@ class AllEvents extends ChangeNotifier {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
+        'eventForSem': event.eventForSem
 
         //'participants':[],
         //'id':docRef.id,
@@ -91,7 +92,8 @@ class AllEvents extends ChangeNotifier {
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
         'id': docRef.id,
-        'eventStatus': "notApproved"
+        'eventStatus': "notApproved",
+        'eventForSem': event.eventForSem
       });
 
       await FirebaseFirestore.instance
@@ -107,7 +109,8 @@ class AllEvents extends ChangeNotifier {
         'eventDuration': event.eventDuration,
         'userId': FirebaseAuth.instance.currentUser?.uid,
         'id': docRef.id,
-        'eventStatus': "notApproved"
+        'eventStatus': "notApproved",
+        'eventForSem': event.eventForSem
       });
 
       notifyListeners();
@@ -166,7 +169,8 @@ class FinalizeEvent {
         'eventDuration': event.eventDuration,
         'id': event.id,
       'eventStatus':"approved",
-        'participants': []
+        'participants': [],
+        'eventForSem': event.eventForSem
       });
 
       await FirebaseFirestore.instance
@@ -183,7 +187,8 @@ class FinalizeEvent {
         'userId': FirebaseAuth.instance.currentUser?.uid,
         'id': event.id,
         'eventStatus':"approved",
-        'participants': []
+        'participants': [],
+        'eventForSem': event.eventForSem
       });
 
       //
@@ -254,6 +259,7 @@ class ParticipateEvents {
         'id': event.id,
         'eventStatus':event.eventStatus,
         'participants': event.participants,
+        'eventForSem': event.eventForSem
       });
 
       await FirebaseFirestore.instance
@@ -269,6 +275,7 @@ class ParticipateEvents {
         'eventDuration': event.eventDuration,
         'id': event.id,
         'participants': event.participants,
+        'eventForSem': event.eventForSem
       });
     } catch (e) {
       throw e;
@@ -304,6 +311,7 @@ class EventFinishing{
       'id': event.id,
       'eventStatus':"confirmation left",
       'participants': event.participants,
+      'eventForSem': event.eventForSem
     });
   }
 
@@ -324,6 +332,7 @@ class EventFinishing{
         'id': event.id,
         'eventStatus':status,
         'participants': event.participants,
+        'eventForSem': event.eventForSem
       });
 
       await FirebaseFirestore.instance
@@ -341,7 +350,8 @@ class EventFinishing{
         'eventDuration': event.eventDuration,
         'id': event.id,
         'eventStatus':status,
-        'participants': event.participants
+        'participants': event.participants,
+        'eventForSem': event.eventForSem
       });
     }catch(e){
       throw e;

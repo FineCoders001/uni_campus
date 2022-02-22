@@ -10,6 +10,7 @@ class EventsDetail {
   final String userId;
   late final participants;
   late final eventStatus;
+  late final eventForSem;
 
 
   EventsDetail(
@@ -23,7 +24,8 @@ class EventsDetail {
       this.id = "",
       this.userId = "",
       this.participants,
-        this.eventStatus
+        this.eventStatus,
+        this.eventForSem
       });
 
   EventsDetail.fromJson(Map json)
@@ -39,6 +41,7 @@ class EventsDetail {
           userId: json['userId'].toString(),
           eventStatus: json['eventStatus'].toString(),
           participants: json['participants'],
+          eventForSem: json['eventForSem']
         );
 
   Map<String, Object> toJson() {
@@ -53,7 +56,8 @@ class EventsDetail {
       'id': id,
       'userId': userId,
       'eventStatus':eventStatus,
-      'participants': participants
+      'participants': participants,
+      'eventForSem':eventForSem
     };
   }
 }

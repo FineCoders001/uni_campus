@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/MyEvent.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/approve_event.dart';
+import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/user_crud.dart';
 import '../../event_screen.dart';
 import '../../main.dart';
@@ -46,37 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-                GestureDetector(
-                  onTap: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const EventScreen(),
-                      ),
-                    )
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                        (MediaQuery.of(context).size.width / 3) / 4),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.height / 8,
-                      color: Colors.blue,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Events",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
                   containerForGridview(
                     "Generate QR Code",
@@ -88,22 +60,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ]),
                 bigCard(context, "Event", Icons.event_outlined, [
-                  containerForGridview(
-                    "Request Event",
-                    Colors.redAccent,
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                          const EventScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                      "All Events",
+                      Colors.redAccent,
+                    ),
                   ),
-                  containerForGridview(
-                    "Approved Event",
-                    Colors.redAccent,
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                          const MyEvent(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                      "My Events",
+                      Colors.redAccent,
+                    ),
                   ),
-                  containerForGridview(
-                    "Upcoming Event",
-                    Colors.redAccent,
-                  ),
-                  containerForGridview(
-                    "Ongoing Event",
-                    Colors.redAccent,
-                  ),
+
                 ]),
                 bigCard(
                   context,
@@ -280,6 +267,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               child: buildItem("Approve Events",
                                   Icons.event_available_sharp)),
+
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                    const OnBoarding(),
+                                  ),
+                                );
+                              },
+                              child: buildItem("Onboarding",
+                                  Icons.event_available_sharp)),
                           // GestureDetector(
                           //   onTap: (() {
                           //     Navigator.push(
@@ -289,12 +289,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           //   }),
                           //   child: const Text("Onboarding"),
                           // ),
-                          InkWell(
-                            child: buildItem("Logout", Icons.logout_outlined),
-                            onTap: () {
-                              FirebaseAuth.instance.signOut();
-                            },
-                          ),
+
                         ],
                       ),
                     ),
@@ -307,11 +302,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             color: Color.fromARGB(255, 104, 100, 100),
                           ),
                           InkWell(
-                            onTap: () {},
-                            child: buildItem(
-                              "Settings",
-                              Icons.settings_outlined,
-                            ),
+                            child: buildItem("Logout", Icons.logout_outlined),
+                            onTap: () {
+                              FirebaseAuth.instance.signOut();
+                            },
                           ),
                           InkWell(
                             onTap: () {},
@@ -331,6 +325,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
+
 
 Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
   return Padding(
