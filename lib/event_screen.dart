@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-
-import 'EventManagement/Screens/create_event_screen.dart';
 import 'EventModels/all_events.dart';
 import 'EventModels/event_details.dart';
 import 'circular_fab.dart';
@@ -60,7 +56,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "All Events",
           style: TextStyle(color: Colors.grey, fontSize: 24),
         ),
@@ -115,13 +111,13 @@ class _EventScreenState extends ConsumerState<EventScreen> {
           if(post.deptLevel.substring(0,14) == "Dept.intradept"){
             if(!(ref.read(userCrudProvider).user['deptname'].toString().trim() == post.deptLevel.substring(14,post.deptLevel.length).trim())){
               print("deptlevel ka lafda");
-              return SizedBox(height:0);
+              return const SizedBox(height:0);
             }
           }
 
           if(!(post.eventForSem.toString().split(" ").contains(ref.read(userCrudProvider).user['semester']))){
             print("sem ka lafda");
-            return SizedBox(height:0);
+            return const SizedBox(height:0);
           }
 
 
@@ -304,7 +300,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Column(
-                                  children: [
+                                  children: const [
                                     Text(
                                         "Already  Participated",
                                         style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.green),
@@ -406,7 +402,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                     subtitle: Text(post.description),
                     //leading: Icon(Icons.event),
                   ),
-                  Divider(
+                  const Divider(
                     thickness: 1,
                     color: Colors.grey,
                   ),
@@ -423,7 +419,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
           );
         },
       ),
-      floatingActionButton: CircularFabWidget(),
+      floatingActionButton: const CircularFabWidget(),
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(
