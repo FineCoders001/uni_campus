@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
+import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 
 Future<void> main() async {
@@ -41,7 +42,6 @@ Future<void> main() async {
 //Store o =new Store();
 User? currentUser = FirebaseAuth.instance.currentUser;
 
-
 class MyApp extends StatefulHookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -50,8 +50,6 @@ class MyApp extends StatefulHookConsumerWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -64,32 +62,31 @@ class _MyAppState extends ConsumerState<MyApp> {
       minTextAdapt: true,
 
       builder: () => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        //home: ApproveEvent()
-        home: StreamBuilder(
-          // stream: FirebaseAuth.instance.authStateChanges(),
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, userSnapshot) {
-            if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (userSnapshot.hasData) {
-              return const HomeScreen();
-            } else if (userSnapshot.hasError) {
-              return const Center(
-                child: Text(
-                  "Something Went Wrong",
-                  style: TextStyle(fontSize: 16),
-                ),
-              );
-            } else {
-              return const LoginScreen();
-              // return const RegistrationScreen();
-            }
-          },
-        ),
-      ),
+          debugShowCheckedModeBanner: false, home: AddBookScreen()
+          // home: StreamBuilder(
+          //   // stream: FirebaseAuth.instance.authStateChanges(),
+          //   stream: FirebaseAuth.instance.authStateChanges(),
+          //   builder: (ctx, userSnapshot) {
+          //     if (userSnapshot.connectionState == ConnectionState.waiting) {
+          //       return const Center(
+          //         child: CircularProgressIndicator(),
+          //       );
+          //     } else if (userSnapshot.hasData) {
+          //       return const HomeScreen();
+          //     } else if (userSnapshot.hasError) {
+          //       return const Center(
+          //         child: Text(
+          //           "Something Went Wrong",
+          //           style: TextStyle(fontSize: 16),
+          //         ),
+          //       );
+          //     } else {
+          //       return const LoginScreen();
+          //       // return const RegistrationScreen();
+          //     }
+          //   },
+          // ),
+          ),
     );
   }
 }

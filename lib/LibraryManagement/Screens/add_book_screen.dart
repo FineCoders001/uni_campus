@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uni_campus/LibraryManagement/MethodAssistant/add_book.dart';
+import 'package:uni_campus/LibraryManagement/MethodAssistant/fetch_books.dart';
 
 class AddBookScreen extends StatefulWidget {
   const AddBookScreen({Key? key}) : super(key: key);
@@ -35,6 +36,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
             ),
             TextButton(
               onPressed: () async {
+                print("iske baad");
+                print(await fetchBooks());
                 if (name.text.isEmpty) {
                   Fluttertoast.showToast(msg: "Enter Book name");
                 } else if (author.text.isEmpty) {
@@ -42,11 +45,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 } else if (department.text.isEmpty) {
                   Fluttertoast.showToast(msg: "Enter Department");
                 } else {
-                  addBook(name.text, author.text, department.text);
+                  await addBook(name.text, author.text, department.text)
+                      .then((value) => Fluttertoast.showToast(msg: "Added"));
                 }
+                print(fetchBooks());
               },
               child: const Text("Add"),
-            )
+            ),
           ],
         ),
       ),
