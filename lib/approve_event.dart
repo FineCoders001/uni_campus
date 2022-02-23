@@ -316,14 +316,19 @@ class _ApproveEventState extends State<ApproveEvent> {
                   ),
                 ],
               ),
-              child: ListTile(
-                title: Text(
-                  post.eventName,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                subtitle: Text(post.description),
-                //leading: Icon(Icons.event),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        post.eventName,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      subtitle: Text(post.description),
+                      //leading: Icon(Icons.event),
+
               ),
+                  ],
+                ),
             ),
           );
         },

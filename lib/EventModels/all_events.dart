@@ -72,13 +72,17 @@ class AllEvents extends ChangeNotifier {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
+        'eventForSem': event.eventForSem
+
+        //'participants':[],
         //'id':docRef.id,
       });
 
       await FirebaseFirestore.instance
           .collection('RequestEvent')
           .doc(FirebaseAuth.instance.currentUser?.uid)
-          .collection("MyRequestedEvents").doc(docRef.id)
+          .collection("MyRequestedEvents")
+          .doc(docRef.id)
           .update({
         'eventName': event.eventName,
         'venue': event.venue,
@@ -87,10 +91,15 @@ class AllEvents extends ChangeNotifier {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
-        'id':docRef.id,
+        'id': docRef.id,
+        'eventStatus': "notApproved",
+        'eventForSem': event.eventForSem
       });
 
-          await FirebaseFirestore.instance.collection('RequestEventAdmin').doc(docRef.id).set({
+      await FirebaseFirestore.instance
+          .collection('RequestEventAdmin')
+          .doc(docRef.id)
+          .set({
         'eventName': event.eventName,
         'venue': event.venue,
         'description': event.description,
@@ -98,11 +107,11 @@ class AllEvents extends ChangeNotifier {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
-            'userId':FirebaseAuth.instance.currentUser?.uid,
-            'id':docRef.id,
-
+        'userId': FirebaseAuth.instance.currentUser?.uid,
+        'id': docRef.id,
+        'eventStatus': "notApproved",
+        'eventForSem': event.eventForSem
       });
-
 
       notifyListeners();
     } catch (e) {
@@ -135,15 +144,21 @@ class FinalizeEvent {
       //     .delete();
       await FirebaseFirestore.instance
           .collection("RequestEvent")
-          .doc(event.userId).collection("MyRequestedEvents").doc(event.id).delete();
-      await FirebaseFirestore.instance.collection("RequestEventAdmin").doc(event.id).delete();
+          .doc(event.userId)
+          .collection("MyRequestedEvents")
+          .doc(event.id)
+          .delete();
 
-
-
+      await FirebaseFirestore.instance
+          .collection("RequestEventAdmin")
+          .doc(event.id)
+          .delete();
 
       await FirebaseFirestore.instance
           .collection('ApprovedEvent')
-          .doc(event.userId).collection("MyApprovedEvents").doc(event.id)
+          .doc(event.userId)
+          .collection("MyApprovedEvents")
+          .doc(event.id)
           .set({
         'eventName': event.eventName,
         'venue': event.venue,
@@ -152,10 +167,16 @@ class FinalizeEvent {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
-        'id':event.id
+        'id': event.id,
+      'eventStatus':"approved",
+        'participants': [],
+        'eventForSem': event.eventForSem
       });
 
-      await FirebaseFirestore.instance.collection('AllApprovedEvents').doc(event.id).set({
+      await FirebaseFirestore.instance
+          .collection('AllApprovedEvents')
+          .doc(event.id)
+          .set({
         'eventName': event.eventName,
         'venue': event.venue,
         'description': event.description,
@@ -163,11 +184,12 @@ class FinalizeEvent {
         'eventDate': event.eventDate,
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
-        'userId':FirebaseAuth.instance.currentUser?.uid,
-        'id':event.id,
+        'userId': FirebaseAuth.instance.currentUser?.uid,
+        'id': event.id,
+        'eventStatus':"approved",
+        'participants': [],
+        'eventForSem': event.eventForSem
       });
-
-
 
       //
       // await FirebaseFirestore.instance
@@ -193,14 +215,147 @@ class FinalizeEvent {
     try {
       await FirebaseFirestore.instance
           .collection("RequestEvent")
-          .doc(event.userId).collection("MyRequestedEvents").doc(event.id).delete();
+          .doc(event.userId)
+          .collection("MyRequestedEvents")
+          .doc(event.id)
+          .delete();
       await FirebaseFirestore.instance
           .collection("RequestEventAdmin")
-          .doc(event.id).delete();
+          .doc(event.id)
+          .delete();
     } catch (e) {
       print("error is $e");
     }
   }
 }
 
-class ApprovedEvents {}
+class ParticipateEvents {
+  participate(EventsDetail event, user) async {
+    try {
+      Map<String, String> m = {
+        "userId": (FirebaseAuth.instance.currentUser?.uid).toString(),
+        "enrollmentId": user['enroll'],
+        "department": user['deptname']
+      };
+      List l = [m];
+      if (event.participants != null) {
+        event.participants.add(m);
+      } else {
+        event.participants.add(m);
+      }
+      await FirebaseFirestore.instance
+          .collection('ApprovedEvent')
+          .doc(event.userId)
+          .collection("MyApprovedEvents")
+          .doc(event.id)
+          .update({
+        'eventName': event.eventName,
+        'venue': event.venue,
+        'description': event.description,
+        'deptLevel': event.deptLevel,
+        'eventDate': event.eventDate,
+        'eventStartTime': event.eventStartTime,
+        'eventDuration': event.eventDuration,
+        'id': event.id,
+        'eventStatus':event.eventStatus,
+        'participants': event.participants,
+        'eventForSem': event.eventForSem
+      });
+
+      await FirebaseFirestore.instance
+          .collection('AllApprovedEvents')
+          .doc(event.id)
+          .update({
+        'eventName': event.eventName,
+        'venue': event.venue,
+        'description': event.description,
+        'deptLevel': event.deptLevel,
+        'eventDate': event.eventDate,
+        'eventStartTime': event.eventStartTime,
+        'eventDuration': event.eventDuration,
+        'id': event.id,
+        'participants': event.participants,
+        'eventForSem': event.eventForSem
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+}
+
+class EventFinishing{
+
+  eventStarted( EventsDetail event) async {
+    print("entered into event started");
+
+
+    await FirebaseFirestore.instance
+        .collection("AllApprovedEvents")
+        .doc(event.id)
+        .delete();
+
+
+    print("exited from eventstarted");
+    await FirebaseFirestore.instance
+        .collection('AllEvents')
+        .doc(event.id)
+        .set({
+      'eventName': event.eventName,
+      'venue': event.venue,
+      'description': event.description,
+      'deptLevel': event.deptLevel,
+      'eventDate': event.eventDate,
+      'eventStartTime': event.eventStartTime,
+      'eventDuration': event.eventDuration,
+      'userId': FirebaseAuth.instance.currentUser?.uid,
+      'id': event.id,
+      'eventStatus':"confirmation left",
+      'participants': event.participants,
+      'eventForSem': event.eventForSem
+    });
+  }
+
+  confirmEvent(EventsDetail event,status) async {
+    try{
+      await FirebaseFirestore.instance
+          .collection('AllEvents')
+          .doc(event.id)
+          .update({
+        'eventName': event.eventName,
+        'venue': event.venue,
+        'description': event.description,
+        'deptLevel': event.deptLevel,
+        'eventDate': event.eventDate,
+        'eventStartTime': event.eventStartTime,
+        'eventDuration': event.eventDuration,
+        'userId': FirebaseAuth.instance.currentUser?.uid,
+        'id': event.id,
+        'eventStatus':status,
+        'participants': event.participants,
+        'eventForSem': event.eventForSem
+      });
+
+      await FirebaseFirestore.instance
+          .collection('ApprovedEvent')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection("MyApprovedEvents")
+          .doc(event.id)
+          .update({
+        'eventName': event.eventName,
+        'venue': event.venue,
+        'description': event.description,
+        'deptLevel': event.deptLevel,
+        'eventDate': event.eventDate,
+        'eventStartTime': event.eventStartTime,
+        'eventDuration': event.eventDuration,
+        'id': event.id,
+        'eventStatus':status,
+        'participants': event.participants,
+        'eventForSem': event.eventForSem
+      });
+    }catch(e){
+      throw e;
+    }
+  }
+
+}

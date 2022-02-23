@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../EventModels/all_events.dart';
 import '../../EventModels/event_details.dart';
 
-class CreateEventScreen extends StatefulWidget {
+class CreateEventScreen extends StatefulHookConsumerWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +16,7 @@ class CreateEventScreen extends StatefulWidget {
 
 enum Dept { interdept, intradept }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
+class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   final _form = GlobalKey<FormState>();
   var isLoading = false;
   List<String> months = [
@@ -46,7 +47,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       eventDate: DateTime.now().toString(),
       eventStartTime: "",
       eventDuration: "",
-      deptLevel: "");
+      deptLevel: "",
+    eventForSem: ""
+  );
 
   Future<void> _saveForm(context, AllEvents counter) async {
     final isValid = _form.currentState?.validate();
@@ -55,16 +58,32 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     }
 
     _form.currentState?.save();
+    if(_d.toString()=="Intradept"){
+      _event = EventsDetail(
+          eventName: _event.eventName,
+          venue: _event.venue,
+          description: _event.description,
+          deptLevel: _d.toString()+" "+ref.read(userCrudProvider).user['deptname'],
+          eventDate: selectedDate.toString(),
+          eventStartTime: selectedTime.toString(),
+          eventDuration: _event.eventDuration + " " + du,
+          eventForSem: _event.eventForSem
+      );
 
-    _event = EventsDetail(
-      eventName: _event.eventName,
-      venue: _event.venue,
-      description: _event.description,
-      deptLevel: _d.toString(),
-      eventDate: selectedDate.toString(),
-      eventStartTime: selectedTime.toString(),
-      eventDuration: _event.eventDuration + " " + du,
-    );
+    }else{
+      _event = EventsDetail(
+          eventName: _event.eventName,
+          venue: _event.venue,
+          description: _event.description,
+          deptLevel: _d.toString(),
+          eventDate: selectedDate.toString(),
+          eventStartTime: selectedTime.toString(),
+          eventDuration: _event.eventDuration + " " + du,
+          eventForSem: _event.eventForSem
+      );
+    }
+
+
 
     try {
       await counter.requestEvent(_event);
@@ -93,6 +112,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         // appBar: AppBar(
         //   centerTitle: true,
         //   title: const Text("Event Details"),
@@ -112,6 +132,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         padding:
                             const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: ListView(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                   // color: Colors.white,
+
+                                  )),
+                            ],
+                          ),
                           Card(
                             elevation: 5,
                             child: Container(
@@ -178,7 +210,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                               eventStartTime:
                                                   _event.eventStartTime,
                                               eventDuration:
-                                                  _event.eventDuration);
+                                                  _event.eventDuration,
+                                            eventForSem: _event.eventForSem
+                                          );
                                         }),
                                   ),
                                   Padding(
@@ -212,6 +246,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                           eventDate: _event.eventDate,
                                           eventStartTime: _event.eventStartTime,
                                           eventDuration: _event.eventDuration,
+                                            eventForSem: _event.eventForSem
                                         );
                                       },
                                     ),
@@ -255,10 +290,59 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                             eventStartTime:
                                                 _event.eventStartTime,
                                             eventDuration:
-                                                _event.eventDuration);
+                                                _event.eventDuration,
+                                            eventForSem: _event.eventForSem
+                                        );
                                       },
                                     ),
                                   ),
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter a valid value";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        hintText:
+                                        "Event For Sem eg:- 1 2 3",
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 73, 128, 255),
+                                              width: 2.5),
+                                        ),
+                                      ),
+                                      onSaved: (value) {
+                                        _event = EventsDetail(
+                                            eventName: _event.eventName,
+                                            venue: _event.venue,
+                                            description: _event.description,
+                                            deptLevel: _event.deptLevel,
+                                            eventDate: _event.eventDate,
+                                            eventStartTime:
+                                            _event.eventStartTime,
+                                            eventDuration:
+                                            _event.eventDuration,
+                                          eventForSem: value?.trim()
+                                        );
+                                      },
+                                    ),
+                                  ),
+
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Container(
@@ -377,6 +461,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                       ),
                                     ),
                                   ),
+
+
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: GestureDetector(
@@ -471,7 +557,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                                       eventStartTime:
                                                           _event.eventStartTime,
                                                       eventDuration:
-                                                          value.toString());
+                                                          value.toString(),
+                                                      eventForSem: _event.eventForSem
+                                                  );
                                                 },
                                               ),
                                             ),
