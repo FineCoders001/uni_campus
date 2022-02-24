@@ -1,9 +1,7 @@
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 
-import '../Users/user.dart';
 
 class AddBooks {
 

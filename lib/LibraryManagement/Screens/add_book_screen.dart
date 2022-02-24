@@ -2,12 +2,9 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/LibraryManagement/LibraryCrud.dart';
-import 'package:uni_campus/LibraryManagement/MethodAssistant/add_book.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'dart:io';
 
@@ -19,6 +16,13 @@ class AddBookScreen extends StatefulWidget {
 }
 
 class _AddBookScreenState extends State<AddBookScreen> {
+  TextEditingController bookName = TextEditingController();
+  TextEditingController bookAuthor = TextEditingController();
+  TextEditingController bookPages = TextEditingController();
+  TextEditingController bookGenre = TextEditingController();
+  TextEditingController bookPublication = TextEditingController();
+  TextEditingController bookISBN = TextEditingController();
+  TextEditingController bookQuantity = TextEditingController();
   final _form = GlobalKey<FormState>();
   late String downloadLink;
   List<String> bookPic = [];
@@ -40,8 +44,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
     }
     _form.currentState?.save();
 
-    if(bookPic.length==0){
-      var snackBar = SnackBar(content: Text("Image upload pending",textAlign: TextAlign.center));
+    if (bookPic.length == 0) {
+      var snackBar = const SnackBar(
+          content: Text("Image upload pending", textAlign: TextAlign.center));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
 
@@ -51,8 +56,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
         bookGenre: book.bookGenre,
         bookPages: book.bookPages,
         bookPic: bookPic,
-        bookPublication:
-        book.bookPublication,
+        bookPublication: book.bookPublication,
         isbnNumber: book.isbnNumber,
         bookQuantity: book.bookQuantity);
 
@@ -62,20 +66,19 @@ class _AddBookScreenState extends State<AddBookScreen> {
     } catch (e) {
       await showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text('Oops!'),
-              content: const Text('Something went wrong'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    //return;
-                  },
-                )
-              ],
-            ),
+        builder: (ctx) => AlertDialog(
+          title: const Text('Oops!'),
+          content: const Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                //return;
+              },
+            )
+          ],
+        ),
       );
       Navigator.pop(context);
     }
@@ -86,9 +89,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Container(
+        body: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/Background.png"),
@@ -99,14 +100,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 key: _form,
                 child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 10, right: 10, top: 20),
+                        const EdgeInsets.only(left: 10, right: 10, top: 20),
                     child: ListView(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           IconButton(
                               onPressed: () => Navigator.pop(context),
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_back,
                                 // color: Colors.white,
                               )),
@@ -129,13 +130,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                       alignment: Alignment.centerLeft,
                                       // print("entered");
 
-                                      child: Text(
+                                      child: const Text(
                                         "Book",
                                         style: TextStyle(fontSize: 24),
                                       ))),
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
+                                    controller: bookName,
                                     decoration: const InputDecoration(
                                       fillColor: Colors.white,
                                       filled: true,
@@ -164,8 +166,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                           bookGenre: book.bookGenre,
                                           bookPages: book.bookPages,
                                           bookPic: book.bookPic,
-                                          bookPublication:
-                                          book.bookPublication,
+                                          bookPublication: book.bookPublication,
                                           isbnNumber: book.isbnNumber,
                                           bookQuantity: book.bookQuantity);
                                     }),
@@ -173,6 +174,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
+                                  controller: bookAuthor,
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
@@ -199,8 +201,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookGenre: book.bookGenre,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
-                                        bookPublication:
-                                        book.bookPublication,
+                                        bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity);
                                   },
@@ -209,7 +210,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
-                                  maxLines: 3,
+                                  controller: bookPages,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
@@ -237,8 +238,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookGenre: book.bookGenre,
                                         bookPages: value.toString().trim(),
                                         bookPic: book.bookPic,
-                                        bookPublication:
-                                        book.bookPublication,
+                                        bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity);
                                   },
@@ -247,6 +247,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: bookGenre,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -261,14 +262,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     hintText: "Genre",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
@@ -279,8 +280,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookGenre: value.toString().trim(),
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
-                                        bookPublication:
-                                        book.bookPublication,
+                                        bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity);
                                   },
@@ -289,6 +289,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: bookPublication,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -303,14 +304,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     hintText: "Publication",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
@@ -322,7 +323,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication:
-                                        value.toString().trim(),
+                                            value.toString().trim(),
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity);
                                   },
@@ -331,6 +332,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: bookISBN,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -345,14 +347,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     hintText: "isbn number",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
@@ -363,8 +365,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookGenre: book.bookGenre,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
-                                        bookPublication:
-                                        book.bookPublication,
+                                        bookPublication: book.bookPublication,
                                         isbnNumber: int.parse(value!),
                                         bookQuantity: book.bookQuantity);
                                   },
@@ -373,6 +374,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: bookQuantity,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -387,14 +389,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     hintText: "Quantity",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 73, 128, 255),
+                                          color:
+                                              Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
@@ -405,8 +407,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookGenre: book.bookGenre,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
-                                        bookPublication:
-                                        book.bookPublication,
+                                        bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: int.parse(value!));
                                   },
@@ -437,7 +438,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(15.0),
                                       child: Text(
-                                        "upload Book's image",
+                                        "Upload book's image",
                                         style: GoogleFonts.ubuntu(
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold,
@@ -447,7 +448,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     ),
                                   )),
                               //Text("${}"),
-                              SizedBox(
+                              const SizedBox(
                                 height: 2,
                               ),
                               GestureDetector(
@@ -505,57 +506,103 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   Future<void> upload() async {
     try {
-
-
       FilePickerResult? result = await FilePicker.platform
-          .pickFiles(type: FileType.image,
-        allowMultiple: true
-      );
-
+          .pickFiles(type: FileType.image, allowMultiple: true);
 
       if (result != null) {
+        setState(() {
+          isLoading = true;
+          bookName.text = bookName.text;
+          bookAuthor.text = bookAuthor.text;
+          bookQuantity.text = bookQuantity.text;
+          bookPublication.text = bookPublication.text;
+          bookPages.text = bookPages.text;
+          bookISBN.text = bookISBN.text;
+          bookGenre.text = bookGenre.text;
+
+          if (isLoading == true) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                  title: Text(
+                    'Uploading Image',
+                    style: GoogleFonts.ubuntu(fontSize: 25),
+                  ),
+                  content: Container(
+                    child: CircularProgressIndicator(),
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height / 9,
+                  )),
+            );
+          }
+        });
         // PlatformFile file = result.files.first;
-        List<File> files = result.paths.map((path) => File(path.toString())).toList();
+        List<File> files =
+            result.paths.map((path) => File(path.toString())).toList();
         List filename = result.names.map((name) => name).toList();
         firebase_storage.Reference ref;
 
-        for(int i=0;i<files.length;i++){
-          ref = firebase_storage
-              .FirebaseStorage.instance
+        for (int i = 0; i < files.length; i++) {
+          ref = firebase_storage.FirebaseStorage.instance
               .ref()
-              .child('bookPics').child(filename[i]);
+              .child('bookPics')
+              .child(filename[i]);
           UploadTask task = ref.putFile(files[i]);
+
           final snapshot = await task.whenComplete(() => null);
           downloadLink = await snapshot.ref.getDownloadURL();
           bookPic.add(downloadLink);
         }
 
-
-        var snackBar = SnackBar(content: Text('Image  Uploaded Successfully',textAlign: TextAlign.center));
+        var snackBar = const SnackBar(
+            content: Text('Image  Uploaded Successfully',
+                textAlign: TextAlign.center));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        setState(() {
+          isLoading = false;
+          bookName.text = bookName.text;
+          bookAuthor.text = bookAuthor.text;
+          bookQuantity.text = bookQuantity.text;
+          bookPublication.text = bookPublication.text;
+          bookPages.text = bookPages.text;
+          bookISBN.text = bookISBN.text;
+          bookGenre.text = bookGenre.text;
+          if (isLoading == false) {
+            Navigator.pop(context);
+          }
+        });
       }
-      } catch (e) {
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        bookName.text = bookName.text;
+        bookAuthor.text = bookAuthor.text;
+        bookQuantity.text = bookQuantity.text;
+        bookPublication.text = bookPublication.text;
+        bookPages.text = bookPages.text;
+        bookISBN.text = bookISBN.text;
+        bookGenre.text = bookGenre.text;
+
+        if (isLoading == false) {
+          Navigator.pop(context);
+        }
+      });
       await showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text('Oops!'),
-              content: const Text('Something went wrong'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Okay'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    //return;
-                  },
-                )
-              ],
-            ),
+        builder: (ctx) => AlertDialog(
+          title: const Text('Oops!'),
+          content: const Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                //return;
+              },
+            )
+          ],
+        ),
       );
     }
   }
-  }
-
-
-
-
+}
