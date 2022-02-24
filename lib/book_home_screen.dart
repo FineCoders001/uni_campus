@@ -18,21 +18,20 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
       .collection("LibraryManagement").doc("AvailableBooks").collection("IT")
       .withConverter(
         fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
-        toFirestore: (BookDetails, _) => BookDetails.toJson(),
+        toFirestore: (bookDetails, _) => bookDetails.toJson(),
       );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("library"),
+        title: const Text("library"),
       ),
       body: 
           FirestoreListView<BookDetails>(
         query: queryBook,
         pageSize: 8,
         itemBuilder: (context, snapshot) {
-          print("here: ${snapshot.data().bookName}");
           final book = snapshot.data();
           return InkWell(
             onTap: () {},
@@ -42,7 +41,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey),
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: GridTile(
                   child: Image.network(
                     book.bookPic[0],
@@ -52,7 +51,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                     backgroundColor: Colors.black87,
                     title: Text(
                       book.bookName,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.w400),
                       maxLines: 3,
                       textAlign: TextAlign.center,

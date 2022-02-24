@@ -35,13 +35,13 @@ class _ApproveBookRequestScreenState extends State<ApproveBookRequestScreen> {
       .collection("LibraryManagement").doc("AvailableBooks").collection("IT")
       .withConverter(
         fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
-        toFirestore: (BookDetails, _) => BookDetails.toJson(),
+        toFirestore: (bookDetails, _) => bookDetails.toJson(),
       );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("library"),
+        title: const Text("library"),
       ),
       body: FirestoreQueryBuilder<BookDetails>(
         pageSize: 2,
@@ -67,7 +67,7 @@ class _ApproveBookRequestScreenState extends State<ApproveBookRequestScreen> {
                         index + 1 == snapshot.docs.length &&
                         scroll.position.extentAfter < 1) {
                       snapshot.fetchMore();
-                      print("here: ${snapshot.docs.length}");
+                      //print("here: ${snapshot.docs.length}");
                     }
                     return GridTile(
                       child: Container(
@@ -75,7 +75,7 @@ class _ApproveBookRequestScreenState extends State<ApproveBookRequestScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.grey),
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         child: GridTile(
                           child: CachedNetworkImage(
                             imageUrl: snapshot.docs[index]["bookPic"][0],

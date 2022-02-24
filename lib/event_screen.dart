@@ -37,14 +37,13 @@ class _EventScreenState extends ConsumerState<EventScreen> {
       .collection('AllApprovedEvents')
       .withConverter(
         fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-        toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
+        toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
   var u;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     u = ref.read(userCrudProvider);
   }

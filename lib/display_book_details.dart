@@ -14,7 +14,7 @@ class _DisplayBookDetailState extends State<DisplayBookDetail> {
         body: Column(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery
                     .of(context)
                     .size
@@ -27,7 +27,7 @@ class _DisplayBookDetailState extends State<DisplayBookDetail> {
                     Expanded(
                       flex: 4,
                       child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(40),
                               ),
@@ -39,11 +39,11 @@ class _DisplayBookDetailState extends State<DisplayBookDetail> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment
                                       .spaceBetween,
-                                  children: [
+                                  children: const [
                                     Expanded(
                                       flex: 1,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: EdgeInsets.symmetric(
                                             horizontal: 20.0, vertical: 20),
                                         child: Text(
                                           "DBMS",
@@ -79,7 +79,7 @@ class _DisplayBookDetailState extends State<DisplayBookDetail> {
                                 //   ),
                                 // ) : SizedBox(height: 0,),
 
-                                Container(
+                                SizedBox(
                                   width: double.infinity,
                                   //padding: EdgeInsets.all(10),
                                   child: Card(
@@ -90,7 +90,7 @@ class _DisplayBookDetailState extends State<DisplayBookDetail> {
                                       child: Row(
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                        children: [
+                                        children: const [
                                           Text(
                                             'Product Details',
                                             style: TextStyle(
@@ -104,7 +104,7 @@ class _DisplayBookDetailState extends State<DisplayBookDetail> {
 
                                   ),
                                 ),
-                                Expanded(
+                                const Expanded(
                                   flex: 1,
                                   child:BottomButton(),
 
@@ -149,10 +149,10 @@ class _BottomButtonState extends State<BottomButton> {
                   .size
                   .width) * 0.50,
               color: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(Icons.favorite_border, color: Colors.red,),
                   Text(
                     'ADD TO FAVORITE',
@@ -172,10 +172,10 @@ class _BottomButtonState extends State<BottomButton> {
                       .of(context)
                       .size
                       .width) * 0.50,
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(Icons.work, color: Colors.white,),
                       Text('BUY NOW',
                         style: TextStyle(color: Colors.white),)

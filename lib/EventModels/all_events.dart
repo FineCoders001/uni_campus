@@ -278,7 +278,7 @@ class ParticipateEvents {
         'eventForSem': event.eventForSem
       });
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

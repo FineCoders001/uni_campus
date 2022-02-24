@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/Profile/Screens/TodoList.dart';
+import 'package:uni_campus/Profile/Screens/todo_list.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:uni_campus/user_crud.dart';
 
@@ -230,7 +230,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading:  Icon(Icons.arrow_right),
+                        leading:  const Icon(Icons.arrow_right),
                         title: Text(
                           semRoman[int.parse(u['semester'])],
                         ),
