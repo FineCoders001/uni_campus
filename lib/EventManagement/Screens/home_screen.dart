@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/BookHomeScreen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
+import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen.dart';
 import 'package:uni_campus/MyEvent.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
@@ -50,7 +51,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
                   containerForGridview(
                     "Generate QR Code",
@@ -63,12 +63,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ]),
                 bigCard(context, "Event", Icons.event_outlined, [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                          const EventScreen(),
+                              const EventScreen(),
                         ),
                       );
                     },
@@ -78,12 +78,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          const MyEvent(),
+                          builder: (BuildContext context) => const MyEvent(),
                         ),
                       );
                     },
@@ -92,7 +91,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Colors.redAccent,
                     ),
                   ),
-
                 ]),
                 bigCard(
                   context,
@@ -137,8 +135,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
-                  containerForGridview(
-                      "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const ApproveBookRequestScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
                   containerForGridview(
                       "Return Book", const Color.fromARGB(255, 82, 72, 200)),
                   containerForGridview(
@@ -276,12 +284,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                    const OnBoarding(),
+                                        const OnBoarding(),
                                   ),
                                 );
                               },
-                              child: buildItem("Onboarding",
-                                  Icons.event_available_sharp)),
+                              child: buildItem(
+                                  "Onboarding", Icons.event_available_sharp)),
 
                           InkWell(
                               onTap: () {
@@ -289,12 +297,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                    const AddBookScreen(),
+                                        const AddBookScreen(),
                                   ),
                                 );
                               },
-                              child: buildItem("library",
-                                  Icons.event_available_sharp)),
+                              child: buildItem(
+                                  "library", Icons.event_available_sharp)),
 
                           InkWell(
                               onTap: () {
@@ -302,7 +310,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                    const BookHomeScreen(),
+                                        const BookHomeScreen(),
                                   ),
                                 );
                               },
@@ -317,7 +325,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           //   }),
                           //   child: const Text("Onboarding"),
                           // ),
-
                         ],
                       ),
                     ),
@@ -353,7 +360,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
-
 
 Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
   return Padding(

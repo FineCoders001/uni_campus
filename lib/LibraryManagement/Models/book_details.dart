@@ -3,7 +3,7 @@ class BookDetails {
   late List bookPic;
   late final String bookAuthor;
   late final String bookPages;
-  late final String bookGenre;
+  late final String bookDepartment;
   late final String bookPublication;
   late final int isbnNumber;
   late double ratings;
@@ -15,7 +15,7 @@ class BookDetails {
   BookDetails(
       {required this.bookName,
       required this.bookAuthor,
-      required this.bookGenre,
+      required this.bookDepartment,
       required this.bookPages,
       required this.bookPic,
       required this.bookPublication,
@@ -32,7 +32,7 @@ class BookDetails {
           bookPic: json['bookPic'],
           bookAuthor: json['bookAuthor'],
           bookPages: json['bookPages'],
-          bookGenre: json['bookGenre'],
+          bookDepartment: json['bookDepartment'],
           bookPublication: json['bookPublication'],
           isbnNumber: json['isbnNumber'],
           ratings: json['ratings'],
@@ -48,7 +48,7 @@ class BookDetails {
       'bookPic': bookPic,
       'bookAuthor': bookAuthor,
       'bookPages': bookPages,
-      'bookGenre': bookGenre,
+      'bookDepartment': bookDepartment,
       'bookPublication': bookPublication,
       'isbnNumber': isbnNumber,
       'ratings': ratings,
