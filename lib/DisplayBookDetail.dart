@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'StyledImage.dart';
 
 class DisplayBookDetail extends StatefulWidget {

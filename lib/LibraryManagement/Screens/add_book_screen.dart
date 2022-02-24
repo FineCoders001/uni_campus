@@ -59,6 +59,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
         bookPublication: book.bookPublication,
         isbnNumber: book.isbnNumber,
         bookQuantity: book.bookQuantity);
+    print("idhar: ${book.isbnNumber}");
 
     try {
       AddBooks().addBook(book);
@@ -359,6 +360,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     ),
                                   ),
                                   onSaved: (value) {
+                                    print(int.parse(value.toString()));
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: book.bookAuthor,
@@ -366,7 +368,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
-                                        isbnNumber: int.parse(value!),
+                                        isbnNumber: int.parse(value.toString()),
+                                        //isbnNumber: int.parse(value!),
                                         bookQuantity: book.bookQuantity);
                                   },
                                 ),

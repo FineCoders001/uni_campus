@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/painting.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class StyledImage extends StatefulWidget {
