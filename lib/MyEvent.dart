@@ -167,7 +167,7 @@ class _MyEventState extends ConsumerState<MyEvent> {
                       color: Colors.grey,
                     ):SizedBox(height: 0,),
 
-                    confirm==true?Text("cjhd"):SizedBox(height: 0,),
+
 
 
                     confirm == true

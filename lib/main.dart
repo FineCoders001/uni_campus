@@ -62,30 +62,30 @@ class _MyAppState extends ConsumerState<MyApp> {
       minTextAdapt: true,
 
       builder: () => MaterialApp(
-          debugShowCheckedModeBanner: false, home: AddBookScreen()
-          // home: StreamBuilder(
-          //   // stream: FirebaseAuth.instance.authStateChanges(),
-          //   stream: FirebaseAuth.instance.authStateChanges(),
-          //   builder: (ctx, userSnapshot) {
-          //     if (userSnapshot.connectionState == ConnectionState.waiting) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     } else if (userSnapshot.hasData) {
-          //       return const HomeScreen();
-          //     } else if (userSnapshot.hasError) {
-          //       return const Center(
-          //         child: Text(
-          //           "Something Went Wrong",
-          //           style: TextStyle(fontSize: 16),
-          //         ),
-          //       );
-          //     } else {
-          //       return const LoginScreen();
-          //       // return const RegistrationScreen();
-          //     }
-          //   },
-          // ),
+          debugShowCheckedModeBanner: false,
+          home: StreamBuilder(
+            // stream: FirebaseAuth.instance.authStateChanges(),
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (ctx, userSnapshot) {
+              if (userSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (userSnapshot.hasData) {
+                return const HomeScreen();
+              } else if (userSnapshot.hasError) {
+                return const Center(
+                  child: Text(
+                    "Something Went Wrong",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
+              } else {
+                return const LoginScreen();
+                // return const RegistrationScreen();
+              }
+            },
+          ),
           ),
     );
   }
