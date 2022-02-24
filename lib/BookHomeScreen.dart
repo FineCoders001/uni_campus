@@ -34,7 +34,8 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
             onTap: () {},
             child: GridTile(
               child: Container(
-                height: 500,
+                height: 200,
+                width: 200,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey),
