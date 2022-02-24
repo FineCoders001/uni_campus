@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventModels/all_events.dart';
 
 import 'EventModels/event_details.dart';
-import 'Participants.dart';
+import 'participants.dart';
 import 'Profile/Screens/profile_screen.dart';
 
 class MyEvent extends StatefulHookConsumerWidget {
@@ -79,7 +78,7 @@ class _MyEventState extends ConsumerState<MyEvent> {
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             " My Events",
             style: TextStyle(color: Colors.grey, fontSize: 24),
           ),
@@ -149,7 +148,7 @@ class _MyEventState extends ConsumerState<MyEvent> {
                       subtitle: Text(post.description),
                       //leading: Icon(Icons.event),
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 1,
                       color: Colors.grey,
                     ),
@@ -159,13 +158,13 @@ class _MyEventState extends ConsumerState<MyEvent> {
                     Text(
                       post.eventStatus,
                       style: const TextStyle(fontSize: 24),
-                    ):SizedBox(height: 0,),
+                    ):const SizedBox(height: 0,),
 
                     post.eventStatus == "completed" ||
-                        post.eventStatus == "cancelled" ? Divider(
+                        post.eventStatus == "cancelled" ? const Divider(
                       thickness: 1,
                       color: Colors.grey,
-                    ):SizedBox(height: 0,),
+                    ):const SizedBox(height: 0,),
 
 
 
@@ -260,20 +259,20 @@ class _MyEventState extends ConsumerState<MyEvent> {
                           },
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         "!Confirm",
-                        style: const TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24),
                       ),
                     )
-                        : SizedBox(
+                        : const SizedBox(
                       height: 0,
                     ),
                     confirm == true
-                        ? Divider(
+                        ? const Divider(
                       thickness: 1,
                       color: Colors.grey,
                     )
-                        : SizedBox(
+                        : const SizedBox(
                       height: 0,
                     ),
                     InkWell(
@@ -286,9 +285,9 @@ class _MyEventState extends ConsumerState<MyEvent> {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         "Participants",
-                        style: const TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24),
                       ),
                     ),
                   ],
