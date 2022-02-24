@@ -3,12 +3,16 @@ import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 
 class AddBooks {
   addBook(BookDetails book) async {
-    var docRef = await FirebaseFirestore.instance.collection("Books").add({
+    var docRef = await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("AvailableBooks")
+        .collection(book.bookDepartment)
+        .add({
       'bookName': book.bookName,
       // 'bookPic':book.bookPic,
       // 'bookAuthor':book.bookAuthor,
       // 'bookPages':book.bookPages,
-      // 'bookGenre':book.bookGenre,
+      // 'bookDepartment':book.bookDepartment,
       // 'bookPublication':book.bookPublication,
       // 'isbnNumber':book.isbnNumber,
       // 'ratings':book.ratings,
@@ -16,12 +20,17 @@ class AddBooks {
       // 'bookQuantity':book.bookQuantity
     });
 
-    await FirebaseFirestore.instance.collection("Books").doc(docRef.id).update({
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("AvailableBooks")
+        .collection(book.bookDepartment)
+        .doc(docRef.id)
+        .update({
       'bookName': book.bookName,
       'bookPic': book.bookPic,
       'bookAuthor': book.bookAuthor,
       'bookPages': book.bookPages,
-      'bookGenre': book.bookGenre,
+      'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
       'ratings': book.ratings,
@@ -36,14 +45,16 @@ class AddBooks {
 class UpdateBook {
   updateBooks(BookDetails book) async {
     await FirebaseFirestore.instance
-        .collection("Books")
+        .collection("LibraryManagement")
+        .doc("AvailableBooks")
+        .collection(book.bookDepartment)
         .doc(book.bookId)
         .update({
       'bookName': book.bookName,
       'bookPic': book.bookPic,
       'bookAuthor': book.bookAuthor,
       'bookPages': book.bookPages,
-      'bookGenre': book.bookGenre,
+      'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
       'ratings': book.ratings,
@@ -57,7 +68,9 @@ class UpdateBook {
 class DeleteBooks {
   deleteBooks(BookDetails book) async {
     await FirebaseFirestore.instance
-        .collection("Books")
+        .collection("LibraryManagement")
+        .doc("AvailableBooks")
+        .collection(book.bookDepartment)
         .doc(book.bookId)
         .delete();
   }
@@ -65,12 +78,17 @@ class DeleteBooks {
 
 class RequestBooks {
   RequestBook(BookDetails book, user) async {
+    
     await FirebaseFirestore.instance
-        .collection("Books")
+        .collection("LibraryManagement")
+        .doc("AvailableBooks")
+        .collection(book.bookDepartment)
         .doc(book.bookId)
         .update({'issuedQuantity': book.issuedQuantity - 1});
     await FirebaseFirestore.instance
-        .collection("RequestBooks")
+        .collection("LibraryManagement")
+        .doc("RequestBooks")
+        .collection(book.bookDepartment)
         .doc(book.bookId)
         .update({
       'bookId': book.bookId,

@@ -11,9 +11,11 @@ class BookHomeScreen extends StatefulWidget {
 }
 
 class _BookHomeScreenState extends State<BookHomeScreen> {
+  ScrollController controller = ScrollController();
 
+  double oldScrollPosition = 0.0;
   final queryBook = FirebaseFirestore.instance
-      .collection('Books')
+      .collection("LibraryManagement").doc("AvailableBooks").collection("IT")
       .withConverter(
         fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
         toFirestore: (BookDetails, _) => BookDetails.toJson(),
@@ -25,10 +27,12 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
       appBar: AppBar(
         title: Text("library"),
       ),
-      body: FirestoreListView<BookDetails>(
+      body: 
+          FirestoreListView<BookDetails>(
         query: queryBook,
         pageSize: 8,
         itemBuilder: (context, snapshot) {
+          print("here: ${snapshot.data().bookName}");
           final book = snapshot.data();
           return InkWell(
             onTap: () {},

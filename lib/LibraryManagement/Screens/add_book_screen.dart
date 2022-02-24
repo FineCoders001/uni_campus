@@ -19,7 +19,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   TextEditingController bookName = TextEditingController();
   TextEditingController bookAuthor = TextEditingController();
   TextEditingController bookPages = TextEditingController();
-  TextEditingController bookGenre = TextEditingController();
+  TextEditingController bookDepartment = TextEditingController();
   TextEditingController bookPublication = TextEditingController();
   TextEditingController bookISBN = TextEditingController();
   TextEditingController bookQuantity = TextEditingController();
@@ -30,7 +30,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   BookDetails book = BookDetails(
       bookName: "",
       bookAuthor: "",
-      bookGenre: "",
+      bookDepartment: "",
       bookPages: "",
       bookPic: [],
       bookPublication: "",
@@ -53,7 +53,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     book = BookDetails(
         bookName: book.bookName,
         bookAuthor: book.bookAuthor,
-        bookGenre: book.bookGenre,
+        bookDepartment: book.bookDepartment,
         bookPages: book.bookPages,
         bookPic: bookPic,
         bookPublication: book.bookPublication,
@@ -164,7 +164,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                       book = BookDetails(
                                           bookName: value.toString().trim(),
                                           bookAuthor: book.bookAuthor,
-                                          bookGenre: book.bookGenre,
+                                          bookDepartment: book.bookDepartment,
                                           bookPages: book.bookPages,
                                           bookPic: book.bookPic,
                                           bookPublication: book.bookPublication,
@@ -199,7 +199,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: value.toString().trim(),
-                                        bookGenre: book.bookGenre,
+                                        bookDepartment: book.bookDepartment,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
@@ -236,7 +236,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: book.bookAuthor,
-                                        bookGenre: book.bookGenre,
+                                        bookDepartment: book.bookDepartment,
                                         bookPages: value.toString().trim(),
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
@@ -248,7 +248,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
-                                  controller: bookGenre,
+                                  controller: bookDepartment,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -260,7 +260,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    hintText: "Genre",
+                                    hintText: "Department",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
@@ -278,7 +278,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: book.bookAuthor,
-                                        bookGenre: value.toString().trim(),
+                                        bookDepartment: value.toString().trim(),
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
@@ -320,7 +320,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: book.bookAuthor,
-                                        bookGenre: book.bookGenre,
+                                        bookDepartment: book.bookDepartment,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication:
@@ -364,7 +364,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: book.bookAuthor,
-                                        bookGenre: book.bookGenre,
+                                        bookDepartment: book.bookDepartment,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
@@ -381,6 +381,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
+                                    } else if (int.parse(value) < 1) {
+                                      return "Book Quantity can't be negative";
                                     } else {
                                       return null;
                                     }
@@ -407,7 +409,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     book = BookDetails(
                                         bookName: book.bookName,
                                         bookAuthor: book.bookAuthor,
-                                        bookGenre: book.bookGenre,
+                                        bookDepartment: book.bookDepartment,
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
@@ -521,7 +523,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
           bookPublication.text = bookPublication.text;
           bookPages.text = bookPages.text;
           bookISBN.text = bookISBN.text;
-          bookGenre.text = bookGenre.text;
+          bookDepartment.text = bookDepartment.text;
 
           if (isLoading == true) {
             showDialog(
@@ -569,7 +571,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
           bookPublication.text = bookPublication.text;
           bookPages.text = bookPages.text;
           bookISBN.text = bookISBN.text;
-          bookGenre.text = bookGenre.text;
+          bookDepartment.text = bookDepartment.text;
           if (isLoading == false) {
             Navigator.pop(context);
           }
@@ -584,7 +586,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
         bookPublication.text = bookPublication.text;
         bookPages.text = bookPages.text;
         bookISBN.text = bookISBN.text;
-        bookGenre.text = bookGenre.text;
+        bookDepartment.text = bookDepartment.text;
 
         if (isLoading == false) {
           Navigator.pop(context);
