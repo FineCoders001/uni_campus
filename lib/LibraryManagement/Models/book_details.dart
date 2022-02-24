@@ -1,6 +1,6 @@
 class BookDetails {
   late final String bookName;
-  late  List<String> bookPic;
+  late  List bookPic;
   late final String bookAuthor;
   late final String bookPages;
   late final String bookGenre;
@@ -30,7 +30,7 @@ class BookDetails {
   BookDetails.fromJson(Map json)
       : this(
       bookName: json['bookName']! as String,
-    bookPic: json['bookPic'],
+    bookPic: json['bookPic'] ,
       bookAuthor: json['bookAuthor'],
     bookPages: json['bookPages'],
     bookGenre: json['bookGenre'],
@@ -41,7 +41,6 @@ class BookDetails {
     bookId: json['bookId'],
     bookQuantity: json['bookQuantity'],
     issuedQuantity: json['issuedQuantity'],
-
 
   );
 

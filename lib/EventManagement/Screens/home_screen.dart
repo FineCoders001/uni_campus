@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/BookHomeScreen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/MyEvent.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -293,6 +294,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 );
                               },
                               child: buildItem("library",
+                                  Icons.event_available_sharp)),
+
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                    const BookHomeScreen(),
+                                  ),
+                                );
+                              },
+                              child: buildItem("bookHomeScreen",
                                   Icons.event_available_sharp)),
                           // GestureDetector(
                           //   onTap: (() {

@@ -35,34 +35,39 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
 
            final book = snapshot.data();
 
-          return GridTile(
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.grey
-                  ),
-                  padding: EdgeInsets.all(15),
+          return InkWell(
+            onTap: (){
 
-                  child:GridTile(child: Image.network(book.bookPic[0],
-                    fit: BoxFit.cover,
-                  ),
-                    footer: GridTileBar(
-                      backgroundColor: Colors.black87,
-                      title:Text(book.bookName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400
+            },
+            child: GridTile(
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey
+                    ),
+                    padding: EdgeInsets.all(15),
+
+                    child:GridTile(child: Image.network(book.bookPic[0],
+                      fit: BoxFit.cover,
+                    ),
+                      footer: GridTileBar(
+                        backgroundColor: Colors.black87,
+                        title:Text(book.bookName,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400
+                          ),
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          // softWrap: true,
+                          // overflow: TextOverflow.visible,
                         ),
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        // softWrap: true,
-                        // overflow: TextOverflow.visible,
+
                       ),
 
-                    ),
-
-                  )
-              ),
+                    )
+                ),
+            ),
           );
          }
       ),
