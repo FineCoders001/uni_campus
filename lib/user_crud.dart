@@ -30,7 +30,8 @@ class UserCrud extends ChangeNotifier {
         'enyear': user['enyear'],
         'styear': user['styear'],
         "profilePicture": urlLink,
-        "role": user['role']
+        "role": user['role'],
+        'favBooks':user['favBooks']
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -66,7 +67,8 @@ class UserCrud extends ChangeNotifier {
         'enyear': u.enyear,
         'styear': u.styear,
         'role': u.role,
-        'profilePicture': ""
+        'profilePicture': "",
+        'favBooks':u.favBooks
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -77,7 +79,8 @@ class UserCrud extends ChangeNotifier {
         'userName': u.userName,
         'collegename': u.collegename,
         'role': u.role,
-        'profilePicture': ""
+        'profilePicture': "",
+        'favBooks':u.favBooks
       };
       await FirebaseFirestore.instance
           .collection("users")
