@@ -198,6 +198,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
     enyear: "",
     styear: "",
     role: "",
+    favBooks: []
   );
 
 
@@ -248,7 +249,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
 
 
   UserProfile userFaculty =
-      UserProfile(userName: "", collegename: "", deptname: "", role: "");
+      UserProfile(userName: "", collegename: "", deptname: "", role: "",favBooks: []);
 
   show(context) async {
     showDialog(
@@ -291,6 +292,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
         enyear: user.enyear,
         styear: user.styear,
         role: role,
+        favBooks: user.favBooks
       );
       if (role == "student") {
         await ref.read(userCrudProvider).add(user);
@@ -428,6 +430,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                           enyear: user.enyear,
                                           styear: user.styear,
                                           role: role,
+                                          favBooks: user.favBooks
                                         );
                                       },
                                     ),
@@ -469,7 +472,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             semester: user.semester,
                                             enyear: user.enyear,
                                             styear: user.styear,
-                                            role: user.role);
+                                            role: user.role,
+                                            favBooks: user.favBooks
+                                        );
                                       },
                                     ),
                                   ),
@@ -510,7 +515,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             semester: user.semester,
                                             enyear: user.enyear,
                                             styear: user.styear,
-                                            role: user.role);
+                                            role: user.role,
+                                            favBooks: user.favBooks
+                                        );
                                       },
                                     ),
                                   ),
@@ -591,7 +598,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             semester: value.toString().trim(),
                                             enyear: user.enyear,
                                             styear: user.styear,
-                                            role: user.role);
+                                            role: user.role,
+                                            favBooks: user.favBooks
+                                        );
                                       },
                                     ),
                                   ),
@@ -633,7 +642,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             semester: user.semester,
                                             styear: value.toString().trim(),
                                             enyear: user.enyear,
-                                            role: user.role);
+                                            role: user.role,
+                                            favBooks: user.favBooks
+                                        );
                                       },
                                     ),
                                   ),
@@ -674,7 +685,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             semester: user.semester,
                                             styear: user.styear,
                                             enyear: value.toString().trim(),
-                                            role: user.role);
+                                            role: user.role,
+                                            favBooks: user.favBooks
+                                        );
                                       },
                                     ),
                                   ),
@@ -718,7 +731,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             userName: value.toString().trim(),
                                             collegename:
                                                 userFaculty.collegename,
-                                            role: role);
+                                            role: role,
+                                            favBooks: userFaculty.favBooks
+                                        );
                                       },
                                     ),
                                   ),
@@ -754,7 +769,9 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
                                             userName: userFaculty.userName,
                                             collegename:
                                                 value.toString().trim(),
-                                            role: role);
+                                            role: role,
+                                            favBooks: userFaculty.favBooks
+                                        );
                                       },
                                     ),
                                   ),

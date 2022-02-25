@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/DisplayBookDetail.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen.dart';
 
@@ -88,7 +89,13 @@ class _MyAppState extends ConsumerState<MyApp> {
             }
           },
         ),
+        routes: {
+          DisplayBookDetail.routename: (ctx) => DisplayBookDetail(),
+        },
       ),
+
     );
+
+
   }
 }

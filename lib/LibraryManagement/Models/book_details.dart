@@ -1,3 +1,4 @@
+List<String> l=[];
 class BookDetails {
   late final String bookName;
   late List bookPic;
@@ -8,9 +9,12 @@ class BookDetails {
   late final int isbnNumber;
   late double ratings;
   late double ratingsCount;
+  late final List<String> bookReviews;
+  late final List<String> bookReviewedUsers;
   late final String bookId;
   late final int bookQuantity;
   late final int issuedQuantity;
+
 
   BookDetails(
       {required this.bookName,
@@ -23,6 +27,8 @@ class BookDetails {
       this.bookId = "",
       this.ratings = 0,
       this.ratingsCount = 0,
+         required this.bookReviews,
+        required this.bookReviewedUsers,
       required this.bookQuantity,
       this.issuedQuantity = 0});
 
@@ -37,6 +43,8 @@ class BookDetails {
           isbnNumber: json['isbnNumber'],
           ratings: json['ratings'],
           ratingsCount: json['ratingsCount'],
+          bookReviews:json['bookReviews'],
+          bookReviewedUsers: json['bookReviewedUsers'],
           bookId: json['bookId'],
           bookQuantity: json['bookQuantity'],
           issuedQuantity: json['issuedQuantity'],
@@ -53,6 +61,8 @@ class BookDetails {
       'isbnNumber': isbnNumber,
       'ratings': ratings,
       'ratingsCount': ratingsCount,
+      'bookReviews':bookReviews,
+      'bookReviewedUsers':bookReviewedUsers,
       'bookId': bookId,
       'bookQuantity': bookQuantity,
       'issuedQuantity': issuedQuantity

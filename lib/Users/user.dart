@@ -8,6 +8,7 @@ class UserProfile {
   final String enyear;
   final String profilePicture;
   final String role;
+  final List<String> favBooks;
 
   UserProfile(
       {required this.userName,
@@ -19,6 +20,7 @@ class UserProfile {
        this.styear="",
         this.profilePicture="",
         required this.role,
+        required this.favBooks
       });
 
 

@@ -35,7 +35,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
       bookPic: [],
       bookPublication: "",
       isbnNumber: 0,
-      bookQuantity: 0);
+      bookQuantity: 0,
+    bookReviews: [],
+    bookReviewedUsers: [],
+  );
 
   Future<void> _saveForm(context) async {
     final isValid = _form.currentState?.validate();
@@ -58,7 +61,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
         bookPic: bookPic,
         bookPublication: book.bookPublication,
         isbnNumber: book.isbnNumber,
-        bookQuantity: book.bookQuantity);
+        bookQuantity: book.bookQuantity,
+      bookReviews: book.bookReviews,
+      bookReviewedUsers: book.bookReviewedUsers
+    );
     print("idhar: ${book.isbnNumber}");
 
     try {
@@ -169,7 +175,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                           bookPic: book.bookPic,
                                           bookPublication: book.bookPublication,
                                           isbnNumber: book.isbnNumber,
-                                          bookQuantity: book.bookQuantity);
+                                          bookQuantity: book.bookQuantity,
+                                          bookReviews: book.bookReviews,
+                                          bookReviewedUsers: book.bookReviewedUsers
+                                      );
                                     }),
                               ),
                               Padding(
@@ -204,7 +213,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
-                                        bookQuantity: book.bookQuantity);
+                                        bookQuantity: book.bookQuantity,
+                                        bookReviews: book.bookReviews,
+                                        bookReviewedUsers: book.bookReviewedUsers
+                                    );
                                   },
                                 ),
                               ),
@@ -241,7 +253,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
-                                        bookQuantity: book.bookQuantity);
+                                        bookQuantity: book.bookQuantity,
+                                        bookReviews: book.bookReviews,
+                                        bookReviewedUsers: book.bookReviewedUsers
+                                    );
                                   },
                                 ),
                               ),
@@ -283,7 +298,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
-                                        bookQuantity: book.bookQuantity);
+                                        bookQuantity: book.bookQuantity,
+                                        bookReviews: book.bookReviews,
+                                        bookReviewedUsers: book.bookReviewedUsers
+                                    );
                                   },
                                 ),
                               ),
@@ -326,7 +344,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPublication:
                                             value.toString().trim(),
                                         isbnNumber: book.isbnNumber,
-                                        bookQuantity: book.bookQuantity);
+                                        bookQuantity: book.bookQuantity,
+                                        bookReviews: book.bookReviews,
+                                        bookReviewedUsers: book.bookReviewedUsers
+                                    );
                                   },
                                 ),
                               ),
@@ -370,7 +391,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPublication: book.bookPublication,
                                         isbnNumber: int.parse(value.toString()),
                                         //isbnNumber: int.parse(value!),
-                                        bookQuantity: book.bookQuantity);
+                                        bookQuantity: book.bookQuantity,
+                                        bookReviews: book.bookReviews,
+                                        bookReviewedUsers: book.bookReviewedUsers
+                                    );
                                   },
                                 ),
                               ),
@@ -414,7 +438,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPic: book.bookPic,
                                         bookPublication: book.bookPublication,
                                         isbnNumber: book.isbnNumber,
-                                        bookQuantity: int.parse(value!));
+                                        bookQuantity: int.parse(value!),
+                                        bookReviews: book.bookReviews,
+                                        bookReviewedUsers: book.bookReviewedUsers
+                                    );
                                   },
                                 ),
                               ),
