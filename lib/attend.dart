@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 class Attend {
   late final String dept;
   late final String year;
@@ -20,4 +23,8 @@ class Attend {
   Map<String, Object?> toJson() {
     return {'Department': dept, 'Year': year, 'Semester': semester, 'Map': map};
   }
+
+  // adddata(Attend a) {
+  //   return FirebaseFirestore.instance.collection("Attendance").doc(year).collection();
+  // }
 }

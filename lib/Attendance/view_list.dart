@@ -21,8 +21,15 @@ class _ViewListState extends State<ViewList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(widget.d.toJson().toString()),
+      body: Column(
+        children: [
+          Center(
+            child: Text(widget.d.toJson().toString()),
+          ),
+          // ElevatedButton(onPressed: (){
+          //   widget.d.
+          // }, child: const Text("Submit"),),
+        ],
       ),
     );
   }
