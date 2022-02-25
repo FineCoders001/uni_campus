@@ -1,23 +1,23 @@
 class Attend {
-  late final String Dept;
-  late final String Year;
-  late final String Semester;
-  late var map;
+  late final String dept;
+  late final String year;
+  late final String semester;
+  late final List<String> map;
 
   Attend({
-    required this.Dept,
-    required this.Year,
-    required this.Semester,
-    this.map,
+    required this.dept,
+    required this.year,
+    required this.semester,
+    required this.map,
   });
   Attend.fromJson(Map json)
       : this(
-            Dept: json["Dept"],
-            Year: json["Year"],
-            Semester: json["Semster"],
+            dept: json["Department"],
+            year: json["Year"],
+            semester: json["Semester"],
             map: json["Map"]);
 
-  Map<String, Object> toJson() {
-    return {'Department': Dept, 'Year': Year, 'Semester': Semester, 'Map': map};
+  Map<String, Object?> toJson() {
+    return {'Department': dept, 'Year': year, 'Semester': semester, 'Map': map};
   }
 }

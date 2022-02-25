@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/DisplayBookDetail.dart';
+import 'package:uni_campus/Attendance/display_curlist.dart';
+import 'package:uni_campus/display_book_details.dart';
 import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 
 import 'Authentication/login_screen.dart';
@@ -65,36 +66,34 @@ class _MyAppState extends ConsumerState<MyApp> {
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         // home:ApproveBookRequestScreen(),
-        home: StreamBuilder(
-          // stream: FirebaseAuth.instance.authStateChanges(),
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, userSnapshot) {
-            if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (userSnapshot.hasData) {
-              return const HomeScreen();
-            } else if (userSnapshot.hasError) {
-              return const Center(
-                child: Text(
-                  "Something Went Wrong",
-                  style: TextStyle(fontSize: 16),
-                ),
-              );
-            } else {
-              return const LoginScreen();
-              // return const RegistrationScreen();
-            }
-          },
-        ),
+        home: const Select(),
+        // home: StreamBuilder(
+        //   // stream: FirebaseAuth.instance.authStateChanges(),
+        //   stream: FirebaseAuth.instance.authStateChanges(),
+        //   builder: (ctx, userSnapshot) {
+        //     if (userSnapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     } else if (userSnapshot.hasData) {
+        //       return const HomeScreen();
+        //     } else if (userSnapshot.hasError) {
+        //       return const Center(
+        //         child: Text(
+        //           "Something Went Wrong",
+        //           style: TextStyle(fontSize: 16),
+        //         ),
+        //       );
+        //     } else {
+        //       return const LoginScreen();
+        //       // return const RegistrationScreen();
+        //     }
+        //   },
+        // ),
         routes: {
-          DisplayBookDetail.routename: (ctx) => DisplayBookDetail(),
+          DisplayBookDetail.routename: (ctx) => const DisplayBookDetail(),
         },
       ),
-
     );
-
-
   }
 }
