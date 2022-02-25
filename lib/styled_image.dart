@@ -19,7 +19,7 @@ class _StyledImageState extends State<StyledImage> {
     child: AnimatedSmoothIndicator(
         activeIndex: activeIndex,
         count: widget.imageUrl.length,
-      effect: SwapEffect(
+      effect: const SwapEffect(
         dotColor: Colors.blue,
         activeDotColor: Colors.white,
         dotHeight: 13,
@@ -35,7 +35,7 @@ class _StyledImageState extends State<StyledImage> {
 
     return Container(
 
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(50),
           ),
@@ -60,7 +60,7 @@ class _StyledImageState extends State<StyledImage> {
               ),
               itemCount: widget.imageUrl.length,
               itemBuilder: (context , index , realindex){
-                return Container(margin: EdgeInsets.symmetric(vertical: 30),
+                return Container(margin: const EdgeInsets.symmetric(vertical: 30),
                   //width:300,
                   color: Colors.grey,
                   child: Image.network(

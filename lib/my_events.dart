@@ -23,7 +23,7 @@ class _MyEventState extends ConsumerState<MyEvent> {
       .collection("MyApprovedEvents")
       .withConverter(
     fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-    toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
+    toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
   );
 
   var u;

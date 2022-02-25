@@ -17,7 +17,7 @@ class _ApproveEventState extends State<ApproveEvent> {
       .collection('RequestEventAdmin')
       .withConverter(
         fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-        toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
+        toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
   @override

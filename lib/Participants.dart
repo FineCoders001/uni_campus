@@ -19,7 +19,7 @@ class _ParticipantsState extends State<Participants> {
         centerTitle: true,
         title: const Text(
           "Participants",
-          style: const TextStyle(color: Colors.grey, fontSize: 24),
+          style: TextStyle(color: Colors.grey, fontSize: 24),
         ),
         leading: IconButton(
             onPressed: () {

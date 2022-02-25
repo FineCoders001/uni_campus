@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/LibraryManagement/LibraryCrud.dart';
+import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'dart:io';
 
@@ -47,7 +47,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     }
     _form.currentState?.save();
 
-    if (bookPic.length == 0) {
+    if (bookPic.isEmpty) {
       var snackBar = const SnackBar(
           content: Text("Image upload pending", textAlign: TextAlign.center));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -561,7 +561,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                     style: GoogleFonts.ubuntu(fontSize: 25),
                   ),
                   content: Container(
-                    child: CircularProgressIndicator(),
+                    child: const CircularProgressIndicator(),
                     alignment: Alignment.center,
                     height: MediaQuery.of(context).size.height / 9,
                   )),

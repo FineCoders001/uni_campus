@@ -77,7 +77,7 @@ class DeleteBooks {
 }
 
 class RequestBooks {
-  RequestBook(BookDetails book, user) async {
+  requestBook(BookDetails book, user) async {
     
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
