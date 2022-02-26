@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/DisplayBookDetail.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
+import 'package:uni_campus/display_book_details.dart';
 
 class BookHomeScreen extends StatefulWidget {
   const BookHomeScreen({Key? key}) : super(key: key);
@@ -37,14 +37,14 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
       .doc("Books").collection('AllBooks')
       .withConverter(
     fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
-    toFirestore: (BookDetails, _) => BookDetails.toJson(),
+    toFirestore: (bookDetails, _) => bookDetails.toJson(),
   );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-        title: Text("Library"),
+        title: const Text("Library"),
         centerTitle: true,
       ),
       body: FirestoreQueryBuilder<BookDetails>(
@@ -83,7 +83,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: Colors.grey),
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           child: GridTile(
                             child: CachedNetworkImage(
                               imageUrl: snapshot.docs[index]["bookPic"][0],

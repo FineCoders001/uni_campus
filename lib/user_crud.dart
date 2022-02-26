@@ -55,7 +55,7 @@ class UserCrud extends ChangeNotifier {
 
   add(UserProfile u) async {
     Map<String, dynamic> v;
-    print("afetr entry ${FirebaseAuth.instance.currentUser?.uid}");
+    print("after entry ${FirebaseAuth.instance.currentUser?.uid}");
 
     if (u.role == "student") {
       v = {

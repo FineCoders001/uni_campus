@@ -9,8 +9,8 @@ class BookDetails {
   late final int isbnNumber;
   late double ratings;
   late double ratingsCount;
-  late final List<String> bookReviews;
-  late final List<String> bookReviewedUsers;
+  late final List<dynamic> bookReviews;
+  late final List<dynamic> bookReviewedUsers;
   late final String bookId;
   late final int bookQuantity;
   late final int issuedQuantity;

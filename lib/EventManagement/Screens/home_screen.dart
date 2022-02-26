@@ -51,6 +51,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
+                bigCard(context, "Library Management",
+                    Icons.local_library_outlined, [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const ApproveBookRequestScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const BookHomeScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                  containerForGridview(
+                      "Request Book", const Color.fromARGB(255, 82, 72, 200)),
+                  containerForGridview(
+                      "Search Book", const Color.fromARGB(255, 82, 72, 200)),
+                ]),
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
                   containerForGridview(
                     "Generate QR Code",
@@ -133,27 +166,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
-                bigCard(context, "Library Management",
-                    Icons.local_library_outlined, [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const BookHomeScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                  containerForGridview(
-                      "Return Book", const Color.fromARGB(255, 82, 72, 200)),
-                  containerForGridview(
-                      "Request Book", const Color.fromARGB(255, 82, 72, 200)),
-                  containerForGridview(
-                      "Search Book", const Color.fromARGB(255, 82, 72, 200)),
-                ]),
+                
               ],
             ),
       drawer: isloading == false

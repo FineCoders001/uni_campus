@@ -18,11 +18,11 @@ class _ReviewsState extends State<Reviews> {
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.arrow_back,color: Colors.black,), onPressed: (){
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.black,), onPressed: (){
           Navigator.pop(context);
         }),
-        title: Padding(
-          padding: const EdgeInsets.all(15.0),
+        title: const Padding(
+          padding: EdgeInsets.all(15.0),
           child: Text('Reviews',
             style: TextStyle(
                 color: Colors.white,
@@ -42,7 +42,7 @@ class _ReviewsState extends State<Reviews> {
               color: Colors.black12,
               //height: (MediaQuery.of(context).size.height )*0.8,
               //height: MediaQuery.of(context).size.height *0.9,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
 
               child: ListView.builder(
                 itemCount: widget.book['bookReviews'].length,
@@ -57,9 +57,9 @@ class _ReviewsState extends State<Reviews> {
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                          children: const [
                             Padding(
-                              padding: const EdgeInsets.only(left: 20.0 , top:10),
+                              padding: EdgeInsets.only(left: 20.0 , top:10),
                               child: Text('verified student',
                                 style: TextStyle(
                                     color: Colors.black45,
@@ -70,7 +70,7 @@ class _ReviewsState extends State<Reviews> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0 , top:10),
+                              padding: EdgeInsets.only(left: 8.0 , top:10),
                               child: Icon(Icons.assignment_turned_in_sharp),
                             ),
                           ],
@@ -78,7 +78,7 @@ class _ReviewsState extends State<Reviews> {
                         //Ratings(widget.loadedProduct),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20 , top: 20, bottom: 20),
-                          child: Text(widget.book['bookReviews'][index], style: TextStyle(
+                          child: Text(widget.book['bookReviews'][index], style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
                           ),),

@@ -22,9 +22,9 @@ class _MyEventState extends ConsumerState<MyEvent> {
       .doc(FirebaseAuth.instance.currentUser?.uid)
       .collection("MyApprovedEvents")
       .withConverter(
-    fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-    toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
-  );
+        fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
+        toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
+      );
 
   var u;
 
@@ -74,225 +74,219 @@ class _MyEventState extends ConsumerState<MyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          title: const Text(
-            " My Events",
-            style: TextStyle(color: Colors.grey, fontSize: 24),
-          ),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.grey,
-              )),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          " My Events",
+          style: TextStyle(color: Colors.grey, fontSize: 24),
         ),
-        body: FirestoreListView<EventsDetail>(
-          //pageSize: 3,
-            query: queryEvent,
-            itemBuilder: (context, snapshot) {
-              final post = snapshot.data();
-              final date = DateTime.parse(post.eventDate);
-              print("participant entry");
-              print("participants are ${post.eventStatus.runtimeType} ");
-              print("participant exit");
-              var time = int.parse(post.eventStartTime.substring(10, 12)) +
-                  int.parse(post.eventDuration.split(" ")[0]) +
-                  3;
-              var currentTime =
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.grey,
+            )),
+      ),
+      body: FirestoreListView<EventsDetail>(
+        //pageSize: 3,
+        query: queryEvent,
+        itemBuilder: (context, snapshot) {
+          final post = snapshot.data();
+          final date = DateTime.parse(post.eventDate);
+          print("participant entry");
+          print("participants are ${post.eventStatus.runtimeType} ");
+          print("participant exit");
+          var time = int.parse(post.eventStartTime.substring(10, 12)) +
+              int.parse(post.eventDuration.split(" ")[0]) +
+              3;
+          var currentTime =
               int.parse(TimeOfDay.now().toString().substring(10, 12));
-              bool confirm = false;
-              String status;
+          bool confirm = false;
+          String status;
 
-             if(!(post.eventStatus=="completed" || post.eventStatus=="cancelled")){
-               print(post.eventName);
-               if (date.year >= DateTime
-                   .now()
-                   .year &&
-                   date.month >= DateTime
-                       .now()
-                       .month &&
-                   DateTime
-                       .now()
-                       .day > date.day) {
-                 //show();
-                 confirm = true;
-               }
-             }
+          if (!(post.eventStatus == "completed" ||
+              post.eventStatus == "cancelled")) {
+            print(post.eventName);
+            if (date.year >= DateTime.now().year &&
+                date.month >= DateTime.now().month &&
+                DateTime.now().day > date.day) {
+              //show();
+              confirm = true;
+            }
+          }
 
-              return Container(
-                margin: const EdgeInsets.all(12),
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0), //(x,y)
-                      blurRadius: 12.0,
-                    ),
-                  ],
+          return Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0.0, 1.0), //(x,y)
+                  blurRadius: 12.0,
                 ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        post.eventName,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text(post.description),
-                      //leading: Icon(Icons.event),
-                    ),
-                    const Divider(
-                      thickness: 1,
-                      color: Colors.grey,
-                    ),
-
-                    post.eventStatus == "completed" ||
-                        post.eventStatus == "cancelled" ?
-                    Text(
-                      post.eventStatus,
-                      style: const TextStyle(fontSize: 24),
-                    ):const SizedBox(height: 0,),
-
-                    post.eventStatus == "completed" ||
-                        post.eventStatus == "cancelled" ? const Divider(
-                      thickness: 1,
-                      color: Colors.grey,
-                    ):const SizedBox(height: 0,),
-
-
-
-
-                    confirm == true
-                        ? InkWell(
-                      onTap: () async {
-                        await showDialog<void>(
-                          context: context,
-                          barrierDismissible:
-                          false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Status'),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: const <Widget>[
-                                    Text(
-                                        'Was event successfully finished'),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text('completed'),
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    try {
-                                      await EventFinishing().confirmEvent(
-                                          post, "completed");
-                                      setState(() {
-                                        confirm == false;
-                                      });
-                                    } catch (e) {
-                                      await showDialog(
-                                        context: context,
-                                        builder: (ctx) =>
-                                            AlertDialog(
-                                              title: const Text('Oops!'),
-                                              content: const Text(
-                                                  'Something went wrong'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('Okay'),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                    //return;
-                                                  },
-                                                )
-                                              ],
-                                            ),
-                                      );
-                                    }
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text('Cancelled'),
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    try {
-                                      await EventFinishing().confirmEvent(
-                                          post, "cancelled");
-                                      setState(() {
-                                        confirm == false;
-                                      });
-                                    } catch (e) {
-                                      await showDialog(
-                                        context: context,
-                                        builder: (ctx) =>
-                                            AlertDialog(
-                                              title: const Text('Oops!'),
-                                              content: const Text(
-                                                  'Something went wrong'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('Okay'),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                    //return;
-                                                  },
-                                                )
-                                              ],
-                                            ),
-                                      );
-                                    }
-
-                                    //setState(() {});
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: const Text(
-                        "!Confirm",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    )
-                        : const SizedBox(
-                      height: 0,
-                    ),
-                    confirm == true
-                        ? const Divider(
-                      thickness: 1,
-                      color: Colors.grey,
-                    )
-                        : const SizedBox(
-                      height: 0,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                Participants(post.participants),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "Participants",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  ],
+              ],
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text(
+                    post.eventName,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  subtitle: Text(post.description),
+                  //leading: Icon(Icons.event),
                 ),
-              );
-            }));
+                const Divider(
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
+                post.eventStatus == "completed" ||
+                        post.eventStatus == "cancelled"
+                    ? Text(
+                        post.eventStatus,
+                        style: const TextStyle(fontSize: 24),
+                      )
+                    : const SizedBox(
+                        height: 0,
+                      ),
+                post.eventStatus == "completed" ||
+                        post.eventStatus == "cancelled"
+                    ? const Divider(
+                        thickness: 1,
+                        color: Colors.grey,
+                      )
+                    : const SizedBox(
+                        height: 0,
+                      ),
+                confirm == true
+                    ? InkWell(
+                        onTap: () async {
+                          await showDialog<void>(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Status'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: const <Widget>[
+                                      Text('Was event successfully finished'),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('completed'),
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                      try {
+                                        await EventFinishing()
+                                            .confirmEvent(post, "completed");
+                                        setState(() {
+                                          confirm == false;
+                                        });
+                                      } catch (e) {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            title: const Text('Oops!'),
+                                            content: const Text(
+                                                'Something went wrong'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: const Text('Okay'),
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                  //return;
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text('Cancelled'),
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                      try {
+                                        await EventFinishing()
+                                            .confirmEvent(post, "cancelled");
+                                        setState(() {
+                                          confirm == false;
+                                        });
+                                      } catch (e) {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                            title: const Text('Oops!'),
+                                            content: const Text(
+                                                'Something went wrong'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: const Text('Okay'),
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                  //return;
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }
+
+                                      //setState(() {});
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: const Text(
+                          "!Confirm",
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      )
+                    : const SizedBox(
+                        height: 0,
+                      ),
+                confirm == true
+                    ? const Divider(
+                        thickness: 1,
+                        color: Colors.grey,
+                      )
+                    : const SizedBox(
+                        height: 0,
+                      ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            Participants(post.participants),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Participants",
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
