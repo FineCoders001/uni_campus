@@ -155,65 +155,14 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
                               ),
                             ),
                           ),
-                    reviewed
-                        ? Card(
-                            elevation: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text(
-                                    "Already Rated and Reviewed",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                        color:
-                                            Color.fromARGB(255, 82, 72, 200)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () async {
-                              await showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return RatingBar(
-                                        double.parse(m['ratings'].toString()),
-                                        double.parse(
-                                            m['ratingsCount'].toString()),
-                                        book['bookReviewedUsers'],
-                                        book['bookId']);
-                                  });
-                              setState(() {
-                                reviewed = true;
-                              });
-                            },
-                            child: Card(
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20.0, horizontal: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      'Add Reviews',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Icon(Icons.arrow_drop_down_circle_outlined),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                RatingBar(
+                    double.parse(m['ratings'].toString()),
+                    double.parse(
+                        m['ratingsCount'].toString()),
+                    book['bookReviewedUsers'],
+                    book['bookId'],reviewed),
+
+
                     Card(
                       elevation: 5,
                       child: Padding(
