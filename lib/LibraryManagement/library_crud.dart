@@ -175,9 +175,6 @@ class EditRequest {
   }
 }
 
-class AddToFav {
-
-}
 
 class AddReview {
   addReview(String bookId, String review,
@@ -209,6 +206,6 @@ class AddRating {
         .collection('AllBooks')
         .doc(bookId)
         .collection("BookRating")
-        .doc("r&r").update({"ratings": ratings, "ratingsCount": ratingsCount});
+        .doc("r&r").set({"ratings": ratings, "ratingsCount": ratingsCount});
   }
 }

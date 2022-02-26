@@ -27,6 +27,9 @@ class _RatingBarState extends State<RatingBar> {
         image: const FlutterLogo(size: 50),
         submitButtonText: 'Submit',
         onSubmitted: (response) async{
+        if(response.comment==""||response.rating==0){
+          return;
+        }
           print('rating: ${response.rating}, comment: ${response.comment}');
           double ratingsCount= widget.ratingsCount+1;
           double ratings= (widget.ratings+response.rating)/ratingsCount;

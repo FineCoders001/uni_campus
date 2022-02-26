@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +16,46 @@ class Ratings extends StatefulWidget {
 class _RatingsState extends State<Ratings> {
 
 
+
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     //getRating();
+    CollectionReference reference =FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(widget.book['bookId'])
+        .collection("BookRating");
+    reference.snapshots().listen((querySnapshot) {
+      querySnapshot.docChanges.forEach((change) async {
+        // Do something with change
+        var  v=await FirebaseFirestore.instance
+            .collection("LibraryManagement")
+            .doc("Books")
+            .collection('AllBooks')
+            .doc(widget.book['bookId'])
+            .collection("BookRating")
+            .doc("r&r").get();
+        Map<String, dynamic>? d = v.data();
+        widget.ratings = d!['ratings'];
+        widget.ratingsCount = d['ratingsCount'];
+
+        print("entered into ratings ${widget.ratings}}");
+        setState(() {
+
+        });
+
+
+      });
+    });
+
   }
   @override
   Widget build(BuildContext context) {
     //var num =['ratings'];
+
     var num = widget.ratings;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal:20.0),
