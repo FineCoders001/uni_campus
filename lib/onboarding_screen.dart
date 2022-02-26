@@ -125,7 +125,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               await Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => ProfileForm()),
+                                      builder: (_) => const ProfileForm()),
                                   (_) => false);
                             },
                             child: Container(
@@ -179,6 +179,8 @@ class _OnBoardingState extends State<OnBoarding> {
 }
 
 class ProfileForm extends StatefulHookConsumerWidget {
+  const ProfileForm({Key? key}) : super(key: key);
+
   @override
   _ProfileFormState createState() => _ProfileFormState();
 }

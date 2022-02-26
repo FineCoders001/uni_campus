@@ -354,7 +354,7 @@ class EventFinishing{
         'eventForSem': event.eventForSem
       });
     }catch(e){
-      throw e;
+      rethrow;
     }
   }
 

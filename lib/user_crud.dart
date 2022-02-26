@@ -102,7 +102,7 @@ class UserCrud extends ChangeNotifier {
          .update({'favBooks':m});
      notifyListeners();
    }catch(e){
-     throw e;
+     rethrow;
    }
   }
 }

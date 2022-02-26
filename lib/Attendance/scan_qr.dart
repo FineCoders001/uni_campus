@@ -29,7 +29,6 @@ class _ScanQRState extends State<ScanQR> {
   void initState() {
     at = Attend(
         dept: widget.de, year: widget.ye, semester: widget.se, map: <String>[]);
-    // TODO: implement initState
     super.initState();
   }
 

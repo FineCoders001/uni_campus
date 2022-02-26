@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -10,7 +8,7 @@ class RatingBar extends StatefulWidget {
   double ratingsCount;
   List bookReviewedUsers;
   String bookId;
-  RatingBar(this.ratings,this.ratingsCount,this.bookReviewedUsers,this.bookId);
+  RatingBar(this.ratings,this.ratingsCount,this.bookReviewedUsers,this.bookId, {Key? key}) : super(key: key);
 
   @override
   _RatingBarState createState() => _RatingBarState();
@@ -23,9 +21,9 @@ class _RatingBarState extends State<RatingBar> {
 
     return RatingDialog(
       initialRating: 0,
-        title: Text('Rate this book'),
+        title: const Text('Rate this book'),
         message:
-        Text('Tap a star to set your rating and review this product.'),
+        const Text('Tap a star to set your rating and review this product.'),
         image: const FlutterLogo(size: 50),
         submitButtonText: 'Submit',
         onSubmitted: (response) async{

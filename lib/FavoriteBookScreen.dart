@@ -1,16 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
-import 'Ratings.dart';
 import 'display_book_details.dart';
-import 'main.dart';
 
 class FavoriteBookScreen extends StatefulHookConsumerWidget {
+  const FavoriteBookScreen({Key? key}) : super(key: key);
+
   //const FavoriteBookScreen({Key? key}) : super(key: key);
   //   var book;
   // FavoriteBookScreen(this.book);
@@ -85,7 +83,6 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     l=ref.read(userCrudProvider).user['favBooks'];
     getFav();
@@ -104,7 +101,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
               onTap: (){
                 getFav();
               },
-                child: Icon(Icons.refresh)
+                child: const Icon(Icons.refresh)
             ),
           )
         ],
@@ -125,8 +122,8 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                   children: [
                     Container(
                       //height: 150,
-                      margin: EdgeInsets.only(top: 5),
-                      padding: EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.all(8),
                       child:  Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +138,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                   padding: const EdgeInsets.only(left: 20),
                                   child: Text(m[index]['bookName'] ,
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22,
                                     ),
@@ -151,7 +148,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left:20.0,top: 20),
                                   child: Text('Author: ${m[index]['bookAuthor'] }',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 18,
 
                                     ),
@@ -160,7 +157,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(left:20.0,top: 20),
                                   child: Text('pages: ${m[index]['bookPages'] }',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
 
                                     ),
@@ -192,7 +189,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
 
                     ),
 
-                    Divider(
+                    const Divider(
                       color: Colors.black54,
                       thickness: 1,
                     ),
@@ -202,8 +199,8 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                         showDialog(context: context,
                           builder: (ctx) => AlertDialog(
 
-                            title: Text("Are you sure?"),
-                            content: Text('Do you want to remove the item?'),
+                            title: const Text("Are you sure?"),
+                            content: const Text('Do you want to remove the item?'),
                             actions: [
                               TextButton(onPressed: (){
                                 var item = l[index];
@@ -222,7 +219,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                   print("eerror is ${e}");
                                   m.insert(index, item);
                                   ref.read(userCrudProvider).user['favBooks']=l;
-                                  var snackBar = SnackBar(
+                                  var snackBar = const SnackBar(
                                       content: Text('Something Went Wrong',
                                           textAlign: TextAlign.center));
                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -230,20 +227,20 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                 }
                                 Navigator.pop(context);
                               },
-                                  child: Text("Yes")
+                                  child: const Text("Yes")
                               ),
                               TextButton(onPressed: (){
 
                                 Navigator.of(context).pop();
                               },
-                                  child: Text("No")
+                                  child: const Text("No")
                               )
                             ],
                           ),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10),
                         child: Text('Remove item',
                           textAlign: TextAlign.center,
                           style: TextStyle(

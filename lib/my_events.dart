@@ -66,7 +66,6 @@ class _MyEventState extends ConsumerState<MyEvent> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     u = ref.read(userCrudProvider);
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Participants extends StatefulWidget {
 
   var participantsList;
-  Participants(this.participantsList);
+  Participants(this.participantsList, {Key? key}) : super(key: key);
 
   @override
   _ParticipantsState createState() => _ParticipantsState();
