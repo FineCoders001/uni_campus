@@ -46,9 +46,9 @@ class AddBooks {
         .doc("Books")
         .collection('AllBooks')
         .doc(docRef.id)
-        .collection("BookRating").doc("r&r")
+        .collection("BookRating")
+        .doc("r&r")
         .set({"ratings": 0.0, "ratingsCount": 0.0});
-
   }
 }
 
@@ -90,6 +90,10 @@ class EditRequest {
       .collection("LibraryManagement")
       .doc("RequestedBooks")
       .collection("PendingRequest");
+  CollectionReference approvedReference = FirebaseFirestore.instance
+      .collection("LibraryManagement")
+      .doc("RequestedBooks")
+      .collection("ApprovedRequest");
   CollectionReference allBooksReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("Books")
@@ -97,6 +101,22 @@ class EditRequest {
   bookIssued(String id, user) async {
     DocumentSnapshot documentSnapshot =
         await pendingReference.doc(user['enroll']).get();
+    var data = documentSnapshot.data();
+    if (data == null) {
+      return false;
+    } else {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      if (data['bookId'].contains(id) == true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  bookApproved(String id,user)async{
+    DocumentSnapshot documentSnapshot =
+        await approvedReference.doc(user['enroll']).get();
     var data = documentSnapshot.data();
     if (data == null) {
       return false;
@@ -135,10 +155,46 @@ class EditRequest {
     }
   }
 
-  approveRequest(BookDetails book, user) async {
-     FirebaseFirestore.instance
-        .collection("LibraryManagement")
-        .doc("RequestedBooks");
+  approveRequest(
+      String enroll, Map<String, dynamic> passedData, String bookId) async {
+    //Adding data
+    DocumentSnapshot documentSnapshot =
+        await approvedReference.doc(enroll).get();
+    if (documentSnapshot.data() == null || documentSnapshot.data() == {}) {
+      await approvedReference.doc(enroll).set({
+        'bookId': FieldValue.arrayUnion([bookId]),
+        'userName': passedData['userName'],
+        'enroll': passedData['enroll'],
+        'semester': passedData['semester'],
+        'deptName': passedData['deptName']
+      });
+    } else {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      data['bookId'].add(bookId);
+      await approvedReference.doc(enroll).set({
+        'bookId': FieldValue.arrayUnion(data['bookId']),
+        'userName': data['userName'],
+        'enroll': data['enroll'],
+        'semester': data['semester'],
+        'deptName': data['deptName']
+      });
+    }
+
+    //Deleting Data
+    if (passedData['bookId'].length == 1) {
+      await pendingReference.doc(enroll).delete();
+    } else {
+      List listBookId = passedData['bookId'];
+      listBookId.remove(bookId);
+      await pendingReference.doc(enroll).set({
+        'bookId': passedData['bookId'],
+        'userName': passedData['userName'],
+        'enroll': passedData['enroll'],
+        'semester': passedData['semester'],
+        'deptName': passedData['deptName']
+      });
+    }
   }
 
   requestBook(String bookId, user) async {
@@ -158,7 +214,7 @@ class EditRequest {
         'userName': user['userName'],
         'enroll': user['enroll'],
         'semester': user['semester'],
-        'deptName': user['deptName']
+        'deptName': user['deptName'],
       });
     } else {
       Map<String, dynamic> data =
@@ -186,8 +242,7 @@ class AddToFav {
 }
 
 class AddReview {
-  addReview(String bookId, String review,
-      List bookReviewedUsers) async {
+  addReview(String bookId, String review, List bookReviewedUsers) async {
     bookReviewedUsers.add(FirebaseAuth.instance.currentUser?.uid);
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
@@ -215,6 +270,7 @@ class AddRating {
         .collection('AllBooks')
         .doc(bookId)
         .collection("BookRating")
-        .doc("r&r").update({"ratings": ratings, "ratingsCount": ratingsCount});
+        .doc("r&r")
+        .update({"ratings": ratings, "ratingsCount": ratingsCount});
   }
 }

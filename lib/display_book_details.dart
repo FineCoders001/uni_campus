@@ -134,9 +134,9 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
                               ),
                             ),
                           )
-                        : Container(
+                        : const SizedBox(
                             width: double.infinity,
-                            child: const Align(
+                            child: Align(
                               alignment: Alignment.center,
                               child: Text(
                                 'Book In Stock',
@@ -322,6 +322,12 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         setState(() {
           isIssued = "Cancel Request";
         });
+      
+      }
+      else if(await EditRequest().bookApproved(widget.book['bookId'], user) == true){
+        setState(() {
+          isIssued = "Book Approved";
+        });
       }
     } else {
       setState(() {
@@ -391,7 +397,8 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               print("here:${widget.book['bookReviewedUsers']}");
               await EditRequest()
                   .requestBook(widget.book["bookId"], user)
-                  .then((value) => {
+                  .then(
+                    (value) => {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             duration: Duration(seconds: 1),
@@ -423,6 +430,14 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                 const SnackBar(
                   duration: Duration(seconds: 1),
                   content: Text('Out of Stock', textAlign: TextAlign.center),
+                ),
+              );
+            }
+            else if (isIssued == "Book Approved") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  duration: Duration(seconds: 1),
+                  content: Text('Collect book at the Library', textAlign: TextAlign.center),
                 ),
               );
             }

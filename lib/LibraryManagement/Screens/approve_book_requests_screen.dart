@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
@@ -22,13 +21,20 @@ class _ApproveBookRequestScreenState
     await ref.read(userCrudProvider).fetchUserProfile();
   }
 
+  List<String> bookData = [];
   late UserCrud userCrud;
   late Map<String, dynamic> user;
   CollectionReference allBooksReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("Books")
       .collection("AllBooks");
-  List<Map<String, dynamic>> bookDetails = [];
+  bool isLoading = false;
+  @override
+  void didChangeDependencies() {
+    userCrud = ref.watch(userCrudProvider);
+    user = userCrud.user;
+    super.didChangeDependencies();
+  }
 
   final queryDetails = FirebaseFirestore.instance
       .collection("LibraryManagement")
@@ -39,15 +45,6 @@ class _ApproveBookRequestScreenState
             RequestedDetails.fromJson(snapshot.data()!),
         toFirestore: (requestedDetails, _) => requestedDetails.toJson(),
       );
-
-  bool isLoading = true;
-  @override
-  void didChangeDependencies() {
-    userCrud = ref.watch(userCrudProvider);
-    user = userCrud.user;
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,11 +58,7 @@ class _ApproveBookRequestScreenState
         pageSize: 5,
         itemBuilder: (context, snapshot) {
           final post = snapshot.data();
-          return Column(
-            children: [
-              approveCard(post, context),
-            ],
-          );
+          return approveCard(post, context);
         },
       ),
     );
@@ -132,7 +125,6 @@ class _ApproveBookRequestScreenState
                 shrinkWrap: true,
                 itemCount: post.bookId.length,
                 itemBuilder: (context, index) {
-                  getBookDetails(post.bookId[index]).then((value) {});
                   return isLoading == false
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width * 0.94,
@@ -144,17 +136,17 @@ class _ApproveBookRequestScreenState
                             elevation: 1,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                              children: [const
                                 Padding(
-                                  padding: const EdgeInsets.all(2.0),
+                                  padding: EdgeInsets.all(2.0),
                                   child: SizedBox(
                                     height: 100,
                                     width: 100,
-                                    child: CachedNetworkImage(
-                                      imageUrl: bookDetails[index]['bookPic']
-                                          [0],
-                                      fit: BoxFit.fill,
-                                    ),
+                                    child: Center(child: Text("Image"),),
+                                    // child: CachedNetworkImage(
+                                    //   imageUrl: Link,
+                                    //   fit: BoxFit.fill,
+                                    // ),
                                   ),
                                 ),
                                 Expanded(
@@ -166,7 +158,7 @@ class _ApproveBookRequestScreenState
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(bookDetails[index]["bookName"],
+                                        Text(post.bookId[index],
                                             style: GoogleFonts.ubuntu(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold)),
@@ -176,21 +168,12 @@ class _ApproveBookRequestScreenState
                                           children: [
                                             InkWell(
                                               onTap: (() async {
-                                                print('index: $index');
-                                                print(
-                                                    'index: ${bookDetails[index]["bookName"]}');
-
                                                 await EditRequest()
                                                     .deleteRequest(
-                                                        bookDetails[index]
-                                                            ["bookId"],
+                                                        post.bookId[index],
                                                         user);
                                                 setState(() {
-                                                  bookDetails;
-                                                  print(
-                                                      "Index: ${post.bookId.elementAt(index)}");
-                                                  print(
-                                                      "deleted: ${bookDetails[index]["bookId"]} ${bookDetails[index]["bookName"]} ${post.bookId} ");
+                                                  post.bookId.removeAt(index);
                                                 });
                                               }),
                                               child: Container(
@@ -216,20 +199,50 @@ class _ApproveBookRequestScreenState
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5))),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Approve",
-                                                  style: GoogleFonts.ubuntu(
-                                                    fontSize: 20,
-                                                    color: Colors.white,
+                                            InkWell(
+                                              onTap: () async {
+                                                await EditRequest()
+                                                    .approveRequest(
+                                                        post.enroll,
+                                                        {
+                                                          "bookId": post.bookId,
+                                                          "deptName":
+                                                              post.deptName,
+                                                          "enroll": post.enroll,
+                                                          "semester":
+                                                              post.semester,
+                                                          "userName":
+                                                              post.userName
+                                                        },
+                                                        post.bookId[index])
+                                                    .then((value) => {
+                                                          const SnackBar(
+                                                            duration: Duration(
+                                                                seconds: 1),
+                                                            content: Text(
+                                                                'Book Approved',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center),
+                                                          ),
+                                                        });
+                                              },
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                5))),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Approve",
+                                                    style: GoogleFonts.ubuntu(
+                                                      fontSize: 20,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -254,18 +267,8 @@ class _ApproveBookRequestScreenState
     );
   }
 
-  Future getBookDetails(String id) async {
-    if (isLoading == true) {
-      print("now set to false");
-      print("Idhar firse $id");
-
-      var data = await allBooksReference.doc(id).get();
-      print("idhar:  ${data.data()}");
-      setState(() {
-        bookDetails.add(data.data() as Map<String, dynamic>);
-        isLoading = false;
-      });
-    }
+  Future getBookDetails(String bookId) async {
+    if (isLoading == true) {}
   }
 }
 

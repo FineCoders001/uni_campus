@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
 class Ratings extends StatefulWidget {
   var book;
   double ratings;
