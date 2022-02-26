@@ -1,16 +1,24 @@
 import 'dart:async';
 import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/LibraryManagement/library_crud.dart';
+
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/RatingBar.dart';
+import 'package:uni_campus/Reviews.dart';
 import 'package:uni_campus/styled_image.dart';
 import 'package:uni_campus/user_crud.dart';
+
+import 'LibraryManagement/library_crud.dart';
 import 'Ratings.dart';
 
 class DisplayBookDetail extends StatefulHookConsumerWidget {
   //const DisplayBookDetail({Key? key}) : super(key: key);
   static const routename = 'DisplayBookDetail';
+
+  const DisplayBookDetail({Key? key}) : super(key: key);
 
   @override
   _DisplayBookDetailState createState() => _DisplayBookDetailState();
@@ -23,17 +31,40 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
 
   late Timer timer;
   late var book;
+  bool reviewed = false;
+  late List l;
+
+  Map<String, dynamic> m = {'ratings': 0.0, 'ratingsCount': 0.0};
+
+  getRating() async {
+    var v = await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(book['bookId'])
+        .collection("BookRating")
+        .doc("r&r")
+        .get();
+    m = v.data()!;
+    setState(() {});
+  }
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    var arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    book = arguments['book'];
+    getRating();
   }
 
   @override
   Widget build(BuildContext context) {
-    var arguments = ModalRoute.of(context)?.settings.arguments as Map;
-    book = arguments['book'];
     print("book is ${book['bookId']}");
+    l = book['bookReviewedUsers'];
+    if (l.contains(FirebaseAuth.instance.currentUser?.uid)) {
+      reviewed = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
@@ -61,74 +92,145 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
               flex: 4,
               child: SingleChildScrollView(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 20),
-                            child: Text(
-                              book['bookName'],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 28,
-                              ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 20),
+                          child: Text(
+                            book['bookName'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 28,
                             ),
                           ),
-                          Ratings(book)
-                        ],
-                      ),
-                      book['bookQuantity'] - book['issuedQuantity'] <= 0
-                          ? const Padding(
-                              padding: EdgeInsets.only(left: 20.0, right: 8),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      Reviews(book['bookId']),
+                                ),
+                              );
+                            },
+                            child:
+                                Ratings(book, m['ratings'], m['ratingsCount']))
+                      ],
+                    ),
+                    book['bookQuantity'] - book['issuedQuantity'] <= 0
+                        ? const Padding(
+                            padding: EdgeInsets.only(left: 20.0, right: 8),
+                            child: Text(
+                              'Out Of Stock',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            child: const Align(
+                              alignment: Alignment.center,
                               child: Text(
-                                'Out Of Stock',
+                                'Book In Stock',
                                 style: TextStyle(
                                   fontSize: 24,
-                                  color: Colors.red,
+                                  color: Colors.green,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            )
-                          : const SizedBox(
-                              width: double.infinity,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Book In Stock',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                    reviewed
+                        ? Card(
+                            elevation: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    "Already Rated and Reviewed",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            Color.fromARGB(255, 82, 72, 200)),
                                   ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () async {
+                              await showDialog(
+                                  context: context,
+                                  builder: (ctx) {
+                                    return RatingBar(
+                                        double.parse(m['ratings'].toString()),
+                                        double.parse(
+                                            m['ratingsCount'].toString()),
+                                        book['bookReviewedUsers'],
+                                        book['bookId']);
+                                  });
+                              setState(() {
+                                reviewed = true;
+                              });
+                            },
+                            child: Card(
+                              elevation: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Text(
+                                      'Add Reviews',
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Icon(Icons.arrow_drop_down_circle_outlined),
+                                  ],
                                 ),
                               ),
                             ),
-                      Card(
-                        elevation: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                'Book Details',
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.w600),
-                              ),
-                              Icon(Icons.arrow_drop_down_circle_outlined),
-                            ],
                           ),
+                    Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'Book Details',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.w600),
+                            ),
+                            Icon(Icons.arrow_drop_down_circle_outlined),
+                          ],
                         ),
                       ),
-                      bookDetailWid("Author", book['bookAuthor']),
-                      bookDetailWid("Pages", book['bookPages']),
-                      bookDetailWid("Publication", book['bookPublication']),
-                      bookDetailWid("Isbn No", book['isbnNumber'].toString())
-                    ]),
+                    ),
+                    bookDetailWid("Author", book['bookAuthor']),
+                    bookDetailWid("Pages", book['bookPages']),
+                    bookDetailWid("Publication", book['bookPublication']),
+                    bookDetailWid("Isbn No", book['isbnNumber'].toString())
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -185,7 +287,7 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
 
 class BottomButton extends StatefulHookConsumerWidget {
   dynamic book;
-  BottomButton(this.book);
+  BottomButton(this.book, {Key? key}) : super(key: key);
 
   @override
   _BottomButtonState createState() => _BottomButtonState();

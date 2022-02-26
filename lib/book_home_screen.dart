@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'package:uni_campus/display_book_details.dart';
 
+import 'display_book_details.dart';
+
 class BookHomeScreen extends StatefulWidget {
   const BookHomeScreen({Key? key}) : super(key: key);
 
@@ -41,6 +43,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
   );
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),

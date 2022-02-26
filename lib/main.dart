@@ -7,6 +7,7 @@ import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
 import 'package:uni_campus/display_book_details.dart';
 
 import 'Authentication/login_screen.dart';
+import 'display_book_details.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,7 +90,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           },
         ),
         routes: {
-          DisplayBookDetail.routename: (ctx) => DisplayBookDetail(),
+          DisplayBookDetail.routename: (ctx) => const DisplayBookDetail(),
         },
       ),
 

@@ -1,23 +1,28 @@
+
 class Attend {
   late final String dept;
   late final String year;
   late final String semester;
-  late var map;
+  late final List<String> map;
 
   Attend({
     required this.dept,
     required this.year,
     required this.semester,
-    this.map,
+    required this.map,
   });
   Attend.fromJson(Map json)
       : this(
-            dept: json["Dept"],
+            dept: json["Department"],
             year: json["Year"],
-            semester: json["Semster"],
+            semester: json["Semester"],
             map: json["Map"]);
 
-  Map<String, Object> toJson() {
+  Map<String, Object?> toJson() {
     return {'Department': dept, 'Year': year, 'Semester': semester, 'Map': map};
   }
+
+  // adddata(Attend a) {
+  //   return FirebaseFirestore.instance.collection("Attendance").doc(year).collection();
+  // }
 }

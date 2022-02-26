@@ -34,14 +34,21 @@ class AddBooks {
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
-      'ratings': book.ratings,
-      'ratingsCount': book.ratingsCount,
       'bookReviews': book.bookReviews,
       'bookReviewedUsers': book.bookReviewedUsers,
       'bookId': docRef.id,
       'issuedQuantity': 0,
       'bookQuantity': book.bookQuantity
     });
+
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(docRef.id)
+        .collection("BookRating").doc("r&r")
+        .set({"ratings": 0.0, "ratingsCount": 0.0});
+
   }
 }
 
@@ -60,9 +67,7 @@ class UpdateBook {
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
-      'ratings': book.ratings,
       'bookReviews': book.bookReviews,
-      'ratingsCount': book.ratingsCount,
       'bookId': book.bookId,
       'bookQuantity': book.bookQuantity
     });
@@ -181,8 +186,9 @@ class AddToFav {
 }
 
 class AddReview {
-  addReview(String bookId, String review) async {
-    // await FirebaseFirestore.instance.collection()
+  addReview(String bookId, String review,
+      List bookReviewedUsers) async {
+    bookReviewedUsers.add(FirebaseAuth.instance.currentUser?.uid);
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
         .doc("Books")
@@ -190,5 +196,25 @@ class AddReview {
         .doc(bookId)
         .collection("BookReviews")
         .add({"review": review});
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(bookId)
+        .update({
+      'bookReviewedUsers': bookReviewedUsers,
+    });
+  }
+}
+
+class AddRating {
+  addRating(String bookId, double ratings, double ratingsCount) async {
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(bookId)
+        .collection("BookRating")
+        .doc("r&r").update({"ratings": ratings, "ratingsCount": ratingsCount});
   }
 }
