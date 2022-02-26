@@ -105,4 +105,14 @@ class UserCrud extends ChangeNotifier {
      rethrow;
    }
   }
+
+  addToFav(String bookId, List favBooks) async {
+    favBooks.add(bookId);
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'favBooks': favBooks});
+    user['favBooks']=favBooks;
+    notifyListeners();
+  }
 }

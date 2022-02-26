@@ -176,13 +176,7 @@ class EditRequest {
 }
 
 class AddToFav {
-  addToFav(String bookId, List favBooks) async {
-    favBooks.add(bookId);
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .update({'favBooks': favBooks});
-  }
+
 }
 
 class AddReview {

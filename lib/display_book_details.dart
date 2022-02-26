@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/FavoriteBookScreen.dart';
 
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/RatingBar.dart';
@@ -69,14 +70,20 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Badge(
-              animationType: BadgeAnimationType.fade,
-              badgeContent: const Text('3'),
-              child: const Icon(
-                Icons.favorite_border,
-                color: Colors.white,
+          GestureDetector(
+            onTap: () async {
+              await Navigator.push(context, MaterialPageRoute(builder: (
+                  BuildContext context) => FavoriteBookScreen()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Badge(
+                animationType: BadgeAnimationType.fade,
+                badgeContent:  Text('${ref.watch(userCrudProvider).user['favBooks'].length}'),
+                child: const Icon(
+                  Icons.favorite_border,
+                  color: Colors.white,
+                ),
               ),
             ),
           )
@@ -294,29 +301,41 @@ class BottomButton extends StatefulHookConsumerWidget {
 }
 
 class _BottomButtonState extends ConsumerState<BottomButton> {
+
   String isIssued = "Issue Book";
-  bool fav = false;
+  //bool fav = false;
   late UserCrud userCrud;
   late List l;
   late Map<String, dynamic> user;
 
   @override
   void initState() {
-    super.initState();
-    l = ref.read(userCrudProvider).user['favBooks'];
-    print("entry $l");
-    if (l.contains(widget.book['bookId'])) {
-      setState(() {
-        fav = true;
-      });
-      print("exit");
-    }
+    // super.initState();
+    // l = ref.read(userCrudProvider).user['favBooks'];
+    // print("entry $l");
+    // if (l.contains(widget.book['bookId'])) {
+    //   setState(() {
+    //     fav = true;
+    //   });
+    //   print("exit");
+    // }
   }
 
   @override
   Future<void> didChangeDependencies() async {
-    userCrud = ref.watch(userCrudProvider);
+    //
     user = userCrud.user;
+    // l=user['favBooks'];
+    // if (l.contains(widget.book['bookId'])) {
+    //   setState(() {
+    //     fav = true;
+    //   });
+    //   print("exit");
+    // }else{
+    //   setState(() {
+    //     fav=false;
+    //   });
+    // }
     if (widget.book["bookQuantity"] > 0) {
       if (await EditRequest().bookIssued(widget.book['bookId'], user) == true) {
         setState(() {
@@ -334,17 +353,18 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   @override
   Widget build(BuildContext context) {
     print("book id is ${widget.book['bookId']}");
+    userCrud = ref.watch(userCrudProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () async {
-            if (fav == false) {
+            if (userCrud.user['favBooks'].contains(widget.book['bookId']) == false) {
               try {
-                await AddToFav().addToFav(widget.book['bookId'], l);
-                setState(() {
-                  fav = true;
-                });
+                await userCrud.addToFav(widget.book['bookId'], userCrud.user['favBooks']);
+
+               // ref.read(userCrudProvider).user['favBooks'].add(widget.book['bookId']);
+
                 var snackBar = const SnackBar(
                     content: Text('Added to favorites',
                         textAlign: TextAlign.center));
@@ -352,13 +372,15 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               } catch (e) {
                 var snackBar = const SnackBar(
                     content: Text('Something Went Wrong',
-                        textAlign: TextAlign.center));
+                        textAlign: TextAlign.center),
+                  padding: EdgeInsets.all(12),
+                );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 print(e);
               }
             } else {
-              // await Navigator.push(context, MaterialPageRoute(builder: (
-              //     BuildContext context) => ()));
+              await Navigator.push(context, MaterialPageRoute(builder: (
+                  BuildContext context) => FavoriteBookScreen()));
             }
           },
           child: Container(
@@ -372,8 +394,8 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   Icons.favorite_border,
                   color: Colors.red,
                 ),
-                fav
-                    ? const Text(
+
+    userCrud.user['favBooks'].contains(widget.book['bookId']) ? const Text(
                         ' GO TO FAVORITE',
                         style: TextStyle(color: Colors.black),
                       )
@@ -381,6 +403,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                         ' ADD TO FAVORITE',
                         style: TextStyle(color: Colors.black),
                       ),
+
               ],
             ),
           ),
