@@ -6,7 +6,8 @@ class AddBooks {
   addBook(BookDetails book) async {
     var docRef = await FirebaseFirestore.instance
         .collection("LibraryManagement")
-        .doc("Books").collection('AllBooks')
+        .doc("Books")
+        .collection('AllBooks')
         .add({
       'bookName': book.bookName,
       // 'bookPic':book.bookPic,
@@ -22,7 +23,8 @@ class AddBooks {
 
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
-        .doc("Books").collection('AllBooks')
+        .doc("Books")
+        .collection('AllBooks')
         .doc(docRef.id)
         .update({
       'bookName': book.bookName,
@@ -32,14 +34,21 @@ class AddBooks {
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
-      'ratings': book.ratings,
-      'ratingsCount': book.ratingsCount,
-      'bookReviews':book.bookReviews,
-      'bookReviewedUsers':book.bookReviewedUsers,
+      'bookReviews': book.bookReviews,
+      'bookReviewedUsers': book.bookReviewedUsers,
       'bookId': docRef.id,
       'issuedQuantity': 0,
       'bookQuantity': book.bookQuantity
     });
+
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(docRef.id)
+        .collection("BookRating").doc("r&r")
+        .set({"ratings": 0.0, "ratingsCount": 0.0});
+
   }
 }
 
@@ -47,7 +56,8 @@ class UpdateBook {
   updateBooks(BookDetails book) async {
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
-        .doc("Books").collection('AllBooks')
+        .doc("Books")
+        .collection('AllBooks')
         .doc(book.bookId)
         .update({
       'bookName': book.bookName,
@@ -57,9 +67,7 @@ class UpdateBook {
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
-      'ratings': book.ratings,
-      'bookReviews':book.bookReviews,
-      'ratingsCount': book.ratingsCount,
+      'bookReviews': book.bookReviews,
       'bookId': book.bookId,
       'bookQuantity': book.bookQuantity
     });
@@ -70,7 +78,8 @@ class DeleteBooks {
   deleteBooks(BookDetails book) async {
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
-        .doc("Books").collection('AllBooks')
+        .doc("Books")
+        .collection('AllBooks')
         .doc(book.bookId)
         .delete();
   }
@@ -78,7 +87,6 @@ class DeleteBooks {
 
 class RequestBooks {
   requestBook(BookDetails book, user) async {
-    
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
         .doc("AvailableBooks")
@@ -104,21 +112,46 @@ class ApproveRequest {
   approveRequest() {}
 }
 
-class AddToFav{
-  addToFav(String bookId,List favBooks) async {
+class AddToFav {
+  addToFav(String bookId, List favBooks) async {
     favBooks.add(bookId);
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update(
-      {'favBooks':favBooks}
-    );
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .update({'favBooks': favBooks});
   }
 }
 
-
-class AddReview{
-  addReview(String bookId,String review) async {
-   // await FirebaseFirestore.instance.collection()
+class AddReview {
+  addReview(String bookId, String review,
+      List bookReviewedUsers) async {
+    bookReviewedUsers.add(FirebaseAuth.instance.currentUser?.uid);
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
-        .doc("Books").collection('AllBooks').doc(bookId).collection("BookReviews").add({"review":review});
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(bookId)
+        .collection("BookReviews")
+        .add({"review": review});
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(bookId)
+        .update({
+      'bookReviewedUsers': bookReviewedUsers,
+    });
+  }
+}
+
+class AddRating {
+  addRating(String bookId, double ratings, double ratingsCount) async {
+    await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection('AllBooks')
+        .doc(bookId)
+        .collection("BookRating")
+        .doc("r&r").update({"ratings": ratings, "ratingsCount": ratingsCount});
   }
 }

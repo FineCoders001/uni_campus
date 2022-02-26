@@ -23,6 +23,4 @@ class UserProfile {
         required this.favBooks
       });
 
-
-
 }

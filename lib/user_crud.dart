@@ -92,4 +92,17 @@ class UserCrud extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  removeFavorite(var m) async {
+   try{
+     user['favBooks']=m;
+     await FirebaseFirestore.instance
+         .collection("users")
+         .doc(currentUser?.uid.toString())
+         .update({'favBooks':m});
+     notifyListeners();
+   }catch(e){
+     throw e;
+   }
+  }
 }
