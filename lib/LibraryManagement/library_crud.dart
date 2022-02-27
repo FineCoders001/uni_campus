@@ -263,6 +263,7 @@ class EditRequestAdmin {
       await pendingReference.doc(enroll).delete();
     } else {
       List listBookId = passedData['bookId'];
+
       listBookId.remove(bookId);
       await pendingReference.doc(enroll).set({
         'bookId': passedData['bookId'],
@@ -301,8 +302,7 @@ class BookStatus {
     });
   }
 
-  bookReturned(
-      String enroll, Map<String, dynamic> passedData, String bookId) async {
+  bookReturned(String enroll, List<dynamic> passedData, String bookId) async {
     await allBooksReference
         .doc(bookId)
         .update({'bookQuantity': FieldValue.increment(1)});
@@ -311,18 +311,15 @@ class BookStatus {
         .update({'issuedQuantity': FieldValue.increment(-1)});
 
     //Deleting Data
-    if (passedData['bookId'].length == 1) {
-      await pendingReference.doc(enroll).delete();
+    if (passedData.length == 1) {
+      await approvedReference.doc(enroll).delete();
     } else {
-      List listBookId = passedData['bookId'];
-      listBookId.remove(bookId);
-      await pendingReference.doc(enroll).set({
-        'bookId': passedData['bookId'],
-        'userName': passedData['userName'],
-        'enroll': passedData['enroll'],
-        'semester': passedData['semester'],
-        'deptName': passedData['deptName']
+      await approvedReference.doc(enroll).update({
+        'bookId': FieldValue.arrayRemove([
+          {bookId: "Collected"},{bookId: "Approved"}
+        ]),
       });
+      
     }
   }
 }

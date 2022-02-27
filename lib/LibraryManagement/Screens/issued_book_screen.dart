@@ -171,16 +171,69 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
+                                            // InkWell(
+                                            //   onTap: (() async {
+                                            //     await BookStatus()
+                                            //         .bookCollected(
+                                            //             post.enroll,
+                                            //             post.bookId[index].keys
+                                            //                 .elementAt(0))
+                                            //         .then(
+                                            //           (value) => {
+                                            //             ScaffoldMessenger.of(
+                                            //                     _scaffoldKey
+                                            //                         .currentState!
+                                            //                         .context)
+                                            //                 .showSnackBar(
+                                            //               const SnackBar(
+                                            //                 duration: Duration(
+                                            //                     seconds: 1),
+                                            //                 content: Text(
+                                            //                   'Book marked as collected',
+                                            //                   textAlign:
+                                            //                       TextAlign
+                                            //                           .center,
+                                            //                 ),
+                                            //               ),
+                                            //             ),
+                                            //           },
+                                            //         );
+                                            //   }),
+                                            //   child: Container(
+                                            //     decoration: const BoxDecoration(
+                                            //       color: Colors.blueAccent,
+                                            //       borderRadius:
+                                            //           BorderRadius.all(
+                                            //         Radius.circular(
+                                            //           5,
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //     child: Padding(
+                                            //       padding:
+                                            //           const EdgeInsets.all(8.0),
+                                            //       child: Text(
+                                            //         "Collected",
+                                            //         style: GoogleFonts.ubuntu(
+                                            //           fontSize: 20,
+                                            //           color: Colors.white,
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            
+                                            
                                             InkWell(
-                                              onTap: (() async {
+                                              onTap: () async {
                                                 await BookStatus()
-                                                    .bookCollected(
+                                                    .bookReturned(
                                                         post.enroll,
+                                                        post.bookId,
                                                         post.bookId[index].keys
                                                             .elementAt(0))
                                                     .then(
                                                       (value) => {
-                                                        didChangeDependencies(),
                                                         ScaffoldMessenger.of(
                                                                 _scaffoldKey
                                                                     .currentState!
@@ -190,7 +243,7 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                                                             duration: Duration(
                                                                 seconds: 1),
                                                             content: Text(
-                                                              'Book marked as collected',
+                                                              'Book marked as returned',
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -199,32 +252,7 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                                                         ),
                                                       },
                                                     );
-                                              }),
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.blueAccent,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(
-                                                      5,
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Collected",
-                                                    style: GoogleFonts.ubuntu(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () async {},
+                                              },
                                               child: Container(
                                                 decoration: const BoxDecoration(
                                                     color: Colors.blueAccent,
@@ -236,7 +264,7 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    "Returned",
+                                                    "Book returned",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                       color: Colors.white,

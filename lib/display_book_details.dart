@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/RatingBar.dart';
 import 'package:uni_campus/Reviews.dart';
@@ -91,145 +90,175 @@ class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
             Expanded(
               flex: 4,
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Card(
+                    elevation: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 20),
+                              child: Text(
+                                book['bookName'],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 28,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Reviews(book['bookId']),
+                                    ),
+                                  );
+                                },
+                                child: Ratings(
+                                    book, m['ratings'], m['ratingsCount']))
+                          ],
+                        ),
+                        book['bookQuantity'] <= 0
+                            ? const Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Out Of Stock',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : const Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Book In Stock',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 20),
-                          child: Text(
-                            book['bookName'],
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 28,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      Reviews(book['bookId']),
-                                ),
-                              );
-                            },
-                            child:
-                                Ratings(book, m['ratings'], m['ratingsCount']))
-                      ],
-                    ),
-                    book['bookQuantity'] - book['issuedQuantity'] <= 0
-                        ? const Padding(
-                            padding: EdgeInsets.only(left: 20.0, right: 8),
-                            child: Text(
-                              'Out Of Stock',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          )
-                        : const SizedBox(
-                            width: double.infinity,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Book In Stock',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                    reviewed
-                        ? Card(
-                            elevation: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 10),
-                              child: Row(
+                              horizontal: 10.0, vertical: 4),
+                          child: Column(
+                            children: [
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: const [
                                   Text(
-                                    "Already Rated and Reviewed",
+                                    'Book Details',
                                     style: TextStyle(
                                         fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                        color:
-                                            Color.fromARGB(255, 82, 72, 200)),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Icon(
+                                    Icons.list_alt_outlined,
+                                    size: 25,
                                   ),
                                 ],
                               ),
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () async {
-                              await showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return RatingBar(
-                                        double.parse(m['ratings'].toString()),
-                                        double.parse(
-                                            m['ratingsCount'].toString()),
-                                        book['bookReviewedUsers'],
-                                        book['bookId']);
-                                  });
-                              setState(() {
-                                reviewed = true;
-                              });
-                            },
-                            child: Card(
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20.0, horizontal: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      'Add Reviews',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600),
+                              bookDetailWid("Author", book['bookAuthor']),
+                              bookDetailWid("Pages", book['bookPages']),
+                              bookDetailWid(
+                                  "Publication", book['bookPublication']),
+                              bookDetailWid(
+                                  "Isbn No", book['isbnNumber'].toString())
+                            ],
+                          ),
+                        ),
+                        reviewed
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Card(
+                                  elevation: 3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20.0, horizontal: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: const [
+                                        Text(
+                                          "Already Rated and Reviewed",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromARGB(
+                                                  255, 82, 72, 200)),
+                                        ),
+                                      ],
                                     ),
-                                    Icon(Icons.arrow_drop_down_circle_outlined),
-                                  ],
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () async {
+                                  await showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        return RatingBar(
+                                            double.parse(
+                                                m['ratings'].toString()),
+                                            double.parse(
+                                                m['ratingsCount'].toString()),
+                                            book['bookReviewedUsers'],
+                                            book['bookId']);
+                                      });
+                                  setState(() {
+                                    reviewed = true;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Card(
+                                    elevation: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0, horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Text(
+                                            'Add Reviews',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          Icon(Icons.rate_review_outlined),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                    Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'Book Details',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w600),
-                            ),
-                            Icon(Icons.arrow_drop_down_circle_outlined),
-                          ],
-                        ),
-                      ),
+                      ],
                     ),
-                    bookDetailWid("Author", book['bookAuthor']),
-                    bookDetailWid("Pages", book['bookPages']),
-                    bookDetailWid("Publication", book['bookPublication']),
-                    bookDetailWid("Isbn No", book['isbnNumber'].toString())
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -322,9 +351,9 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         setState(() {
           isIssued = "Cancel Request";
         });
-      
-      }
-      else if(await EditRequest().bookApproved(widget.book['bookId'], user) == true){
+      } else if (await EditRequest()
+              .bookApproved(widget.book['bookId'], user) ==
+          true) {
         setState(() {
           isIssued = "Book Approved";
         });
@@ -397,8 +426,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               print("here:${widget.book['bookReviewedUsers']}");
               await EditRequest()
                   .requestBook(widget.book["bookId"], user)
-                  .then(
-                    (value) => {
+                  .then((value) => {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             duration: Duration(seconds: 1),
@@ -432,12 +460,12 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   content: Text('Out of Stock', textAlign: TextAlign.center),
                 ),
               );
-            }
-            else if (isIssued == "Book Approved") {
+            } else if (isIssued == "Book Approved") {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   duration: Duration(seconds: 1),
-                  content: Text('Collect book at the Library', textAlign: TextAlign.center),
+                  content: Text('Collect book at the Library',
+                      textAlign: TextAlign.center),
                 ),
               );
             }

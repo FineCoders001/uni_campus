@@ -20,6 +20,7 @@ class _ApproveBookRequestScreenState
   fetchTask() async {
     await ref.read(userCrudProvider).fetchUserProfile();
   }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> bookData = [];
   late UserCrud userCrud;
@@ -45,10 +46,9 @@ class _ApproveBookRequestScreenState
             RequestedDetails.fromJson(snapshot.data()!),
         toFirestore: (requestedDetails, _) => requestedDetails.toJson(),
       );
-      
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -68,7 +68,6 @@ class _ApproveBookRequestScreenState
   }
 
   Widget approveCard(RequestedDetails post, BuildContext context) {
-    
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -187,9 +186,15 @@ class _ApproveBookRequestScreenState
                                                           "userName":
                                                               post.userName
                                                         },
-                                                        post.bookId[index]).then((value) => {
-                                                          didChangeDependencies(),
-                                                          ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(
+                                                        post.bookId[index])
+                                                    .then(
+                                                      (value) => {
+                                                        ScaffoldMessenger.of(
+                                                                _scaffoldKey
+                                                                    .currentState!
+                                                                    .context)
+                                                            .showSnackBar(
+                                                          const SnackBar(
                                                             duration: Duration(
                                                                 seconds: 1),
                                                             content: Text(
@@ -197,8 +202,10 @@ class _ApproveBookRequestScreenState
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center),
-                                                          ),)
-                                                        });
+                                                          ),
+                                                        ),
+                                                      },
+                                                    );
                                               }),
                                               child: Container(
                                                 decoration: const BoxDecoration(
@@ -240,15 +247,23 @@ class _ApproveBookRequestScreenState
                                                         },
                                                         post.bookId[index])
                                                     .then((value) => {
-                                                          ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(
-                                                            duration: Duration(
-                                                                seconds: 1),
-                                                            content: Text(
-                                                                'Book Approved',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center),
-                                                          ),)
+                                                          ScaffoldMessenger.of(
+                                                                  _scaffoldKey
+                                                                      .currentState!
+                                                                      .context)
+                                                              .showSnackBar(
+                                                            const SnackBar(
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          1),
+                                                              content: Text(
+                                                                  'Book Approved',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center),
+                                                            ),
+                                                          )
                                                         });
                                               },
                                               child: Container(
