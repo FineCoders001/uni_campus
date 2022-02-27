@@ -7,19 +7,18 @@ import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/user_crud.dart';
 
-class ApproveBookRequestScreen extends StatefulHookConsumerWidget {
-  const ApproveBookRequestScreen({Key? key}) : super(key: key);
+class IssuedBookScreen extends StatefulHookConsumerWidget {
+  const IssuedBookScreen({Key? key}) : super(key: key);
 
   @override
-  _ApproveBookRequestScreenState createState() =>
-      _ApproveBookRequestScreenState();
+  _IssuedBookScreenState createState() => _IssuedBookScreenState();
 }
 
-class _ApproveBookRequestScreenState
-    extends ConsumerState<ApproveBookRequestScreen> {
+class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
   fetchTask() async {
     await ref.read(userCrudProvider).fetchUserProfile();
   }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> bookData = [];
   late UserCrud userCrud;
@@ -39,24 +38,23 @@ class _ApproveBookRequestScreenState
   final queryDetails = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("RequestedBooks")
-      .collection("PendingRequest")
+      .collection("ApprovedRequest")
       .withConverter(
         fromFirestore: (snapshot, _) =>
-            RequestedDetails.fromJson(snapshot.data()!),
-        toFirestore: (requestedDetails, _) => requestedDetails.toJson(),
+            IssuedDetails.fromJson(snapshot.data()!),
+        toFirestore: (issuedDetails, _) => issuedDetails.toJson(),
       );
-      
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text("Approve Request"),
+        title: const Text("Issued Books"),
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         centerTitle: true,
       ),
-      body: FirestoreListView<RequestedDetails>(
+      body: FirestoreListView<IssuedDetails>(
         query: queryDetails,
         pageSize: 5,
         itemBuilder: (context, snapshot) {
@@ -67,8 +65,7 @@ class _ApproveBookRequestScreenState
     );
   }
 
-  Widget approveCard(RequestedDetails post, BuildContext context) {
-    
+  Widget approveCard(IssuedDetails post, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Container(
@@ -164,7 +161,9 @@ class _ApproveBookRequestScreenState
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(post.bookId[index],
+                                        Text(
+                                            post.bookId[index].keys
+                                                .elementAt(0),
                                             style: GoogleFonts.ubuntu(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold)),
@@ -174,35 +173,36 @@ class _ApproveBookRequestScreenState
                                           children: [
                                             InkWell(
                                               onTap: (() async {
-                                                await EditRequestAdmin()
-                                                    .rejectRequest(
+                                                await BookStatus()
+                                                    .bookCollected(
                                                         post.enroll,
-                                                        {
-                                                          "bookId": post.bookId,
-                                                          "deptName":
-                                                              post.deptName,
-                                                          "enroll": post.enroll,
-                                                          "semester":
-                                                              post.semester,
-                                                          "userName":
-                                                              post.userName
-                                                        },
-                                                        post.bookId[index]).then((value) => {
-                                                          didChangeDependencies(),
-                                                          ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(
+                                                        post.bookId[index].keys
+                                                            .elementAt(0))
+                                                    .then(
+                                                      (value) => {
+                                                        didChangeDependencies(),
+                                                        ScaffoldMessenger.of(
+                                                                _scaffoldKey
+                                                                    .currentState!
+                                                                    .context)
+                                                            .showSnackBar(
+                                                          const SnackBar(
                                                             duration: Duration(
                                                                 seconds: 1),
                                                             content: Text(
-                                                                'Book Rejected',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center),
-                                                          ),)
-                                                        });
+                                                              'Book marked as collected',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      },
+                                                    );
                                               }),
                                               child: Container(
                                                 decoration: const BoxDecoration(
-                                                  color: Colors.redAccent,
+                                                  color: Colors.blueAccent,
                                                   borderRadius:
                                                       BorderRadius.all(
                                                     Radius.circular(
@@ -214,7 +214,7 @@ class _ApproveBookRequestScreenState
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    "Reject",
+                                                    "Collected",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                       color: Colors.white,
@@ -224,36 +224,10 @@ class _ApproveBookRequestScreenState
                                               ),
                                             ),
                                             InkWell(
-                                              onTap: () async {
-                                                await EditRequestAdmin()
-                                                    .approveRequest(
-                                                        post.enroll,
-                                                        {
-                                                          "bookId": post.bookId,
-                                                          "deptName":
-                                                              post.deptName,
-                                                          "enroll": post.enroll,
-                                                          "semester":
-                                                              post.semester,
-                                                          "userName":
-                                                              post.userName
-                                                        },
-                                                        post.bookId[index])
-                                                    .then((value) => {
-                                                          ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(
-                                                            duration: Duration(
-                                                                seconds: 1),
-                                                            content: Text(
-                                                                'Book Approved',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center),
-                                                          ),)
-                                                        });
-                                              },
+                                              onTap: () async {},
                                               child: Container(
                                                 decoration: const BoxDecoration(
-                                                    color: Colors.green,
+                                                    color: Colors.blueAccent,
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(
@@ -262,7 +236,7 @@ class _ApproveBookRequestScreenState
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    "Approve",
+                                                    "Returned",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                       color: Colors.white,
@@ -296,22 +270,21 @@ class _ApproveBookRequestScreenState
   }
 }
 
-class RequestedDetails {
+class IssuedDetails {
   final List<dynamic> bookId;
   final String deptName;
   final String enroll;
   final String semester;
   final String userName;
 
-  const RequestedDetails(
+  const IssuedDetails(
       {required this.bookId,
       required this.deptName,
       required this.enroll,
       required this.semester,
       required this.userName});
 
-  factory RequestedDetails.fromJson(Map<String, dynamic> json) =>
-      RequestedDetails(
+  factory IssuedDetails.fromJson(Map<String, dynamic> json) => IssuedDetails(
         bookId: json['bookId'],
         deptName: json['deptName'],
         enroll: json['enroll'],
