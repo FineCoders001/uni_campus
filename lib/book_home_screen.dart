@@ -3,14 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/display_book_details.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
+import 'package:uni_campus/display_book_details.dart';
+
+import 'display_book_details.dart';
 
 class BookHomeScreen extends StatefulWidget {
   const BookHomeScreen({Key? key}) : super(key: key);
 
   @override
-  _BookHomeScreenState createState() => _BookHomeScreenState();
+  _BookHomeScreenState createState() =>
+      _BookHomeScreenState();
 }
 
 class _BookHomeScreenState extends State<BookHomeScreen> {
@@ -33,18 +36,18 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
 
   final queryBook = FirebaseFirestore.instance
       .collection("LibraryManagement")
-      .doc("Books")
-      .collection('AllBooks')
+      .doc("Books").collection('AllBooks')
       .withConverter(
-        fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
-        toFirestore: (BookDetails, _) => BookDetails.toJson(),
-      );
+    fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
+    toFirestore: (bookDetails, _) => bookDetails.toJson(),
+  );
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-        title: Text("Library"),
+        title: const Text("Library"),
         centerTitle: true,
       ),
       body: FirestoreQueryBuilder<BookDetails>(
@@ -60,7 +63,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 25,
-                  mainAxisSpacing: 30,
+                  mainAxisSpacing:30,
                 ),
                 itemCount: snapshot.docs.length,
                 itemBuilder: (BuildContext ctx, index) {
@@ -74,10 +77,8 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                       print("here: ${snapshot.docs.length}");
                     }
                     return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            DisplayBookDetail.routename,
-                            arguments: {'book': snapshot.docs[index]});
+                      onTap: (){
+                        Navigator.of(context).pushNamed(DisplayBookDetail.routename, arguments: {'book':snapshot.docs[index]});
                       },
                       child: GridTile(
                         child: Container(
@@ -85,7 +86,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: Colors.grey),
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           child: GridTile(
                             child: CachedNetworkImage(
                               imageUrl: snapshot.docs[index]["bookPic"][0],
@@ -94,8 +95,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                                   alignment: Alignment.center,
                                   color: Colors.white,
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 15.0),
+                                    padding: const EdgeInsets.only(bottom: 15.0),
                                     child: Text(
                                       "Loading",
                                       style: GoogleFonts.ubuntu(fontSize: 25),

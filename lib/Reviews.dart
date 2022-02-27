@@ -1,28 +1,39 @@
 
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
+import 'LibraryManagement/Models/book_details.dart';
 
 class Reviews extends StatefulWidget {
-  var book;
-  Reviews(this.book);
+  String bookId;
+  Reviews(this.bookId, {Key? key}) : super(key: key);
+
   @override
   _ReviewsState createState() => _ReviewsState();
 }
 
-class _ReviewsState extends State<Reviews> {
+class _ReviewsState extends State<Reviews>{
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     //print("reviews of product is ${}");
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.arrow_back,color: Colors.black,), onPressed: (){
+        leading: IconButton(icon: const Icon(Icons.arrow_back,color: Colors.black,), onPressed: (){
           Navigator.pop(context);
         }),
-        title: Padding(
-          padding: const EdgeInsets.all(15.0),
+        title: const Padding(
+          padding: EdgeInsets.all(15.0),
           child: Text('Reviews',
             style: TextStyle(
                 color: Colors.white,
@@ -34,68 +45,61 @@ class _ReviewsState extends State<Reviews> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.black12,
-              //height: (MediaQuery.of(context).size.height )*0.8,
-              //height: MediaQuery.of(context).size.height *0.9,
-              padding: EdgeInsets.all(10),
+      body: FirestoreListView<Review>(
+        pageSize: 3,
+        query: FirebaseFirestore.instance
+            .collection("LibraryManagement")
+            .doc("Books").collection('AllBooks').doc(widget.bookId).collection('BookReviews') .withConverter(
+            fromFirestore: (snapshot, _) => Review.fromJson(snapshot.data()!),
+            toFirestore: (Review, _) => Review.toJson()),
+        itemBuilder: (context, snapshot) {
+          final post = snapshot.data();
+          print("dbhj dbnjkf ${post}");
 
-              child: ListView.builder(
-                itemCount: widget.book['bookReviews'].length,
-                shrinkWrap: true,
-                itemBuilder: (ctx , index) => Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0 , top:10),
-                              child: Text('verified student',
-                                style: TextStyle(
-                                    color: Colors.black45,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500
-                                ),
-
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0 , top:10),
-                              child: Icon(Icons.assignment_turned_in_sharp),
-                            ),
-                          ],
-                        ),
-                        //Ratings(widget.loadedProduct),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20 , top: 20, bottom: 20),
-                          child: Text(widget.book['bookReviews'][index], style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),),
-                        ),
-
-                      ]
-                  ),
-                ),
-
-
-
-              ),
+          //final time = TimeOfDay
+          return Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
-          ),
-        ],
-      )
-      ,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(left: 20.0 , top:10),
+                        child: Text('verified student',
+                          style: TextStyle(
+                              color: Colors.black45,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500
+                          ),
+
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8.0 , top:10),
+                        child: Icon(Icons.assignment_turned_in_sharp),
+                      ),
+                    ],
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20 , top: 20, bottom: 20),
+                    child: Text("${post.review}", style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),),
+                  ),
+
+                ]
+            ),
+          );
+
+        },
+      ),
     );
   }
 }

@@ -7,10 +7,8 @@ class BookDetails {
   late final String bookDepartment;
   late final String bookPublication;
   late final int isbnNumber;
-  late double ratings;
-  late double ratingsCount;
-  late final List<String> bookReviews;
-  late final List<String> bookReviewedUsers;
+  late final List<dynamic> bookReviews;
+  late final List<dynamic> bookReviewedUsers;
   late final String bookId;
   late final int bookQuantity;
   late final int issuedQuantity;
@@ -25,8 +23,6 @@ class BookDetails {
       required this.bookPublication,
       required this.isbnNumber,
       this.bookId = "",
-      this.ratings = 0,
-      this.ratingsCount = 0,
          required this.bookReviews,
         required this.bookReviewedUsers,
       required this.bookQuantity,
@@ -41,8 +37,6 @@ class BookDetails {
           bookDepartment: json['bookDepartment'],
           bookPublication: json['bookPublication'],
           isbnNumber: json['isbnNumber'],
-          ratings: json['ratings'],
-          ratingsCount: json['ratingsCount'],
           bookReviews:json['bookReviews'],
           bookReviewedUsers: json['bookReviewedUsers'],
           bookId: json['bookId'],
@@ -59,8 +53,6 @@ class BookDetails {
       'bookDepartment': bookDepartment,
       'bookPublication': bookPublication,
       'isbnNumber': isbnNumber,
-      'ratings': ratings,
-      'ratingsCount': ratingsCount,
       'bookReviews':bookReviews,
       'bookReviewedUsers':bookReviewedUsers,
       'bookId': bookId,
@@ -68,4 +60,44 @@ class BookDetails {
       'issuedQuantity': issuedQuantity
     };
   }
+}
+
+
+class Review{
+  late String review;
+  Review({this.review=""});
+
+  Review.fromJson(Map json)
+      : this(
+    review: json['review'],
+  );
+
+  Map<String, Object> toJson() {
+    return {
+      'review': review,
+
+    };
+  }
+
+}
+
+class Rating{
+  late double ratings;
+  late double ratingsCount;
+
+  Rating({this.ratings=0,this.ratingsCount=0});
+
+  Rating.fromJson(Map json)
+      : this(
+    ratings: json['ratings'],
+    ratingsCount: json['ratingsCount']
+  );
+
+  Map<String, Object> toJson() {
+    return {
+      'ratings':ratings,
+      'ratingsCount':ratingsCount
+    };
+  }
+
 }

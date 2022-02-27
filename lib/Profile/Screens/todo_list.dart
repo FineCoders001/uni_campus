@@ -309,7 +309,7 @@ class TaskTile extends StatefulWidget {
   List<Task> taskList;
   int index;
 
-  TaskTile(this.v, this.taskList, this.index);
+  TaskTile(this.v, this.taskList, this.index, {Key? key}) : super(key: key);
 
   @override
   _TaskTileState createState() => _TaskTileState();

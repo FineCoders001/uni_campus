@@ -24,14 +24,14 @@ class UserCrud extends ChangeNotifier {
       v = {
         'userName': user['userName'],
         'enroll': user['enroll'],
-        'collegename': user['collegename'],
-        'deptname': user['deptname'],
+        'collegeName': user['collegeName'],
+        'deptName': user['deptName'],
         'semester': user['semester'],
         'enyear': user['enyear'],
         'styear': user['styear'],
         "profilePicture": urlLink,
         "role": user['role'],
-        'favBooks':user['favBooks']
+        'favBooks': user['favBooks']
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -40,7 +40,7 @@ class UserCrud extends ChangeNotifier {
     } else {
       v = {
         'userName': user['userName'],
-        'collegename': user['collegename'],
+        'collegeName': user['collegeName'],
         "profilePicture": urlLink,
         "role": user['role']
       };
@@ -55,20 +55,20 @@ class UserCrud extends ChangeNotifier {
 
   add(UserProfile u) async {
     Map<String, dynamic> v;
-    print("afetr entry ${FirebaseAuth.instance.currentUser?.uid}");
+    print("after entry ${FirebaseAuth.instance.currentUser?.uid}");
 
     if (u.role == "student") {
       v = {
         'userName': u.userName,
         'enroll': u.enroll,
-        'collegename': u.collegename,
-        'deptname': u.deptname,
+        'collegeName': u.collegeName,
+        'deptName': u.deptName,
         'semester': u.semester,
         'enyear': u.enyear,
         'styear': u.styear,
         'role': u.role,
         'profilePicture': "",
-        'favBooks':u.favBooks
+        'favBooks': u.favBooks
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -77,10 +77,10 @@ class UserCrud extends ChangeNotifier {
     } else {
       v = {
         'userName': u.userName,
-        'collegename': u.collegename,
+        'collegeName': u.collegeName,
         'role': u.role,
         'profilePicture': "",
-        'favBooks':u.favBooks
+        'favBooks': u.favBooks
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -91,5 +91,18 @@ class UserCrud extends ChangeNotifier {
     v = user;
 
     notifyListeners();
+  }
+
+  removeFavorite(var m) async {
+    try {
+      user['favBooks'] = m;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser?.uid.toString())
+          .update({'favBooks': m});
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

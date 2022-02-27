@@ -168,7 +168,7 @@ class FinalizeEvent {
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
         'id': event.id,
-      'eventStatus':"approved",
+        'eventStatus': "approved",
         'participants': [],
         'eventForSem': event.eventForSem
       });
@@ -186,7 +186,7 @@ class FinalizeEvent {
         'eventDuration': event.eventDuration,
         'userId': FirebaseAuth.instance.currentUser?.uid,
         'id': event.id,
-        'eventStatus':"approved",
+        'eventStatus': "approved",
         'participants': [],
         'eventForSem': event.eventForSem
       });
@@ -235,7 +235,7 @@ class ParticipateEvents {
       Map<String, String> m = {
         "userId": (FirebaseAuth.instance.currentUser?.uid).toString(),
         "enrollmentId": user['enroll'],
-        "department": user['deptname']
+        "department": user['deptName']
       };
       List l = [m];
       if (event.participants != null) {
@@ -257,7 +257,7 @@ class ParticipateEvents {
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
         'id': event.id,
-        'eventStatus':event.eventStatus,
+        'eventStatus': event.eventStatus,
         'participants': event.participants,
         'eventForSem': event.eventForSem
       });
@@ -283,23 +283,17 @@ class ParticipateEvents {
   }
 }
 
-class EventFinishing{
-
-  eventStarted( EventsDetail event) async {
+class EventFinishing {
+  eventStarted(EventsDetail event) async {
     print("entered into event started");
-
 
     await FirebaseFirestore.instance
         .collection("AllApprovedEvents")
         .doc(event.id)
         .delete();
 
-
     print("exited from eventstarted");
-    await FirebaseFirestore.instance
-        .collection('AllEvents')
-        .doc(event.id)
-        .set({
+    await FirebaseFirestore.instance.collection('AllEvents').doc(event.id).set({
       'eventName': event.eventName,
       'venue': event.venue,
       'description': event.description,
@@ -309,14 +303,14 @@ class EventFinishing{
       'eventDuration': event.eventDuration,
       'userId': FirebaseAuth.instance.currentUser?.uid,
       'id': event.id,
-      'eventStatus':"confirmation left",
+      'eventStatus': "confirmation left",
       'participants': event.participants,
       'eventForSem': event.eventForSem
     });
   }
 
-  confirmEvent(EventsDetail event,status) async {
-    try{
+  confirmEvent(EventsDetail event, status) async {
+    try {
       await FirebaseFirestore.instance
           .collection('AllEvents')
           .doc(event.id)
@@ -330,7 +324,7 @@ class EventFinishing{
         'eventDuration': event.eventDuration,
         'userId': FirebaseAuth.instance.currentUser?.uid,
         'id': event.id,
-        'eventStatus':status,
+        'eventStatus': status,
         'participants': event.participants,
         'eventForSem': event.eventForSem
       });
@@ -349,13 +343,12 @@ class EventFinishing{
         'eventStartTime': event.eventStartTime,
         'eventDuration': event.eventDuration,
         'id': event.id,
-        'eventStatus':status,
+        'eventStatus': status,
         'participants': event.participants,
         'eventForSem': event.eventForSem
       });
-    }catch(e){
-      throw e;
+    } catch (e) {
+      rethrow;
     }
   }
-
 }

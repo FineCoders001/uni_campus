@@ -13,7 +13,6 @@ class ViewList extends StatefulWidget {
 class _ViewListState extends State<ViewList> {
   @override
   void initState() {
-    // TODO: implement initState
 
     super.initState();
   }
