@@ -217,7 +217,6 @@ class _ApproveEventState extends State<ApproveEvent> {
                                 Navigator.pop((context));
                                 print(" user id is ${post.userId}");
                                 await FinalizeEvent().approveEvent(post);
-
                               },
                               child: Container(
                                 margin: const EdgeInsets.all(15),
@@ -316,19 +315,18 @@ class _ApproveEventState extends State<ApproveEvent> {
                   ),
                 ],
               ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        post.eventName,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text(post.description),
-                      //leading: Icon(Icons.event),
-
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      post.eventName,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    subtitle: Text(post.description),
+                    //leading: Icon(Icons.event),
+                  ),
+                ],
               ),
-                  ],
-                ),
             ),
           );
         },
