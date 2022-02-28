@@ -178,7 +178,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
-                
               ],
             ),
       drawer: isloading == false
@@ -415,6 +414,7 @@ Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
               ),
             ),
             GridView.builder(
+              primary: false,
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

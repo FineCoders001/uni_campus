@@ -56,10 +56,10 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: const Text("Exam Time-Table"),
-        centerTitle: true,
-      ),
+          backgroundColor: Colors.blueAccent,
+          title: const Text("Exam Time-Table"),
+          centerTitle: true,
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -74,7 +74,7 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.75,
               child: ListView.builder(
                 itemCount: n,
                 itemBuilder: ((BuildContext context, index) {
