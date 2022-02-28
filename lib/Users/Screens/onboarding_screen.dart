@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/EventManagement/Screens/home_screen.dart';
+import 'package:uni_campus/home_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/Users/user.dart';
+import 'package:uni_campus/Users/Models/user.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);

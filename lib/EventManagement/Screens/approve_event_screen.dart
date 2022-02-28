@@ -1,139 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'EventModels/all_events.dart';
-import 'EventModels/event_details.dart';
-import 'circular_fab.dart';
+import 'package:uni_campus/EventManagement/Models/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
 
-class EventScreen extends StatefulHookConsumerWidget {
-  const EventScreen({Key? key}) : super(key: key);
+class ApproveEventScreen extends StatefulWidget {
+  const ApproveEventScreen({Key? key}) : super(key: key);
 
   @override
-  _EventScreenState createState() => _EventScreenState();
+  _ApproveEventScreenState createState() => _ApproveEventScreenState();
 }
 
-class _EventScreenState extends ConsumerState<EventScreen> {
-  // final queryEvent = FirebaseFirestore.instance
-  //     .collection('ApprovedEvent')
-  //     .withConverter(
-  //       fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-  //       toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
-  //     );
-  //
-  // final queryEvent = FirebaseFirestore.instance
-  //     .collection('RequestEvent')
-  //     .doc(FirebaseAuth.instance.currentUser?.uid)
-  //     .collection("MyRequestedEvents")
-  //     .withConverter(
-  //   fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
-  //   toFirestore: (EventsDetail, _) => EventsDetail.toJson(),
-  // );
-
+class _ApproveEventScreenState extends State<ApproveEventScreen> {
   final queryEvent = FirebaseFirestore.instance
-      .collection('AllApprovedEvents')
+      .collection('RequestEventAdmin')
       .withConverter(
         fromFirestore: (snapshot, _) => EventsDetail.fromJson(snapshot.data()!),
         toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
-  var u;
-
   @override
-  void initState() {
-    super.initState();
-    u = ref.read(userCrudProvider);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
+        backgroundColor: Colors.grey,
         title: const Text(
-          "All Events",
-          style: TextStyle(color: Colors.grey, fontSize: 24),
+          "Pending Events",
+          style: TextStyle(fontSize: 20),
         ),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.grey,
-            )),
+        centerTitle: true,
       ),
       body: FirestoreListView<EventsDetail>(
-        //pageSize: 3,
+        pageSize: 3,
         query: queryEvent,
         itemBuilder: (context, snapshot) {
           final post = snapshot.data();
-          var status = "Ongoing Registration";
           final date = DateTime.parse(post.eventDate);
-          print("participant entry");
-          print(
-              "participants are ${ref.read(userCrudProvider).user['deptName']}");
-          print(
-              "participant exit ${post.deptLevel.substring(14, post.deptLevel.length)}");
-
-          var time = int.parse(post.eventStartTime.substring(10, 12)) +
-              int.parse(post.eventDuration.split(" ")[0]) +
-              3;
-          var currentTime =
-              int.parse(TimeOfDay.now().toString().substring(10, 12));
-
-          if (date.year == DateTime.now().year &&
-              date.month == DateTime.now().month &&
-              DateTime.now().day >= date.day) {
-            status = "Registration closed";
-          }
-
-          if (date.year <= DateTime.now().year &&
-              date.month <= DateTime.now().month &&
-              ((DateTime.now().day == date.day && currentTime >= time) ||
-                  DateTime.now().day > date.day)) {
-            EventFinishing().eventStarted(post);
-          }
-
-          var participated = false;
-
-          for (int i = 0; i < post.participants.length; i++) {
-            if (post.participants[i]['userId'] ==
-                FirebaseAuth.instance.currentUser?.uid) {
-              participated = true;
-            }
-          }
-
-          if (post.deptLevel.substring(0, 14) == "Dept.intradept") {
-            if (!(ref
-                    .read(userCrudProvider)
-                    .user['deptName']
-                    .toString()
-                    .trim() ==
-                post.deptLevel.substring(14, post.deptLevel.length).trim())) {
-              print("deptlevel ka lafda");
-              return const SizedBox(height: 0);
-            }
-          }
-
-          if (!(post.eventForSem
-              .toString()
-              .split(" ")
-              .contains(ref.read(userCrudProvider).user['semester']))) {
-            print("sem ka lafda");
-            return const SizedBox(height: 0);
-          }
-
+          //final time = TimeOfDay
           return GestureDetector(
             onTap: () {
-              if (status == "Registration closed") {
-                return;
-              }
               showModalBottomSheet(
                 shape: const RoundedRectangleBorder(
                     borderRadius:
@@ -302,85 +208,93 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                             ],
                           ),
                         ),
-                        participated == true
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: const [
-                                      Text(
-                                        "Already  Participated",
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.green),
-                                      ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                //context.read(eventProvider)
+                                Navigator.pop((context));
+                                print(" user id is ${post.userId}");
+                                await FinalizeEvent().approveEvent(post);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(15),
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  // image: const DecorationImage(
+                                  //   image: AssetImage("assets/images/Card.png"),
+                                  //   fit: BoxFit.cover,
+                                  // ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+                                      Colors.blue,
+                                      Colors.cyan,
                                     ],
                                   ),
-                                ],
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      //context.read(eventProvider)
-                                      try {
-                                        ParticipateEvents()
-                                            .participate(post, u.user);
-                                        Navigator.pop(context);
-                                      } catch (e) {
-                                        Navigator.pop(context);
-                                        await showDialog(
-                                          context: context,
-                                          builder: (ctx) => AlertDialog(
-                                            title: const Text('Oops!'),
-                                            content: const Text(
-                                                'Something went wrong'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text('Okay'),
-                                                onPressed: () {
-                                                  Navigator.of(ctx).pop();
-                                                  //return;
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.all(15),
-                                      alignment: Alignment.center,
-                                      decoration: const BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topRight,
-                                          end: Alignment.bottomLeft,
-                                          colors: [
-                                            Colors.blue,
-                                            Colors.cyan,
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Text(
-                                          "Participate",
-                                          style: GoogleFonts.ubuntu(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
+
+                                  // border: Border.all(width: 5.0, color: Colors.grey),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    "Approve",
+                                    style: GoogleFonts.ubuntu(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                ],
-                              )
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                Navigator.pop(context);
+                                await FinalizeEvent().rejectEvent(post);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(15),
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  // image: const DecorationImage(
+                                  //   image: AssetImage("assets/images/Card.png"),
+                                  //   fit: BoxFit.cover,
+                                  // ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+                                      Colors.blue,
+                                      Colors.cyan,
+                                    ],
+                                  ),
+
+                                  // border: Border.all(width: 5.0, color: Colors.grey),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    "Reject",
+                                    style: GoogleFonts.ubuntu(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   );
@@ -411,30 +325,12 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                     subtitle: Text(post.description),
                     //leading: Icon(Icons.event),
                   ),
-                  const Divider(
-                    thickness: 1,
-                    color: Colors.grey,
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      status,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  ),
                 ],
               ),
             ),
           );
         },
       ),
-      floatingActionButton: const CircularFabWidget(),
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => const CreateEventScreen(),
-      //   ),
-      // );
     );
   }
 }

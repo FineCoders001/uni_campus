@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
-import 'package:uni_campus/display_book_details.dart';
-
-import 'display_book_details.dart';
+import 'package:uni_campus/LibraryManagement/Screens/book_details_screen.dart';
 
 class BookHomeScreen extends StatefulWidget {
   const BookHomeScreen({Key? key}) : super(key: key);
@@ -78,7 +76,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                     }
                     return GestureDetector(
                       onTap: (){
-                        Navigator.of(context).pushNamed(DisplayBookDetail.routename, arguments: {'book':snapshot.docs[index]});
+                        Navigator.of(context).pushNamed(BookDetailsScreen.routename, arguments: {'book':snapshot.docs[index]});
                       },
                       child: GridTile(
                         child: Container(

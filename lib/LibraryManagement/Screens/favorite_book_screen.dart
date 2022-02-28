@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/LibraryManagement/Screens/book_details_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-
-import 'display_book_details.dart';
 
 class FavoriteBookScreen extends StatefulHookConsumerWidget {
   const FavoriteBookScreen({Key? key}) : super(key: key);
@@ -113,7 +112,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
 
                // var book=BookDetails.fromJson(m[index]);
 
-                Navigator.of(context).pushNamed(DisplayBookDetail.routename, arguments: {'book':m[index]});
+                Navigator.of(context).pushNamed(BookDetailsScreen.routename, arguments: {'book':m[index]});
               },
               child: Card(
                 elevation: 10,

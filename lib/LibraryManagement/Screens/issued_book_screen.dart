@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/user_crud.dart';
+import 'package:uni_campus/Users/user_crud.dart';
 
 class IssuedBookScreen extends StatefulHookConsumerWidget {
   const IssuedBookScreen({Key? key}) : super(key: key);

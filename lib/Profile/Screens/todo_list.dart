@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/user_crud.dart';
-
-import '../../storage.dart';
+import 'package:uni_campus/Profile/Models/storage.dart';
+import 'package:uni_campus/Users/user_crud.dart';
 
 final storageProvider = ChangeNotifierProvider((ref) {
   return Store();

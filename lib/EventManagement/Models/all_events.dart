@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/EventModels/event_details.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
 
 Map monthName = {
   1: 'January',

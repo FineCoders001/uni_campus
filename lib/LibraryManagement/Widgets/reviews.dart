@@ -1,8 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
-import 'LibraryManagement/Models/book_details.dart';
+import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 
 class Reviews extends StatefulWidget {
   String bookId;
@@ -37,8 +36,7 @@ class _ReviewsState extends State<Reviews>{
           child: Text('Reviews',
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 30,
-
+                //fontSize: 30,
                 fontWeight: FontWeight.w500
             ),
 
@@ -51,7 +49,7 @@ class _ReviewsState extends State<Reviews>{
             .collection("LibraryManagement")
             .doc("Books").collection('AllBooks').doc(widget.bookId).collection('BookReviews') .withConverter(
             fromFirestore: (snapshot, _) => Review.fromJson(snapshot.data()!),
-            toFirestore: (Review, _) => Review.toJson()),
+            toFirestore: (review, _) => review.toJson()),
         itemBuilder: (context, snapshot) {
           final post = snapshot.data();
           print("dbhj dbnjkf ${post}");
@@ -60,7 +58,7 @@ class _ReviewsState extends State<Reviews>{
           return Card(
             elevation: 5,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +68,7 @@ class _ReviewsState extends State<Reviews>{
                     children: const [
                       Padding(
                         padding: EdgeInsets.only(left: 20.0 , top:10),
-                        child: Text('verified student',
+                        child: Text('Verified Student',
                           style: TextStyle(
                               color: Colors.black45,
                               fontSize: 15,

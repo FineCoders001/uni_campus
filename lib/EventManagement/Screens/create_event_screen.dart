@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/EventManagement/Models/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-//import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../EventModels/all_events.dart';
-import '../../EventModels/event_details.dart';
 
 class CreateEventScreen extends StatefulHookConsumerWidget {
   const CreateEventScreen({Key? key}) : super(key: key);

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/SeatingManagement/AssistantMethod/files_io.dart';
-import 'package:uni_campus/SeatingManagement/AssistantMethod/upload_download.dart';
+import 'package:uni_campus/SeatingManagement/Utils/files_io.dart';
+import 'package:uni_campus/SeatingManagement/Utils/upload_download.dart';
 
 class ExamScreen extends StatefulHookConsumerWidget {
   const ExamScreen({Key? key}) : super(key: key);

@@ -8,9 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Profile/Screens/todo_list.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:uni_campus/user_crud.dart';
-
-import '../../main.dart';
+import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/main.dart';
 
 Map semRoman = {
   1: 'I',

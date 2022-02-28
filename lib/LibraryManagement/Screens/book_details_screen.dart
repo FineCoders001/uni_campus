@@ -4,26 +4,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/LibraryManagement/Screens/favorite_book_screen.dart';
+import 'package:uni_campus/LibraryManagement/Widgets/rating_bar.dart';
+import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
+import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/RatingBar.dart';
-import 'package:uni_campus/Reviews.dart';
-import 'package:uni_campus/styled_image.dart';
-import 'package:uni_campus/user_crud.dart';
+import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/widgets/ratings.dart';
+import 'package:uni_campus/widgets/styled_image.dart';
 
-import 'LibraryManagement/library_crud.dart';
-import 'Ratings.dart';
-
-class DisplayBookDetail extends StatefulHookConsumerWidget {
+class BookDetailsScreen extends StatefulHookConsumerWidget {
   //const DisplayBookDetail({Key? key}) : super(key: key);
-  static const routename = 'DisplayBookDetail';
+  static const routename = 'BookDetailScreen';
 
-  const DisplayBookDetail({Key? key}) : super(key: key);
+  const BookDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  _DisplayBookDetailState createState() => _DisplayBookDetailState();
+  _BookDetailsScreenState createState() => _BookDetailsScreenState();
 }
 
-class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
+class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
   fetchTask() async {
     await ref.read(userCrudProvider).fetchUserProfile();
   }
@@ -408,9 +408,20 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   color: Colors.red,
                 ),
                 fav
-                    ? const Text(
-                        ' GO TO FAVORITE',
-                        style: TextStyle(color: Colors.black),
+                    ? InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const FavoriteBookScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          ' GO TO FAVORITE',
+                          style: TextStyle(color: Colors.black),
+                        ),
                       )
                     : const Text(
                         ' ADD TO FAVORITE',
