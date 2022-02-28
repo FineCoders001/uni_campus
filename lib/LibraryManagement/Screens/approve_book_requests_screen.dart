@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
@@ -128,175 +129,179 @@ class _ApproveBookRequestScreenState
                 shrinkWrap: true,
                 itemCount: post.bookId.length,
                 itemBuilder: (context, index) {
-                  return isLoading == false
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.94,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0.0),
+                  if (isLoading == false) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        color: Colors.white,
+                        elevation: 1,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: FutureBuilder<List<dynamic>>(
+                                  initialData: const ["",""],
+                                    future: getBookDetails(post.bookId[index]),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<List<dynamic>> text) {
+                                          
+                                      if (text.data![1] != "") {
+                                        return CachedNetworkImage(
+                                          imageUrl: text.data![1],
+                                          fit: BoxFit.fill,
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    }),
+                              ),
                             ),
-                            color: Colors.white,
-                            elevation: 1,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(2.0),
-                                  child: SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: Center(
-                                      child: Text("Image"),
-                                    ),
-                                    // child: CachedNetworkImage(
-                                    //   imageUrl: Link,
-                                    //   fit: BoxFit.fill,
-                                    // ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                            Expanded(
+                              child: SizedBox(
+                                height: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    FutureBuilder<List<dynamic>>(
+                                        future:
+                                            getBookDetails(post.bookId[index]),
+                                        initialData: const [" ", " "],
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<List<dynamic>> text) {
+                                          return Text(text.data![0],
+                                              style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold));
+                                        }),
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(post.bookId[index],
-                                            style: GoogleFonts.ubuntu(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            InkWell(
-                                              onTap: (() async {
-                                                await EditRequestAdmin()
-                                                    .rejectRequest(
-                                                        post.enroll,
-                                                        {
-                                                          "bookId": post.bookId,
-                                                          "deptName":
-                                                              post.deptName,
-                                                          "enroll": post.enroll,
-                                                          "semester":
-                                                              post.semester,
-                                                          "userName":
-                                                              post.userName
-                                                        },
-                                                        post.bookId[index])
-                                                    .then(
-                                                      (value) => {
-                                                        ScaffoldMessenger.of(
-                                                                _scaffoldKey
-                                                                    .currentState!
-                                                                    .context)
-                                                            .showSnackBar(
-                                                          const SnackBar(
-                                                            duration: Duration(
-                                                                seconds: 1),
-                                                            content: Text(
-                                                                'Book Rejected',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center),
-                                                          ),
+                                        InkWell(
+                                          onTap: (() async {
+                                            await EditRequestAdmin()
+                                                .rejectRequest(
+                                                    post.enroll,
+                                                    {
+                                                      "bookId": post.bookId,
+                                                      "deptName": post.deptName,
+                                                      "enroll": post.enroll,
+                                                      "semester": post.semester,
+                                                      "userName": post.userName
+                                                    },
+                                                    post.bookId[index])
+                                                .then(
+                                                  (value) => {
+                                                    ScaffoldMessenger.of(
+                                                            _scaffoldKey
+                                                                .currentState!
+                                                                .context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        duration: Duration(
+                                                            seconds: 1),
+                                                        content: Text(
+                                                            'Book Rejected',
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      ),
+                                                    ),
+                                                  },
+                                                );
+                                          }),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                  5,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Reject",
+                                                style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await EditRequestAdmin()
+                                                .approveRequest(
+                                                    post.enroll,
+                                                    {
+                                                      "bookId": post.bookId,
+                                                      "deptName": post.deptName,
+                                                      "enroll": post.enroll,
+                                                      "semester": post.semester,
+                                                      "userName": post.userName
+                                                    },
+                                                    post.bookId[index])
+                                                .then((value) => {
+                                                      ScaffoldMessenger.of(
+                                                              _scaffoldKey
+                                                                  .currentState!
+                                                                  .context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          duration: Duration(
+                                                              seconds: 1),
+                                                          content: Text(
+                                                              'Book Approved',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
                                                         ),
-                                                      },
-                                                    );
-                                              }),
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.redAccent,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(
-                                                      5,
-                                                    ),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Reject",
-                                                    style: GoogleFonts.ubuntu(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
+                                                      )
+                                                    });
+                                          },
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Approve",
+                                                style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () async {
-                                                await EditRequestAdmin()
-                                                    .approveRequest(
-                                                        post.enroll,
-                                                        {
-                                                          "bookId": post.bookId,
-                                                          "deptName":
-                                                              post.deptName,
-                                                          "enroll": post.enroll,
-                                                          "semester":
-                                                              post.semester,
-                                                          "userName":
-                                                              post.userName
-                                                        },
-                                                        post.bookId[index])
-                                                    .then((value) => {
-                                                          ScaffoldMessenger.of(
-                                                                  _scaffoldKey
-                                                                      .currentState!
-                                                                      .context)
-                                                              .showSnackBar(
-                                                            const SnackBar(
-                                                              duration:
-                                                                  Duration(
-                                                                      seconds:
-                                                                          1),
-                                                              content: Text(
-                                                                  'Book Approved',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center),
-                                                            ),
-                                                          )
-                                                        });
-                                              },
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                    color: Colors.green,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                5))),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Approve",
-                                                    style: GoogleFonts.ubuntu(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        )
-                      : const ListTile(title: Text("Loading"));
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const ListTile(title: Text("Loading"));
+                  }
                 },
               ),
             ),
@@ -306,8 +311,10 @@ class _ApproveBookRequestScreenState
     );
   }
 
-  Future getBookDetails(String bookId) async {
-    if (isLoading == true) {}
+  Future<List<dynamic>> getBookDetails(String bookId) async {
+    var snapshot = await allBooksReference.doc(bookId).get();
+    var data = snapshot.data() as Map<String, dynamic>;
+    return [data['bookName'], data['bookPic'][0]];
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
@@ -138,18 +139,29 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(2.0),
+                                Padding(
+                                  padding: const EdgeInsets.all(2.0),
                                   child: SizedBox(
                                     height: 100,
                                     width: 100,
                                     child: Center(
-                                      child: Text("Image"),
+                                      child: FutureBuilder<List<dynamic>>(
+                                  initialData: const ["",""],
+                                    future: getBookDetails(post.bookId[index].keys
+                                                .elementAt(0)),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<List<dynamic>> text) {
+                                          
+                                      if (text.data![1] != "") {
+                                        return CachedNetworkImage(
+                                          imageUrl: text.data![1],
+                                          fit: BoxFit.fill,
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    }),
                                     ),
-                                    // child: CachedNetworkImage(
-                                    //   imageUrl: Link,
-                                    //   fit: BoxFit.fill,
-                                    // ),
                                   ),
                                 ),
                                 Expanded(
@@ -161,12 +173,19 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                            post.bookId[index].keys
-                                                .elementAt(0),
-                                            style: GoogleFonts.ubuntu(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
+                                        FutureBuilder<List<dynamic>>(
+                                        future:
+                                            getBookDetails(post.bookId[index].keys
+                                                .elementAt(0)),
+                                        initialData: const [" ", " "],
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<List<dynamic>> text) {
+                                          return Text(text.data![0],
+                                              style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold));
+                                        }),
+                                       
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -222,7 +241,6 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
                                             //     ),
                                             //   ),
                                             // ),
-                                            
                                             
                                             InkWell(
                                               onTap: () async {
@@ -293,8 +311,10 @@ class _IssuedBookScreenState extends ConsumerState<IssuedBookScreen> {
     );
   }
 
-  Future getBookDetails(String bookId) async {
-    if (isLoading == true) {}
+  Future<List<dynamic>> getBookDetails(String bookId) async {
+    var snapshot = await allBooksReference.doc(bookId).get();
+    var data = snapshot.data() as Map<String, dynamic>;
+    return [data['bookName'], data['bookPic'][0]];
   }
 }
 
