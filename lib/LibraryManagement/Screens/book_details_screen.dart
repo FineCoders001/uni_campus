@@ -4,18 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/LibraryManagement/Screens/favorite_book_screen.dart';
-import 'package:uni_campus/LibraryManagement/Widgets/rating_bar.dart';
 import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
-import 'package:uni_campus/LibraryManagement/library_crud.dart';
+
+
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/Users/user_crud.dart';
-import 'package:uni_campus/widgets/ratings.dart';
-import 'package:uni_campus/widgets/styled_image.dart';
+
+
+import '../../Users/user_crud.dart';
+import '../../Widgets/ratings.dart';
+import '../../Widgets/styled_image.dart';
+import '../Widgets/rating_bar.dart';
+import '../library_crud.dart';
+import 'favorite_book_screen.dart';
+
 
 class BookDetailsScreen extends StatefulHookConsumerWidget {
   //const DisplayBookDetail({Key? key}) : super(key: key);
-  static const routename = 'BookDetailScreen';
+  static const routename = 'BookDetailsScreen';
 
   const BookDetailsScreen({Key? key}) : super(key: key);
 
@@ -68,14 +73,20 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Badge(
-              animationType: BadgeAnimationType.fade,
-              badgeContent: const Text('3'),
-              child: const Icon(
-                Icons.favorite_border,
-                color: Colors.white,
+          GestureDetector(
+            onTap: () async {
+              await Navigator.push(context, MaterialPageRoute(builder: (
+                  BuildContext context) => FavoriteBookScreen()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Badge(
+                animationType: BadgeAnimationType.fade,
+                badgeContent:  Text('${ref.watch(userCrudProvider).user['favBooks'].length}'),
+                child: const Icon(
+                  Icons.favorite_border,
+                  color: Colors.white,
+                ),
               ),
             ),
           )
@@ -90,175 +101,94 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
             Expanded(
               flex: 4,
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Card(
-                    elevation: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 20),
+                          child: Text(
+                            book['bookName'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 28,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      Reviews(book['bookId']),
+                                ),
+                              );
+                            },
+                            child:
+                                Ratings(book, m['ratings'], m['ratingsCount']))
+                      ],
+                    ),
+                    book['bookQuantity'] - book['issuedQuantity'] <= 0
+                        ? const Padding(
+                            padding: EdgeInsets.only(left: 20.0, right: 8),
+                            child: Text(
+                              'Out Of Stock',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            child: const Align(
+                              alignment: Alignment.center,
                               child: Text(
-                                book['bookName'],
-                                style: const TextStyle(
+                                'Book In Stock',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.green,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 28,
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          Reviews(book['bookId']),
-                                    ),
-                                  );
-                                },
-                                child: Ratings(
-                                    book, m['ratings'], m['ratingsCount']))
+                          ),
+                RatingBar(
+                    double.parse(m['ratings'].toString()),
+                    double.parse(
+                        m['ratingsCount'].toString()),
+                    book['bookReviewedUsers'],
+                    book['bookId'],reviewed),
+
+
+                    Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'Book Details',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.w600),
+                            ),
+                            Icon(Icons.arrow_drop_down_circle_outlined),
                           ],
                         ),
-                        book['bookQuantity'] <= 0
-                            ? const Padding(
-                                padding: EdgeInsets.only(bottom: 8.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Out Of Stock',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : const Padding(
-                                padding: EdgeInsets.only(bottom: 8.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Book In Stock',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 4),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text(
-                                    'Book Details',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Icon(
-                                    Icons.list_alt_outlined,
-                                    size: 25,
-                                  ),
-                                ],
-                              ),
-                              bookDetailWid("Author", book['bookAuthor']),
-                              bookDetailWid("Pages", book['bookPages']),
-                              bookDetailWid(
-                                  "Publication", book['bookPublication']),
-                              bookDetailWid(
-                                  "Isbn No", book['isbnNumber'].toString())
-                            ],
-                          ),
-                        ),
-                        reviewed
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Card(
-                                  elevation: 3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20.0, horizontal: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Text(
-                                          "Already Rated and Reviewed",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color.fromARGB(
-                                                  255, 82, 72, 200)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : GestureDetector(
-                                onTap: () async {
-                                  await showDialog(
-                                      context: context,
-                                      builder: (ctx) {
-                                        return RatingBar(
-                                            double.parse(
-                                                m['ratings'].toString()),
-                                            double.parse(
-                                                m['ratingsCount'].toString()),
-                                            book['bookReviewedUsers'],
-                                            book['bookId']);
-                                      });
-                                  setState(() {
-                                    reviewed = true;
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Card(
-                                    elevation: 3,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20.0, horizontal: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text(
-                                            'Add Reviews',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Icon(Icons.rate_review_outlined),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ],
+                      ),
                     ),
-                  ),
+                    bookDetailWid("Author", book['bookAuthor']),
+                    bookDetailWid("Pages", book['bookPages']),
+                    bookDetailWid("Publication", book['bookPublication']),
+                    bookDetailWid("Isbn No", book['isbnNumber'].toString())
+                  ],
                 ),
               ),
             ),
@@ -323,39 +253,45 @@ class BottomButton extends StatefulHookConsumerWidget {
 }
 
 class _BottomButtonState extends ConsumerState<BottomButton> {
+
   String isIssued = "Issue Book";
-  bool fav = false;
+  //bool fav = false;
   late UserCrud userCrud;
   late List l;
   late Map<String, dynamic> user;
 
   @override
   void initState() {
-    super.initState();
-    l = ref.read(userCrudProvider).user['favBooks'];
-    print("entry $l");
-    if (l.contains(widget.book['bookId'])) {
-      setState(() {
-        fav = true;
-      });
-      print("exit");
-    }
+    // super.initState();
+    // l = ref.read(userCrudProvider).user['favBooks'];
+    // print("entry $l");
+    // if (l.contains(widget.book['bookId'])) {
+    //   setState(() {
+    //     fav = true;
+    //   });
+    //   print("exit");
+    // }
   }
 
   @override
   Future<void> didChangeDependencies() async {
-    userCrud = ref.watch(userCrudProvider);
+    //
     user = userCrud.user;
+    // l=user['favBooks'];
+    // if (l.contains(widget.book['bookId'])) {
+    //   setState(() {
+    //     fav = true;
+    //   });
+    //   print("exit");
+    // }else{
+    //   setState(() {
+    //     fav=false;
+    //   });
+    // }
     if (widget.book["bookQuantity"] > 0) {
       if (await EditRequest().bookIssued(widget.book['bookId'], user) == true) {
         setState(() {
           isIssued = "Cancel Request";
-        });
-      } else if (await EditRequest()
-              .bookApproved(widget.book['bookId'], user) ==
-          true) {
-        setState(() {
-          isIssued = "Book Approved";
         });
       }
     } else {
@@ -369,17 +305,18 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   @override
   Widget build(BuildContext context) {
     print("book id is ${widget.book['bookId']}");
+    userCrud = ref.watch(userCrudProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () async {
-            if (fav == false) {
+            if (userCrud.user['favBooks'].contains(widget.book['bookId']) == false) {
               try {
-                await AddToFav().addToFav(widget.book['bookId'], l);
-                setState(() {
-                  fav = true;
-                });
+                await userCrud.addToFav(widget.book['bookId'], userCrud.user['favBooks']);
+
+               // ref.read(userCrudProvider).user['favBooks'].add(widget.book['bookId']);
+
                 var snackBar = const SnackBar(
                     content: Text('Added to favorites',
                         textAlign: TextAlign.center));
@@ -387,13 +324,15 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               } catch (e) {
                 var snackBar = const SnackBar(
                     content: Text('Something Went Wrong',
-                        textAlign: TextAlign.center));
+                        textAlign: TextAlign.center),
+                  padding: EdgeInsets.all(12),
+                );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 print(e);
               }
             } else {
-              // await Navigator.push(context, MaterialPageRoute(builder: (
-              //     BuildContext context) => ()));
+              await Navigator.push(context, MaterialPageRoute(builder: (
+                  BuildContext context) => FavoriteBookScreen()));
             }
           },
           child: Container(
@@ -407,26 +346,16 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   Icons.favorite_border,
                   color: Colors.red,
                 ),
-                fav
-                    ? InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const FavoriteBookScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          ' GO TO FAVORITE',
-                          style: TextStyle(color: Colors.black),
-                        ),
+
+    userCrud.user['favBooks'].contains(widget.book['bookId']) ? const Text(
+                        ' GO TO FAVORITE',
+                        style: TextStyle(color: Colors.black),
                       )
                     : const Text(
                         ' ADD TO FAVORITE',
                         style: TextStyle(color: Colors.black),
                       ),
+
               ],
             ),
           ),
@@ -469,14 +398,6 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                 const SnackBar(
                   duration: Duration(seconds: 1),
                   content: Text('Out of Stock', textAlign: TextAlign.center),
-                ),
-              );
-            } else if (isIssued == "Book Approved") {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  duration: Duration(seconds: 1),
-                  content: Text('Collect book at the Library',
-                      textAlign: TextAlign.center),
                 ),
               );
             }

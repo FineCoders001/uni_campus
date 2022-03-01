@@ -20,8 +20,12 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
   late List l;
    List m=[];
   int i=0;
+bool isloading=false;
 
   getFav() async {
+    setState(() {
+      isloading = true;
+    });
 
     print("fjjf ${i}");
 
@@ -72,11 +76,10 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
           }
         }).catchError((e) => print("error fetching data: $e"));
       }
-
     }
-
-
-
+    setState(() {
+      isloading=false;
+    });
   }
 
   @override
@@ -89,7 +92,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return isloading?Center(child: CircularProgressIndicator(),):Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         actions:  [
@@ -204,8 +207,9 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                 var item = l[index];
                                 try{
                                   m.removeAt(index);
+                                  l.removeAt(index);
                                  // print("l is ${l}");
-                                 ref.read(userCrudProvider).removeFavorite(m);
+                                 ref.read(userCrudProvider).removeFavorite(l);
 
                                   print("favbooks  is ${ ref.read(userCrudProvider).user['favBooks']}");
                                   setState(() {
@@ -214,7 +218,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
 
 
                                 }catch(e){
-                                  print("eerror is ${e}");
+                                  print("error is ${e}");
                                   m.insert(index, item);
                                   ref.read(userCrudProvider).user['favBooks']=l;
                                   var snackBar = const SnackBar(

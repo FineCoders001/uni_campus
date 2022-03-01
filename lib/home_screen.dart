@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/main.dart';
-import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
@@ -81,19 +80,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: containerForGridview(
                         "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const IssuedBookScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
+                  containerForGridview(
+                      "Request Book", const Color.fromARGB(255, 82, 72, 200)),
                   containerForGridview(
                       "Search Book", const Color.fromARGB(255, 82, 72, 200)),
                 ]),
@@ -180,6 +168,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
+                
               ],
             ),
       drawer: isloading == false
@@ -314,7 +303,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const AddBookScreen(),
+                                         AddBookScreen(),
                                   ),
                                 );
                               },
@@ -327,11 +316,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
+<<<<<<< HEAD
                                         const BookHomeScreen(),
+=======
+                                        const AllBookScreen(),
+>>>>>>> 7611bf88bb00bb56fa5d9704eedcb43a5726d606
                                   ),
                                 );
                               },
-                              child: buildItem("bookHomeScreen",
+                              child: buildItem("AllbookScreen",
                                   Icons.event_available_sharp)),
                           // GestureDetector(
                           //   onTap: (() {
@@ -407,7 +400,6 @@ Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
               ),
             ),
             GridView.builder(
-              primary: false,
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

@@ -9,7 +9,8 @@ import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 
 class AddBookScreen extends StatefulWidget {
-  const AddBookScreen({Key? key}) : super(key: key);
+  static const routeName = 'AddBookScreen';
+
 
   @override
   _AddBookScreenState createState() => _AddBookScreenState();
@@ -23,22 +24,69 @@ class _AddBookScreenState extends State<AddBookScreen> {
   TextEditingController bookPublication = TextEditingController();
   TextEditingController bookISBN = TextEditingController();
   TextEditingController bookQuantity = TextEditingController();
+  final _bookAuthorNode = FocusNode();
+  final _bookPagesNode = FocusNode();
+  final _bookDepartmentNode = FocusNode();
+  final _bookPublicationNode = FocusNode();
+  final _bookISBNNode = FocusNode();
+  final _bookQuantityNode = FocusNode();
   final _form = GlobalKey<FormState>();
   late String downloadLink;
   List<String> bookPic = [];
   var isLoading = false;
+
   BookDetails book = BookDetails(
-      bookName: "",
-      bookAuthor: "",
-      bookDepartment: "",
-      bookPages: "",
-      bookPic: [],
-      bookPublication: "",
-      isbnNumber: 0,
-      bookQuantity: 0,
+    bookName: "",
+    bookAuthor: "",
+    bookDepartment: "",
+    bookPages: "",
+    bookPic: [],
+    bookPublication: "",
+    isbnNumber: 0,
+    bookQuantity: 0,
     bookReviews: [],
     bookReviewedUsers: [],
   );
+  var arguments;
+  // Map _initValues = {
+  //   'bookName': "",
+  //   'bookAuthor': "",
+  //   'bookDepartment': "",
+  //   'bookPages': "",
+  //   'bookPublication': "",
+  //   'isbnNumber': 0,
+  //   'bookQuantity': 0,
+  // };
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+     arguments = ModalRoute
+        .of(this.context)
+        ?.settings
+        .arguments as Map;
+    if (arguments['isInit'] == true) {
+      // _initValues = {
+      //   'bookName': arguments["bookName"],
+      //   'bookAuthor': arguments["bookAuthor"],
+      //   'bookDepartment': arguments["bookDepartment"],
+      //   'bookPages': arguments['bookPages'],
+      //   'bookPublication': arguments['bookPublication'],
+      //   'isbnNumber': arguments['isbnNumber'],
+      //   'bookQuantity': arguments['bookQuantity'],
+      // };
+      print("arguments are ${arguments["bookName"]}");
+      bookName.text = arguments["bookName"];
+      bookAuthor.text =arguments["bookAuthor"];
+      bookDepartment.text = arguments["bookDepartment"];
+      bookPages.text = arguments['bookPages'];
+      bookPublication.text = arguments['bookPublication'];
+      bookISBN.text=arguments['isbnNumber'].toString();
+      bookQuantity.text=arguments['bookQuantity'].toString();
+    }
+  }
+
 
   Future<void> _saveForm(context) async {
     final isValid = _form.currentState?.validate();
@@ -47,11 +95,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
     }
     _form.currentState?.save();
 
-    if (bookPic.isEmpty) {
-      var snackBar = const SnackBar(
-          content: Text("Image upload pending", textAlign: TextAlign.center));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
 
     book = BookDetails(
         bookName: book.bookName,
@@ -62,30 +105,44 @@ class _AddBookScreenState extends State<AddBookScreen> {
         bookPublication: book.bookPublication,
         isbnNumber: book.isbnNumber,
         bookQuantity: book.bookQuantity,
-      bookReviews: book.bookReviews,
-      bookReviewedUsers: book.bookReviewedUsers
+        bookReviews: book.bookReviews,
+        bookReviewedUsers: book.bookReviewedUsers
     );
     print("idhar: ${book.isbnNumber}");
 
     try {
-      AddBooks().addBook(book);
+     if(arguments['isInit']==false){
+       if (bookPic.isEmpty) {
+         var snackBar = const SnackBar(
+             content: Text("Image upload pending", textAlign: TextAlign.center));
+         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+         return;
+       }
+
+
+       AddBooks().addBook(book);
+     }else{
+
+       UpdateBook().updateBooks(arguments['bookId'],book);
+     }
       Navigator.pop(context);
     } catch (e) {
       await showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Oops!'),
-          content: const Text('Something went wrong'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Okay'),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                //return;
-              },
-            )
-          ],
-        ),
+        builder: (ctx) =>
+            AlertDialog(
+              title: const Text('Oops!'),
+              content: const Text('Something went wrong'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    //return;
+                  },
+                )
+              ],
+            ),
       );
       Navigator.pop(context);
     }
@@ -93,8 +150,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
     // Navigator.of(context).pop();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    //bookName.text="djjd";
+    print("entered build");
     return Scaffold(
         body: Container(
             decoration: const BoxDecoration(
@@ -107,7 +168,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 key: _form,
                 child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 20),
+                    const EdgeInsets.only(left: 10, right: 10, top: 20),
                     child: ListView(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -144,6 +205,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
+                                    //initialValue: _initValues['bookName'],
                                     controller: bookName,
                                     decoration: const InputDecoration(
                                       fillColor: Colors.white,
@@ -160,6 +222,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                       ),
                                       hintText: "bookName",
                                     ),
+                                    onFieldSubmitted: (_) {
+                                      FocusScope.of(context).requestFocus(_bookAuthorNode);
+                                    },
                                     validator: (value) {
                                       if (value != null && value.isEmpty) {
                                         return 'Please provide a value!';
@@ -177,14 +242,17 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                           isbnNumber: book.isbnNumber,
                                           bookQuantity: book.bookQuantity,
                                           bookReviews: book.bookReviews,
-                                          bookReviewedUsers: book.bookReviewedUsers
+                                          bookReviewedUsers: book
+                                              .bookReviewedUsers
                                       );
                                     }),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
+                                  //initialValue: _initValues['bookAuthor'],
                                   controller: bookAuthor,
+                                  focusNode: _bookAuthorNode,
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
@@ -198,6 +266,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                           color: Colors.grey, width: 2.0),
                                     ),
                                   ),
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context).requestFocus(_bookPagesNode);
+                                  },
                                   validator: (value) {
                                     if (value != null && value.isEmpty) {
                                       return 'Please provide a value!';
@@ -215,7 +286,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity,
                                         bookReviews: book.bookReviews,
-                                        bookReviewedUsers: book.bookReviewedUsers
+                                        bookReviewedUsers: book
+                                            .bookReviewedUsers
                                     );
                                   },
                                 ),
@@ -223,7 +295,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
+                                 // initialValue: _initValues['bookPages'],
                                   controller: bookPages,
+                                  focusNode: _bookPagesNode,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
@@ -235,6 +309,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                           color: Colors.grey, width: 2.0),
                                     ),
                                   ),
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context).requestFocus(_bookDepartmentNode);
+                                  },
                                   validator: (value) {
                                     if (value != null && value.isEmpty) {
                                       return 'Please enter a description.';
@@ -255,7 +332,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity,
                                         bookReviews: book.bookReviews,
-                                        bookReviewedUsers: book.bookReviewedUsers
+                                        bookReviewedUsers: book
+                                            .bookReviewedUsers
                                     );
                                   },
                                 ),
@@ -263,7 +341,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  //initialValue: _initValues['bookDepartment'],
                                   controller: bookDepartment,
+                                  focusNode: _bookDepartmentNode,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -279,16 +359,19 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context).requestFocus(_bookPublicationNode);
+                                  },
                                   onSaved: (value) {
                                     book = BookDetails(
                                         bookName: book.bookName,
@@ -300,7 +383,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity,
                                         bookReviews: book.bookReviews,
-                                        bookReviewedUsers: book.bookReviewedUsers
+                                        bookReviewedUsers: book
+                                            .bookReviewedUsers
                                     );
                                   },
                                 ),
@@ -308,7 +392,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                 // initialValue: _initValues['bookPublication'],
                                   controller: bookPublication,
+                                  focusNode: _bookPublicationNode,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -324,16 +410,19 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context).requestFocus(_bookISBNNode);
+                                  },
                                   onSaved: (value) {
                                     book = BookDetails(
                                         bookName: book.bookName,
@@ -342,11 +431,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         bookPages: book.bookPages,
                                         bookPic: book.bookPic,
                                         bookPublication:
-                                            value.toString().trim(),
+                                        value.toString().trim(),
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: book.bookQuantity,
                                         bookReviews: book.bookReviews,
-                                        bookReviewedUsers: book.bookReviewedUsers
+                                        bookReviewedUsers: book
+                                            .bookReviewedUsers
                                     );
                                   },
                                 ),
@@ -354,6 +444,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                //  initialValue: _initValues['isbnNumber'],
+                                  focusNode: _bookISBNNode,
                                   controller: bookISBN,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -370,16 +462,19 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
+                                  onFieldSubmitted: (_) {
+                                    FocusScope.of(context).requestFocus(_bookQuantityNode);
+                                  },
                                   onSaved: (value) {
                                     print(int.parse(value.toString()));
                                     book = BookDetails(
@@ -393,7 +488,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         //isbnNumber: int.parse(value!),
                                         bookQuantity: book.bookQuantity,
                                         bookReviews: book.bookReviews,
-                                        bookReviewedUsers: book.bookReviewedUsers
+                                        bookReviewedUsers: book
+                                            .bookReviewedUsers
                                     );
                                   },
                                 ),
@@ -401,7 +497,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                 // initialValue: _initValues['bookQuantity'],
                                   controller: bookQuantity,
+                                  focusNode: _bookQuantityNode,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Please enter a valid value";
@@ -419,13 +517,13 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
-                                              Color.fromARGB(255, 73, 128, 255),
+                                          Color.fromARGB(255, 73, 128, 255),
                                           width: 2.5),
                                     ),
                                   ),
@@ -440,7 +538,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         isbnNumber: book.isbnNumber,
                                         bookQuantity: int.parse(value!),
                                         bookReviews: book.bookReviews,
-                                        bookReviewedUsers: book.bookReviewedUsers
+                                        bookReviewedUsers: book
+                                            .bookReviewedUsers
                                     );
                                   },
                                 ),
@@ -535,6 +634,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       ),
                     ])))));
   }
+
 
   Future<void> upload() async {
     try {
@@ -638,3 +738,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
     }
   }
 }
+
+
+
