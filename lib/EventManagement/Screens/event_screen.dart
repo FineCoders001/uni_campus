@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/EventManagement/Models/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
+import 'package:uni_campus/EventManagement/Widgets/circular_fab.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'EventModels/all_events.dart';
-import 'EventModels/event_details.dart';
-import 'circular_fab.dart';
 
 class EventScreen extends StatefulHookConsumerWidget {
   const EventScreen({Key? key}) : super(key: key);
@@ -76,8 +76,10 @@ class _EventScreenState extends ConsumerState<EventScreen> {
           var status = "Ongoing Registration";
           final date = DateTime.parse(post.eventDate);
           print("participant entry");
-          print("participants are ${ref.read(userCrudProvider).user['deptname']}");
-          print("participant exit ${post.deptLevel.substring(14,post.deptLevel.length)}");
+          print(
+              "participants are ${ref.read(userCrudProvider).user['deptName']}");
+          print(
+              "participant exit ${post.deptLevel.substring(14, post.deptLevel.length)}");
 
           var time = int.parse(post.eventStartTime.substring(10, 12)) +
               int.parse(post.eventDuration.split(" ")[0]) +
@@ -107,19 +109,25 @@ class _EventScreenState extends ConsumerState<EventScreen> {
             }
           }
 
-          if(post.deptLevel.substring(0,14) == "Dept.intradept"){
-            if(!(ref.read(userCrudProvider).user['deptname'].toString().trim() == post.deptLevel.substring(14,post.deptLevel.length).trim())){
+          if (post.deptLevel.substring(0, 14) == "Dept.intradept") {
+            if (!(ref
+                    .read(userCrudProvider)
+                    .user['deptName']
+                    .toString()
+                    .trim() ==
+                post.deptLevel.substring(14, post.deptLevel.length).trim())) {
               print("deptlevel ka lafda");
-              return const SizedBox(height:0);
+              return const SizedBox(height: 0);
             }
           }
 
-          if(!(post.eventForSem.toString().split(" ").contains(ref.read(userCrudProvider).user['semester']))){
+          if (!(post.eventForSem
+              .toString()
+              .split(" ")
+              .contains(ref.read(userCrudProvider).user['semester']))) {
             print("sem ka lafda");
-            return const SizedBox(height:0);
+            return const SizedBox(height: 0);
           }
-
-
 
           return GestureDetector(
             onTap: () {
@@ -296,19 +304,21 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                         ),
                         participated == true
                             ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: const [
-                                    Text(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: const [
+                                      Text(
                                         "Already  Participated",
-                                        style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.green),
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green),
                                       ),
-
-                                  ],
-                                ),
-                              ],
-                            )
+                                    ],
+                                  ),
+                                ],
+                              )
                             : Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

@@ -8,9 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Profile/Screens/todo_list.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:uni_campus/user_crud.dart';
-
-import '../../main.dart';
+import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/main.dart';
 
 Map semRoman = {
   1: 'I',
@@ -180,8 +179,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
             ),
             // buildItem(u['enroll'], "Enrollment"),
-            // buildItem(u['collegename'], "2018 - 2022"),
-            // buildItem(u['deptname'], "Department"),
+            // buildItem(u['collegeName'], "2018 - 2022"),
+            // buildItem(u['deptName'], "Department"),
             // buildItem(semRoman[int.parse(u['semester'])], "Semester")
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -208,7 +207,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: ListTile(
                         leading: const Icon(Icons.school_outlined),
                         title: Text(
-                          u['collegename'],
+                          u['collegeName'],
                         ),
                         subtitle: Text(
                           "${u['styear']} - ${u['enyear']}",
@@ -220,7 +219,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: ListTile(
                         leading: const Icon(Icons.local_library_outlined),
                         title: Text(
-                          u['deptname'],
+                          u['deptName'],
                         ),
                         subtitle: const Text(
                           "Department",
@@ -230,7 +229,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading:  const Icon(Icons.arrow_right),
+                        leading: const Icon(Icons.arrow_right),
                         title: Text(
                           semRoman[int.parse(u['semester'])],
                         ),

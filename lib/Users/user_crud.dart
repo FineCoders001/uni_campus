@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:uni_campus/Users/user.dart';
-import 'main.dart';
+import 'package:uni_campus/Users/Models/user.dart';
+import '../main.dart';
 
 class UserCrud extends ChangeNotifier {
   Map<String, dynamic> user = {};
@@ -24,14 +24,14 @@ class UserCrud extends ChangeNotifier {
       v = {
         'userName': user['userName'],
         'enroll': user['enroll'],
-        'collegename': user['collegename'],
-        'deptname': user['deptname'],
+        'collegeName': user['collegeName'],
+        'deptName': user['deptName'],
         'semester': user['semester'],
         'enyear': user['enyear'],
         'styear': user['styear'],
         "profilePicture": urlLink,
         "role": user['role'],
-        'favBooks':user['favBooks']
+        'favBooks': user['favBooks']
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -40,7 +40,7 @@ class UserCrud extends ChangeNotifier {
     } else {
       v = {
         'userName': user['userName'],
-        'collegename': user['collegename'],
+        'collegeName': user['collegeName'],
         "profilePicture": urlLink,
         "role": user['role']
       };
@@ -61,14 +61,14 @@ class UserCrud extends ChangeNotifier {
       v = {
         'userName': u.userName,
         'enroll': u.enroll,
-        'collegename': u.collegename,
-        'deptname': u.deptname,
+        'collegeName': u.collegeName,
+        'deptName': u.deptName,
         'semester': u.semester,
         'enyear': u.enyear,
         'styear': u.styear,
         'role': u.role,
         'profilePicture': "",
-        'favBooks':u.favBooks
+        'favBooks': u.favBooks
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -77,10 +77,10 @@ class UserCrud extends ChangeNotifier {
     } else {
       v = {
         'userName': u.userName,
-        'collegename': u.collegename,
+        'collegeName': u.collegeName,
         'role': u.role,
         'profilePicture': "",
-        'favBooks':u.favBooks
+        'favBooks': u.favBooks
       };
       await FirebaseFirestore.instance
           .collection("users")
@@ -94,16 +94,16 @@ class UserCrud extends ChangeNotifier {
   }
 
   removeFavorite(var m) async {
-   try{
-     user['favBooks']=m;
-     await FirebaseFirestore.instance
-         .collection("users")
-         .doc(currentUser?.uid.toString())
-         .update({'favBooks':m});
-     notifyListeners();
-   }catch(e){
-     rethrow;
-   }
+    try {
+      user['favBooks'] = m;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser?.uid.toString())
+          .update({'favBooks': m});
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   addToFav(String bookId, List favBooks) async {

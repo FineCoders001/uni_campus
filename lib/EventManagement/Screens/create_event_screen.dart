@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/EventManagement/Models/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-//import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../EventModels/all_events.dart';
-import '../../EventModels/event_details.dart';
 
 class CreateEventScreen extends StatefulHookConsumerWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -48,8 +46,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
       eventStartTime: "",
       eventDuration: "",
       deptLevel: "",
-    eventForSem: ""
-  );
+      eventForSem: "");
 
   Future<void> _saveForm(context, AllEvents counter) async {
     final isValid = _form.currentState?.validate();
@@ -58,19 +55,18 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     }
 
     _form.currentState?.save();
-    if(_d.toString()=="Intradept"){
+    if (_d.toString() == "Intradept") {
       _event = EventsDetail(
           eventName: _event.eventName,
           venue: _event.venue,
           description: _event.description,
-          deptLevel: _d.toString()+" "+ref.read(userCrudProvider).user['deptname'],
+          deptLevel:
+              _d.toString() + " " + ref.read(userCrudProvider).user['deptName'],
           eventDate: selectedDate.toString(),
           eventStartTime: selectedTime.toString(),
           eventDuration: _event.eventDuration + " " + du,
-          eventForSem: _event.eventForSem
-      );
-
-    }else{
+          eventForSem: _event.eventForSem);
+    } else {
       _event = EventsDetail(
           eventName: _event.eventName,
           venue: _event.venue,
@@ -79,11 +75,8 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           eventDate: selectedDate.toString(),
           eventStartTime: selectedTime.toString(),
           eventDuration: _event.eventDuration + " " + du,
-          eventForSem: _event.eventForSem
-      );
+          eventForSem: _event.eventForSem);
     }
-
-
 
     try {
       await counter.requestEvent(_event);
@@ -105,7 +98,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           ],
         ),
       );
-
     }
 
     // Navigator.of(context).pop();
@@ -141,8 +133,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                   onPressed: () => Navigator.pop(context),
                                   icon: const Icon(
                                     Icons.arrow_back,
-                                   // color: Colors.white,
-
+                                    // color: Colors.white,
                                   )),
                             ],
                           ),
@@ -213,8 +204,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                                   _event.eventStartTime,
                                               eventDuration:
                                                   _event.eventDuration,
-                                            eventForSem: _event.eventForSem
-                                          );
+                                              eventForSem: _event.eventForSem);
                                         }),
                                   ),
                                   Padding(
@@ -241,15 +231,15 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                       },
                                       onSaved: (value) {
                                         _event = EventsDetail(
-                                          eventName: _event.eventName,
-                                          venue: value.toString(),
-                                          description: _event.description,
-                                          deptLevel: _event.deptLevel,
-                                          eventDate: _event.eventDate,
-                                          eventStartTime: _event.eventStartTime,
-                                          eventDuration: _event.eventDuration,
-                                            eventForSem: _event.eventForSem
-                                        );
+                                            eventName: _event.eventName,
+                                            venue: value.toString(),
+                                            description: _event.description,
+                                            deptLevel: _event.deptLevel,
+                                            eventDate: _event.eventDate,
+                                            eventStartTime:
+                                                _event.eventStartTime,
+                                            eventDuration: _event.eventDuration,
+                                            eventForSem: _event.eventForSem);
                                       },
                                     ),
                                   ),
@@ -291,14 +281,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                             eventDate: _event.eventDate,
                                             eventStartTime:
                                                 _event.eventStartTime,
-                                            eventDuration:
-                                                _event.eventDuration,
-                                            eventForSem: _event.eventForSem
-                                        );
+                                            eventDuration: _event.eventDuration,
+                                            eventForSem: _event.eventForSem);
                                       },
                                     ),
                                   ),
-
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: TextFormField(
@@ -313,8 +300,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                       decoration: const InputDecoration(
                                         fillColor: Colors.white,
                                         filled: true,
-                                        hintText:
-                                        "Event For Sem eg:- 1 2 3",
+                                        hintText: "Event For Sem eg:- 1 2 3",
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color.fromARGB(
@@ -336,15 +322,12 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                             deptLevel: _event.deptLevel,
                                             eventDate: _event.eventDate,
                                             eventStartTime:
-                                            _event.eventStartTime,
-                                            eventDuration:
-                                            _event.eventDuration,
-                                          eventForSem: value?.trim()
-                                        );
+                                                _event.eventStartTime,
+                                            eventDuration: _event.eventDuration,
+                                            eventForSem: value?.trim());
                                       },
                                     ),
                                   ),
-
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Container(
@@ -463,8 +446,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                       ),
                                     ),
                                   ),
-
-
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: GestureDetector(
@@ -560,8 +541,8 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                                           _event.eventStartTime,
                                                       eventDuration:
                                                           value.toString(),
-                                                      eventForSem: _event.eventForSem
-                                                  );
+                                                      eventForSem:
+                                                          _event.eventForSem);
                                                 },
                                               ),
                                             ),

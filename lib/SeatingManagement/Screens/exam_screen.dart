@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/SeatingManagement/AssistantMethod/files_io.dart';
-import 'package:uni_campus/SeatingManagement/AssistantMethod/upload_download.dart';
+import 'package:uni_campus/SeatingManagement/Utils/files_io.dart';
+import 'package:uni_campus/SeatingManagement/Utils/upload_download.dart';
 
 class ExamScreen extends StatefulHookConsumerWidget {
   const ExamScreen({Key? key}) : super(key: key);
@@ -56,10 +56,10 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: const Text("Exam Time-Table"),
-        centerTitle: true,
-      ),
+          backgroundColor: Colors.blueAccent,
+          title: const Text("Exam Time-Table"),
+          centerTitle: true,
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -74,7 +74,7 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: MediaQuery.of(context).size.height * 0.75,
               child: ListView.builder(
                 itemCount: n,
                 itemBuilder: ((BuildContext context, index) {

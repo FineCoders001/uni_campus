@@ -1,9 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
-import 'EventManagement/Screens/create_event_screen.dart';
-import 'my_events.dart';
+import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
+import 'package:uni_campus/EventManagement/Screens/my_event_screen.dart';
 
 class CircularFabWidget extends StatefulWidget {
   const CircularFabWidget({Key? key}) : super(key: key);
@@ -42,11 +40,12 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
     );
   }
 
-  Widget buildFAB(var m, Icon e) {
+  Widget buildFAB(var data, Icon e) {
     return SizedBox(
       child: FloatingActionButton(
+        heroTag: "btn$data",
           onPressed: () {
-            if(m=='Add Event'){
+            if(data=='Add Event'){
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -54,16 +53,16 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
                 ),
               );
             }
-            if(m=='My Event'){
+            if(data=='My Event'){
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const MyEvent(),
+                  builder: (BuildContext context) => const MyEventScreen(),
                 ),
               );
             }
 
-            if (m == null) {
+            if (data == null) {
               if (anicon.status == AnimationStatus.completed) {
                 anicon.reverse();
               } else {
@@ -71,11 +70,11 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
               }
             } else {
               // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text(m),
+              //   content: Text(data),
               // ));
             }
           },
-          tooltip: m,
+          tooltip: data,
           child: e),
     );
   }

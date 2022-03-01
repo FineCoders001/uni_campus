@@ -3,20 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/EventModels/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
+import 'package:uni_campus/EventManagement/Screens/participants_screen.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
-import 'EventModels/event_details.dart';
-import 'participants.dart';
-import 'Profile/Screens/profile_screen.dart';
-
-class MyEvent extends StatefulHookConsumerWidget {
-  const MyEvent({Key? key}) : super(key: key);
+class MyEventScreen extends StatefulHookConsumerWidget {
+  const MyEventScreen({Key? key}) : super(key: key);
 
   @override
-  _MyEventState createState() => _MyEventState();
+  _MyEventScreenState createState() => _MyEventScreenState();
 }
 
-class _MyEventState extends ConsumerState<MyEvent> {
+class _MyEventScreenState extends ConsumerState<MyEventScreen> {
   final queryEvent = FirebaseFirestore.instance
       .collection('ApprovedEvent')
       .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -272,7 +271,7 @@ class _MyEventState extends ConsumerState<MyEvent> {
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            Participants(post.participants),
+                            ParticipantsScreen(post.participants),
                       ),
                     );
                   },

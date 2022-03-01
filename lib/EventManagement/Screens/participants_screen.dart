@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Participants extends StatefulWidget {
-
+class ParticipantsScreen extends StatefulWidget {
   var participantsList;
-  Participants(this.participantsList, {Key? key}) : super(key: key);
+  ParticipantsScreen(this.participantsList, {Key? key}) : super(key: key);
 
   @override
-  _ParticipantsState createState() => _ParticipantsState();
+  _ParticipantsScreenState createState() => _ParticipantsScreenState();
 }
 
-class _ParticipantsState extends State<Participants> {
+class _ParticipantsScreenState extends State<ParticipantsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

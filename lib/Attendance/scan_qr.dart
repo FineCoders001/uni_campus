@@ -2,8 +2,8 @@
 
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'package:uni_campus/Attendance/view_list.dart';
-import 'package:uni_campus/attend.dart';
 
 class ScanQR extends StatefulWidget {
   var de;

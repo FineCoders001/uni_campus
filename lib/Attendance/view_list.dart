@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni_campus/attend.dart';
+import 'package:uni_campus/Attendance/Models/attend.dart';
 
 class ViewList extends StatefulWidget {
   final Attend d;

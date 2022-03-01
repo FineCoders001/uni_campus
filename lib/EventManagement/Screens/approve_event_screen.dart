@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/EventModels/all_events.dart';
-import 'EventModels/event_details.dart';
+import 'package:uni_campus/EventManagement/Models/all_events.dart';
+import 'package:uni_campus/EventManagement/Models/event_details.dart';
 
-class ApproveEvent extends StatefulWidget {
-  const ApproveEvent({Key? key}) : super(key: key);
+class ApproveEventScreen extends StatefulWidget {
+  const ApproveEventScreen({Key? key}) : super(key: key);
 
   @override
-  _ApproveEventState createState() => _ApproveEventState();
+  _ApproveEventScreenState createState() => _ApproveEventScreenState();
 }
 
-class _ApproveEventState extends State<ApproveEvent> {
+class _ApproveEventScreenState extends State<ApproveEventScreen> {
   final queryEvent = FirebaseFirestore.instance
       .collection('RequestEventAdmin')
       .withConverter(
@@ -217,7 +217,6 @@ class _ApproveEventState extends State<ApproveEvent> {
                                 Navigator.pop((context));
                                 print(" user id is ${post.userId}");
                                 await FinalizeEvent().approveEvent(post);
-
                               },
                               child: Container(
                                 margin: const EdgeInsets.all(15),
@@ -316,19 +315,18 @@ class _ApproveEventState extends State<ApproveEvent> {
                   ),
                 ],
               ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        post.eventName,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      subtitle: Text(post.description),
-                      //leading: Icon(Icons.event),
-
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      post.eventName,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    subtitle: Text(post.description),
+                    //leading: Icon(Icons.event),
+                  ),
+                ],
               ),
-                  ],
-                ),
             ),
           );
         },

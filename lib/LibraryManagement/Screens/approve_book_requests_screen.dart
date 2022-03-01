@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/user_crud.dart';
+import 'package:uni_campus/Users/user_crud.dart';
 
 class ApproveBookRequestScreen extends StatefulHookConsumerWidget {
   const ApproveBookRequestScreen({Key? key}) : super(key: key);
@@ -22,13 +22,21 @@ class _ApproveBookRequestScreenState
     await ref.read(userCrudProvider).fetchUserProfile();
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<String> bookData = [];
   late UserCrud userCrud;
   late Map<String, dynamic> user;
   CollectionReference allBooksReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("Books")
       .collection("AllBooks");
-  List<Map<String, dynamic>> bookDetails = [];
+  bool isLoading = false;
+  @override
+  void didChangeDependencies() {
+    userCrud = ref.watch(userCrudProvider);
+    user = userCrud.user;
+    super.didChangeDependencies();
+  }
 
   final queryDetails = FirebaseFirestore.instance
       .collection("LibraryManagement")
@@ -40,17 +48,10 @@ class _ApproveBookRequestScreenState
         toFirestore: (requestedDetails, _) => requestedDetails.toJson(),
       );
 
-  bool isLoading = true;
-  @override
-  void didChangeDependencies() {
-    userCrud = ref.watch(userCrudProvider);
-    user = userCrud.user;
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text("Approve Request"),
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
@@ -61,11 +62,7 @@ class _ApproveBookRequestScreenState
         pageSize: 5,
         itemBuilder: (context, snapshot) {
           final post = snapshot.data();
-          return Column(
-            children: [
-              approveCard(post, context),
-            ],
-          );
+          return approveCard(post, context);
         },
       ),
     );
@@ -132,119 +129,179 @@ class _ApproveBookRequestScreenState
                 shrinkWrap: true,
                 itemCount: post.bookId.length,
                 itemBuilder: (context, index) {
-                  getBookDetails(post.bookId[index]).then((value) {});
-                  return isLoading == false
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.94,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0.0),
+                  if (isLoading == false) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        color: Colors.white,
+                        elevation: 1,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: FutureBuilder<List<dynamic>>(
+                                  initialData: const ["",""],
+                                    future: getBookDetails(post.bookId[index]),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<List<dynamic>> text) {
+                                          
+                                      if (text.data![1] != "") {
+                                        return CachedNetworkImage(
+                                          imageUrl: text.data![1],
+                                          fit: BoxFit.fill,
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    }),
+                              ),
                             ),
-                            color: Colors.white,
-                            elevation: 1,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: CachedNetworkImage(
-                                      imageUrl: bookDetails[index]['bookPic']
-                                          [0],
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                            Expanded(
+                              child: SizedBox(
+                                height: 100,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    FutureBuilder<List<dynamic>>(
+                                        future:
+                                            getBookDetails(post.bookId[index]),
+                                        initialData: const [" ", " "],
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<List<dynamic>> text) {
+                                          return Text(text.data![0],
+                                              style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold));
+                                        }),
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(bookDetails[index]["bookName"],
-                                            style: GoogleFonts.ubuntu(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            InkWell(
-                                              onTap: (() async {
-                                                print('index: $index');
-                                                print(
-                                                    'index: ${bookDetails[index]["bookName"]}');
-
-                                                await EditRequest()
-                                                    .deleteRequest(
-                                                        bookDetails[index]
-                                                            ["bookId"],
-                                                        user);
-                                                setState(() {
-                                                  bookDetails;
-                                                  print(
-                                                      "Index: ${post.bookId.elementAt(index)}");
-                                                  print(
-                                                      "deleted: ${bookDetails[index]["bookId"]} ${bookDetails[index]["bookName"]} ${post.bookId} ");
-                                                });
-                                              }),
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.redAccent,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(
-                                                      5,
+                                        InkWell(
+                                          onTap: (() async {
+                                            await EditRequestAdmin()
+                                                .rejectRequest(
+                                                    post.enroll,
+                                                    {
+                                                      "bookId": post.bookId,
+                                                      "deptName": post.deptName,
+                                                      "enroll": post.enroll,
+                                                      "semester": post.semester,
+                                                      "userName": post.userName
+                                                    },
+                                                    post.bookId[index])
+                                                .then(
+                                                  (value) => {
+                                                    ScaffoldMessenger.of(
+                                                            _scaffoldKey
+                                                                .currentState!
+                                                                .context)
+                                                        .showSnackBar(
+                                                      const SnackBar(
+                                                        duration: Duration(
+                                                            seconds: 1),
+                                                        content: Text(
+                                                            'Book Rejected',
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Reject",
-                                                    style: GoogleFonts.ubuntu(
-                                                      fontSize: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
+                                                  },
+                                                );
+                                          }),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.redAccent,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                  5,
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5))),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Approve",
-                                                  style: GoogleFonts.ubuntu(
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Reject",
+                                                style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
-                                          ],
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await EditRequestAdmin()
+                                                .approveRequest(
+                                                    post.enroll,
+                                                    {
+                                                      "bookId": post.bookId,
+                                                      "deptName": post.deptName,
+                                                      "enroll": post.enroll,
+                                                      "semester": post.semester,
+                                                      "userName": post.userName
+                                                    },
+                                                    post.bookId[index])
+                                                .then((value) => {
+                                                      ScaffoldMessenger.of(
+                                                              _scaffoldKey
+                                                                  .currentState!
+                                                                  .context)
+                                                          .showSnackBar(
+                                                        const SnackBar(
+                                                          duration: Duration(
+                                                              seconds: 1),
+                                                          content: Text(
+                                                              'Book Approved',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                        ),
+                                                      )
+                                                    });
+                                          },
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Approve",
+                                                style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        )
-                      : const ListTile(title: Text("Loading"));
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const ListTile(title: Text("Loading"));
+                  }
                 },
               ),
             ),
@@ -254,18 +311,10 @@ class _ApproveBookRequestScreenState
     );
   }
 
-  Future getBookDetails(String id) async {
-    if (isLoading == true) {
-      print("now set to false");
-      print("Idhar firse $id");
-
-      var data = await allBooksReference.doc(id).get();
-      print("idhar:  ${data.data()}");
-      setState(() {
-        bookDetails.add(data.data() as Map<String, dynamic>);
-        isLoading = false;
-      });
-    }
+  Future<List<dynamic>> getBookDetails(String bookId) async {
+    var snapshot = await allBooksReference.doc(bookId).get();
+    var data = snapshot.data() as Map<String, dynamic>;
+    return [data['bookName'], data['bookPic'][0]];
   }
 }
 

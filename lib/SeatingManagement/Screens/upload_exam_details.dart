@@ -3,9 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:uni_campus/SeatingManagement/AssistantMethod/files_io.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import '../AssistantMethod/upload_download.dart';
+import 'package:uni_campus/SeatingManagement/Utils/files_io.dart';
+import 'package:uni_campus/SeatingManagement/Utils/upload_download.dart';
 
 class UploadExamDetails extends StatefulWidget {
   const UploadExamDetails({Key? key}) : super(key: key);

@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
-import 'package:uni_campus/onboarding_screen.dart';
+import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 
-import '../onboarding_screen.dart';
+import '../Users/Screens/onboarding_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
