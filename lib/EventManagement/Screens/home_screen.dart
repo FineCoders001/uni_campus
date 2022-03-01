@@ -13,6 +13,7 @@ import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/approve_event.dart';
 import 'package:uni_campus/onboarding_screen.dart';
 import 'package:uni_campus/user_crud.dart';
+import '../../AllBookScreen.dart';
 import '../../event_screen.dart';
 import '../../main.dart';
 
@@ -310,7 +311,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const AddBookScreen(),
+                                         AddBookScreen(),
                                   ),
                                 );
                               },
@@ -323,11 +324,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const BookHomeScreen(),
+                                        const AllBookScreen(),
                                   ),
                                 );
                               },
-                              child: buildItem("bookHomeScreen",
+                              child: buildItem("AllbookScreen",
                                   Icons.event_available_sharp)),
                           // GestureDetector(
                           //   onTap: (() {

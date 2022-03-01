@@ -53,22 +53,20 @@ class AddBooks {
 }
 
 class UpdateBook {
-  updateBooks(BookDetails book) async {
+  updateBooks(String bookId,BookDetails book) async {
+    print("entered update book ${book.bookId}");
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
         .doc("Books")
         .collection('AllBooks')
-        .doc(book.bookId)
+        .doc(bookId)
         .update({
       'bookName': book.bookName,
-      'bookPic': book.bookPic,
       'bookAuthor': book.bookAuthor,
       'bookPages': book.bookPages,
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
-      'bookReviews': book.bookReviews,
-      'bookId': book.bookId,
       'bookQuantity': book.bookQuantity
     });
   }
@@ -76,12 +74,32 @@ class UpdateBook {
 
 class DeleteBooks {
   deleteBooks(BookDetails book) async {
-    await FirebaseFirestore.instance
-        .collection("LibraryManagement")
+   try{
+     await FirebaseFirestore.instance
+         .collection("LibraryManagement")
+         .doc("Books")
+         .collection('AllBooks')
+         .doc(book.bookId)
+         .delete();
+     await FirebaseFirestore.instance .collection("LibraryManagement")
         .doc("Books")
         .collection('AllBooks')
-        .doc(book.bookId)
-        .delete();
+        .doc(book.bookId).collection("BookRating").get().then((snapshot) {
+       for (DocumentSnapshot ds in snapshot.docs){
+         ds.reference.delete();
+       }});
+     await FirebaseFirestore.instance .collection("LibraryManagement")
+         .doc("Books")
+         .collection('AllBooks')
+         .doc(book.bookId).collection("BookReviews").get().then((snapshot) {
+       for (DocumentSnapshot ds in snapshot.docs){
+         ds.reference.delete();
+       }});
+
+
+   }catch(e){
+     throw e;
+   }
   }
 }
 
