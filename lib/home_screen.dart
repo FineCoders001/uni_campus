@@ -3,19 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/main.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
-import 'package:uni_campus/main.dart';
 import 'package:uni_campus/EventManagement/Screens/my_event_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
 import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
-import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart'
-    as library_home_screen;
+import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
@@ -46,6 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text("UniCampus"),
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
@@ -74,7 +74,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              const library_home_screen.BookHomeScreen(),
+                              const BookHomeScreen(),
                         ),
                       );
                     },
@@ -128,7 +128,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => const MyEventScreen(),
+                          builder: (BuildContext context) =>
+                              const MyEventScreen(),
                         ),
                       );
                     },
@@ -203,80 +204,71 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             },
                             focusColor: Colors.white,
                             child: Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Colors.pinkAccent,
-                                      Colors.redAccent,
-                                      Colors.orangeAccent,
-                                    ],
-                                  ),
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.pinkAccent,
+                                    Colors.redAccent,
+                                    Colors.orangeAccent,
+                                  ],
                                 ),
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 35),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        u['profilePicture'] == null ||
-                                                u['profilePicture'] == ""
-                                            ? u['userName'] != null
-                                                ? ClipOval(
-                                                    child: Material(
-                                                      elevation: 5.0,
-                                                      shape:
-                                                          const CircleBorder(),
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              65,
-                                                              198,
-                                                              255),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(45.0),
-                                                        child: Text(
-                                                          u['userName'][0],
-                                                          style: GoogleFonts
-                                                              .ubuntu(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 35,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                        ),
-                                                      ),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 35),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    u['profilePicture'] == null ||
+                                            u['profilePicture'] == ""
+                                        ? u['userName'] != null
+                                            ? ClipOval(
+                                                child: Material(
+                                                  elevation: 5.0,
+                                                  shape: const CircleBorder(),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  color: const Color.fromARGB(
+                                                      255, 65, 198, 255),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            45.0),
+                                                    child: Text(
+                                                      u['userName'][0],
+                                                      style: GoogleFonts.ubuntu(
+                                                          color: Colors.white,
+                                                          fontSize: 35,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
-                                                  )
-                                                : const CircularProgressIndicator()
-                                            : buildImage(
-                                                u['profilePicture'], u),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              u['userName'],
-                                              style: GoogleFonts.ubuntu(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                            Text(
-                                              "${currentUser?.email}",
-                                              style: GoogleFonts.ubuntu(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        )
+                                                  ),
+                                                ),
+                                              )
+                                            : const CircularProgressIndicator()
+                                        : buildImage(u['profilePicture'], u),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          u['userName'],
+                                          style: GoogleFonts.ubuntu(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                        Text(
+                                          "${currentUser?.email}",
+                                          style: GoogleFonts.ubuntu(
+                                              fontSize: 18,
+                                              color: Colors.white),
+                                        ),
                                       ],
-                                    ))),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           InkWell(
                               onTap: () {
@@ -335,7 +327,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const library_home_screen.BookHomeScreen(),
+                                        const BookHomeScreen(),
                                   ),
                                 );
                               },
