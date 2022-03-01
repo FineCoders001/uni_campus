@@ -68,7 +68,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         debugShowCheckedModeBanner: false,
         // home:ApproveBookRequestScreen(),
         home: StreamBuilder(
-          // stream: FirebaseAuth.instance.authStateChanges(),
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {

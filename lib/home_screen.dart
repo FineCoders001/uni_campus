@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/LibraryManagement/Screens/all_book_screen.dart';
+import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen(admin).dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
 import 'package:uni_campus/main.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
-import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen.dart';
+import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen(admin).dart';
 import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/my_event_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -54,6 +55,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
+                bigCard(
+                  context,
+                  "Library Management Admin",
+                  Icons.local_library_outlined,
+                  [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const ApproveBookRequestScreen(),
+                          ),
+                        );
+                      },
+                      child: containerForGridview("Approve Book",
+                          const Color.fromARGB(255, 82, 72, 200)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const IssuedBookAdminScreen(),
+                          ),
+                        );
+                      },
+                      child: containerForGridview("Issued Book",
+                          const Color.fromARGB(255, 82, 72, 200)),
+                    ),
+                  ],
+                ),
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
                   InkWell(
@@ -62,12 +96,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              const ApproveBookRequestScreen(),
+                              const IssuedBookScreen(),
                         ),
                       );
                     },
                     child: containerForGridview(
-                        "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
+                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
                   ),
                   InkWell(
                     onTap: () {
@@ -82,21 +116,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: containerForGridview(
                         "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const IssuedBookScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                  containerForGridview(
-                      "Search Book", const Color.fromARGB(255, 82, 72, 200)),
                 ]),
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
                   containerForGridview(
@@ -181,7 +200,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
-                
               ],
             ),
       drawer: isloading == false
@@ -309,19 +327,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               child: buildItem(
                                   "Onboarding", Icons.event_available_sharp)),
-
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                         const AddBookScreen(),
-                                  ),
-                                );
-                              },
-                              child: buildItem(
-                                  "library", Icons.event_available_sharp)),
 
                           InkWell(
                               onTap: () {

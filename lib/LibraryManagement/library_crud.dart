@@ -158,6 +158,7 @@ class EditRequest {
       .collection("LibraryManagement")
       .doc("Books")
       .collection("AllBooks");
+
   bookIssued(String id, user) async {
     DocumentSnapshot documentSnapshot =
         await pendingReference.doc(user['enroll']).get();
@@ -167,11 +168,12 @@ class EditRequest {
     } else {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
-      if (data['bookId'].contains(id) == true) {
-        return true;
-      } else {
-        return false;
+      for (var map in data['bookId']) {
+        if (map?.containsKey(id) == true) {
+          return true;
+        }
       }
+      return false;
     }
   }
 
@@ -194,9 +196,9 @@ class EditRequest {
   }
 
   deleteRequest(String bookId, user) async {
-    await allBooksReference
-        .doc(bookId)
-        .update({'bookQuantity': FieldValue.increment(1)});
+    // await allBooksReference
+    //     .doc(bookId)
+    //     .update({'bookQuantity': FieldValue.increment(1)});
     await allBooksReference
         .doc(bookId)
         .update({'issuedQuantity': FieldValue.increment(-1)});
@@ -206,21 +208,23 @@ class EditRequest {
     if (data['bookId'].length == 1) {
       await pendingReference.doc(user['enroll']).delete();
     } else {
-      data['bookId'].remove(bookId);
-      await pendingReference.doc(user['enroll']).set({
-        'bookId': {data['bookId']:DateTime.now()},
-        'userName': data['userName'],
-        'enroll': data['enroll'],
-        'semester': data['semester'],
-        'deptName': data['deptName']
-      });
+      List test = [];
+      for (int i = 0; i < data['bookId'].length; i++) {
+        if (data['bookId'][i].keys.elementAt(0) == bookId) {
+          data['bookId'].removeAt(i);
+          test = data['bookId'];
+          break;
+        }
+      }
+      await pendingReference.doc(user['enroll']).update({'bookId': test});
+      
     }
   }
 
   requestBook(String bookId, user) async {
-    await allBooksReference
-        .doc(bookId)
-        .update({'bookQuantity': FieldValue.increment(-1)});
+    // await allBooksReference
+    //     .doc(bookId)
+    //     .update({'bookQuantity': FieldValue.increment(-1)});
     await allBooksReference
         .doc(bookId)
         .update({'issuedQuantity': FieldValue.increment(1)});
@@ -230,22 +234,28 @@ class EditRequest {
     var data = documentSnapshot.data();
     if (data == null || data == {}) {
       await pendingReference.doc(user['enroll']).set({
-        'bookId': FieldValue.arrayUnion([bookId]),
+        'bookId': FieldValue.arrayUnion([
+          {bookId: DateTime.now()}
+        ]),
         'userName': user['userName'],
         'enroll': user['enroll'],
         'semester': user['semester'],
         'deptName': user['deptName'],
+        //change contact here
+        'contact': user['enroll']
       });
     } else {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
-      data['bookId'].add(bookId);
+      data['bookId'].add({bookId:DateTime.now()});
       await pendingReference.doc(user['enroll']).set({
         'bookId': data['bookId'],
         'userName': data['userName'],
         'enroll': data['enroll'],
         'semester': data['semester'],
-        'deptName': data['deptName']
+        'deptName': data['deptName'],
+        //change contact here
+        'contact': data['enroll']
       });
     }
   }
@@ -273,23 +283,25 @@ class EditRequestAdmin {
     if (documentSnapshot.data() == null || documentSnapshot.data() == {}) {
       await approvedReference.doc(enroll).set({
         'bookId': FieldValue.arrayUnion([
-          {bookId: "Approved"}
+          {bookId: DateTime.now()}
         ]),
         'userName': passedData['userName'],
         'enroll': passedData['enroll'],
         'semester': passedData['semester'],
-        'deptName': passedData['deptName']
+        'deptName': passedData['deptName'],
+        'contact': passedData['contact']
       });
     } else {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
-      data['bookId'].add({bookId: "Approved"});
+      data['bookId'].add({bookId: DateTime.now()});
       await approvedReference.doc(enroll).set({
         'bookId': FieldValue.arrayUnion(data['bookId']),
         'userName': data['userName'],
         'enroll': data['enroll'],
         'semester': data['semester'],
-        'deptName': data['deptName']
+        'deptName': data['deptName'],
+        'contact': passedData['contact']
       });
     }
 
@@ -297,23 +309,23 @@ class EditRequestAdmin {
     if (passedData['bookId'].length == 1) {
       await pendingReference.doc(enroll).delete();
     } else {
-      List listBookId = passedData['bookId'];
-      listBookId.remove(bookId);
-      await pendingReference.doc(enroll).set({
-        'bookId': passedData['bookId'],
-        'userName': passedData['userName'],
-        'enroll': passedData['enroll'],
-        'semester': passedData['semester'],
-        'deptName': passedData['deptName']
-      });
+      List test = [];
+      for (int i = 0; i < passedData['bookId'].length; i++) {
+        if (passedData['bookId'][i].keys.elementAt(0) == bookId) {
+          passedData['bookId'].removeAt(i);
+          test = passedData['bookId'];
+          break;
+        }
+      }
+      await pendingReference.doc(enroll).update({'bookId': test});
     }
   }
 
   rejectRequest(
       String enroll, Map<String, dynamic> passedData, String bookId) async {
-    await allBooksReference
-        .doc(bookId)
-        .update({'bookQuantity': FieldValue.increment(1)});
+    // await allBooksReference
+    //     .doc(bookId)
+    //     .update({'bookQuantity': FieldValue.increment(1)});
     await allBooksReference
         .doc(bookId)
         .update({'issuedQuantity': FieldValue.increment(-1)});
@@ -322,16 +334,15 @@ class EditRequestAdmin {
     if (passedData['bookId'].length == 1) {
       await pendingReference.doc(enroll).delete();
     } else {
-      List listBookId = passedData['bookId'];
-
-      listBookId.remove(bookId);
-      await pendingReference.doc(enroll).set({
-        'bookId': passedData['bookId'],
-        'userName': passedData['userName'],
-        'enroll': passedData['enroll'],
-        'semester': passedData['semester'],
-        'deptName': passedData['deptName']
-      });
+      List test = [];
+      for (int i = 0; i < passedData['bookId'].length; i++) {
+        if (passedData['bookId'][i].keys.elementAt(0) == bookId) {
+          passedData['bookId'].removeAt(i);
+          test = passedData['bookId'];
+          break;
+        }
+      }
+      await pendingReference.doc(enroll).update({'bookId': test});
     }
   }
 }
@@ -349,23 +360,23 @@ class BookStatus {
       .collection("LibraryManagement")
       .doc("Books")
       .collection("AllBooks");
-  bookCollected(String enroll, String bookId) async {
-    await approvedReference.doc(enroll).update({
-      'bookId': FieldValue.arrayRemove([
-        {bookId: "Approved"}
-      ]),
-    });
-    await approvedReference.doc(enroll).update({
-      'bookId': FieldValue.arrayUnion([
-        {bookId: "Collected"}
-      ]),
-    });
-  }
+  // bookCollected(String enroll, String bookId) async {
+  //   await approvedReference.doc(enroll).update({
+  //     'bookId': FieldValue.arrayRemove([
+  //       {bookId: "Approved"}
+  //     ]),
+  //   });
+  //   await approvedReference.doc(enroll).update({
+  //     'bookId': FieldValue.arrayUnion([
+  //       {bookId: "Collected"}
+  //     ]),
+  //   });
+  // }
 
   bookReturned(String enroll, List<dynamic> passedData, String bookId) async {
-    await allBooksReference
-        .doc(bookId)
-        .update({'bookQuantity': FieldValue.increment(1)});
+    // await allBooksReference
+    //     .doc(bookId)
+    //     .update({'bookQuantity': FieldValue.increment(1)});
     await allBooksReference
         .doc(bookId)
         .update({'issuedQuantity': FieldValue.increment(-1)});
@@ -374,12 +385,18 @@ class BookStatus {
     if (passedData.length == 1) {
       await approvedReference.doc(enroll).delete();
     } else {
-      await approvedReference.doc(enroll).update({
-        'bookId': FieldValue.arrayRemove([
-          {bookId: "Collected"},
-          {bookId: "Approved"}
-        ]),
-      });
+      DocumentSnapshot snapshot = await approvedReference.doc(enroll).get();
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      List test = [];
+      for (int i = 0; i < data['bookId'].length; i++) {
+        if (data['bookId'][i].keys.elementAt(0) == bookId) {
+          print("wow");
+          data['bookId'].removeAt(i);
+          test = data['bookId'];
+          break;
+        }
+      }
+      await approvedReference.doc(enroll).update({'bookId': test});
     }
   }
 }
