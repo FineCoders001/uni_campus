@@ -46,14 +46,14 @@ class AddBooks {
         .doc("Books")
         .collection('AllBooks')
         .doc(docRef.id)
-        .collection("BookRating").doc("r&r")
+        .collection("BookRating")
+        .doc("r&r")
         .set({"ratings": 0.0, "ratingsCount": 0.0});
-
   }
 }
 
 class UpdateBook {
-  updateBooks(String bookId,BookDetails book) async {
+  updateBooks(String bookId, BookDetails book) async {
     print("entered update book ${book.bookId}");
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
@@ -74,40 +74,45 @@ class UpdateBook {
 
 class DeleteBooks {
   deleteBooks(BookDetails book) async {
-   try{
-     await FirebaseFirestore.instance
-         .collection("LibraryManagement")
-         .doc("Books")
-         .collection('AllBooks')
-         .doc(book.bookId)
-         .delete();
-     await FirebaseFirestore.instance .collection("LibraryManagement")
-        .doc("Books")
-        .collection('AllBooks')
-        .doc(book.bookId).collection("BookRating").get().then((snapshot) {
-       for (DocumentSnapshot ds in snapshot.docs){
-         ds.reference.delete();
-       }});
-     await FirebaseFirestore.instance .collection("LibraryManagement")
-         .doc("Books")
-         .collection('AllBooks')
-         .doc(book.bookId).collection("BookReviews").get().then((snapshot) {
-       for (DocumentSnapshot ds in snapshot.docs){
-         ds.reference.delete();
-       }});
-
-
-   }catch(e){
-     throw e;
-   }
+    try {
+      await FirebaseFirestore.instance
+          .collection("LibraryManagement")
+          .doc("Books")
+          .collection('AllBooks')
+          .doc(book.bookId)
+          .delete();
+      await FirebaseFirestore.instance
+          .collection("LibraryManagement")
+          .doc("Books")
+          .collection('AllBooks')
+          .doc(book.bookId)
+          .collection("BookRating")
+          .get()
+          .then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs) {
+          ds.reference.delete();
+        }
+      });
+      await FirebaseFirestore.instance
+          .collection("LibraryManagement")
+          .doc("Books")
+          .collection('AllBooks')
+          .doc(book.bookId)
+          .collection("BookReviews")
+          .get()
+          .then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs) {
+          ds.reference.delete();
+        }
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 }
 
-
-
 class AddReview {
-  addReview(String bookId, String review,
-      List bookReviewedUsers) async {
+  addReview(String bookId, String review, List bookReviewedUsers) async {
     bookReviewedUsers.add(FirebaseAuth.instance.currentUser?.uid);
     await FirebaseFirestore.instance
         .collection("LibraryManagement")
@@ -135,11 +140,12 @@ class AddRating {
         .collection('AllBooks')
         .doc(bookId)
         .collection("BookRating")
-        .doc("r&r").set({"ratings": ratings, "ratingsCount": ratingsCount});
+        .doc("r&r")
+        .set({"ratings": ratings, "ratingsCount": ratingsCount});
   }
 }
 
- class EditRequest {
+class EditRequest {
   CollectionReference pendingReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("RequestedBooks")
@@ -154,13 +160,13 @@ class AddRating {
       .collection("AllBooks");
   bookIssued(String id, user) async {
     DocumentSnapshot documentSnapshot =
-    await pendingReference.doc(user['enroll']).get();
+        await pendingReference.doc(user['enroll']).get();
     var data = documentSnapshot.data();
     if (data == null) {
       return false;
     } else {
       Map<String, dynamic> data =
-      documentSnapshot.data() as Map<String, dynamic>;
+          documentSnapshot.data() as Map<String, dynamic>;
       if (data['bookId'].contains(id) == true) {
         return true;
       } else {
@@ -171,13 +177,13 @@ class AddRating {
 
   bookApproved(String id, user) async {
     DocumentSnapshot documentSnapshot =
-    await approvedReference.doc(user['enroll']).get();
+        await approvedReference.doc(user['enroll']).get();
     var data = documentSnapshot.data();
     if (data == null) {
       return false;
     } else {
       Map<String, dynamic> data =
-      documentSnapshot.data() as Map<String, dynamic>;
+          documentSnapshot.data() as Map<String, dynamic>;
       for (var map in data['bookId']) {
         if (map?.containsKey(id) == true) {
           return true;
@@ -195,14 +201,14 @@ class AddRating {
         .doc(bookId)
         .update({'issuedQuantity': FieldValue.increment(-1)});
     DocumentSnapshot documentSnapshot =
-    await pendingReference.doc(user['enroll']).get();
+        await pendingReference.doc(user['enroll']).get();
     Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
     if (data['bookId'].length == 1) {
       await pendingReference.doc(user['enroll']).delete();
     } else {
       data['bookId'].remove(bookId);
       await pendingReference.doc(user['enroll']).set({
-        'bookId': data['bookId'],
+        'bookId': {data['bookId']:DateTime.now()},
         'userName': data['userName'],
         'enroll': data['enroll'],
         'semester': data['semester'],
@@ -220,7 +226,7 @@ class AddRating {
         .update({'issuedQuantity': FieldValue.increment(1)});
 
     DocumentSnapshot documentSnapshot =
-    await pendingReference.doc(user['enroll']).get();
+        await pendingReference.doc(user['enroll']).get();
     var data = documentSnapshot.data();
     if (data == null || data == {}) {
       await pendingReference.doc(user['enroll']).set({
@@ -232,7 +238,7 @@ class AddRating {
       });
     } else {
       Map<String, dynamic> data =
-      documentSnapshot.data() as Map<String, dynamic>;
+          documentSnapshot.data() as Map<String, dynamic>;
       data['bookId'].add(bookId);
       await pendingReference.doc(user['enroll']).set({
         'bookId': data['bookId'],
@@ -244,7 +250,6 @@ class AddRating {
     }
   }
 }
-
 
 class EditRequestAdmin {
   CollectionReference pendingReference = FirebaseFirestore.instance
@@ -264,7 +269,7 @@ class EditRequestAdmin {
       String enroll, Map<String, dynamic> passedData, String bookId) async {
     //Adding data
     DocumentSnapshot documentSnapshot =
-    await approvedReference.doc(enroll).get();
+        await approvedReference.doc(enroll).get();
     if (documentSnapshot.data() == null || documentSnapshot.data() == {}) {
       await approvedReference.doc(enroll).set({
         'bookId': FieldValue.arrayUnion([
@@ -277,7 +282,7 @@ class EditRequestAdmin {
       });
     } else {
       Map<String, dynamic> data =
-      documentSnapshot.data() as Map<String, dynamic>;
+          documentSnapshot.data() as Map<String, dynamic>;
       data['bookId'].add({bookId: "Approved"});
       await approvedReference.doc(enroll).set({
         'bookId': FieldValue.arrayUnion(data['bookId']),
@@ -371,10 +376,10 @@ class BookStatus {
     } else {
       await approvedReference.doc(enroll).update({
         'bookId': FieldValue.arrayRemove([
-          {bookId: "Collected"},{bookId: "Approved"}
+          {bookId: "Collected"},
+          {bookId: "Approved"}
         ]),
       });
-
     }
   }
 }

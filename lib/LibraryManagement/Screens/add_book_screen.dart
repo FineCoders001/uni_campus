@@ -11,6 +11,8 @@ import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 class AddBookScreen extends StatefulWidget {
   static const routeName = 'AddBookScreen';
 
+  const AddBookScreen({Key? key}) : super(key: key);
+
 
   @override
   _AddBookScreenState createState() => _AddBookScreenState();

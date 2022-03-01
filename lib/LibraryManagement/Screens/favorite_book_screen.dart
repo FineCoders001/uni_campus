@@ -92,7 +92,7 @@ bool isloading=false;
   @override
   Widget build(BuildContext context) {
 
-    return isloading?Center(child: CircularProgressIndicator(),):Scaffold(
+    return isloading?const Center(child: CircularProgressIndicator(),):Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         actions:  [

@@ -4,15 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/LibraryManagement/Widgets/rating_bar.dart';
 import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
-
+import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-
-import '../../Users/user_crud.dart';
-import '../../Widgets/ratings.dart';
-import '../../Widgets/styled_image.dart';
-import '../Widgets/rating_bar.dart';
-import '../library_crud.dart';
+import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/widgets/ratings.dart';
+import 'package:uni_campus/widgets/styled_image.dart';
 import 'favorite_book_screen.dart';
 
 class BookDetailsScreen extends StatefulHookConsumerWidget {
@@ -75,7 +73,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => FavoriteBookScreen()));
+                      builder: (BuildContext context) => const FavoriteBookScreen()));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -294,7 +292,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               .bookApproved(widget.book['bookId'], user) ==
           true) {
         setState(() {
-          isIssued == "Book Approved";
+          isIssued = "Book Approved";
         });
       }
     } else {
@@ -338,7 +336,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => FavoriteBookScreen()));
+                      builder: (BuildContext context) => const FavoriteBookScreen()));
             }
           },
           child: Container(
