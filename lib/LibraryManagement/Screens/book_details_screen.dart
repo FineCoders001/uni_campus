@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
 
-
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-
 
 import '../../Users/user_crud.dart';
 import '../../Widgets/ratings.dart';
@@ -16,7 +14,6 @@ import '../../Widgets/styled_image.dart';
 import '../Widgets/rating_bar.dart';
 import '../library_crud.dart';
 import 'favorite_book_screen.dart';
-
 
 class BookDetailsScreen extends StatefulHookConsumerWidget {
   //const DisplayBookDetail({Key? key}) : super(key: key);
@@ -75,14 +72,17 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
         actions: [
           GestureDetector(
             onTap: () async {
-              await Navigator.push(context, MaterialPageRoute(builder: (
-                  BuildContext context) => FavoriteBookScreen()));
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => FavoriteBookScreen()));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: Badge(
                 animationType: BadgeAnimationType.fade,
-                badgeContent:  Text('${ref.watch(userCrudProvider).user['favBooks'].length}'),
+                badgeContent: Text(
+                    '${ref.watch(userCrudProvider).user['favBooks'].length}'),
                 child: const Icon(
                   Icons.favorite_border,
                   color: Colors.white,
@@ -158,14 +158,12 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                               ),
                             ),
                           ),
-                RatingBar(
-                    double.parse(m['ratings'].toString()),
-                    double.parse(
-                        m['ratingsCount'].toString()),
-                    book['bookReviewedUsers'],
-                    book['bookId'],reviewed),
-
-
+                    RatingBar(
+                        double.parse(m['ratings'].toString()),
+                        double.parse(m['ratingsCount'].toString()),
+                        book['bookReviewedUsers'],
+                        book['bookId'],
+                        reviewed),
                     Card(
                       elevation: 5,
                       child: Padding(
@@ -253,7 +251,6 @@ class BottomButton extends StatefulHookConsumerWidget {
 }
 
 class _BottomButtonState extends ConsumerState<BottomButton> {
-
   String isIssued = "Issue Book";
   //bool fav = false;
   late UserCrud userCrud;
@@ -275,7 +272,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
 
   @override
   Future<void> didChangeDependencies() async {
-    //
+    userCrud = ref.watch(userCrudProvider);
     user = userCrud.user;
     // l=user['favBooks'];
     // if (l.contains(widget.book['bookId'])) {
@@ -288,10 +285,16 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
     //     fav=false;
     //   });
     // }
-    if (widget.book["bookQuantity"] > 0) {
+    if (widget.book["bookQuantity"] - widget.book["issuedQuantity"] > 0) {
       if (await EditRequest().bookIssued(widget.book['bookId'], user) == true) {
         setState(() {
           isIssued = "Cancel Request";
+        });
+      } else if (await EditRequest()
+              .bookApproved(widget.book['bookId'], user) ==
+          true) {
+        setState(() {
+          isIssued == "Book Approved";
         });
       }
     } else {
@@ -305,17 +308,18 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   @override
   Widget build(BuildContext context) {
     print("book id is ${widget.book['bookId']}");
-    userCrud = ref.watch(userCrudProvider);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: () async {
-            if (userCrud.user['favBooks'].contains(widget.book['bookId']) == false) {
+            if (userCrud.user['favBooks'].contains(widget.book['bookId']) ==
+                false) {
               try {
-                await userCrud.addToFav(widget.book['bookId'], userCrud.user['favBooks']);
+                await userCrud.addToFav(
+                    widget.book['bookId'], userCrud.user['favBooks']);
 
-               // ref.read(userCrudProvider).user['favBooks'].add(widget.book['bookId']);
+                // ref.read(userCrudProvider).user['favBooks'].add(widget.book['bookId']);
 
                 var snackBar = const SnackBar(
                     content: Text('Added to favorites',
@@ -323,16 +327,18 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } catch (e) {
                 var snackBar = const SnackBar(
-                    content: Text('Something Went Wrong',
-                        textAlign: TextAlign.center),
+                  content:
+                      Text('Something Went Wrong', textAlign: TextAlign.center),
                   padding: EdgeInsets.all(12),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 print(e);
               }
             } else {
-              await Navigator.push(context, MaterialPageRoute(builder: (
-                  BuildContext context) => FavoriteBookScreen()));
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => FavoriteBookScreen()));
             }
           },
           child: Container(
@@ -346,8 +352,8 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   Icons.favorite_border,
                   color: Colors.red,
                 ),
-
-    userCrud.user['favBooks'].contains(widget.book['bookId']) ? const Text(
+                userCrud.user['favBooks'].contains(widget.book['bookId'])
+                    ? const Text(
                         ' GO TO FAVORITE',
                         style: TextStyle(color: Colors.black),
                       )
@@ -355,7 +361,6 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                         ' ADD TO FAVORITE',
                         style: TextStyle(color: Colors.black),
                       ),
-
               ],
             ),
           ),
