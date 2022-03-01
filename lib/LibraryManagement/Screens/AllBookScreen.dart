@@ -6,9 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
-import 'package:uni_campus/display_book_details.dart';
-
-import 'display_book_details.dart';
 
 class AllBookScreen extends StatefulWidget {
   const AllBookScreen({Key? key}) : super(key: key);

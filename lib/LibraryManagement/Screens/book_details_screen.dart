@@ -4,28 +4,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/FavoriteBookScreen.dart';
+import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
+
 
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
-import 'package:uni_campus/RatingBar.dart';
-import 'package:uni_campus/Reviews.dart';
-import 'package:uni_campus/styled_image.dart';
-import 'package:uni_campus/user_crud.dart';
 
-import 'LibraryManagement/library_crud.dart';
-import 'Ratings.dart';
 
-class DisplayBookDetail extends StatefulHookConsumerWidget {
+import '../../Users/user_crud.dart';
+import '../../Widgets/ratings.dart';
+import '../../Widgets/styled_image.dart';
+import '../Widgets/rating_bar.dart';
+import '../library_crud.dart';
+import 'favorite_book_screen.dart';
+
+
+class BookDetailsScreen extends StatefulHookConsumerWidget {
   //const DisplayBookDetail({Key? key}) : super(key: key);
-  static const routename = 'DisplayBookDetail';
+  static const routename = 'BookDetailsScreen';
 
-  const DisplayBookDetail({Key? key}) : super(key: key);
+  const BookDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  _DisplayBookDetailState createState() => _DisplayBookDetailState();
+  _BookDetailsScreenState createState() => _BookDetailsScreenState();
 }
 
-class _DisplayBookDetailState extends ConsumerState<DisplayBookDetail> {
+class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
   fetchTask() async {
     await ref.read(userCrudProvider).fetchUserProfile();
   }

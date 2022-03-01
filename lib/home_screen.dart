@@ -3,19 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/book_home_screen.dart';
+import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
+import 'package:uni_campus/EventManagement/Screens/my_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen.dart';
-import 'package:uni_campus/my_events.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
-import 'package:uni_campus/approve_event.dart';
-import 'package:uni_campus/onboarding_screen.dart';
-import 'package:uni_campus/user_crud.dart';
-import '../../AllBookScreen.dart';
-import '../../event_screen.dart';
+import 'LibraryManagement/Screens/AllBookScreen.dart';
 import '../../main.dart';
+import 'EventManagement/Screens/event_screen.dart';
+import 'LibraryManagement/Screens/book_home_screen.dart';
+import 'Users/Screens/onboarding_screen.dart';
+import 'Users/user_crud.dart';
+
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -116,7 +117,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => const MyEvent(),
+                          builder: (BuildContext context) => const MyEventScreen(),
                         ),
                       );
                     },
@@ -285,7 +286,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const ApproveEvent(),
+                                        const ApproveEventScreen(),
                                   ),
                                 );
                               },
