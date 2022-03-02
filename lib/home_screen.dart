@@ -89,19 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              IssuedBookScreen( user: user),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
+                  
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -114,6 +102,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     },
                     child: containerForGridview(
                         "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              IssuedBookScreen( user: user),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "My Issued Book", const Color.fromARGB(255, 82, 72, 200)),
                   ),
                 ]),
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [

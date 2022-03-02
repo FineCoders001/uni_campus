@@ -93,51 +93,58 @@ class _PendingRequestScreenState extends State<PendingRequestScreen> {
   late DocumentSnapshot pendingSnapshot;
   @override
   Future<void> didChangeDependencies() async {
-    timer = Stream.periodic(const Duration(seconds: 1), (i) {
-      setState(() {
-        current = current.subtract(const Duration(seconds: 1));
-      });
-      return current;
-    });
-
-    cancel = timer.listen((data) {});
     pendingSnapshot =
         await pendingReference.doc(widget.user['enroll']).get().then((value) {
-      setState(() {
-        isLoading = false;
-      });
+      if (value.data() != null) {
+        timer = Stream.periodic(const Duration(seconds: 1), (i) {
+          if (mounted) {
+            setState(() {
+              current = current.subtract(const Duration(seconds: 1));
+            });
+          }
+          return current;
+        });
+
+        cancel = timer.listen((data) {});
+        pendingData = value.data() as Map<String, dynamic>;
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
       return value;
     });
-    pendingData = pendingSnapshot.data() as Map<String, dynamic>;
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    cancel.cancel();
+    if (pendingSnapshot.data() != null) {
+      cancel.cancel();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          SizedBox(
-            child: isLoading == true
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Card(
-                        child: Text(
-                          "Requested Books",
-                          style: GoogleFonts.ubuntu(fontSize: 25),
-                        ),
-                      )
-                    ],
-                  )
-                : Padding(
+      child: isLoading == true
+          ? Center(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "No Requested Books",
+                    style: GoogleFonts.ubuntu(fontSize: 25),
+                  ),
+                ),
+              ),
+            )
+          : Column(
+              children: [
+                SizedBox(
+                  child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -227,9 +234,9 @@ class _PendingRequestScreenState extends State<PendingRequestScreen> {
                       },
                     ),
                   ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            ),
     );
   }
 
@@ -254,30 +261,193 @@ class ApprovedRequestScreen extends StatefulWidget {
 }
 
 class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
-  bool isLoading = true;
+  DateTime current = DateTime.now();
+  late Stream timer;
+  late StreamSubscription cancel;
   late Map<String, dynamic> approvedData;
+  bool isLoading = true;
   CollectionReference approvedReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("RequestedBooks")
       .collection("ApprovedRequest");
   late DocumentSnapshot approvedSnapshot;
   @override
-  void didChangeDependencies() async {
+  Future<void> didChangeDependencies() async {
     approvedSnapshot =
         await approvedReference.doc(widget.user['enroll']).get().then((value) {
-      setState(() {
-        isLoading = false;
-      });
+      if (value.data() != null) {
+        timer = Stream.periodic(const Duration(seconds: 1), (i) {
+          if (mounted) {
+            setState(() {
+              current = current.subtract(const Duration(seconds: 1));
+            });
+          }
+
+          return current;
+        });
+        cancel = timer.listen((data) {});
+        approvedData = value.data() as Map<String, dynamic>;
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
       return value;
     });
-    approvedData = approvedSnapshot.data() as Map<String, dynamic>;
     super.didChangeDependencies();
   }
 
   @override
+  void dispose() {
+    if (approvedSnapshot.data() != null) {
+      cancel.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Approved"),
+    return Center(
+      child: isLoading == true
+          ? Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "No Approved Books",
+                  style: GoogleFonts.ubuntu(fontSize: 25),
+                ),
+              ),
+            )
+          : Column(
+              children: [
+                SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: approvedData['bookId'].length,
+                      itemBuilder: (context, index) {
+                        return isLoading == false
+                            ? SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.94,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                  color: Colors.white,
+                                  elevation: 1,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: SizedBox(
+                                          height: 150,
+                                          width: 100,
+                                          child: Center(
+                                            child: FutureBuilder<List<dynamic>>(
+                                                initialData: const ["", ""],
+                                                future: getBookDetails(
+                                                    approvedData['bookId']
+                                                            [index]
+                                                        .keys
+                                                        .elementAt(0)),
+                                                builder: (BuildContext context,
+                                                    AsyncSnapshot<List<dynamic>>
+                                                        text) {
+                                                  if (text.data![1] != "") {
+                                                    return CachedNetworkImage(
+                                                      imageUrl: text.data![1],
+                                                      fit: BoxFit.fill,
+                                                    );
+                                                  } else {
+                                                    return Container();
+                                                  }
+                                                }),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: 100,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              FutureBuilder<List<dynamic>>(
+                                                future: getBookDetails(
+                                                    approvedData['bookId']
+                                                            [index]
+                                                        .keys
+                                                        .elementAt(0)),
+                                                initialData: const [" ", " "],
+                                                builder: (BuildContext context,
+                                                    AsyncSnapshot<List<dynamic>>
+                                                        text) {
+                                                  return Text(text.data![0],
+                                                      style: GoogleFonts.ubuntu(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.bold));
+                                                },
+                                              ),
+                                              Text(
+                                                "Time Left: ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inDays} days ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inHours % 24} hours",
+                                                style: GoogleFonts.ubuntu(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              (DateTime.fromMillisecondsSinceEpoch(approvedData[
+                                                                          'bookId']
+                                                                      [index][approvedData['bookId']
+                                                                          [
+                                                                          index]
+                                                                      .keys
+                                                                      .elementAt(
+                                                                          0)]
+                                                                  .seconds *
+                                                              1000)
+                                                          .add(const Duration(
+                                                              days: 7))
+                                                          .difference(
+                                                              DateTime.now())
+                                                          .inDays) <=
+                                                      1
+                                                  ? const Center(
+                                                      child: Text("YES"))
+                                                  : const Center(
+                                                      child: Text("NO"))
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : const ListTile(title: Text("Loading"));
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
+  }
+
+  Future<List<dynamic>> getBookDetails(String bookId) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("LibraryManagement")
+        .doc("Books")
+        .collection("AllBooks")
+        .doc(bookId)
+        .get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    return [data['bookName'], data['bookPic'][0]];
   }
 }
