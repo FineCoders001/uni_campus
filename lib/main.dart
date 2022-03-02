@@ -62,16 +62,12 @@ class _MyAppState extends ConsumerState<MyApp> {
       //designSize: Size(411.42857142857144, 866.2857142857143),
       //minTextAdapt: true,
       //splitScreenMode: true,
-
       designSize: const Size(360, 690),
-
       minTextAdapt: true,
-
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         // home:ApproveBookRequestScreen(),
         home: StreamBuilder(
-          // stream: FirebaseAuth.instance.authStateChanges(),
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
@@ -94,14 +90,11 @@ class _MyAppState extends ConsumerState<MyApp> {
           },
         ),
         routes: {
-          BookDetailsScreen.routename: ((context) =>  BookDetailsScreen()),
-          AddBookScreen.routeName:(ctx) => AddBookScreen(),
+          BookDetailsScreen.routename: ((context) =>  const BookDetailsScreen()),
+          AddBookScreen.routeName:(ctx) => const AddBookScreen(),
         },
       ),
-
     );
-
-
   }
 }
 

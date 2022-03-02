@@ -148,7 +148,8 @@ class _ApproveBookRequestScreenState
                                 width: 100,
                                 child: FutureBuilder<List<dynamic>>(
                                   initialData: const ["",""],
-                                    future: getBookDetails(post.bookId[index]),
+                                    future: getBookDetails(post.bookId[index].keys
+                                                .elementAt(0)),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<List<dynamic>> text) {
                                           
@@ -173,7 +174,8 @@ class _ApproveBookRequestScreenState
                                   children: [
                                     FutureBuilder<List<dynamic>>(
                                         future:
-                                            getBookDetails(post.bookId[index]),
+                                            getBookDetails(post.bookId[index].keys
+                                                .elementAt(0)),
                                         initialData: const [" ", " "],
                                         builder: (BuildContext context,
                                             AsyncSnapshot<List<dynamic>> text) {
@@ -196,9 +198,11 @@ class _ApproveBookRequestScreenState
                                                       "deptName": post.deptName,
                                                       "enroll": post.enroll,
                                                       "semester": post.semester,
-                                                      "userName": post.userName
+                                                      "userName": post.userName,
+                                                      "contact":post.contact
                                                     },
-                                                    post.bookId[index])
+                                                    post.bookId[index].keys
+                                                .elementAt(0))
                                                 .then(
                                                   (value) => {
                                                     ScaffoldMessenger.of(
@@ -250,9 +254,11 @@ class _ApproveBookRequestScreenState
                                                       "deptName": post.deptName,
                                                       "enroll": post.enroll,
                                                       "semester": post.semester,
-                                                      "userName": post.userName
+                                                      "userName": post.userName,
+                                                      "contact":post.contact
                                                     },
-                                                    post.bookId[index])
+                                                    post.bookId[index].keys
+                                                .elementAt(0))
                                                 .then((value) => {
                                                       ScaffoldMessenger.of(
                                                               _scaffoldKey
@@ -324,13 +330,15 @@ class RequestedDetails {
   final String enroll;
   final String semester;
   final String userName;
+  final String contact;
 
   const RequestedDetails(
       {required this.bookId,
       required this.deptName,
       required this.enroll,
       required this.semester,
-      required this.userName});
+      required this.userName,
+      required this.contact});
 
   factory RequestedDetails.fromJson(Map<String, dynamic> json) =>
       RequestedDetails(
@@ -339,6 +347,7 @@ class RequestedDetails {
         enroll: json['enroll'],
         semester: json['semester'],
         userName: json['userName'],
+        contact: json['contact'],
       );
 
   Map<String, Object?> toJson() => {
@@ -347,5 +356,6 @@ class RequestedDetails {
         'enroll': enroll,
         'semester': semester,
         'userName': userName,
+        'contact': contact,
       };
 }
