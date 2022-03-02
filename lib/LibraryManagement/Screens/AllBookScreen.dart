@@ -70,82 +70,79 @@ class _AllBookScreenState extends State<AllBookScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        margin: EdgeInsets.all(8),
-                        //padding: EdgeInsets.all(8),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.yellow,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(AddBookScreen.routeName, arguments: {
-                                    'bookName': book.bookName,
-                                    'bookAuthor': book.bookAuthor,
-                                    'bookDepartment': book.bookDepartment,
-                                    'bookPages': book.bookPages,
-                                    'bookPublication': book.bookPublication,
-                                    'isbnNumber': book.isbnNumber,
-                                    'bookQuantity': book.bookQuantity,
-                                    'bookPic':book.bookPic,
-                                    'bookId': book.bookId,
-                                    'isInit': true
-                                  });
-                                },
-                                child: Icon(Icons.edit)),
-                          ),
-                        )
-                      ),
-                      Container(
                           margin: EdgeInsets.all(8),
                           //padding: EdgeInsets.all(8),
                           child: CircleAvatar(
-                            backgroundColor: Colors.red,
+                            backgroundColor: Colors.yellow,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
-                                  onTap: () async {
-
-                                    showDialog(context: context,
-                                      builder: (ctx) => AlertDialog(
-
-                                        title: const Text("Are you sure?"),
-                                        content: const Text('Do you want to remove  the book?'),
-                                        actions: [
-                                          TextButton(onPressed: () async {
-
-                                            try{
-                                             await DeleteBooks().deleteBooks(book);
-
-                                            }catch(e){
-                                              var snackBar = const SnackBar(
-                                                  content: Text('Something Went Wrong',
-                                                      textAlign: TextAlign.center));
-                                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                            }
-                                            Navigator.pop(context);
-                                          },
-                                              child: const Text("Yes")
-                                          ),
-                                          TextButton(onPressed: (){
-
-                                            Navigator.of(context).pop();
-                                          },
-                                              child: const Text("No")
-                                          )
-                                        ],
-                                      ),
-                                    );
-
-
-
-
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        AddBookScreen.routeName,
+                                        arguments: {
+                                          'bookName': book.bookName,
+                                          'bookAuthor': book.bookAuthor,
+                                          'bookDepartment': book.bookDepartment,
+                                          'bookPages': book.bookPages,
+                                          'bookPublication':
+                                              book.bookPublication,
+                                          'isbnNumber': book.isbnNumber,
+                                          'bookQuantity': book.bookQuantity,
+                                          'bookPic': book.bookPic,
+                                          'bookId': book.bookId,
+                                          'isInit': true
+                                        });
                                   },
-                                  child: Icon(Icons.delete)),
+                                  child: Icon(Icons.edit)),
                             ),
+                          )),
+                      Container(
+                        margin: EdgeInsets.all(8),
+                        //padding: EdgeInsets.all(8),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                                onTap: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                      title: const Text("Are you sure?"),
+                                      content: const Text(
+                                          'Do you want to remove  the book?'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              try {
+                                                await DeleteBooks()
+                                                    .deleteBooks(book);
+                                              } catch (e) {
+                                                var snackBar = const SnackBar(
+                                                    content: Text(
+                                                        'Something Went Wrong',
+                                                        textAlign:
+                                                            TextAlign.center));
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                              }
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Yes")),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("No"))
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: Icon(Icons.delete)),
                           ),
                         ),
-
+                      ),
                     ],
                   ),
                   //leading: Icon(Icons.event),
@@ -155,17 +152,14 @@ class _AllBookScreenState extends State<AllBookScreen> {
           );
         },
       ),
-      floatingActionButton:
-          FloatingActionButton.extended(
-              onPressed: (){
-                Navigator.of(context)
-                    .pushNamed(AddBookScreen.routeName, arguments: {
-                  'isInit': false
-                });
-              },
-              label:Text("Add Book"),
-            icon: Icon(Icons.add),
-          ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.of(context)
+              .pushNamed(AddBookScreen.routeName, arguments: {'isInit': false});
+        },
+        label: Text("Add Book"),
+        icon: Icon(Icons.add),
+      ),
     );
   }
 }

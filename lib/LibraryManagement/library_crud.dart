@@ -64,6 +64,7 @@ class UpdateBook {
       'bookName': book.bookName,
       'bookAuthor': book.bookAuthor,
       'bookPages': book.bookPages,
+      'bookPic':book.bookPic,
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
