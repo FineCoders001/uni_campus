@@ -78,7 +78,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
         centerTitle: true,
         title: const Text(
           " My Events",
-          style: TextStyle(color: Colors.grey, fontSize: 24),
+          style: TextStyle(color: Colors.black, fontSize: 24),
         ),
         leading: IconButton(
             onPressed: () {

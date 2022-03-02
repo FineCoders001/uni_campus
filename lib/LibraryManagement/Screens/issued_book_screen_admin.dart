@@ -312,8 +312,8 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
   }
 
   Future<List<dynamic>> getBookDetails(String bookId) async {
-    var snapshot = await allBooksReference.doc(bookId).get();
-    var data = snapshot.data() as Map<String, dynamic>;
+    DocumentSnapshot snapshot = await allBooksReference.doc(bookId).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     return [data['bookName'], data['bookPic'][0]];
   }
 }

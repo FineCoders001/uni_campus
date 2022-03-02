@@ -8,16 +8,16 @@ import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 
-class ApproveBookRequestScreen extends StatefulHookConsumerWidget {
-  const ApproveBookRequestScreen({Key? key}) : super(key: key);
+class ApproveBookRequestAdminScreen extends StatefulHookConsumerWidget {
+  const ApproveBookRequestAdminScreen({Key? key}) : super(key: key);
 
   @override
-  _ApproveBookRequestScreenState createState() =>
-      _ApproveBookRequestScreenState();
+  _ApproveBookRequestAdminScreenState createState() =>
+      _ApproveBookRequestAdminScreenState();
 }
 
-class _ApproveBookRequestScreenState
-    extends ConsumerState<ApproveBookRequestScreen> {
+class _ApproveBookRequestAdminScreenState
+    extends ConsumerState<ApproveBookRequestAdminScreen> {
   fetchTask() async {
     await ref.read(userCrudProvider).fetchUserProfile();
   }

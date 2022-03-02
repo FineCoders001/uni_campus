@@ -8,43 +8,46 @@ class RatingBar extends StatefulWidget {
   List bookReviewedUsers;
   String bookId;
   bool reviewed;
-  RatingBar(this.ratings,this.ratingsCount,this.bookReviewedUsers,this.bookId,this.reviewed, {Key? key}) : super(key: key);
-
-
+  RatingBar(this.ratings, this.ratingsCount, this.bookReviewedUsers,
+      this.bookId, this.reviewed,
+      {Key? key})
+      : super(key: key);
 
   @override
   _RatingBarState createState() => _RatingBarState();
 }
 
 class _RatingBarState extends State<RatingBar> {
-
   showRatingBar() async {
     await showDialog(
         context: context,
         builder: (ctx) {
-      return RatingDialog(
-          initialRating: 0,
-          title: const Text('Rate this book'),
-          message:
-          const Text('Tap a star to set your rating and review this product.'),
-          image: const FlutterLogo(size: 50),
-          submitButtonText: 'Submit',
-          onSubmitted: (response) async{
-            if(response.comment==""||response.rating==0){
-              return;
-            }
-            print('rating: ${response.rating}, comment: ${response.comment}');
-            double ratingsCount= widget.ratingsCount+1;
-            double ratings= (widget.ratings+response.rating)/ratingsCount;
+          return RatingDialog(
+              initialRating: 0,
+              title: const Text('Rate this book'),
+              message: const Text(
+                  'Tap a star to set your rating and review this product.'),
+              image: const FlutterLogo(size: 50),
+              submitButtonText: 'Submit',
+              onSubmitted: (response) async {
+                if (response.comment == "" || response.rating == 0) {
+                  return;
+                }
+                print(
+                    'rating: ${response.rating}, comment: ${response.comment}');
+                double ratingsCount = widget.ratingsCount + 1;
+                double ratings =
+                    (widget.ratings + response.rating) / ratingsCount;
 
-            await AddReview().addReview(widget.bookId, response.comment,widget.bookReviewedUsers);
-            await AddRating().addRating(widget.bookId, ratings, ratingsCount);
-            setState(() {
-              widget.reviewed = true;
-            });
-          }
-      );
-    });
+                await AddReview().addReview(
+                    widget.bookId, response.comment, widget.bookReviewedUsers);
+                await AddRating()
+                    .addRating(widget.bookId, ratings, ratingsCount);
+                setState(() {
+                  widget.reviewed = true;
+                });
+              });
+        });
   }
 
   @override
@@ -53,50 +56,46 @@ class _RatingBarState extends State<RatingBar> {
 
     return widget.reviewed
         ? Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: 20.0, horizontal: 10),
-        child: Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
-              "Already Rated and Reviewed",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color:
-                  Color.fromARGB(255, 82, 72, 200)),
-            ),
-          ],
-        ),
-      ),
-    ):GestureDetector(
-      onTap: (){
-        showRatingBar();
-      },
-      child: Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: 20.0, horizontal: 10),
-          child: Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Add Reviews',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600),
+            elevation: 5,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text(
+                    "Already Rated and Reviewed",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                ],
               ),
-              Icon(Icons.arrow_drop_down_circle_outlined),
-            ],
-          ),
-        ),
-      ),
-    );
-
+            ),
+          )
+        : GestureDetector(
+            onTap: () {
+              showRatingBar();
+            },
+            child: Card(
+              elevation: 5,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      'Add Reviews',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    Icon(Icons.rate_review_outlined),
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 }
