@@ -205,7 +205,8 @@ class TodoListState extends ConsumerState<TodoList> {
                               if (value != null ? value.isEmpty : true) {
                                 return 'Please enter a description.';
                               }
-                              if (value != null ? value.length < 10 : true) {
+                              if (value.length < 10) {
+                                //condition changed from (value != null ? value.length<10 : true ) to (value.length<10)
                                 return 'Should be at least 10 characters long.';
                               }
                               return null;
@@ -308,7 +309,8 @@ class TaskTile extends StatefulWidget {
   final List<Task> taskList;
   final int index;
 
-  const TaskTile(this.v, this.taskList, this.index, {Key? key}) : super(key: key);
+  const TaskTile(this.v, this.taskList, this.index, {Key? key})
+      : super(key: key);
 
   @override
   _TaskTileState createState() => _TaskTileState();

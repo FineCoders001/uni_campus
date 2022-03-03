@@ -44,7 +44,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
         toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
-  dynamic u;
+  var u;
 
   @override
   void initState() {
@@ -91,7 +91,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
         centerTitle: true,
         title: const Text(
           "All Events",
-          style: TextStyle(color: Colors.black  , fontSize: 24),
+          style: TextStyle(color: Colors.orange  , fontSize: 28,fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
             onPressed: () {
@@ -378,7 +378,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
                                                         controller1.forward();
                                                       }
                                                   ),
-                                                  const Text('Participation successful',textAlign: TextAlign.center,
+                                                  Text('Participation successful',textAlign: TextAlign.center,
                                                     style: TextStyle(fontSize: 18),
                                                   ),
 

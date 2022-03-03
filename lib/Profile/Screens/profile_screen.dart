@@ -37,6 +37,12 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late PlatformFile file1;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     print("Screen heigth is ${MediaQuery.of(context).size.height}");

@@ -18,7 +18,7 @@ class _ParticipantsScreenState extends State<ParticipantsScreen> {
         centerTitle: true,
         title: const Text(
           "Participants",
-          style: TextStyle(color: Colors.grey, fontSize: 24),
+          style: TextStyle(color: Colors.orange, fontSize: 24,fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
             onPressed: () {

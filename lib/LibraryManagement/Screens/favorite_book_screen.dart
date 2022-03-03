@@ -45,7 +45,6 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
           }
         }).catchError((e) {
           print("error fetching data: $e");
-          return e;
         });
       }
     } else {
@@ -72,7 +71,6 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
           }
         }).catchError((e) {
           print("error fetching data: $e");
-          return e;
         });
       }
     }

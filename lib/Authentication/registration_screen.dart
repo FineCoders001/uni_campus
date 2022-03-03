@@ -20,6 +20,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   final emailText = TextEditingController();
   final passwordText = TextEditingController();
+  late UserCredential user;
 
   void trySubmit() async {
     setState(() {
@@ -27,7 +28,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     });
 
     //CircularProgressIndicator();
-    UserCredential user;
+
     final isValid = _formkey.currentState?.validate();
     FocusScope.of(context).unfocus();
     if (!isValid!) {

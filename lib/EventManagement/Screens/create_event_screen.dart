@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:uni_campus/EventManagement/Models/all_events.dart';
 import 'package:uni_campus/EventManagement/Models/event_details.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -15,9 +16,11 @@ class CreateEventScreen extends StatefulHookConsumerWidget {
 enum Dept { interdept, intradept }
 
 class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
-
   final _form = GlobalKey<FormState>();
   var isLoading = false;
+   bool displaySem=false;
+   List<String> items=["1","2","3","4","5","6","7","8"];
+  List<String> semester = [];
   List<String> months = [
     'January',
     'February',
@@ -56,6 +59,8 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     }
 
     _form.currentState?.save();
+    String sem="";
+    semester.forEach((element) => sem=sem +" "+element);
     if (_d.toString() == "Intradept") {
       _event = EventsDetail(
           eventName: _event.eventName,
@@ -66,7 +71,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           eventDate: selectedDate.toString(),
           eventStartTime: selectedTime.toString(),
           eventDuration: _event.eventDuration + " " + du,
-          eventForSem: _event.eventForSem);
+          eventForSem: sem.trim());
     } else {
       _event = EventsDetail(
           eventName: _event.eventName,
@@ -76,32 +81,32 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           eventDate: selectedDate.toString(),
           eventStartTime: selectedTime.toString(),
           eventDuration: _event.eventDuration + " " + du,
-          eventForSem: _event.eventForSem);
+          eventForSem: sem.trim());
     }
     print("entered fbkjf fbkjng gnkjnkg");
 
     try {
       await ref.read(eventProvider).requestEvent(_event);
-     // print("entered fbkjf fbkjng gnkjnkg");
+      // print("entered fbkjf fbkjng gnkjnkg");
     } catch (e) {
-     print("error is $e");
-     await showDialog(
-       context: context,
-       builder: (ctx) => AlertDialog(
-         title: const Text('Oops!'),
-         content: const Text('Something went wrong'),
-         actions: <Widget>[
-           TextButton(
-             child: const Text('Okay'),
-             onPressed: () {
-               Navigator.of(ctx).pop();
-               //return;
-             },
-           )
-         ],
-       ),
-     );
-     rethrow;
+      print("error is $e");
+      await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Oops!'),
+          content: const Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                //return;
+              },
+            )
+          ],
+        ),
+      );
+      rethrow;
     }
 
     // Navigator.of(context).pop();
@@ -110,15 +115,14 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   @override
   void dispose() {
     super.dispose();
-
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? Center(child: Lottie.asset("assets/loadpaperplane.json"))
             : Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -162,8 +166,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                         child: Text("Event Details",
                                             style: GoogleFonts.ubuntu(
                                                 fontSize: 25,
-                                                fontWeight:
-                                                FontWeight.bold)),
+                                                fontWeight: FontWeight.bold)),
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
@@ -282,48 +285,9 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                       },
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter a valid value";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      keyboardType: TextInputType.text,
-                                      decoration: const InputDecoration(
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        hintText: "Event For Sem eg:- 1 2 3",
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 73, 128, 255),
-                                              width: 2.5),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color.fromARGB(
-                                                  255, 73, 128, 255),
-                                              width: 2.5),
-                                        ),
-                                      ),
-                                      onSaved: (value) {
-                                        _event = EventsDetail(
-                                            eventName: _event.eventName,
-                                            venue: _event.venue,
-                                            description: _event.description,
-                                            deptLevel: _event.deptLevel,
-                                            eventDate: _event.eventDate,
-                                            eventStartTime:
-                                                _event.eventStartTime,
-                                            eventDuration: _event.eventDuration,
-                                            eventForSem: value?.trim());
-                                      },
-                                    ),
-                                  ),
+
+
+
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Container(
@@ -359,6 +323,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                                     onChanged: (Dept? value) {
                                                       setState(() {
                                                         _d = value!;
+                                                        displaySem=false;
                                                       });
                                                     },
                                                   ),
@@ -378,6 +343,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                                     onChanged: (Dept? value) {
                                                       setState(() {
                                                         _d = value!;
+                                                        displaySem=true;
                                                       });
                                                     },
                                                   ),
@@ -389,10 +355,62 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                       ),
                                     ),
                                   ),
+
+
+                                 displaySem? GestureDetector(
+                                    onTap: () async {
+                                      final List<String>? results = await showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return MultiSelect(items: items);
+                                        },
+                                      );
+                                      semester=results!;
+
+                                      //print("result is ${results}");
+
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.all(15),
+                                      alignment: Alignment.center,
+                                      decoration: const BoxDecoration(
+                                        // image: const DecorationImage(
+                                        //   image: AssetImage("assets/images/Card.png"),
+                                        //   fit: BoxFit.cover,
+                                        // ),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.bottomLeft,
+                                          colors: [
+                                            Colors.blue,
+                                            Colors.cyan,
+                                          ],
+                                        ),
+
+                                        // border: Border.all(width: 5.0, color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Text(
+                                          "Select Semester",
+                                          style: GoogleFonts.ubuntu(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ):SizedBox(height: 0,)
                                 ],
                               ),
                             ),
                           ),
+
+
                           Card(
                             elevation: 5.0,
                             child: Container(
@@ -630,6 +648,15 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         ])))));
   }
 
+  // this variable holds the selected items
+
+
+// This function is triggered when a checkbox is checked or unchecked
+
+
+  // this function is called when the Cancel button is pressed
+
+
   _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
@@ -652,5 +679,68 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
         selectedTime = selectedt;
       });
     }
+  }
+}
+
+class MultiSelect extends StatefulWidget {
+  final List<String> items;
+  const MultiSelect({Key? key, required this.items}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MultiSelectState();
+}
+
+class _MultiSelectState extends State<MultiSelect> {
+  // this variable holds the selected items
+  final List<String> _selectedItems = [];
+
+// This function is triggered when a checkbox is checked or unchecked
+  void _itemChange(String itemValue, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedItems.add(itemValue);
+      } else {
+        _selectedItems.remove(itemValue);
+      }
+    });
+  }
+
+  // this function is called when the Cancel button is pressed
+  void _cancel() {
+    Navigator.pop(context);
+  }
+
+// this function is called when the Submit button is tapped
+  void _submit() {
+    Navigator.pop(context, _selectedItems);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Select Topics'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.items
+              .map((item) => CheckboxListTile(
+            value: _selectedItems.contains(item),
+            title: Text(item),
+            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (isChecked) => _itemChange(item, isChecked!),
+          ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: const Text('Cancel'),
+          onPressed: _cancel,
+        ),
+        ElevatedButton(
+          child: const Text('Submit'),
+          onPressed: _submit,
+        ),
+      ],
+    );
   }
 }

@@ -34,7 +34,7 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
       delegate: FlowMenuDelegate(controller: anicon),
       children: [
         buildFAB("Add Event", const Icon(Icons.add)),
-        buildFAB("My Event", const Icon(Icons.event)),
+        buildFAB("My Events", const Icon(Icons.event)),
         buildFAB(null, const Icon(Icons.menu))
       ].toList(),
     );
@@ -43,6 +43,7 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
   Widget buildFAB(var data, Icon e) {
     return SizedBox(
       child: FloatingActionButton(
+        backgroundColor: Colors.orange,
         heroTag: "btn$data",
           onPressed: () {
             if(data=='Add Event'){
@@ -53,7 +54,7 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
                 ),
               );
             }
-            if(data=='My Event'){
+            if(data=='My Events'){
               Navigator.push(
                 context,
                 MaterialPageRoute(
