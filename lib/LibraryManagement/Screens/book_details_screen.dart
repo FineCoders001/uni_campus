@@ -81,7 +81,8 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => const FavoriteBookScreen()));
+                      builder: (BuildContext context) =>
+                          const FavoriteBookScreen()));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -108,92 +109,108 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
             Expanded(
               flex: 4,
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Card(
+                    elevation: 3.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 20),
-                          child: Text(
-                            book['bookName'],
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 28,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      Reviews(book['bookId']),
-                                ),
-                              );
-                            },
-                            child:
-                                Ratings(book, m['ratings'], m['ratingsCount']))
-                      ],
-                    ),
-                    book['bookQuantity'] - book['issuedQuantity'] <= 0
-                        ? const Padding(
-                            padding: EdgeInsets.only(left: 20.0, right: 8),
-                            child: Text(
-                              'Out Of Stock',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Book In Stock',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                    RatingBar(
-                        double.parse(m['ratings'].toString()),
-                        double.parse(m['ratingsCount'].toString()),
-                        book['bookReviewedUsers'],
-                        book['bookId'],
-                        reviewed),
-                    Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 10),
-                        child: Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'Book Details',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w600),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25.0, vertical: 20),
+                              child: Text(
+                                book['bookName'],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 28,
+                                ),
+                              ),
                             ),
-                            Icon(Icons.arrow_drop_down_circle_outlined),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          Reviews(book['bookId']),
+                                    ),
+                                  );
+                                },
+                                child: Ratings(
+                                    book, m['ratings'], m['ratingsCount']))
                           ],
                         ),
-                      ),
+                        book['bookQuantity'] - book['issuedQuantity'] <= 0
+                            ? const Padding(
+                                padding: EdgeInsets.only(left: 20.0, right: 8),
+                                child: Text(
+                                  'Out Of Stock',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: double.infinity,
+                                child: const Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Book In Stock',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    'Book Details',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Icon(
+                                    Icons.list_alt_outlined,
+                                    size: 25,
+                                  ),
+                                ],
+                              ),
+                              bookDetailWid("Author", book['bookAuthor']),
+                              bookDetailWid("Pages", book['bookPages']),
+                              bookDetailWid(
+                                  "Publication", book['bookPublication']),
+                              bookDetailWid(
+                                  "Isbn No", book['isbnNumber'].toString())
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RatingBar(
+                              double.parse(m['ratings'].toString()),
+                              double.parse(m['ratingsCount'].toString()),
+                              book['bookReviewedUsers'],
+                              book['bookId'],
+                              reviewed),
+                        ),
+                      ],
                     ),
-                    bookDetailWid("Author", book['bookAuthor']),
-                    bookDetailWid("Pages", book['bookPages']),
-                    bookDetailWid("Publication", book['bookPublication']),
-                    bookDetailWid("Isbn No", book['isbnNumber'].toString())
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -292,17 +309,6 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   Future<void> didChangeDependencies() async {
     userCrud = ref.watch(userCrudProvider);
     user = userCrud.user;
-    // l=user['favBooks'];
-    // if (l.contains(widget.book['bookId'])) {
-    //   setState(() {
-    //     fav = true;
-    //   });
-    //   print("exit");
-    // }else{
-    //   setState(() {
-    //     fav=false;
-    //   });
-    // }
     if (widget.book["bookQuantity"] - widget.book["issuedQuantity"] > 0) {
       if (await EditRequest().bookIssued(widget.book['bookId'], user) == true) {
         setState(() {
@@ -320,6 +326,18 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         isIssued = "Out of Stock";
       });
     }
+    // l=user['favBooks'];
+    // if (l.contains(widget.book['bookId'])) {
+    //   setState(() {
+    //     fav = true;
+    //   });
+    //   print("exit");
+    // }else{
+    //   setState(() {
+    //     fav=false;
+    //   });
+    // }
+
     super.didChangeDependencies();
   }
 
@@ -363,7 +381,8 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => const FavoriteBookScreen()));
+                      builder: (BuildContext context) =>
+                          const FavoriteBookScreen()));
             }
           },
           child: Container(

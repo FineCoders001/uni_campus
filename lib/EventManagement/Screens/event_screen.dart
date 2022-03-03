@@ -91,7 +91,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
         centerTitle: true,
         title: const Text(
           "All Events",
-          style: TextStyle(color: Colors.grey, fontSize: 24),
+          style: TextStyle(color: Colors.black  , fontSize: 24),
         ),
         leading: IconButton(
             onPressed: () {

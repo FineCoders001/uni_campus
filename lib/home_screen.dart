@@ -5,11 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/all_book_screen.dart';
-import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen(admin).dart';
+import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
 import 'package:uni_campus/main.dart';
-import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
-import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen(admin).dart';
+import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen_admin.dart';
 import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
 import 'package:uni_campus/EventManagement/Screens/my_event_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -44,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);
-    var u = data.user;
+    var user = data.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -67,7 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const ApproveBookRequestScreen(),
+                                const ApproveBookRequestAdminScreen(),
                           ),
                         );
                       },
@@ -91,19 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const IssuedBookScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
+                  
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -116,6 +103,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     },
                     child: containerForGridview(
                         "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              IssuedBookScreen( user: user),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "My Issued Book", const Color.fromARGB(255, 82, 72, 200)),
                   ),
                 ]),
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
@@ -242,9 +242,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    u['profilePicture'] == null ||
-                                            u['profilePicture'] == ""
-                                        ? u['userName'] != null
+                                    user['profilePicture'] == null ||
+                                            user['profilePicture'] == ""
+                                        ? user['userName'] != null
                                             ? ClipOval(
                                                 child: Material(
                                                   elevation: 5.0,
@@ -257,7 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                         const EdgeInsets.all(
                                                             45.0),
                                                     child: Text(
-                                                      u['userName'][0],
+                                                      user['userName'][0],
                                                       style: GoogleFonts.ubuntu(
                                                           color: Colors.white,
                                                           fontSize: 35,
@@ -268,11 +268,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 ),
                                               )
                                             : const CircularProgressIndicator()
-                                        : buildImage(u['profilePicture'], u),
+                                        : buildImage(user['profilePicture'], user),
                                     Column(
                                       children: [
                                         Text(
-                                          u['userName'],
+                                          user['userName'],
                                           style: GoogleFonts.ubuntu(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold,
@@ -415,6 +415,7 @@ Widget bigCard(context, String title, IconData icon, List<Widget> widget) {
               ),
             ),
             GridView.builder(
+              primary: false,
               shrinkWrap: true,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
