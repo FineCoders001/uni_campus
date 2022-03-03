@@ -378,7 +378,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
                                                         controller1.forward();
                                                       }
                                                   ),
-                                                  Text('Participation successful',textAlign: TextAlign.center,
+                                                  const Text('Participation successful',textAlign: TextAlign.center,
                                                     style: TextStyle(fontSize: 18),
                                                   ),
 

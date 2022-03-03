@@ -60,7 +60,9 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
     _form.currentState?.save();
     String sem="";
-    semester.forEach((element) => sem=sem +" "+element);
+    for (var element in semester) {
+      sem=sem +" "+element;
+    }
     if (_d.toString() == "Intradept") {
       _event = EventsDetail(
           eventName: _event.eventName,
@@ -404,7 +406,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                         ),
                                       ),
                                     ),
-                                  ):SizedBox(height: 0,)
+                                  ):const SizedBox(height: 0,)
                                 ],
                               ),
                             ),

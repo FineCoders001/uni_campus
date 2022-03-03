@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +30,7 @@ class _ApproveEventScreenState extends State<ApproveEventScreen> {
     super.initState();
 
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:
