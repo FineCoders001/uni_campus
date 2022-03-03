@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/all_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen(admin).dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
@@ -321,12 +322,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const OnBoarding(),
+                                        const CreateEventScreen(),
                                   ),
                                 );
                               },
                               child: buildItem(
-                                  "Onboarding", Icons.event_available_sharp)),
+                                  "HomeScreen", Icons.event_available_sharp)),
 
                           InkWell(
                               onTap: () {

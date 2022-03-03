@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventManagement/Models/event_details.dart';
 
@@ -60,6 +61,7 @@ class AllEvents extends ChangeNotifier {
       //       //'id':docRef.id,
       //     }
       // );
+      print("fbkjnjkklllfkfkllmlfm");
       DocumentReference docRef = await FirebaseFirestore.instance
           .collection('RequestEvent')
           .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -112,10 +114,11 @@ class AllEvents extends ChangeNotifier {
         'eventStatus': "notApproved",
         'eventForSem': event.eventForSem
       });
+      print("zlklllilkllkllllllll");
 
       notifyListeners();
     } catch (e) {
-      rethrow;
+      throw e;
     }
     notifyListeners();
   }

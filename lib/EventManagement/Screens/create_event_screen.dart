@@ -15,6 +15,7 @@ class CreateEventScreen extends StatefulHookConsumerWidget {
 enum Dept { interdept, intradept }
 
 class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
+
   final _form = GlobalKey<FormState>();
   var isLoading = false;
   List<String> months = [
@@ -77,40 +78,46 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           eventDuration: _event.eventDuration + " " + du,
           eventForSem: _event.eventForSem);
     }
+    print("entered fbkjf fbkjng gnkjnkg");
 
     try {
-      await counter.requestEvent(_event);
-      Navigator.pop(context);
+      await ref.read(eventProvider).requestEvent(_event);
+     // print("entered fbkjf fbkjng gnkjnkg");
     } catch (e) {
-      await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Oops!'),
-          content: const Text('Something went wrong'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Okay'),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-                //return;
-              },
-            )
-          ],
-        ),
-      );
+     print("error is ${e}");
+     await showDialog(
+       context: context,
+       builder: (ctx) => AlertDialog(
+         title: const Text('Oops!'),
+         content: const Text('Something went wrong'),
+         actions: <Widget>[
+           TextButton(
+             child: const Text('Okay'),
+             onPressed: () {
+               Navigator.of(ctx).pop();
+               //return;
+             },
+           )
+         ],
+       ),
+     );
+     throw e;
     }
 
     // Navigator.of(context).pop();
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
 
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: const Text("Event Details"),
-        // ),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : Container(
@@ -153,21 +160,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                       child: Container(
                                         alignment: Alignment.centerLeft,
                                         // print("entered");
-
-                                        child: Consumer(
-                                          builder: (context, ref, child) {
-                                            // Like HookConsumerWidget, we can use hooks inside the builder
-                                            //final state = useState(0);
-                                            // We can also use the ref parameter to listen to providers.
-                                            final counter =
-                                                ref.watch(eventProvider);
-                                            return Text("Event Details",
-                                                style: GoogleFonts.ubuntu(
-                                                    fontSize: 25,
-                                                    fontWeight:
-                                                        FontWeight.bold));
-                                          },
-                                        ),
+                                        child: Text("Event Details",
+                                            style: GoogleFonts.ubuntu(
+                                                fontSize: 25,
+                                                fontWeight:
+                                                FontWeight.bold)),
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),

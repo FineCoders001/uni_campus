@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:uni_campus/EventManagement/Models/all_events.dart';
 import 'package:uni_campus/EventManagement/Models/event_details.dart';
 import 'package:uni_campus/EventManagement/Screens/participants_screen.dart';
@@ -16,6 +18,8 @@ class MyEventScreen extends StatefulHookConsumerWidget {
 }
 
 class _MyEventScreenState extends ConsumerState<MyEventScreen> {
+  bool hasInternet=true;
+
   final queryEvent = FirebaseFirestore.instance
       .collection('ApprovedEvent')
       .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -67,6 +71,22 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
   void initState() {
     super.initState();
     u = ref.read(userCrudProvider);
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      print("status is ${status}");
+      setState(() {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            print('Data connection is available.');
+            hasInternet=true;
+            break;
+          case InternetConnectionStatus.disconnected:
+            print('You are disconnected from the internet.');
+            hasInternet=false;
+            break;
+        }
+        // hasInternet = status as bool;
+      });
+    });
   }
 
   @override
@@ -89,7 +109,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
               color: Colors.grey,
             )),
       ),
-      body: FirestoreListView<EventsDetail>(
+      body:hasInternet? FirestoreListView<EventsDetail>(
         //pageSize: 3,
         query: queryEvent,
         itemBuilder: (context, snapshot) {
@@ -284,7 +304,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
             ),
           );
         },
-      ),
+      ):Center(child: Lottie.asset("assets/noInternetConnection.json"))
     );
   }
 }

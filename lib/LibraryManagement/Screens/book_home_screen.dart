@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_details_screen.dart';
 
@@ -16,14 +18,35 @@ class BookHomeScreen extends StatefulWidget {
 
 class _BookHomeScreenState extends State<BookHomeScreen> {
   ScrollController scroll = ScrollController();
+  bool hasInternet=true;
+
+
   @override
   void initState() {
+
+    super.initState();
     scroll.addListener(() {
       setState(() {
         scroll;
       });
     });
-    super.initState();
+
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      print("status is ${status}");
+      setState(() {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            print('Data connection is available.');
+            hasInternet=true;
+            break;
+          case InternetConnectionStatus.disconnected:
+            print('You are disconnected from the internet.');
+            hasInternet=false;
+            break;
+        }
+        // hasInternet = status as bool;
+      });
+    });
   }
 
   @override
@@ -48,7 +71,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
         title: const Text("Library"),
         centerTitle: true,
       ),
-      body: FirestoreQueryBuilder<BookDetails>(
+      body: hasInternet?FirestoreQueryBuilder<BookDetails>(
         pageSize: 2,
         query: queryBook,
         builder: (context, snapshot, child) {
@@ -123,7 +146,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
             ),
           );
         },
-      ),
+      ):Center(child: Lottie.asset("assets/noInternetConnection.json"))
     );
   }
 }

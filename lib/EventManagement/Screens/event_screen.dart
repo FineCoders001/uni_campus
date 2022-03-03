@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:uni_campus/EventManagement/Models/all_events.dart';
 import 'package:uni_campus/EventManagement/Models/event_details.dart';
 import 'package:uni_campus/EventManagement/Widgets/circular_fab.dart';
@@ -16,7 +18,9 @@ class EventScreen extends StatefulHookConsumerWidget {
   _EventScreenState createState() => _EventScreenState();
 }
 
-class _EventScreenState extends ConsumerState<EventScreen> {
+class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProviderStateMixin{
+  bool hasInternet=true;
+  late AnimationController controller1;
   // final queryEvent = FirebaseFirestore.instance
   //     .collection('ApprovedEvent')
   //     .withConverter(
@@ -46,6 +50,36 @@ class _EventScreenState extends ConsumerState<EventScreen> {
   void initState() {
     super.initState();
     u = ref.read(userCrudProvider);
+    controller1= AnimationController(
+      // duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+
+    controller1.addStatusListener((status) async{
+      if(status == AnimationStatus.completed){
+        //await Navigator.popAndPushNamed(context, OrdPlaced.routename);
+        Navigator.pop(context);
+        controller1.reset();
+      }
+    });
+
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      print("status is ${status}");
+      setState(() {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            print('Data connection is available.');
+            hasInternet=true;
+            break;
+          case InternetConnectionStatus.disconnected:
+            print('You are disconnected from the internet.');
+            hasInternet=false;
+            break;
+        }
+        // hasInternet = status as bool;
+      });
+    });
   }
 
   @override
@@ -68,7 +102,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
               color: Colors.grey,
             )),
       ),
-      body: FirestoreListView<EventsDetail>(
+      body: hasInternet?FirestoreListView<EventsDetail>(
         //pageSize: 3,
         query: queryEvent,
         itemBuilder: (context, snapshot) {
@@ -311,7 +345,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                                       Text(
                                         "Already  Participated",
                                         style: TextStyle(
-                                            fontSize: 24,
+                                            fontSize: 28,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.green),
                                       ),
@@ -329,6 +363,30 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                                         ParticipateEvents()
                                             .participate(post, u.user);
                                         Navigator.pop(context);
+                                        showDialog(
+                                            context: context,
+                                            builder: (ctx) => Dialog(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Lottie.asset(
+                                                      'assets/done.json',
+                                                      repeat: false,
+                                                      controller: controller1,
+                                                      onLoaded: (composition){
+                                                        controller1.duration = composition.duration;
+                                                        controller1.forward();
+                                                      }
+                                                  ),
+                                                  Text('Participation successful',textAlign: TextAlign.center,
+                                                    style: TextStyle(fontSize: 18),
+                                                  ),
+
+                                                  const SizedBox(height: 16,)
+                                                ],
+                                              ),
+                                            )
+                                        );
                                       } catch (e) {
                                         Navigator.pop(context);
                                         await showDialog(
@@ -412,14 +470,16 @@ class _EventScreenState extends ConsumerState<EventScreen> {
                     //leading: Icon(Icons.event),
                   ),
                   const Divider(
-                    thickness: 1,
-                    color: Colors.grey,
+                    thickness: 5,
+                    color: Colors.black12,
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      status,
-                      style: const TextStyle(fontSize: 24),
+                  Text(
+                    status,
+                    style:  TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: status=="Ongoing Registration"?Colors.green:Colors.red
+
                     ),
                   ),
                 ],
@@ -427,7 +487,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
             ),
           );
         },
-      ),
+      ):Center(child: Lottie.asset("assets/noInternetConnection.json")),
       floatingActionButton: const CircularFabWidget(),
       // Navigator.push(
       //   context,

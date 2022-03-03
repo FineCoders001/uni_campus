@@ -7,11 +7,6 @@ import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 class FavoriteBookScreen extends StatefulHookConsumerWidget {
   const FavoriteBookScreen({Key? key}) : super(key: key);
 
-  //const FavoriteBookScreen({Key? key}) : super(key: key);
-  //   var book;
-  // FavoriteBookScreen(this.book);
-
-
   @override
   _FavoriteBookScreenState createState() => _FavoriteBookScreenState();
 }
@@ -215,8 +210,6 @@ bool isloading=false;
                                   setState(() {
 
                                   });
-
-
                                 }catch(e){
                                   print("error is ${e}");
                                   m.insert(index, item);
@@ -254,13 +247,10 @@ bool isloading=false;
                     ),
                   ],
                 ),
-
-
               ),
             );
           }
           ),
-
     );
   }
 }
