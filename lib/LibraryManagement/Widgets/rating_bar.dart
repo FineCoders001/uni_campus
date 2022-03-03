@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 
+/// To remove the problem
+/// This class (or a class that this class inherits from) is marked as '@immutable', but one or more of its instance fields aren't final
+/// vars 1,2,3,4 and 5 were made final
+/// A new late variable was made for the variable being changed (comment //6)
+/// the new var was used at comment //7
 class RatingBar extends StatefulWidget {
-  double ratings;
-  double ratingsCount;
-  List bookReviewedUsers;
-  String bookId;
-  bool reviewed;
-  RatingBar(this.ratings, this.ratingsCount, this.bookReviewedUsers,
+  final double ratings; //1
+  final double ratingsCount; //2
+  final List bookReviewedUsers; //3
+  final String bookId; //4
+  final bool reviewed; //5
+  const RatingBar(this.ratings, this.ratingsCount, this.bookReviewedUsers,
       this.bookId, this.reviewed,
       {Key? key})
       : super(key: key);
@@ -18,6 +23,7 @@ class RatingBar extends StatefulWidget {
 }
 
 class _RatingBarState extends State<RatingBar> {
+  late bool reviewedNewValue = widget.reviewed; //6
   showRatingBar() async {
     await showDialog(
         context: context,
@@ -44,7 +50,8 @@ class _RatingBarState extends State<RatingBar> {
                 await AddRating()
                     .addRating(widget.bookId, ratings, ratingsCount);
                 setState(() {
-                  widget.reviewed = true;
+                  reviewedNewValue = true; //7
+                  //widget.reviewed = true;
                 });
               });
         });
