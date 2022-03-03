@@ -72,7 +72,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
     super.initState();
     u = ref.read(userCrudProvider);
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:

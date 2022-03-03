@@ -65,7 +65,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
     });
 
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:

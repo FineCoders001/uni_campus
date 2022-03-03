@@ -34,7 +34,7 @@ class _StyledImageState extends State<StyledImage> {
   void initState() {
     super.initState();
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:

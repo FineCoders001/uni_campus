@@ -304,11 +304,11 @@ class TodoListState extends ConsumerState<TodoList> {
 
 class TaskTile extends StatefulWidget {
   //const TaskTile({Key? key}) : super(key: key);
-  dynamic v;
-  List<Task> taskList;
-  int index;
+  final dynamic v;
+  final List<Task> taskList;
+  final int index;
 
-  TaskTile(this.v, this.taskList, this.index, {Key? key}) : super(key: key);
+  const TaskTile(this.v, this.taskList, this.index, {Key? key}) : super(key: key);
 
   @override
   _TaskTileState createState() => _TaskTileState();

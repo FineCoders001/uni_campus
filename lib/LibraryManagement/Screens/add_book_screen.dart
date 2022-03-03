@@ -548,7 +548,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                           book.bookPic[i],
                                           fit: BoxFit.cover,
                                         ),
-                                        title: Text("Image ${i}"),
+                                        title: Text("Image $i"),
                                         trailing: InkWell(
                                             onTap: () {
 

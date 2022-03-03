@@ -4,8 +4,8 @@ import 'package:flutterfire_ui/firestore.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 
 class Reviews extends StatefulWidget {
-  String bookId;
-  Reviews(this.bookId, {Key? key}) : super(key: key);
+  final String bookId;
+  const Reviews(this.bookId, {Key? key}) : super(key: key);
 
   @override
   _ReviewsState createState() => _ReviewsState();

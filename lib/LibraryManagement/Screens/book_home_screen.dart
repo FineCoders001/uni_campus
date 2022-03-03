@@ -32,7 +32,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
     });
 
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:

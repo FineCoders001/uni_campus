@@ -149,9 +149,9 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                                   ),
                                 ),
                               )
-                            : SizedBox(
+                            : const SizedBox(
                                 width: double.infinity,
-                                child: const Align(
+                                child: Align(
                                   alignment: Alignment.center,
                                   child: Text(
                                     'Book In Stock',
@@ -260,8 +260,8 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
 }
 
 class BottomButton extends StatefulHookConsumerWidget {
-  dynamic book;
-  BottomButton(this.book, {Key? key}) : super(key: key);
+  final dynamic book;
+  const BottomButton(this.book, {Key? key}) : super(key: key);
 
   @override
   _BottomButtonState createState() => _BottomButtonState();
@@ -278,7 +278,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   void initState() {
     super.initState();
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:

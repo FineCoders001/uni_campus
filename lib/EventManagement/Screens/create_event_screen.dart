@@ -84,7 +84,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
       await ref.read(eventProvider).requestEvent(_event);
      // print("entered fbkjf fbkjng gnkjnkg");
     } catch (e) {
-     print("error is ${e}");
+     print("error is $e");
      await showDialog(
        context: context,
        builder: (ctx) => AlertDialog(
