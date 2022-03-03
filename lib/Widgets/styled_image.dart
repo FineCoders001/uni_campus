@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class StyledImage extends StatefulWidget {
@@ -12,6 +14,8 @@ class StyledImage extends StatefulWidget {
 }
 
 class _StyledImageState extends State<StyledImage> {
+   bool hasInternet = true;
+   bool loadingImage = true;
 
   int activeIndex= 0;
   Widget buildIndicator() => Padding(
@@ -30,8 +34,37 @@ class _StyledImageState extends State<StyledImage> {
     ),
   );
 
-  @override
+   @override
+   void initState() {
+     // TODO: implement initState
+     super.initState();
+     InternetConnectionChecker().onStatusChange.listen((status) {
+       print("status is ${status}");
+       setState(() {
+         switch (status) {
+           case InternetConnectionStatus.connected:
+             print('Data connection is available.');
+             hasInternet=true;
+             loadingImage=false;
+
+             break;
+           case InternetConnectionStatus.disconnected:
+             print('You are disconnected from the internet.');
+             hasInternet=false;
+             loadingImage=false;
+
+
+             break;
+         }
+         // hasInternet = status as bool;
+       });
+     });
+   }
+
+
+   @override
   Widget build(BuildContext context) {
+
 
     return Container(
 
@@ -63,10 +96,10 @@ class _StyledImageState extends State<StyledImage> {
                 return Container(margin: const EdgeInsets.symmetric(vertical: 30),
                   //width:300,
                   color: Colors.grey,
-                  child: Image.network(
+                  child: hasInternet? loadingImage?Lottie.asset("assets/loadpaperplane.json"):Image.network(
                     widget.imageUrl[index],
                     fit: BoxFit.cover,
-                  ),
+                  ):Lottie.asset("assets/noInternetConnection.json")
                 );
               },
             ),

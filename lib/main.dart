@@ -91,7 +91,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         ),
         routes: {
           BookDetailsScreen.routename: ((context) =>  const BookDetailsScreen()),
-          AddBookScreen.routeName:(ctx) => const AddBookScreen(),
+          AddBookScreen.routeName:(ctx) =>  AddBookScreen(),
         },
       ),
     );

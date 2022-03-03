@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:uni_campus/LibraryManagement/Widgets/rating_bar.dart';
 import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
@@ -57,6 +58,13 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     print("book is ${book['bookId']}");
     l = book['bookReviewedUsers'];
@@ -96,6 +104,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+
             Expanded(flex: 5, child: StyledImage(book['bookPic'])),
             Expanded(
               flex: 4,
@@ -271,18 +280,29 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   late UserCrud userCrud;
   late List l;
   late Map<String, dynamic> user;
-
+  bool hasInternet=true;
   @override
   void initState() {
-    // super.initState();
-    // l = ref.read(userCrudProvider).user['favBooks'];
-    // print("entry $l");
-    // if (l.contains(widget.book['bookId'])) {
-    //   setState(() {
-    //     fav = true;
-    //   });
-    //   print("exit");
-    // }
+    // TODO: implement initState
+    super.initState();
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      print("status is ${status}");
+      setState(() {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            print('Data connection is available.');
+            hasInternet=true;
+
+            break;
+          case InternetConnectionStatus.disconnected:
+            print('You are disconnected from the internet.');
+            hasInternet=false;
+
+            break;
+        }
+        // hasInternet = status as bool;
+      });
+    });
   }
 
   @override
@@ -329,6 +349,13 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
       children: [
         GestureDetector(
           onTap: () async {
+            if(!hasInternet){
+              var snackBar = const SnackBar(
+                  content: Text('Check Your Internet Connection',
+                      textAlign: TextAlign.center));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              return;
+            }
             if (userCrud.user['favBooks'].contains(widget.book['bookId']) ==
                 false) {
               try {
@@ -384,6 +411,13 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         ),
         GestureDetector(
           onTap: () async {
+            if(!hasInternet){
+              var snackBar = const SnackBar(
+                  content: Text('Check Your Internet Connection',
+                      textAlign: TextAlign.center));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              return;
+            }
             if (isIssued == "Issue Book") {
               print("here:${widget.book['bookReviewedUsers']}");
               await EditRequest()
