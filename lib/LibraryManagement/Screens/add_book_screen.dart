@@ -49,7 +49,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     bookReviews: [],
     bookReviewedUsers: [],
   );
-  var arguments;
+  dynamic arguments;
   // Map _initValues = {
   //   'bookName': "",
   //   'bookAuthor': "",
@@ -61,7 +61,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
   // };
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
      arguments = ModalRoute

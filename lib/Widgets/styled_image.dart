@@ -4,8 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class StyledImage extends StatefulWidget {
-  var imageUrl;
-  StyledImage(this.imageUrl, {Key? key}) : super(key: key);
+  final dynamic imageUrl;
+  const StyledImage(this.imageUrl, {Key? key}) : super(key: key);
 
   @override
   _StyledImageState createState() => _StyledImageState();

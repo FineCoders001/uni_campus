@@ -40,7 +40,7 @@ class _EventScreenState extends ConsumerState<EventScreen> {
         toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
-  var u;
+  dynamic u;
 
   @override
   void initState() {

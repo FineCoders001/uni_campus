@@ -25,7 +25,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
         toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
-  var u;
+  dynamic u;
 
   show() async {
     await showDialog<void>(
@@ -101,7 +101,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
           var time = int.parse(post.eventStartTime.substring(10, 12)) +
               int.parse(post.eventDuration.split(" ")[0]) +
               3;
-          var currentTime =
+          int currentTime =
               int.parse(TimeOfDay.now().toString().substring(10, 12));
           bool confirm = false;
           String status;

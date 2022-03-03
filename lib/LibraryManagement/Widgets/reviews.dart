@@ -52,7 +52,7 @@ class _ReviewsState extends State<Reviews>{
             toFirestore: (review, _) => review.toJson()),
         itemBuilder: (context, snapshot) {
           final post = snapshot.data();
-          print("dbhj dbnjkf ${post}");
+          print("dbhj dbnjkf $post");
 
           //final time = TimeOfDay
           return Card(
@@ -86,7 +86,7 @@ class _ReviewsState extends State<Reviews>{
 
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20 , top: 20, bottom: 20),
-                    child: Text("${post.review}", style: const TextStyle(
+                    child: Text(post.review, style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                     ),),

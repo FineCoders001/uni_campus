@@ -1,25 +1,20 @@
-// ignore_for_file: unnecessary_brace_in_string_interps, prefer_typing_uninitialized_variables
-
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'package:uni_campus/Attendance/view_list.dart';
 
 class ScanQR extends StatefulWidget {
-  var de;
-
-  var se;
-
-  var ye;
-
-  ScanQR({Key? key, required this.de, required this.ye, required this.se})
+  final dynamic de;
+  final dynamic se;
+  final dynamic ye;
+  const ScanQR({Key? key, required this.de, required this.ye, required this.se})
       : super(key: key);
 
   @override
   _ScanQRState createState() => _ScanQRState();
 }
 
-var scanres = "";
+String scanRes = "";
 //late List<String> l;
 late Attend at;
 //var at = Attend(dept: de, year: ye, semester: se);
@@ -41,10 +36,10 @@ class _ScanQRState extends State<ScanQR> {
       body: ListView(
         children: [
           IconButton(onPressed: _scan, icon: const Icon(Icons.camera)),
-          Center(child: Text(scanres)),
+          Center(child: Text(scanRes)),
           IconButton(
               onPressed: () {
-                at.map.add(scanres);
+                at.map.add(scanRes);
               },
               icon: const Icon(Icons.add)),
           IconButton(
@@ -62,7 +57,7 @@ class _ScanQRState extends State<ScanQR> {
   Future<void> _scan() async {
     final result = await BarcodeScanner.scan();
     setState(() {
-      scanres = result.rawContent.toString();
+      scanRes = result.rawContent.toString();
     });
   }
 }

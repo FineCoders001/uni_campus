@@ -348,7 +348,7 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                       UploadTask task = ref.putFile(f);
                       final snapshot = await task.whenComplete(() => null);
                       final downloadLink = await snapshot.ref.getDownloadURL();
-                      print("download link ${downloadLink}");
+                      print("download link $downloadLink");
                       await pic.addProfilePicture(downloadLink);
                       //setState(() {});
 

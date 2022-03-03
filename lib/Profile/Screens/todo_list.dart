@@ -75,7 +75,7 @@ class TodoListState extends ConsumerState<TodoList> {
           )
         ],
       ),
-      body: taskList.length > 0
+      body: taskList.isNotEmpty
           ? ListView.builder(
               itemBuilder: (context, index) {
                 //return TaskTile(v, taskList, index);
@@ -304,7 +304,7 @@ class TodoListState extends ConsumerState<TodoList> {
 
 class TaskTile extends StatefulWidget {
   //const TaskTile({Key? key}) : super(key: key);
-  var v;
+  dynamic v;
   List<Task> taskList;
   int index;
 

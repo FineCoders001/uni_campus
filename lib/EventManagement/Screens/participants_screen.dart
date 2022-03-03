@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ParticipantsScreen extends StatefulWidget {
-  var participantsList;
-  ParticipantsScreen(this.participantsList, {Key? key}) : super(key: key);
+  final dynamic participantsList;
+  const ParticipantsScreen(this.participantsList, {Key? key}) : super(key: key);
 
   @override
   _ParticipantsScreenState createState() => _ParticipantsScreenState();

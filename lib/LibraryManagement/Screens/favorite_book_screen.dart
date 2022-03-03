@@ -27,11 +27,11 @@ bool isloading=false;
       isloading = true;
     });
 
-    print("fjjf ${i}");
+    print("fjjf $i");
 
     if(l.length-i+1<7){
       for(i;i<l.length;i++){
-        print("i is ${i}");
+        print("i is $i");
         FirebaseFirestore.instance. collection("LibraryManagement")
             .doc("Books").collection('AllBooks').where(
             FieldPath.documentId,
@@ -46,18 +46,18 @@ bool isloading=false;
 
             });
 
-            print("favorites are ${m}");
+            print("favorites are $m");
           }
         }).catchError((e) => print("error fetching data: $e"));
       }
 
     }else{
       int j = i;
-      print("j is ${j}");
+      print("j is $j");
 
 
       for(i;i<j+7;i++){
-        print("i is ${i}");
+        print("i is $i");
         FirebaseFirestore.instance. collection("LibraryManagement")
             .doc("Books").collection('AllBooks').where(
             FieldPath.documentId,
@@ -72,7 +72,7 @@ bool isloading=false;
 
             });
 
-            print("favorites arex dnud ${m}");
+            print("favorites arex dnud $m");
           }
         }).catchError((e) => print("error fetching data: $e"));
       }
@@ -218,7 +218,7 @@ bool isloading=false;
 
 
                                 }catch(e){
-                                  print("error is ${e}");
+                                  print("error is $e");
                                   m.insert(index, item);
                                   ref.read(userCrudProvider).user['favBooks']=l;
                                   var snackBar = const SnackBar(

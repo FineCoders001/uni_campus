@@ -237,7 +237,7 @@ class ParticipateEvents {
         "enrollmentId": user['enroll'],
         "department": user['deptName']
       };
-      List l = [m];
+      //List list = [m];
       if (event.participants != null) {
         event.participants.add(m);
       } else {

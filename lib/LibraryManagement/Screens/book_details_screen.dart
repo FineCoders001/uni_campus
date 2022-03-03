@@ -29,7 +29,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
   }
 
   late Timer timer;
-  late var book;
+  late dynamic book;
   bool reviewed = false;
   late List l;
 

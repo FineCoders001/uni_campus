@@ -8,9 +8,9 @@ class EventsDetail {
   late final String eventDuration;
   final String id; //event id
   final String userId;
-  late final participants;
-  late final eventStatus;
-  late final eventForSem;
+  late final dynamic participants;
+  late final dynamic eventStatus;
+  late final dynamic eventForSem;
 
 
   EventsDetail(

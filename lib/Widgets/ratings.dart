@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class Ratings extends StatefulWidget {
-  var book;
+  dynamic book;
   double ratings;
   double ratingsCount;
   Ratings(this.book,this.ratings,this.ratingsCount, {Key? key}) : super(key: key);
@@ -46,8 +44,6 @@ class _RatingsState extends State<Ratings> {
         setState(() {
 
         });
-
-
       });
     });
 
@@ -71,7 +67,7 @@ class _RatingsState extends State<Ratings> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right:3.0),
-                    child: Text('${(num.toStringAsFixed(1))}',style: const TextStyle(
+                    child: Text((num.toStringAsFixed(1)),style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                     ),),

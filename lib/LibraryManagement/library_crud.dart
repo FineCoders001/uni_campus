@@ -106,7 +106,7 @@ class DeleteBooks {
         }
       });
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }
@@ -150,6 +150,10 @@ class EditRequest {
       .collection("LibraryManagement")
       .doc("RequestedBooks")
       .collection("PendingRequest");
+  CollectionReference reissueReference = FirebaseFirestore.instance
+      .collection("LibraryManagement")
+      .doc("RequestedBooks")
+      .collection("ReissueRequest");
   CollectionReference approvedReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("RequestedBooks")
@@ -195,6 +199,23 @@ class EditRequest {
     }
   }
 
+  bookReissued(String id, String enroll) async {
+    DocumentSnapshot documentSnapshot =
+        await reissueReference.doc(enroll).get();
+    dynamic data = documentSnapshot.data();
+    if (data == null) {
+      return false;
+    } else {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      if (data['bookId'].contains(id) == true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   deleteRequest(String bookId, user) async {
     // await allBooksReference
     //     .doc(bookId)
@@ -217,7 +238,33 @@ class EditRequest {
         }
       }
       await pendingReference.doc(user['enroll']).update({'bookId': test});
-      
+    }
+  }
+
+  reissueBook(String bookId, String enroll) async {
+    // await allBooksReference
+    //     .doc(bookId)
+    //     .update({'bookQuantity': FieldValue.increment(-1)});
+    // await allBooksReference
+    //     .doc(bookId)
+    //     .update({'issuedQuantity': FieldValue.increment(1)});
+
+    DocumentSnapshot documentSnapshot =
+        await reissueReference.doc(enroll).get();
+    var data = documentSnapshot.data();
+    if (data == null || data == {}) {
+      await reissueReference.doc(enroll).set({
+        'bookId': FieldValue.arrayUnion([bookId]),
+        'enroll': enroll,
+      });
+    } else {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      data['bookId'].add(bookId);
+      await reissueReference.doc(enroll).set({
+        'bookId': data['bookId'],
+        'enroll': data['enroll'],
+      });
     }
   }
 
@@ -247,7 +294,7 @@ class EditRequest {
     } else {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
-      data['bookId'].add({bookId:DateTime.now()});
+      data['bookId'].add({bookId: DateTime.now()});
       await pendingReference.doc(user['enroll']).set({
         'bookId': data['bookId'],
         'userName': data['userName'],
