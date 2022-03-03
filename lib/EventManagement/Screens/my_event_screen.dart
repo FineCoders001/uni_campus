@@ -9,6 +9,7 @@ import 'package:uni_campus/EventManagement/Models/all_events.dart';
 import 'package:uni_campus/EventManagement/Models/event_details.dart';
 import 'package:uni_campus/EventManagement/Screens/participants_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/Widgets/dialog_box.dart';
 
 class MyEventScreen extends StatefulHookConsumerWidget {
   const MyEventScreen({Key? key}) : super(key: key);
@@ -98,7 +99,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
         centerTitle: true,
         title: const Text(
           " My Events",
-          style: TextStyle(color: Colors.black, fontSize: 24),
+          style: TextStyle(color: Colors.orange, fontSize: 24,fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
             onPressed: () {
@@ -153,36 +154,50 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
             ),
             child: Column(
               children: [
-                ListTile(
-                  title: Text(
-                    post.eventName,
-                    style: const TextStyle(fontSize: 20),
+                GestureDetector(
+                  onTap: (){
+                    ShowDialog().showBottomSheet(context, post, date);
+                  },
+                  child: ListTile(
+                    leading:post.eventStatus == "completed" ||
+                        post.eventStatus == "cancelled"?post.eventStatus == "completed"?const Tooltip(
+                      message: "Event successful",
+                          child: CircleAvatar(
+                      backgroundColor: Colors.green,
+                          child: Icon(Icons.check,color: Colors.white,)
+                    ),
+                        ):const Tooltip(
+                          message: "Event cancelled",
+                          child: CircleAvatar(
+                          backgroundColor: Colors.red,
+                          child: Icon(Icons.cancel_rounded,color: Colors.white,)
+                    ),
+                        ):confirm?const Tooltip(
+                      message: "Event confirmation pending",
+                      child: CircleAvatar(
+                          backgroundColor: Colors.cyan,
+                          child: Text("!",style: TextStyle(color: Colors.white),)
+                      ),
+                    ):const Tooltip(
+                      message: "Event pending",
+                      child: CircleAvatar(
+                          backgroundColor: Colors.orangeAccent,
+                          child: Icon(Icons.pending_actions,color: Colors.white,)
+                      ),
+                    ),
+                    title: Text(
+                      post.eventName,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    subtitle: Text(post.description),
+                    //leading: Icon(Icons.event),
                   ),
-                  subtitle: Text(post.description),
-                  //leading: Icon(Icons.event),
                 ),
                 const Divider(
-                  thickness: 1,
-                  color: Colors.grey,
+                  thickness: 5,
+                  color: Colors.black12,
                 ),
-                post.eventStatus == "completed" ||
-                        post.eventStatus == "cancelled"
-                    ? Text(
-                        post.eventStatus,
-                        style: const TextStyle(fontSize: 24),
-                      )
-                    : const SizedBox(
-                        height: 0,
-                      ),
-                post.eventStatus == "completed" ||
-                        post.eventStatus == "cancelled"
-                    ? const Divider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      )
-                    : const SizedBox(
-                        height: 0,
-                      ),
+
                 confirm == true
                     ? InkWell(
                         onTap: () async {
@@ -270,8 +285,8 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
                           );
                         },
                         child: const Text(
-                          "!Confirm",
-                          style: TextStyle(fontSize: 24),
+                          "Confirm",
+                          style: TextStyle(fontSize: 24,color: Colors.green),
                         ),
                       )
                     : const SizedBox(
@@ -297,7 +312,11 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
                   },
                   child: const Text(
                     "Participants",
-                    style: TextStyle(fontSize: 24),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange
+                    ),
                   ),
                 ),
               ],
