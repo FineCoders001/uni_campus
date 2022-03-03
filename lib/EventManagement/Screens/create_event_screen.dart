@@ -101,7 +101,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
          ],
        ),
      );
-     throw e;
+     rethrow;
     }
 
     // Navigator.of(context).pop();
@@ -109,7 +109,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
   }

@@ -58,13 +58,6 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     print("book is ${book['bookId']}");
     l = book['bookReviewedUsers'];
@@ -156,7 +149,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                                   ),
                                 ),
                               )
-                            : Container(
+                            : SizedBox(
                                 width: double.infinity,
                                 child: const Align(
                                   alignment: Alignment.center,
@@ -283,7 +276,6 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   bool hasInternet=true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     InternetConnectionChecker().onStatusChange.listen((status) {
       print("status is ${status}");

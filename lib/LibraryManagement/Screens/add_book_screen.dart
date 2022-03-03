@@ -11,6 +11,8 @@ import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 class AddBookScreen extends StatefulWidget {
   static const routeName = 'AddBookScreen';
 
+  const AddBookScreen({Key? key}) : super(key: key);
+
   @override
   _AddBookScreenState createState() => _AddBookScreenState();
 }
@@ -540,7 +542,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 children: [
                                   for (int i = 0; i < book.bookPic.length; i++)
                                     Container(
-                                      margin: EdgeInsets.symmetric(vertical: 12),
+                                      margin: const EdgeInsets.symmetric(vertical: 12),
                                       child: ListTile(
                                         leading: Image.network(
                                           book.bookPic[i],
@@ -554,7 +556,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                                 book.bookPic.removeAt(i);
                                               });
                                             },
-                                            child: Icon(Icons.delete)),
+                                            child: const Icon(Icons.delete)),
                                         tileColor: Colors.white,
 
                                       ),
