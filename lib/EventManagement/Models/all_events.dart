@@ -118,7 +118,7 @@ class AllEvents extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      throw e;
+      rethrow;
     }
     notifyListeners();
   }
@@ -240,7 +240,7 @@ class ParticipateEvents {
         "enrollmentId": user['enroll'],
         "department": user['deptName']
       };
-      List l = [m];
+      //List list = [m];
       if (event.participants != null) {
         event.participants.add(m);
       } else {

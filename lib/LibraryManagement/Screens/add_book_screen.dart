@@ -11,6 +11,8 @@ import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 class AddBookScreen extends StatefulWidget {
   static const routeName = 'AddBookScreen';
 
+  const AddBookScreen({Key? key}) : super(key: key);
+
   @override
   _AddBookScreenState createState() => _AddBookScreenState();
 }
@@ -31,7 +33,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   final _bookQuantityNode = FocusNode();
   final _form = GlobalKey<FormState>();
   late String downloadLink;
- // List<String> bookPic = [];
+  // List<String> bookPic = [];
   var isLoading = false;
 
   BookDetails book = BookDetails(
@@ -46,8 +48,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     bookReviews: [],
     bookReviewedUsers: [],
   );
-  var arguments;
-
+  dynamic arguments;
   // Map _initValues = {
   //   'bookName': "",
   //   'bookAuthor': "",
@@ -59,10 +60,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
   // };
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
-    arguments = ModalRoute.of(this.context)?.settings.arguments as Map;
+    arguments = ModalRoute.of(context)?.settings.arguments as Map;
     if (arguments['isInit'] == true) {
       // _initValues = {
       //   'bookName': arguments["bookName"],
@@ -542,23 +542,22 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 children: [
                                   for (int i = 0; i < book.bookPic.length; i++)
                                     Container(
-                                      margin: EdgeInsets.symmetric(vertical: 12),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 12),
                                       child: ListTile(
                                         leading: Image.network(
                                           book.bookPic[i],
                                           fit: BoxFit.cover,
                                         ),
-                                        title: Text("Image ${i}"),
+                                        title: Text("Image $i"),
                                         trailing: InkWell(
                                             onTap: () {
-
                                               setState(() {
                                                 book.bookPic.removeAt(i);
                                               });
                                             },
-                                            child: Icon(Icons.delete)),
+                                            child: const Icon(Icons.delete)),
                                         tileColor: Colors.white,
-
                                       ),
                                     )
                                 ],

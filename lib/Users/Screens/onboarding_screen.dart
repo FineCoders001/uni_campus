@@ -304,6 +304,7 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) => _showStartDialog());

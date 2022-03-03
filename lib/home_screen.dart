@@ -15,7 +15,6 @@ import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/exam_screen.dart';
 import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
-import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 

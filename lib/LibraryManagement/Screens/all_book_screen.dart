@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
@@ -70,7 +68,7 @@ class _AllBookScreenState extends State<AllBookScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                          margin: EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(8),
                           //padding: EdgeInsets.all(8),
                           child: CircleAvatar(
                             backgroundColor: Colors.yellow,
@@ -94,11 +92,11 @@ class _AllBookScreenState extends State<AllBookScreen> {
                                           'isInit': true
                                         });
                                   },
-                                  child: Icon(Icons.edit)),
+                                  child: const Icon(Icons.edit)),
                             ),
                           )),
                       Container(
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         //padding: EdgeInsets.all(8),
                         child: CircleAvatar(
                           backgroundColor: Colors.red,
@@ -139,7 +137,7 @@ class _AllBookScreenState extends State<AllBookScreen> {
                                     ),
                                   );
                                 },
-                                child: Icon(Icons.delete)),
+                                child: const Icon(Icons.delete)),
                           ),
                         ),
                       ),
@@ -157,8 +155,12 @@ class _AllBookScreenState extends State<AllBookScreen> {
           Navigator.of(context)
               .pushNamed(AddBookScreen.routeName, arguments: {'isInit': false});
         },
-        label: Text("Add Book"),
-        icon: Icon(Icons.add),
+        label: const Text(
+          "Add Book",
+        ),
+        icon: const Icon(
+          Icons.add,
+        ),
       ),
     );
   }

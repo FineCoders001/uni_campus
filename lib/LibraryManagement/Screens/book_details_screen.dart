@@ -30,7 +30,7 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
   }
 
   late Timer timer;
-  late var book;
+  late dynamic book;
   bool reviewed = false;
   late List l;
 
@@ -55,13 +55,6 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
     var arguments = ModalRoute.of(context)?.settings.arguments as Map;
     book = arguments['book'];
     getRating();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-
   }
 
   @override
@@ -104,7 +97,6 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             Expanded(flex: 5, child: StyledImage(book['bookPic'])),
             Expanded(
               flex: 4,
@@ -156,9 +148,9 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                                   ),
                                 ),
                               )
-                            : Container(
+                            : const SizedBox(
                                 width: double.infinity,
-                                child: const Align(
+                                child: Align(
                                   alignment: Alignment.center,
                                   child: Text(
                                     'Book In Stock',
@@ -267,8 +259,8 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
 }
 
 class BottomButton extends StatefulHookConsumerWidget {
-  dynamic book;
-  BottomButton(this.book, {Key? key}) : super(key: key);
+  final dynamic book;
+  const BottomButton(this.book, {Key? key}) : super(key: key);
 
   @override
   _BottomButtonState createState() => _BottomButtonState();
@@ -280,23 +272,22 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
   late UserCrud userCrud;
   late List l;
   late Map<String, dynamic> user;
-  bool hasInternet=true;
+  bool hasInternet = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:
             print('Data connection is available.');
-            hasInternet=true;
+            hasInternet = true;
 
             break;
           case InternetConnectionStatus.disconnected:
             print('You are disconnected from the internet.');
-            hasInternet=false;
+            hasInternet = false;
 
             break;
         }
@@ -349,7 +340,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
       children: [
         GestureDetector(
           onTap: () async {
-            if(!hasInternet){
+            if (!hasInternet) {
               var snackBar = const SnackBar(
                   content: Text('Check Your Internet Connection',
                       textAlign: TextAlign.center));
@@ -411,7 +402,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         ),
         GestureDetector(
           onTap: () async {
-            if(!hasInternet){
+            if (!hasInternet) {
               var snackBar = const SnackBar(
                   content: Text('Check Your Internet Connection',
                       textAlign: TextAlign.center));

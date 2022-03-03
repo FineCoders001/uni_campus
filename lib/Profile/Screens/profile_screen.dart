@@ -38,6 +38,7 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late PlatformFile file1;
 
+  @override
   void initState() {
     super.initState();
   }
@@ -348,7 +349,7 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                       UploadTask task = ref.putFile(f);
                       final snapshot = await task.whenComplete(() => null);
                       final downloadLink = await snapshot.ref.getDownloadURL();
-                      print("download link ${downloadLink}");
+                      print("download link $downloadLink");
                       await pic.addProfilePicture(downloadLink);
                       //setState(() {});
 

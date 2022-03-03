@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:uni_campus/LibraryManagement/library_crud.dart';
 
 class IssuedBookScreen extends StatefulWidget {
   final Map<String, dynamic> user;
@@ -266,6 +267,7 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
   late StreamSubscription cancel;
   late Map<String, dynamic> approvedData;
   bool isLoading = true;
+  bool isReissued = false;
   CollectionReference approvedReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("RequestedBooks")
@@ -358,9 +360,14 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                                                     AsyncSnapshot<List<dynamic>>
                                                         text) {
                                                   if (text.data![1] != "") {
-                                                    return CachedNetworkImage(
-                                                      imageUrl: text.data![1],
-                                                      fit: BoxFit.fill,
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: text.data![1],
+                                                        fit: BoxFit.fill,
+                                                      ),
                                                     );
                                                   } else {
                                                     return Container();
@@ -371,58 +378,124 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                                       ),
                                       Expanded(
                                         child: SizedBox(
-                                          height: 100,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              FutureBuilder<List<dynamic>>(
-                                                future: getBookDetails(
-                                                    approvedData['bookId']
-                                                            [index]
-                                                        .keys
-                                                        .elementAt(0)),
-                                                initialData: const [" ", " "],
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<List<dynamic>>
-                                                        text) {
-                                                  return Text(text.data![0],
-                                                      style: GoogleFonts.ubuntu(
-                                                          fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.bold));
-                                                },
-                                              ),
-                                              Text(
-                                                "Time Left: ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inDays} days ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inHours % 24} hours",
-                                                style: GoogleFonts.ubuntu(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
+                                          height: 150,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                FutureBuilder<List<dynamic>>(
+                                                  future: getBookDetails(
+                                                      approvedData['bookId']
+                                                              [index]
+                                                          .keys
+                                                          .elementAt(0)),
+                                                  initialData: const [" ", " "],
+                                                  builder:
+                                                      (BuildContext context,
+                                                          AsyncSnapshot<
+                                                                  List<dynamic>>
+                                                              text) {
+                                                    return Text(text.data![0],
+                                                        style:
+                                                            GoogleFonts.ubuntu(
+                                                                fontSize: 25,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold));
+                                                  },
                                                 ),
-                                              ),
-                                              (DateTime.fromMillisecondsSinceEpoch(approvedData[
-                                                                          'bookId']
-                                                                      [index][approvedData['bookId']
+                                                Text(
+                                                  "Time Left: ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inDays} days ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inHours % 24} hours",
+                                                  style: GoogleFonts.ubuntu(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                FutureBuilder<String>(
+                                                    initialData: "Not yet",
+                                                    future: reissueStatus(
+                                                        DateTime.fromMillisecondsSinceEpoch(
+                                                            approvedData['bookId']
+                                                                        [index][approvedData['bookId'][
+                                                                            index]
+                                                                        .keys
+                                                                        .elementAt(
+                                                                            0)]
+                                                                    .seconds *
+                                                                1000),
+                                                        approvedData['bookId']
+                                                                [index]
+                                                            .keys
+                                                            .elementAt(0),
+                                                        widget.user['enroll']),
+                                                    builder: (BuildContext context,
+                                                        AsyncSnapshot<String> check) {
+                                                      if (check.data ==
+                                                          "Reissue") {
+                                                        return Center(
+                                                          child: InkWell(
+                                                            onTap: () async {
+                                                              await EditRequest().reissueBook(
+                                                                  approvedData[
+                                                                              'bookId']
                                                                           [
                                                                           index]
                                                                       .keys
                                                                       .elementAt(
-                                                                          0)]
-                                                                  .seconds *
-                                                              1000)
-                                                          .add(const Duration(
-                                                              days: 7))
-                                                          .difference(
-                                                              DateTime.now())
-                                                          .inDays) <=
-                                                      1
-                                                  ? const Center(
-                                                      child: Text("YES"))
-                                                  : const Center(
-                                                      child: Text("NO"))
-                                            ],
+                                                                          0),
+                                                                  widget.user[
+                                                                      'enroll']);
+                                                              setState(() {
+                                                                isReissued =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              decoration: const BoxDecoration(
+                                                                  color: Colors
+                                                                      .blueAccent,
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              4))),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child: Text(
+                                                                  "Reissue",
+                                                                  style:
+                                                                      GoogleFonts
+                                                                          .ubuntu(
+                                                                    fontSize:
+                                                                        20,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else if (check.data ==
+                                                          "Reissued") {
+                                                        return Text(
+                                                          "Requested for Reissue",
+                                                          style: GoogleFonts
+                                                              .ubuntu(
+                                                                  fontSize: 20),
+                                                        );
+                                                      } else {
+                                                        return Container();
+                                                      }
+                                                    }),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -438,6 +511,18 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
               ],
             ),
     );
+  }
+
+  Future<String> reissueStatus(var time, String bookID, String enroll) async {
+    bool status = await EditRequest().bookReissued(bookID, enroll);
+    if ((time.add(const Duration(days: 7)).difference(DateTime.now()).inDays) <=
+        1) {
+      if (status == false) {
+        return "Reissue";
+      }
+      return "Reissued";
+    }
+    return "Not yet";
   }
 
   Future<List<dynamic>> getBookDetails(String bookId) async {

@@ -13,245 +13,247 @@ class FavoriteBookScreen extends StatefulHookConsumerWidget {
 
 class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
   late List l;
-   List m=[];
-  int i=0;
-bool isloading=false;
+  List m = [];
+  int i = 0;
+  bool isloading = false;
 
   getFav() async {
     setState(() {
       isloading = true;
     });
 
-    print("fjjf ${i}");
+    print("fjjf $i");
 
-    if(l.length-i+1<7){
-      for(i;i<l.length;i++){
-        print("i is ${i}");
-        FirebaseFirestore.instance. collection("LibraryManagement")
-            .doc("Books").collection('AllBooks').where(
-            FieldPath.documentId,
-            isEqualTo: l[i]
-        ).get().then((event) {
+    if (l.length - i + 1 < 7) {
+      for (i; i < l.length; i++) {
+        print("i is $i");
+        FirebaseFirestore.instance
+            .collection("LibraryManagement")
+            .doc("Books")
+            .collection('AllBooks')
+            .where(FieldPath.documentId, isEqualTo: l[i])
+            .get()
+            .then((event) {
           if (event.docs.isNotEmpty) {
             Map<String, dynamic> documentData = event.docs.single.data();
             print("firebase se aa gya ${documentData['bookName']}");
             setState(() {
-
               m.add(documentData);
-
             });
 
-            print("favorites are ${m}");
+            print("favorites are $m");
           }
-        }).catchError((e) => print("error fetching data: $e"));
+        }).catchError((e) {
+          print("error fetching data: $e");
+        });
       }
-
-    }else{
+    } else {
       int j = i;
-      print("j is ${j}");
+      print("j is $j");
 
-
-      for(i;i<j+7;i++){
-        print("i is ${i}");
-        FirebaseFirestore.instance. collection("LibraryManagement")
-            .doc("Books").collection('AllBooks').where(
-            FieldPath.documentId,
-            isEqualTo: l[i]
-        ).get().then((event) {
+      for (i; i < j + 7; i++) {
+        print("i is $i");
+        FirebaseFirestore.instance
+            .collection("LibraryManagement")
+            .doc("Books")
+            .collection('AllBooks')
+            .where(FieldPath.documentId, isEqualTo: l[i])
+            .get()
+            .then((event) {
           if (event.docs.isNotEmpty) {
             Map<String, dynamic> documentData = event.docs.single.data();
             print("firebase se aa gya ${documentData['bookName']}");
             setState(() {
-
               m.add(documentData);
-
             });
 
-            print("favorites arex dnud ${m}");
+            print("favorites arex dnud $m");
           }
-        }).catchError((e) => print("error fetching data: $e"));
+        }).catchError((e) {
+          print("error fetching data: $e");
+        });
       }
     }
     setState(() {
-      isloading=false;
+      isloading = false;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    l=ref.read(userCrudProvider).user['favBooks'];
+    l = ref.read(userCrudProvider).user['favBooks'];
     getFav();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return isloading?const Center(child: CircularProgressIndicator(),):Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-        actions:  [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: (){
-                getFav();
-              },
-                child: const Icon(Icons.refresh)
-            ),
+    return isloading
+        ? const Center(
+            child: CircularProgressIndicator(),
           )
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: m.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () async {
+        : Scaffold(
+            appBar: AppBar(
+              backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                      onTap: () {
+                        getFav();
+                      },
+                      child: const Icon(Icons.refresh)),
+                )
+              ],
+            ),
+            body: ListView.builder(
+                itemCount: m.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      // var book=BookDetails.fromJson(m[index]);
 
-               // var book=BookDetails.fromJson(m[index]);
-
-                Navigator.of(context).pushNamed(BookDetailsScreen.routename, arguments: {'book':m[index]});
-              },
-              child: Card(
-                elevation: 10,
-                child: Column(
-                  children: [
-                    Container(
-                      //height: 150,
-                      margin: const EdgeInsets.only(top: 5),
-                      padding: const EdgeInsets.all(8),
-                      child:  Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Navigator.of(context).pushNamed(
+                          BookDetailsScreen.routename,
+                          arguments: {'book': m[index]});
+                    },
+                    child: Card(
+                      elevation: 10,
+                      child: Column(
                         children: [
                           Container(
-                            //width: wid*0.75,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            //height: 150,
+                            margin: const EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Text(m[index]['bookName'] ,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text(
+                                        m[index]['bookName'],
+                                        maxLines: 1,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                // Ratings(),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:20.0,top: 20),
-                                  child: Text('Author: ${m[index]['bookAuthor'] }',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-
+                                    // Ratings(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20.0, top: 20),
+                                      child: Text(
+                                        'Author: ${m[index]['bookAuthor']}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:20.0,top: 20),
-                                  child: Text('pages: ${m[index]['bookPages'] }',
-                                    style: const TextStyle(
-                                        fontSize: 18,
-
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20.0, top: 20),
+                                      child: Text(
+                                        'pages: ${m[index]['bookPages']}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-
+                                Column(
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      width: 70,
+                                      color: Colors.red,
+                                      child: Image.network(
+                                        m[index]['bookPic'][0],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                           ),
+                          const Divider(
+                            color: Colors.black54,
+                            thickness: 1,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              //cart.removeItem(product.id);
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text("Are you sure?"),
+                                  content: const Text(
+                                      'Do you want to remove the item?'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          var item = l[index];
+                                          try {
+                                            m.removeAt(index);
+                                            l.removeAt(index);
+                                            // print("l is ${l}");
+                                            ref
+                                                .read(userCrudProvider)
+                                                .removeFavorite(l);
 
-                          Column(
-                            children: [
-                              Container(
-                                height: 100,
-                                width: 70,
-                                color: Colors.red,
-
-                                child: Image.network(
-                                  m[index]['bookPic'][0],
-                                  fit: BoxFit.cover,
+                                            print(
+                                                "favbooks  is ${ref.read(userCrudProvider).user['favBooks']}");
+                                            setState(() {});
+                                          } catch (e) {
+                                            print("error is $e");
+                                            m.insert(index, item);
+                                            ref
+                                                .read(userCrudProvider)
+                                                .user['favBooks'] = l;
+                                            var snackBar = const SnackBar(
+                                                content: Text(
+                                                    'Something Went Wrong',
+                                                    textAlign:
+                                                        TextAlign.center));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Yes")),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("No"))
+                                  ],
                                 ),
-
+                              );
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                'Remove item',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  //fontWeight: FontWeight.bold
+                                ),
                               ),
-
-                            ],
-                          )
+                            ),
+                          ),
                         ],
                       ),
-
                     ),
-
-                    const Divider(
-                      color: Colors.black54,
-                      thickness: 1,
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        //cart.removeItem(product.id);
-                        showDialog(context: context,
-                          builder: (ctx) => AlertDialog(
-
-                            title: const Text("Are you sure?"),
-                            content: const Text('Do you want to remove the item?'),
-                            actions: [
-                              TextButton(onPressed: (){
-                                var item = l[index];
-                                try{
-                                  m.removeAt(index);
-                                  l.removeAt(index);
-                                 // print("l is ${l}");
-                                 ref.read(userCrudProvider).removeFavorite(l);
-
-                                  print("favbooks  is ${ ref.read(userCrudProvider).user['favBooks']}");
-                                  setState(() {
-
-                                  });
-                                }catch(e){
-                                  print("error is ${e}");
-                                  m.insert(index, item);
-                                  ref.read(userCrudProvider).user['favBooks']=l;
-                                  var snackBar = const SnackBar(
-                                      content: Text('Something Went Wrong',
-                                          textAlign: TextAlign.center));
-                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                }
-                                Navigator.pop(context);
-                              },
-                                  child: const Text("Yes")
-                              ),
-                              TextButton(onPressed: (){
-
-                                Navigator.of(context).pop();
-                              },
-                                  child: const Text("No")
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text('Remove item',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            //fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-          ),
-    );
+                  );
+                }),
+          );
   }
 }
-
