@@ -15,7 +15,6 @@ class CreateEventScreen extends StatefulHookConsumerWidget {
 enum Dept { interdept, intradept }
 
 class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
-
   final _form = GlobalKey<FormState>();
   var isLoading = false;
   List<String> months = [
@@ -82,26 +81,26 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
     try {
       await ref.read(eventProvider).requestEvent(_event);
-     // print("entered fbkjf fbkjng gnkjnkg");
+      // print("entered fbkjf fbkjng gnkjnkg");
     } catch (e) {
-     print("error is ${e}");
-     await showDialog(
-       context: context,
-       builder: (ctx) => AlertDialog(
-         title: const Text('Oops!'),
-         content: const Text('Something went wrong'),
-         actions: <Widget>[
-           TextButton(
-             child: const Text('Okay'),
-             onPressed: () {
-               Navigator.of(ctx).pop();
-               //return;
-             },
-           )
-         ],
-       ),
-     );
-     rethrow;
+      print("error is $e");
+      await showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Oops!'),
+          content: const Text('Something went wrong'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                //return;
+              },
+            )
+          ],
+        ),
+      );
+      rethrow;
     }
 
     // Navigator.of(context).pop();
@@ -110,13 +109,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : Container(
@@ -162,8 +159,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                         child: Text("Event Details",
                                             style: GoogleFonts.ubuntu(
                                                 fontSize: 25,
-                                                fontWeight:
-                                                FontWeight.bold)),
+                                                fontWeight: FontWeight.bold)),
                                       )),
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),

@@ -38,6 +38,7 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late PlatformFile file1;
 
+  @override
   void initState() {
     super.initState();
   }
