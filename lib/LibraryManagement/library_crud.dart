@@ -64,7 +64,7 @@ class UpdateBook {
       'bookName': book.bookName,
       'bookAuthor': book.bookAuthor,
       'bookPages': book.bookPages,
-      'bookPic':book.bookPic,
+      'bookPic': book.bookPic,
       'bookDepartment': book.bookDepartment,
       'bookPublication': book.bookPublication,
       'isbnNumber': book.isbnNumber,
@@ -163,6 +163,38 @@ class EditRequest {
       .collection("LibraryManagement")
       .doc("Books")
       .collection("AllBooks");
+
+  deleteOldRequest() async {
+    var result = await pendingReference.get();
+    for (var res in result.docs) {
+      Map<String, dynamic> data = res.data() as Map<String, dynamic>;
+      String id = res.id;
+      for (int i = 0; i < data['bookId'].length; i++) {
+        if (!(DateTime.now()
+                .difference(DateTime.fromMillisecondsSinceEpoch(
+                    data['bookId'][i].values.elementAt(0).seconds * 1000))
+                .inMinutes <=
+            1440)) {
+          if (data['bookId'].length == 1) {
+            pendingReference.doc(id).delete();
+          } else {
+            pendingReference.doc(id).update(
+              {
+                "bookId": FieldValue.arrayRemove(
+                  [
+                    {
+                      data['bookId'][i].keys.elementAt(0):
+                          data['bookId'][i].values.elementAt(0)
+                    }
+                  ],
+                )
+              },
+            );
+          }
+        }
+      }
+    }
+  }
 
   bookIssued(String id, user) async {
     DocumentSnapshot documentSnapshot =
@@ -438,7 +470,6 @@ class BookStatus {
       List test = [];
       for (int i = 0; i < data['bookId'].length; i++) {
         if (data['bookId'][i].keys.elementAt(0) == bookId) {
-          print("wow");
           data['bookId'].removeAt(i);
           test = data['bookId'];
           break;

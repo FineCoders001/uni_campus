@@ -32,9 +32,10 @@ class _ApproveBookRequestAdminScreenState
       .collection("AllBooks");
   bool isLoading = false;
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     userCrud = ref.watch(userCrudProvider);
     user = userCrud.user;
+    await EditRequest().deleteOldRequest();
     super.didChangeDependencies();
   }
 
@@ -147,12 +148,11 @@ class _ApproveBookRequestAdminScreenState
                                 height: 100,
                                 width: 100,
                                 child: FutureBuilder<List<dynamic>>(
-                                  initialData: const ["",""],
-                                    future: getBookDetails(post.bookId[index].keys
-                                                .elementAt(0)),
+                                    initialData: const ["", ""],
+                                    future: getBookDetails(
+                                        post.bookId[index].keys.elementAt(0)),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<List<dynamic>> text) {
-                                          
                                       if (text.data![1] != "") {
                                         return CachedNetworkImage(
                                           imageUrl: text.data![1],
@@ -173,9 +173,9 @@ class _ApproveBookRequestAdminScreenState
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     FutureBuilder<List<dynamic>>(
-                                        future:
-                                            getBookDetails(post.bookId[index].keys
-                                                .elementAt(0)),
+                                        future: getBookDetails(post
+                                            .bookId[index].keys
+                                            .elementAt(0)),
                                         initialData: const [" ", " "],
                                         builder: (BuildContext context,
                                             AsyncSnapshot<List<dynamic>> text) {
@@ -199,10 +199,10 @@ class _ApproveBookRequestAdminScreenState
                                                       "enroll": post.enroll,
                                                       "semester": post.semester,
                                                       "userName": post.userName,
-                                                      "contact":post.contact
+                                                      "contact": post.contact
                                                     },
                                                     post.bookId[index].keys
-                                                .elementAt(0))
+                                                        .elementAt(0))
                                                 .then(
                                                   (value) => {
                                                     ScaffoldMessenger.of(
@@ -255,10 +255,10 @@ class _ApproveBookRequestAdminScreenState
                                                       "enroll": post.enroll,
                                                       "semester": post.semester,
                                                       "userName": post.userName,
-                                                      "contact":post.contact
+                                                      "contact": post.contact
                                                     },
                                                     post.bookId[index].keys
-                                                .elementAt(0))
+                                                        .elementAt(0))
                                                 .then((value) => {
                                                       ScaffoldMessenger.of(
                                                               _scaffoldKey
