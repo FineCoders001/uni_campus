@@ -8,6 +8,8 @@ import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class ApproveBookRequestAdminScreen extends StatefulHookConsumerWidget {
   const ApproveBookRequestAdminScreen({Key? key}) : super(key: key);
 
@@ -43,6 +45,7 @@ class _ApproveBookRequestAdminScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 82, 72, 200),
         centerTitle: true,
@@ -279,7 +282,8 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                                                 .then(
                                                   (value) => {
                                                     ScaffoldMessenger.of(
-                                                            context)
+                                                            _scaffoldKey
+                                                                .currentContext!)
                                                         .showSnackBar(
                                                       const SnackBar(
                                                         duration: Duration(
@@ -328,10 +332,12 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                                                       "userName": post.userName,
                                                       "contact": post.contact
                                                     },
-                                                    post.bookId[index])
+                                                    post.bookId[index].keys
+                                                        .elementAt(0))
                                                 .then((value) => {
                                                       ScaffoldMessenger.of(
-                                                              context)
+                                                              _scaffoldKey
+                                                                  .currentContext!)
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           duration: Duration(
@@ -620,7 +626,8 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                     post.bookId[index])
                                                 .then((value) => {
                                                       ScaffoldMessenger.of(
-                                                              context)
+                                                              _scaffoldKey
+                                                                  .currentContext!)
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           duration: Duration(
@@ -672,7 +679,8 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                     post.bookId[index])
                                                 .then((value) => {
                                                       ScaffoldMessenger.of(
-                                                              context)
+                                                              _scaffoldKey
+                                                                  .currentContext!)
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           duration: Duration(
