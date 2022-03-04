@@ -84,7 +84,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
     });
 
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:
@@ -397,7 +397,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
                                                         controller1.forward();
                                                       }
                                                   ),
-                                                  Text('Participation successful',textAlign: TextAlign.center,
+                                                  const Text('Participation successful',textAlign: TextAlign.center,
                                                     style: TextStyle(fontSize: 18),
                                                   ),
 

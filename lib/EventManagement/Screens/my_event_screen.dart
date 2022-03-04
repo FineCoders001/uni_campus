@@ -92,7 +92,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
     super.initState();
     u = ref.read(userCrudProvider);
     InternetConnectionChecker().onStatusChange.listen((status) {
-      print("status is ${status}");
+      print("status is $status");
       setState(() {
         switch (status) {
           case InternetConnectionStatus.connected:
@@ -135,16 +135,17 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
         itemBuilder: (context, snapshot) {
           final post = snapshot.data();
           final date = DateTime.parse(post.eventDate);
+          bool confirm = false;
           print("participant entry");
           print("participants are ${post.eventStatus.runtimeType} ");
           print("participant exit");
-          var time = int.parse(post.eventStartTime.substring(10, 12)) +
-              int.parse(post.eventDuration.split(" ")[0]) +
-              3;
-          var currentTime =
-              int.parse(TimeOfDay.now().toString().substring(10, 12));
-          bool confirm = false;
-          String status;
+
+          // var time = int.parse(post.eventStartTime.substring(10, 12)) +
+          //     int.parse(post.eventDuration.split(" ")[0]) +
+          //     3;
+          // var currentTime =
+          //     int.parse(TimeOfDay.now().toString().substring(10, 12));
+          // String status;
 
           if (!(post.eventStatus == "completed" ||
               post.eventStatus == "cancelled")) {
