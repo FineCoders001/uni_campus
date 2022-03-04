@@ -30,6 +30,25 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
         toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
+  @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    bool result = await InternetConnectionChecker().hasConnection;
+    if(result == true) {
+      setState(() {
+        hasInternet=true;
+      });
+      print('YAY! Free cute dog pics!');
+    } else {
+      setState(() {
+        hasInternet=false;
+      });
+      print('No internet :( Reason:');
+
+    }
+  }
+
   var u;
 
   show() async {
@@ -99,7 +118,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
         centerTitle: true,
         title: const Text(
           " My Events",
-          style: TextStyle(color: Colors.orange, fontSize: 24,fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.orange, fontSize: 28,fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
             onPressed: () {

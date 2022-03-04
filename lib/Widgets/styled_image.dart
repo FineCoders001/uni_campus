@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -31,8 +32,29 @@ class _StyledImageState extends State<StyledImage> {
       );
 
   @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    bool result = await InternetConnectionChecker().hasConnection;
+    if(result == true) {
+      setState(() {
+        hasInternet=true;
+      });
+      print('YAY! Free cute dog pics!');
+    } else {
+      setState(() {
+        hasInternet=false;
+      });
+      print('No internet :( Reason:');
+
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
+
+
     InternetConnectionChecker().onStatusChange.listen((status) {
       print("status is $status");
       setState(() {
@@ -54,6 +76,8 @@ class _StyledImageState extends State<StyledImage> {
       });
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +109,17 @@ class _StyledImageState extends State<StyledImage> {
                     //width:300,
                     color: Colors.grey,
                     child: hasInternet
-                        ? loadingImage
-                            ? Lottie.asset("assets/loadpaperplane.json")
-                            : Image.network(
-                                widget.imageUrl[index],
-                                fit: BoxFit.cover,
-                              )
+                        ?
+                            // : Image.network(
+                            //     widget.imageUrl[index],
+                            //     fit: BoxFit.cover,
+                            //
+                            //   )
+                    CachedNetworkImage(
+                      imageUrl: "${widget.imageUrl[index]}",
+                      placeholder: (context, url) =>  Lottie.asset("assets/loadpaperplane.json"),
+                      errorWidget: (context, url, error) => new Icon(Icons.error),
+                    )
                         : Lottie.asset("assets/noInternetConnection.json"));
               },
             ),

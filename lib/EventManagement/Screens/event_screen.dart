@@ -44,6 +44,25 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
         toFirestore: (eventsDetail, _) => eventsDetail.toJson(),
       );
 
+  @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    bool result = await InternetConnectionChecker().hasConnection;
+    if(result == true) {
+      setState(() {
+        hasInternet=true;
+      });
+      print('YAY! Free cute dog pics!');
+    } else {
+      setState(() {
+        hasInternet=false;
+      });
+      print('No internet :( Reason:');
+
+    }
+  }
+
   var u;
 
   @override

@@ -55,6 +55,8 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
     var arguments = ModalRoute.of(context)?.settings.arguments as Map;
     book = arguments['book'];
     getRating();
+
+
   }
 
   @override
@@ -137,58 +139,72 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                           ],
                         ),
                         book['bookQuantity'] - book['issuedQuantity'] <= 0
-                            ? const Padding(
-                                padding: EdgeInsets.only(left: 20.0, right: 8),
-                                child: Text(
-                                  'Out Of Stock',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: const SizedBox(
+                            width: double.infinity,
+
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Out Of Stock',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              )
-                            : const SizedBox(
-                                width: double.infinity,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Book In Stock',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                            : Padding(
+                              padding: const EdgeInsets.symmetric(vertical:8.0),
+                              child: const SizedBox(
+                                  width: double.infinity,
+
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Book In Stock',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text(
-                                    'Book Details',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Icon(
-                                    Icons.list_alt_outlined,
-                                    size: 25,
-                                  ),
-                                ],
-                              ),
-                              bookDetailWid("Author", book['bookAuthor']),
-                              bookDetailWid("Pages", book['bookPages']),
-                              bookDetailWid(
-                                  "Publication", book['bookPublication']),
-                              bookDetailWid(
-                                  "Isbn No", book['isbnNumber'].toString())
-                            ],
+                            ),
+                        Card(
+                          elevation: 7,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Text(
+                                      'Book Details',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Icon(
+                                      Icons.list_alt_outlined,
+                                      size: 25,
+                                    ),
+                                  ],
+                                ),
+                                bookDetailWid("Author", book['bookAuthor']),
+                                bookDetailWid("Pages", book['bookPages']),
+                                bookDetailWid(
+                                    "Publication", book['bookPublication']),
+                                bookDetailWid(
+                                    "Isbn No", book['isbnNumber'].toString())
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -330,6 +346,19 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
     // }
 
     super.didChangeDependencies();
+    bool result = await InternetConnectionChecker().hasConnection;
+    if(result == true) {
+      setState(() {
+        hasInternet=true;
+      });
+      print('YAY! Free cute dog pics!');
+    } else {
+      setState(() {
+        hasInternet=false;
+      });
+      print('No internet :( Reason:');
+
+    }
   }
 
   @override
