@@ -82,7 +82,7 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 25,
+                          crossAxisSpacing: 15,
                           mainAxisSpacing: 30,
                         ),
                         itemCount: snapshot.docs.length,
@@ -108,25 +108,14 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                                       MediaQuery.of(context).size.height / 5,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
-                                      color: Colors.grey),
+                                      color: const Color.fromARGB(255, 82, 72, 200)),
                                   padding: const EdgeInsets.all(15),
                                   child: GridTile(
                                     child: CachedNetworkImage(
                                       imageUrl: snapshot.docs[index]["bookPic"]
                                           [0],
                                       fit: BoxFit.cover,
-                                      placeholder: (context, url) => Container(
-                                          alignment: Alignment.center,
-                                          color: Colors.white,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 15.0),
-                                            child: Text(
-                                              "Loading",
-                                              style: GoogleFonts.ubuntu(
-                                                  fontSize: 25),
-                                            ),
-                                          )),
+                                      placeholder: (context, url) => Center(child: Lottie.asset("assets/loadpaperplane.json"),)
                                     ),
                                     footer: GridTileBar(
                                       backgroundColor: Colors.black87,

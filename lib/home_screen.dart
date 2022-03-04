@@ -140,7 +140,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     },
                     child: containerForGridview(
                       "All Events",
-                      Colors.redAccent,
+                      Colors.orange,
                     ),
                   ),
                   InkWell(
@@ -155,7 +155,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     },
                     child: containerForGridview(
                       "My Events",
-                      Colors.redAccent,
+                      Colors.orange,
                     ),
                   ),
                 ]),

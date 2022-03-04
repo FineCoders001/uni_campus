@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_details_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
@@ -95,6 +97,8 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
         : Scaffold(
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+              title: Text("Favorites",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white),),
+              centerTitle: true,
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -172,11 +176,17 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                     Container(
                                       height: 100,
                                       width: 70,
-                                      color: Colors.red,
-                                      child: Image.network(
-                                        m[index]['bookPic'][0],
-                                        fit: BoxFit.cover,
-                                      ),
+                                      color: const Color.fromARGB(255, 82, 72, 200),
+                                      // child: Image.network(
+                                      //   m[index]['bookPic'][0],
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                        child:CachedNetworkImage(
+                                          imageUrl: "${m[index]['bookPic'][0]}",
+                                          fit: BoxFit.contain,
+                                          placeholder: (context, url) =>  Lottie.asset("assets/loadpaperplane.json"),
+                                          errorWidget: (context, url, error) => new Icon(Icons.error),
+                                        )
                                     ),
                                   ],
                                 )

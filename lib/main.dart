@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 
@@ -71,8 +72,8 @@ class _MyAppState extends ConsumerState<MyApp> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return  Center(
+                child: Lottie.asset("assets/loadpaperplane.json"),
               );
             } else if (userSnapshot.hasData) {
               return const HomeScreen();
