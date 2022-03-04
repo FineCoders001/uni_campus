@@ -22,11 +22,13 @@ class _IssuedBookScreenState extends State<IssuedBookScreen> {
     EditRequest().deleteOldRequest();
     super.didChangeDependencies();
   }
+
   @override
   void dispose() {
     EditRequest().deleteOldRequest();
     super.dispose();
   }
+
   @override
   void initState() {
     tabPages = [
@@ -45,6 +47,8 @@ class _IssuedBookScreenState extends State<IssuedBookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+        centerTitle: true,
         title: const Text("My Issued Book"),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -357,14 +361,19 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                     shrinkWrap: true,
                     itemCount: approvedData['bookId'].length,
                     itemBuilder: (context, index) {
-                      var time = DateTime.fromMillisecondsSinceEpoch(
-                              approvedData['bookId'][index]
-                                      .values
-                                      .elementAt(0)
-                                      .seconds *
-                                  1000)
-                          .add(const Duration(days: 7))
-                          .difference(DateTime.now());
+                      var status =
+                          approvedData['bookId'][index].values.elementAt(0);
+                      if (status != "Rejected") {
+                        status = DateTime.fromMillisecondsSinceEpoch(
+                                approvedData['bookId'][index]
+                                        .values
+                                        .elementAt(0)
+                                        .seconds *
+                                    1000)
+                            .add(const Duration(days: 7))
+                            .difference(DateTime.now());
+                      }
+
                       return isLoading == false
                           ? SizedBox(
                               width: MediaQuery.of(context).size.width * 0.94,
@@ -437,25 +446,26 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                                                               FontWeight.bold));
                                                 },
                                               ),
-                                              Text(
-                                                "Time Left: ${time.inDays} days ${time.inHours % 24} hours",
-                                                style: GoogleFonts.ubuntu(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                              status == "Rejected"
+                                                  ? Text(
+                                                      "Reissue Rejected. Please return the book to the Library.",
+                                                      style: GoogleFonts.ubuntu(
+                                                        color: Colors.redAccent,
+                                                        fontSize: 18,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      "Time Left: ${status.inDays} days ${status.inHours % 24} hours",
+                                                      style: GoogleFonts.ubuntu(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
                                               FutureBuilder<String>(
                                                 initialData: "Not yet",
                                                 future: reissueStatus(
-                                                    DateTime
-                                                        .fromMillisecondsSinceEpoch(
-                                                            approvedData['bookId']
-                                                                        [index]
-                                                                    .values
-                                                                    .elementAt(
-                                                                        0)
-                                                                    .seconds *
-                                                                1000),
+                                                    status,
                                                     approvedData['bookId']
                                                             [index]
                                                         .keys
@@ -477,8 +487,7 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                                                                       .keys
                                                                       .elementAt(
                                                                           0),
-                                                                  widget.user[
-                                                                      'enroll']);
+                                                                  widget.user);
                                                           setState(() {
                                                             isReissued = true;
                                                           });
@@ -538,13 +547,11 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
 
   Future<String> reissueStatus(var time, String bookID, String enroll) async {
     bool status = await EditRequest().bookReissued(bookID, enroll);
+    if (time == "Rejected") {
+      return "Not yet";
+    }
     if ((time.add(const Duration(days: 7)).difference(DateTime.now()).inDays) <=
         1) {
-      if ((time
-              .add(const Duration(days: 7))
-              .difference(DateTime.now())
-              .inDays) <=
-          1) {}
       if (status == false) {
         return "Reissue";
       }

@@ -274,7 +274,7 @@ class EditRequest {
     }
   }
 
-  reissueBook(String bookId, String enroll) async {
+  reissueBook(String bookId, Map<String, dynamic> user) async {
     // await allBooksReference
     //     .doc(bookId)
     //     .update({'bookQuantity': FieldValue.increment(-1)});
@@ -283,20 +283,30 @@ class EditRequest {
     //     .update({'issuedQuantity': FieldValue.increment(1)});
 
     DocumentSnapshot documentSnapshot =
-        await reissueReference.doc(enroll).get();
+        await reissueReference.doc(user['enroll']).get();
     var data = documentSnapshot.data();
     if (data == null || data == {}) {
-      await reissueReference.doc(enroll).set({
+      await reissueReference.doc(user['enroll']).set({
         'bookId': FieldValue.arrayUnion([bookId]),
-        'enroll': enroll,
+        'userName': user['userName'],
+        'enroll': user['enroll'],
+        'semester': user['semester'],
+        'deptName': user['deptName'],
+        //change contact here
+        'contact': user['enroll']
       });
     } else {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
       data['bookId'].add(bookId);
-      await reissueReference.doc(enroll).set({
+      await reissueReference.doc(user['enroll']).set({
         'bookId': data['bookId'],
-        'enroll': data['enroll'],
+        'userName': user['userName'],
+        'enroll': user['enroll'],
+        'semester': user['semester'],
+        'deptName': user['deptName'],
+        //change contact here
+        'contact': user['enroll']
       });
     }
   }
@@ -350,6 +360,10 @@ class EditRequestAdmin {
       .collection("LibraryManagement")
       .doc("RequestedBooks")
       .collection("ApprovedRequest");
+  CollectionReference reissueReference = FirebaseFirestore.instance
+      .collection("LibraryManagement")
+      .doc("RequestedBooks")
+      .collection("ReissueRequest");
   CollectionReference allBooksReference = FirebaseFirestore.instance
       .collection("LibraryManagement")
       .doc("Books")
@@ -398,6 +412,83 @@ class EditRequestAdmin {
         }
       }
       await pendingReference.doc(enroll).update({'bookId': test});
+    }
+  }
+
+  approveReissueRequest(
+      String enroll, Map<String, dynamic> passedData, String bookId) async {
+    //Adding data
+    DocumentSnapshot documentSnapshot =
+        await approvedReference.doc(enroll).get();
+    var data = documentSnapshot.data() as Map<String, dynamic>;
+    var time = data['bookId'];
+    for (int i = 0; i < time.length; i++) {
+      if (data['bookId'][i].keys.elementAt(0) == bookId) {
+        print("object: ${data['bookId'][i].values.elementAt(0)}");
+        await approvedReference.doc(enroll).update({
+          'bookId': FieldValue.arrayRemove([
+            {bookId: data['bookId'][i].values.elementAt(0)}
+          ])
+        });
+      }
+    }
+    await approvedReference.doc(enroll).update({
+      'bookId': FieldValue.arrayUnion([
+        {bookId: DateTime.now()}
+      ]),
+    });
+
+    //Deleting Data
+    if (passedData['bookId'].length == 1) {
+      await reissueReference.doc(enroll).delete();
+    } else {
+      List test = [];
+      for (int i = 0; i < passedData['bookId'].length; i++) {
+        if (passedData['bookId'][i] == bookId) {
+          passedData['bookId'].removeAt(i);
+          test = passedData['bookId'];
+          break;
+        }
+      }
+      await reissueReference.doc(enroll).update({'bookId': test});
+    }
+  }
+  rejectReissueRequest(
+      String enroll, Map<String, dynamic> passedData, String bookId) async {
+    //Adding data
+    DocumentSnapshot documentSnapshot =
+        await approvedReference.doc(enroll).get();
+    var data = documentSnapshot.data() as Map<String, dynamic>;
+    var time = data['bookId'];
+    for (int i = 0; i < time.length; i++) {
+      if (data['bookId'][i].keys.elementAt(0) == bookId) {
+        print("object: ${data['bookId'][i].values.elementAt(0)}");
+        await approvedReference.doc(enroll).update({
+          'bookId': FieldValue.arrayRemove([
+            {bookId: data['bookId'][i].values.elementAt(0)}
+          ])
+        });
+      }
+    }
+    await approvedReference.doc(enroll).update({
+      'bookId': FieldValue.arrayUnion([
+        {bookId: "Rejected"}
+      ]),
+    });
+
+    //Deleting Data
+    if (passedData['bookId'].length == 1) {
+      await reissueReference.doc(enroll).delete();
+    } else {
+      List test = [];
+      for (int i = 0; i < passedData['bookId'].length; i++) {
+        if (passedData['bookId'][i] == bookId) {
+          passedData['bookId'].removeAt(i);
+          test = passedData['bookId'];
+          break;
+        }
+      }
+      await reissueReference.doc(enroll).update({'bookId': test});
     }
   }
 
