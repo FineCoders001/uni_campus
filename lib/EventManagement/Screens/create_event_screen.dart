@@ -18,7 +18,6 @@ enum Dept { interdept, intradept }
 class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   final _form = GlobalKey<FormState>();
   var isLoading = false;
-   bool displaySem=false;
    List<String> items=["1","2","3","4","5","6","7","8"];
   List<String> semester = [];
   List<String> months = [
@@ -325,7 +324,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                                     onChanged: (Dept? value) {
                                                       setState(() {
                                                         _d = value!;
-                                                        displaySem=false;
+
                                                       });
                                                     },
                                                   ),
@@ -345,7 +344,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                                     onChanged: (Dept? value) {
                                                       setState(() {
                                                         _d = value!;
-                                                        displaySem=true;
+
                                                       });
                                                     },
                                                   ),
@@ -359,7 +358,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                   ),
 
 
-                                 displaySem? GestureDetector(
+                                  GestureDetector(
                                     onTap: () async {
                                       final List<String>? results = await showDialog(
                                         context: context,
@@ -406,7 +405,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                         ),
                                       ),
                                     ),
-                                  ):const SizedBox(height: 0,)
+                                  )
                                 ],
                               ),
                             ),
@@ -720,7 +719,7 @@ class _MultiSelectState extends State<MultiSelect> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select Topics'),
+      title: const Text('Select Semester'),
       content: SingleChildScrollView(
         child: ListBody(
           children: widget.items

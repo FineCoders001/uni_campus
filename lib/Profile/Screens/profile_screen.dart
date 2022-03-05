@@ -45,10 +45,33 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Screen heigth is ${MediaQuery.of(context).size.height}");
-    print("Screen heigth is ${MediaQuery.of(context).size.width}");
+    print("Screen heigth is ${MediaQuery
+        .of(context)
+        .size
+        .height}");
+    print("Screen heigth is ${MediaQuery
+        .of(context)
+        .size
+        .width}");
     var data = ref.watch(userCrudProvider);
     var u = data.user;
+
+    buildEditIcon() {
+      return Container(
+          margin: const EdgeInsets.all(8),
+          //padding: EdgeInsets.all(8),
+          child: CircleAvatar(
+            backgroundColor: Colors.yellow,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                  onTap: () {
+
+                  },
+                  child: const Icon(Icons.edit)),
+            ),
+          ));
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -103,7 +126,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
+                    EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
                     child: Row(
                       children: [
                         Material(
@@ -111,7 +134,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           elevation: 5,
                           shape: const RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                              BorderRadius.all(Radius.circular(10))),
                           child: InkWell(
                             onTap: () {},
                             child: Padding(
@@ -140,14 +163,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           elevation: 5,
                           shape: const RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                              BorderRadius.all(Radius.circular(10))),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      const TodoList(),
+                                  const TodoList(),
                                 ),
                               );
                             },
@@ -195,6 +218,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         leading: const Icon(Icons.library_books_outlined),
+                        trailing:buildEditIcon(),
                         title: Text(
                           u['enroll'],
                         ),
@@ -207,6 +231,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         leading: const Icon(Icons.school_outlined),
+                        trailing:buildEditIcon(),
                         title: Text(
                           u['collegeName'],
                         ),
@@ -219,6 +244,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         leading: const Icon(Icons.local_library_outlined),
+                        trailing:buildEditIcon(),
                         title: Text(
                           u['deptName'],
                         ),
@@ -230,7 +256,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        leading: const Icon(Icons.arrow_right),
+                        leading: const Icon(Icons.arrow_forward),
+                        trailing:buildEditIcon(),
                         title: Text(
                           semRoman[int.parse(u['semester'])],
                         ),
@@ -295,35 +322,32 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
             children: [
               u['profilePicture'] == null || u['profilePicture'] == ""
                   ? u['userName'] != null
-                      ? ClipOval(
-                          child: Material(
-                            elevation: 5.0,
-                            shape: const CircleBorder(),
-                            clipBehavior: Clip.hardEdge,
-                            color: const Color.fromARGB(255, 65, 198, 255),
-                            child: Padding(
-                              padding: const EdgeInsets.all(45.0),
-                              child: Text(
-                                u['userName'][0],
-                                style: GoogleFonts.ubuntu(
-                                  color: Colors.white,
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const CircularProgressIndicator()
+                  ? ClipOval(
+                child: Material(
+                  elevation: 5.0,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  color: const Color.fromARGB(255, 65, 198, 255),
+                  child: Padding(
+                    padding: const EdgeInsets.all(45.0),
+                    child: Text(
+                      u['userName'][0],
+                      style: GoogleFonts.ubuntu(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+                  : const CircularProgressIndicator()
                   : buildImage(u['profilePicture'], u),
               Positioned(
                 bottom: 0,
                 right: 0,
                 child: InkWell(
                   onTap: () async {
-                    // var result = await FilePicker.platform.pickFiles(type: FileType.image);
-                    // if (result == null) return;
-                    // var file = result!.files.first;
                     FilePickerResult? result = await FilePicker.platform
                         .pickFiles(type: FileType.image);
 
@@ -388,23 +412,24 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
           width: 128,
           height: 128,
           imageUrl: img,
-          placeholder: (context, url) => ClipOval(
-            child: Material(
-              elevation: 5.0,
-              shape: const CircleBorder(),
-              clipBehavior: Clip.hardEdge,
-              color: const Color.fromARGB(255, 65, 198, 255),
-              child: Center(
-                child: Text(
-                  u['userName'][0],
-                  style: GoogleFonts.ubuntu(
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold),
+          placeholder: (context, url) =>
+              ClipOval(
+                child: Material(
+                  elevation: 5.0,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  color: const Color.fromARGB(255, 65, 198, 255),
+                  child: Center(
+                    child: Text(
+                      u['userName'][0],
+                      style: GoogleFonts.ubuntu(
+                          color: Colors.white,
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         // Ink.image(
