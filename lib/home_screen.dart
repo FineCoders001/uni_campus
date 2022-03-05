@@ -38,7 +38,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     fetchTask();
   }
-
+  @override
+  void didChangeDependencies() async{
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);

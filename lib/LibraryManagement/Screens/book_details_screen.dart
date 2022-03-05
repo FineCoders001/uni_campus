@@ -139,9 +139,9 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                           ],
                         ),
                         book['bookQuantity'] - book['issuedQuantity'] <= 0
-                            ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: const SizedBox(
+                            ? const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: SizedBox(
                             width: double.infinity,
 
                             child: Align(
@@ -157,9 +157,9 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                             ),
                           ),
                         )
-                            : Padding(
-                              padding: const EdgeInsets.symmetric(vertical:8.0),
-                              child: const SizedBox(
+                            : const Padding(
+                              padding: EdgeInsets.symmetric(vertical:8.0),
+                              child: SizedBox(
                                   width: double.infinity,
 
                                   child: Align(

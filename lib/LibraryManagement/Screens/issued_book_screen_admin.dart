@@ -146,21 +146,22 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
                                     width: 100,
                                     child: Center(
                                       child: FutureBuilder<List<dynamic>>(
-                                  initialData: const ["",""],
-                                    future: getBookDetails(post.bookId[index].keys
-                                                .elementAt(0)),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<List<dynamic>> text) {
-                                          
-                                      if (text.data![1] != "") {
-                                        return CachedNetworkImage(
-                                          imageUrl: text.data![1],
-                                          fit: BoxFit.fill,
-                                        );
-                                      } else {
-                                        return Container();
-                                      }
-                                    }),
+                                          initialData: const ["", ""],
+                                          future: getBookDetails(post
+                                              .bookId[index].keys
+                                              .elementAt(0)),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<List<dynamic>>
+                                                  text) {
+                                            if (text.data![1] != "") {
+                                              return CachedNetworkImage(
+                                                imageUrl: text.data![1],
+                                                fit: BoxFit.fill,
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
+                                          }),
                                     ),
                                   ),
                                 ),
@@ -174,18 +175,19 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         FutureBuilder<List<dynamic>>(
-                                        future:
-                                            getBookDetails(post.bookId[index].keys
+                                            future: getBookDetails(post
+                                                .bookId[index].keys
                                                 .elementAt(0)),
-                                        initialData: const [" ", " "],
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<List<dynamic>> text) {
-                                          return Text(text.data![0],
-                                              style: GoogleFonts.ubuntu(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold));
-                                        }),
-                                       
+                                            initialData: const [" ", " "],
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<List<dynamic>>
+                                                    text) {
+                                              return Text(text.data![0],
+                                                  style: GoogleFonts.ubuntu(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold));
+                                            }),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -241,7 +243,7 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
                                             //     ),
                                             //   ),
                                             // ),
-                                            
+
                                             InkWell(
                                               onTap: () async {
                                                 await BookStatus()
@@ -282,7 +284,7 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    "Book returned",
+                                                    "Mark as returned",
                                                     style: GoogleFonts.ubuntu(
                                                       fontSize: 20,
                                                       color: Colors.white,

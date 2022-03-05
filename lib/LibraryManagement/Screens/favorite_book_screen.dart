@@ -97,7 +97,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
         : Scaffold(
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-              title: Text("Favorites",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white),),
+              title: const Text("Favorites",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white),),
               centerTitle: true,
               actions: [
                 Padding(
@@ -185,7 +185,7 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                           imageUrl: "${m[index]['bookPic'][0]}",
                                           fit: BoxFit.contain,
                                           placeholder: (context, url) =>  Lottie.asset("assets/loadpaperplane.json"),
-                                          errorWidget: (context, url, error) => new Icon(Icons.error),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error),
                                         )
                                     ),
                                   ],

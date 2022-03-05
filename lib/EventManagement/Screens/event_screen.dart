@@ -46,7 +46,6 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
 
   @override
   Future<void> didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     bool result = await InternetConnectionChecker().hasConnection;
     if(result == true) {
@@ -63,7 +62,7 @@ class _EventScreenState extends ConsumerState<EventScreen> with SingleTickerProv
     }
   }
 
-  var u;
+  dynamic u;
 
   @override
   void initState() {

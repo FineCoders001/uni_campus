@@ -33,7 +33,6 @@ class _StyledImageState extends State<StyledImage> {
 
   @override
   Future<void> didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     bool result = await InternetConnectionChecker().hasConnection;
     if(result == true) {
@@ -118,7 +117,7 @@ class _StyledImageState extends State<StyledImage> {
                     CachedNetworkImage(
                       imageUrl: "${widget.imageUrl[index]}",
                       placeholder: (context, url) =>  Lottie.asset("assets/loadpaperplane.json"),
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     )
                         : Lottie.asset("assets/noInternetConnection.json"));
               },

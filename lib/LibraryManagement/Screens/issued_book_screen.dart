@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,18 @@ class _IssuedBookScreenState extends State<IssuedBookScreen> {
   late List<Widget> tabPages;
   late PageController _pageController;
   @override
+  void didChangeDependencies() {
+    EditRequest().deleteOldRequest();
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    EditRequest().deleteOldRequest();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     tabPages = [
       PendingRequestScreen(
@@ -36,6 +47,8 @@ class _IssuedBookScreenState extends State<IssuedBookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+        centerTitle: true,
         title: const Text("My Issued Book"),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -105,7 +118,6 @@ class _PendingRequestScreenState extends State<PendingRequestScreen> {
           }
           return current;
         });
-
         cancel = timer.listen((data) {});
         pendingData = value.data() as Map<String, dynamic>;
         if (mounted) {
@@ -144,96 +156,116 @@ class _PendingRequestScreenState extends State<PendingRequestScreen> {
             )
           : Column(
               children: [
-                SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: pendingData['bookId'].length,
-                      itemBuilder: (context, index) {
-                        return isLoading == false
-                            ? SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.94,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0.0),
-                                  ),
-                                  color: Colors.white,
-                                  elevation: 1,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: SizedBox(
-                                          height: 150,
-                                          width: 100,
-                                          child: Center(
-                                            child: FutureBuilder<List<dynamic>>(
-                                                initialData: const ["", ""],
-                                                future: getBookDetails(
-                                                    pendingData['bookId'][index]
-                                                        .keys
-                                                        .elementAt(0)),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<List<dynamic>>
-                                                        text) {
-                                                  if (text.data![1] != "") {
-                                                    return CachedNetworkImage(
-                                                      imageUrl: text.data![1],
-                                                      fit: BoxFit.fill,
-                                                    );
-                                                  } else {
-                                                    return Container();
-                                                  }
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SizedBox(
-                                          height: 100,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              FutureBuilder<List<dynamic>>(
-                                                future: getBookDetails(
-                                                    pendingData['bookId'][index]
-                                                        .keys
-                                                        .elementAt(0)),
-                                                initialData: const [" ", " "],
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<List<dynamic>>
-                                                        text) {
-                                                  return Text(text.data![0],
-                                                      style: GoogleFonts.ubuntu(
-                                                          fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.bold));
-                                                },
-                                              ),
-                                              Text(
-                                                "Time Left: ${DateTime.fromMillisecondsSinceEpoch(pendingData['bookId'][index][pendingData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(hours: 24)).difference(DateTime.now()).toString().split('.')[0]}",
-                                                style: GoogleFonts.ubuntu(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: pendingData['bookId'].length,
+                    itemBuilder: (context, index) {
+                      var time = DateTime.fromMillisecondsSinceEpoch(
+                              pendingData['bookId'][index]
+                                      .values
+                                      .elementAt(0)
+                                      .seconds *
+                                  1000)
+                          .add(const Duration(hours: 24))
+                          .difference(DateTime.now());
+                      if (time.inSeconds < 0) {
+                        WidgetsBinding.instance?.addPostFrameCallback((_) {
+                          pendingData['bookId'].removeAt(index);
+                        });
+                      }
+                      return isLoading == false
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.94,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0.0),
                                 ),
-                              )
-                            : const ListTile(title: Text("Loading"));
-                      },
-                    ),
+                                color: Colors.white,
+                                elevation: 1,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: SizedBox(
+                                        height: 150,
+                                        width: 100,
+                                        child: Center(
+                                          child: FutureBuilder<List<dynamic>>(
+                                              initialData: const ["", ""],
+                                              future: getBookDetails(
+                                                  pendingData['bookId'][index]
+                                                      .keys
+                                                      .elementAt(0)),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<List<dynamic>>
+                                                      text) {
+                                                if (text.data![1] != "") {
+                                                  return CachedNetworkImage(
+                                                    imageUrl: text.data![1],
+                                                    fit: BoxFit.fill,
+                                                  );
+                                                } else {
+                                                  return Container();
+                                                }
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 100,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            FutureBuilder<List<dynamic>>(
+                                              future: getBookDetails(
+                                                  pendingData['bookId'][index]
+                                                      .keys
+                                                      .elementAt(0)),
+                                              initialData: const [" ", " "],
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<List<dynamic>>
+                                                      text) {
+                                                return Text(text.data![0],
+                                                    style: GoogleFonts.ubuntu(
+                                                        fontSize: 25,
+                                                        fontWeight:
+                                                            FontWeight.bold));
+                                              },
+                                            ),
+                                            time.inSeconds > 0
+                                                ? Text(
+                                                    "Time Left: ${time.toString().split('.')[0]}",
+                                                    style: GoogleFonts.ubuntu(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    "Time Up",
+                                                    style: GoogleFonts.ubuntu(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : const ListTile(title: Text("Loading"));
+                    },
                   ),
                 ),
               ],
@@ -323,123 +355,131 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
             )
           : Column(
               children: [
-                SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: approvedData['bookId'].length,
-                      itemBuilder: (context, index) {
-                        return isLoading == false
-                            ? SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.94,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0.0),
-                                  ),
-                                  color: Colors.white,
-                                  elevation: 1,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: SizedBox(
-                                          height: 150,
-                                          width: 100,
-                                          child: Center(
-                                            child: FutureBuilder<List<dynamic>>(
-                                                initialData: const ["", ""],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: approvedData['bookId'].length,
+                    itemBuilder: (context, index) {
+                      var status =
+                          approvedData['bookId'][index].values.elementAt(0);
+                      if (status != "Rejected") {
+                        status = DateTime.fromMillisecondsSinceEpoch(
+                                approvedData['bookId'][index]
+                                        .values
+                                        .elementAt(0)
+                                        .seconds *
+                                    1000)
+                            .add(const Duration(days: 7))
+                            .difference(DateTime.now());
+                      }
+
+                      return isLoading == false
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.94,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
+                                color: Colors.white,
+                                elevation: 1,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: SizedBox(
+                                        height: 150,
+                                        width: 100,
+                                        child: Center(
+                                          child: FutureBuilder<List<dynamic>>(
+                                              initialData: const ["", ""],
+                                              future: getBookDetails(
+                                                  approvedData['bookId'][index]
+                                                      .keys
+                                                      .elementAt(0)),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<List<dynamic>>
+                                                      text) {
+                                                if (text.data![1] != "") {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            5.0),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: text.data![1],
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Container();
+                                                }
+                                              }),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 150,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              FutureBuilder<List<dynamic>>(
                                                 future: getBookDetails(
                                                     approvedData['bookId']
                                                             [index]
                                                         .keys
                                                         .elementAt(0)),
+                                                initialData: const [" ", " "],
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<List<dynamic>>
                                                         text) {
-                                                  if (text.data![1] != "") {
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: text.data![1],
-                                                        fit: BoxFit.fill,
+                                                  return Text(text.data![0],
+                                                      style: GoogleFonts.ubuntu(
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.bold));
+                                                },
+                                              ),
+                                              status == "Rejected"
+                                                  ? Text(
+                                                      "Reissue Rejected. Please return the book to the Library.",
+                                                      style: GoogleFonts.ubuntu(
+                                                        color: Colors.redAccent,
+                                                        fontSize: 18,
                                                       ),
-                                                    );
-                                                  } else {
-                                                    return Container();
-                                                  }
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: SizedBox(
-                                          height: 150,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                FutureBuilder<List<dynamic>>(
-                                                  future: getBookDetails(
-                                                      approvedData['bookId']
-                                                              [index]
-                                                          .keys
-                                                          .elementAt(0)),
-                                                  initialData: const [" ", " "],
-                                                  builder:
-                                                      (BuildContext context,
-                                                          AsyncSnapshot<
-                                                                  List<dynamic>>
-                                                              text) {
-                                                    return Text(text.data![0],
-                                                        style:
-                                                            GoogleFonts.ubuntu(
-                                                                fontSize: 25,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold));
-                                                  },
-                                                ),
-                                                Text(
-                                                  "Time Left: ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inDays} days ${DateTime.fromMillisecondsSinceEpoch(approvedData['bookId'][index][approvedData['bookId'][index].keys.elementAt(0)].seconds * 1000).add(const Duration(days: 7)).difference(DateTime.now()).inHours % 24} hours",
-                                                  style: GoogleFonts.ubuntu(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                FutureBuilder<String>(
-                                                    initialData: "Not yet",
-                                                    future: reissueStatus(
-                                                        DateTime.fromMillisecondsSinceEpoch(
-                                                            approvedData['bookId']
-                                                                        [index][approvedData['bookId'][
-                                                                            index]
-                                                                        .keys
-                                                                        .elementAt(
-                                                                            0)]
-                                                                    .seconds *
-                                                                1000),
-                                                        approvedData['bookId']
-                                                                [index]
-                                                            .keys
-                                                            .elementAt(0),
-                                                        widget.user['enroll']),
-                                                    builder: (BuildContext context,
-                                                        AsyncSnapshot<String> check) {
-                                                      if (check.data ==
-                                                          "Reissue") {
-                                                        return Center(
-                                                          child: InkWell(
-                                                            onTap: () async {
-                                                              await EditRequest().reissueBook(
+                                                    )
+                                                  : Text(
+                                                      "Time Left: ${status.inDays} days ${status.inHours % 24} hours",
+                                                      style: GoogleFonts.ubuntu(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                              FutureBuilder<String>(
+                                                initialData: "Not yet",
+                                                future: reissueStatus(
+                                                    status,
+                                                    approvedData['bookId']
+                                                            [index]
+                                                        .keys
+                                                        .elementAt(0),
+                                                    widget.user['enroll']),
+                                                builder: (BuildContext context,
+                                                    AsyncSnapshot<String>
+                                                        check) {
+                                                  if (check.data == "Reissue") {
+                                                    return Center(
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          await EditRequest()
+                                                              .reissueBook(
                                                                   approvedData[
                                                                               'bookId']
                                                                           [
@@ -447,65 +487,57 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                                                                       .keys
                                                                       .elementAt(
                                                                           0),
-                                                                  widget.user[
-                                                                      'enroll']);
-                                                              setState(() {
-                                                                isReissued =
-                                                                    true;
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              decoration: const BoxDecoration(
-                                                                  color: Colors
-                                                                      .blueAccent,
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              4))),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child: Text(
-                                                                  "Reissue",
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .ubuntu(
-                                                                    fontSize:
-                                                                        20,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                                  widget.user);
+                                                          setState(() {
+                                                            isReissued = true;
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          decoration: const BoxDecoration(
+                                                              color: Colors
+                                                                  .blueAccent,
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          4))),
+                                                          child: Text(
+                                                            "Reissue",
+                                                            style: GoogleFonts
+                                                                .ubuntu(
+                                                              fontSize: 20,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           ),
-                                                        );
-                                                      } else if (check.data ==
-                                                          "Reissued") {
-                                                        return Text(
-                                                          "Requested for Reissue",
-                                                          style: GoogleFonts
-                                                              .ubuntu(
-                                                                  fontSize: 20),
-                                                        );
-                                                      } else {
-                                                        return Container();
-                                                      }
-                                                    }),
-                                              ],
-                                            ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  } else if (check.data ==
+                                                      "Reissued") {
+                                                    return Text(
+                                                      "Requested for Reissue",
+                                                      style: GoogleFonts.ubuntu(
+                                                          fontSize: 20),
+                                                    );
+                                                  } else {
+                                                    return Container();
+                                                  }
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            : const ListTile(title: Text("Loading"));
-                      },
-                    ),
+                              ),
+                            )
+                          : const ListTile(title: Text("Loading"));
+                    },
                   ),
                 ),
               ],
@@ -515,6 +547,9 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
 
   Future<String> reissueStatus(var time, String bookID, String enroll) async {
     bool status = await EditRequest().bookReissued(bookID, enroll);
+    if (time == "Rejected") {
+      return "Not yet";
+    }
     if ((time.add(const Duration(days: 7)).difference(DateTime.now()).inDays) <=
         1) {
       if (status == false) {

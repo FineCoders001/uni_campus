@@ -32,7 +32,6 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
 
   @override
   Future<void> didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     bool result = await InternetConnectionChecker().hasConnection;
     if(result == true) {
@@ -49,7 +48,7 @@ class _MyEventScreenState extends ConsumerState<MyEventScreen> {
     }
   }
 
-  var u;
+  dynamic u;
 
   show() async {
     await showDialog<void>(
