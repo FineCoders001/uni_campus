@@ -57,7 +57,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return ScreenUtilInit(
       //designSize: Size(411.42857142857144, 866.2857142857143),
       //minTextAdapt: true,
-      //splitScreenMode: true,
+      // splitScreenMode: true,
       designSize: const Size(360, 690),
       minTextAdapt: true,
       builder: () => MaterialApp(

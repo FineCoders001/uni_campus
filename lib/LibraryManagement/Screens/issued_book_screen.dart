@@ -353,194 +353,232 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
                 ),
               ),
             )
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: approvedData['bookId'].length,
-                    itemBuilder: (context, index) {
-                      var status =
-                          approvedData['bookId'][index].values.elementAt(0);
-                      if (status != "Rejected") {
-                        status = DateTime.fromMillisecondsSinceEpoch(
-                                approvedData['bookId'][index]
-                                        .values
-                                        .elementAt(0)
-                                        .seconds *
-                                    1000)
-                            .add(const Duration(days: 7))
-                            .difference(DateTime.now());
-                      }
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: approvedData['bookId'].length,
+                itemBuilder: (context, index) {
+                  var status =
+                      approvedData['bookId'][index].values.elementAt(0);
 
-                      return isLoading == false
-                          ? SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.94,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(0.0),
+                  if (status != "Rejected") {
+                    status = DateTime.fromMillisecondsSinceEpoch(
+                            approvedData['bookId'][index]
+                                    .values
+                                    .elementAt(0)
+                                    .seconds *
+                                1000)
+                        .add(const Duration(days: 7))
+                        .difference(DateTime.now());
+                  }
+                  return isLoading == false
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.94,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                            ),
+                            color: Colors.white,
+                            elevation: 1,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: SizedBox(
+                                    height: 150,
+                                    width: 100,
+                                    child: Center(
+                                      child: FutureBuilder<List<dynamic>>(
+                                          initialData: const ["", ""],
+                                          future: getBookDetails(
+                                              approvedData['bookId'][index]
+                                                  .keys
+                                                  .elementAt(0)),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<List<dynamic>>
+                                                  text) {
+                                            if (text.data![1] != "") {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: text.data![1],
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
+                                          }),
+                                    ),
+                                  ),
                                 ),
-                                color: Colors.white,
-                                elevation: 1,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: SizedBox(
-                                        height: 150,
-                                        width: 100,
-                                        child: Center(
-                                          child: FutureBuilder<List<dynamic>>(
-                                              initialData: const ["", ""],
-                                              future: getBookDetails(
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          FutureBuilder<List<dynamic>>(
+                                            future: getBookDetails(
+                                                approvedData['bookId'][index]
+                                                    .keys
+                                                    .elementAt(0)),
+                                            initialData: const [" ", " "],
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<List<dynamic>>
+                                                    text) {
+                                              return Text(text.data![0],
+                                                  style: GoogleFonts.ubuntu(
+                                                      fontSize: 25,
+                                                      fontWeight:
+                                                          FontWeight.bold));
+                                            },
+                                          ),
+                                          FutureBuilder<String>(
+                                              initialData: "loading",
+                                              future: reissueStatus(
+                                                  status,
                                                   approvedData['bookId'][index]
                                                       .keys
-                                                      .elementAt(0)),
+                                                      .elementAt(0),
+                                                  widget.user['enroll']),
                                               builder: (BuildContext context,
-                                                  AsyncSnapshot<List<dynamic>>
-                                                      text) {
-                                                if (text.data![1] != "") {
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            5.0),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: text.data![1],
-                                                      fit: BoxFit.fill,
+                                                  AsyncSnapshot<String> check) {
+                                                if (check.data == "Rejected") {
+                                                  return Text(
+                                                    "Reissue Rejected. Please return the book to the Library.",
+                                                    style: GoogleFonts.ubuntu(
+                                                      color: Colors.redAccent,
+                                                      fontSize: 18,
+                                                    ),
+                                                  );
+                                                } else if (check.data ==
+                                                    "Time Up") {
+                                                  return Text(
+                                                    "Time up. Please return the book to the Library.",
+                                                    style: GoogleFonts.ubuntu(
+                                                      color: Colors.redAccent,
+                                                      fontSize: 18,
+                                                    ),
+                                                  );
+                                                } else if (check.data ==
+                                                    "Reissue") {
+                                                  return Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 150,
+                                                          child: Text(
+                                                            "Time Left: \n${status.inDays} days ${status.inHours % 24} hours",
+                                                            style: GoogleFonts
+                                                                .ubuntu(
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            await EditRequest()
+                                                                .reissueBook(
+                                                                    approvedData['bookId']
+                                                                            [
+                                                                            index]
+                                                                        .keys
+                                                                        .elementAt(
+                                                                            0),
+                                                                    widget
+                                                                        .user);
+                                                            setState(() {
+                                                              isReissued = true;
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            decoration: const BoxDecoration(
+                                                                color: Colors
+                                                                    .blueAccent,
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            4))),
+                                                            child: Text(
+                                                              "Reissue",
+                                                              style: GoogleFonts
+                                                                  .ubuntu(
+                                                                fontSize: 20,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                } else if (check.data ==
+                                                    "Reissued") {
+                                                  return Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Time Left: ${status.inDays} days ${status.inHours % 24} hours",
+                                                        style:
+                                                            GoogleFonts.ubuntu(
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5.0),
+                                                        child: Text(
+                                                          "Requested for Reissue",
+                                                          style: GoogleFonts
+                                                              .ubuntu(
+                                                                  fontSize: 20,
+                                                                  color: Colors
+                                                                      .green),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                } else if (check.data ==
+                                                    "Not Yet") {
+                                                  return Text(
+                                                    "Time Left: ${status.inDays} days ${status.inHours % 24} hours",
+                                                    style: GoogleFonts.ubuntu(
+                                                      fontSize: 20,
                                                     ),
                                                   );
                                                 } else {
                                                   return Container();
                                                 }
                                               }),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                    Expanded(
-                                      child: SizedBox(
-                                        height: 150,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              FutureBuilder<List<dynamic>>(
-                                                future: getBookDetails(
-                                                    approvedData['bookId']
-                                                            [index]
-                                                        .keys
-                                                        .elementAt(0)),
-                                                initialData: const [" ", " "],
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<List<dynamic>>
-                                                        text) {
-                                                  return Text(text.data![0],
-                                                      style: GoogleFonts.ubuntu(
-                                                          fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.bold));
-                                                },
-                                              ),
-                                              status == "Rejected"
-                                                  ? Text(
-                                                      "Reissue Rejected. Please return the book to the Library.",
-                                                      style: GoogleFonts.ubuntu(
-                                                        color: Colors.redAccent,
-                                                        fontSize: 18,
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      "Time Left: ${status.inDays} days ${status.inHours % 24} hours",
-                                                      style: GoogleFonts.ubuntu(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                              FutureBuilder<String>(
-                                                initialData: "Not yet",
-                                                future: reissueStatus(
-                                                    status,
-                                                    approvedData['bookId']
-                                                            [index]
-                                                        .keys
-                                                        .elementAt(0),
-                                                    widget.user['enroll']),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<String>
-                                                        check) {
-                                                  if (check.data == "Reissue") {
-                                                    return Center(
-                                                      child: InkWell(
-                                                        onTap: () async {
-                                                          await EditRequest()
-                                                              .reissueBook(
-                                                                  approvedData[
-                                                                              'bookId']
-                                                                          [
-                                                                          index]
-                                                                      .keys
-                                                                      .elementAt(
-                                                                          0),
-                                                                  widget.user);
-                                                          setState(() {
-                                                            isReissued = true;
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          decoration: const BoxDecoration(
-                                                              color: Colors
-                                                                  .blueAccent,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          4))),
-                                                          child: Text(
-                                                            "Reissue",
-                                                            style: GoogleFonts
-                                                                .ubuntu(
-                                                              fontSize: 20,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  } else if (check.data ==
-                                                      "Reissued") {
-                                                    return Text(
-                                                      "Requested for Reissue",
-                                                      style: GoogleFonts.ubuntu(
-                                                          fontSize: 20),
-                                                    );
-                                                  } else {
-                                                    return Container();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          : const ListTile(title: Text("Loading"));
-                    },
-                  ),
-                ),
-              ],
+                              ],
+                            ),
+                          ),
+                        )
+                      : const ListTile(title: Text("Loading"));
+                },
+              ),
             ),
     );
   }
@@ -548,16 +586,16 @@ class _ApprovedRequestScreenState extends State<ApprovedRequestScreen> {
   Future<String> reissueStatus(var time, String bookID, String enroll) async {
     bool status = await EditRequest().bookReissued(bookID, enroll);
     if (time == "Rejected") {
-      return "Not yet";
-    }
-    if ((time.add(const Duration(days: 7)).difference(DateTime.now()).inDays) <=
-        1) {
-      if (status == false) {
-        return "Reissue";
-      }
+      return "Rejected";
+    } else if ((time.inSeconds) <= 0) {
+      return "Time Up";
+    } else if ((time.inDays) <= 1 && status == false) {
+      return "Reissue";
+    } else if ((time.inDays) <= 1 && status == true) {
       return "Reissued";
+    } else {
+      return "Not Yet";
     }
-    return "Not yet";
   }
 
   Future<List<dynamic>> getBookDetails(String bookId) async {
