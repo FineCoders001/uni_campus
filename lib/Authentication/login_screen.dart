@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     econ.dispose();
     pcin.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: const Color.fromARGB(255, 73, 128, 255),
+            color: const Color.fromARGB(255, 2, 229, 202),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
               child: Text(
@@ -73,7 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50.0, vertical: 10),
-                          child: Image.asset("assets/images/Login.png"),
+                          child: Image.asset(
+                              "assets/images/OnBoardingImages/Login.jpg"),
                         ),
                       ),
                       Column(
@@ -98,12 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: "Email",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 73, 128, 255),
+                                      color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 73, 128, 255),
+                                      color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
                                 ),
                               ),
@@ -132,12 +134,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: "Password",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 73, 128, 255),
+                                      color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 73, 128, 255),
+                                      color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
                                 ),
                               ),
@@ -162,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: GoogleFonts.ubuntu(
                                   fontSize: 15,
                                   color:
-                                      const Color.fromARGB(255, 73, 128, 255)),
+                                      const Color.fromARGB(255, 2, 229, 202)),
                             ),
                           ),
                         ),
@@ -180,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: MediaQuery.of(context).size.width,
                             alignment: Alignment.center,
                             decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 73, 128, 255),
+                                color: Color.fromARGB(255, 2, 229, 202),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
                             child: Padding(
@@ -199,8 +201,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: () async => {
-                        await Navigator.pushAndRemoveUntil(context,
-                        MaterialPageRoute(builder: (_) =>  const RegistrationScreen()), (_) => false)
+                          await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const RegistrationScreen()),
+                              (_) => false)
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

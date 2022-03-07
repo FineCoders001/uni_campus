@@ -7,6 +7,7 @@ import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/all_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
+import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 import 'package:uni_campus/main.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen_admin.dart';
 import 'package:uni_campus/EventManagement/Screens/event_screen.dart';
@@ -38,10 +39,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     fetchTask();
   }
+
   @override
-  void didChangeDependencies() async{
+  void didChangeDependencies() async {
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);
@@ -57,42 +60,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
-                bigCard(
-                  context,
-                  "Library Management Admin",
-                  Icons.local_library_outlined,
-                  [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const ApproveBookRequestAdminScreen(),
-                          ),
-                        );
-                      },
-                      child: containerForGridview("Approve Book",
-                          const Color.fromARGB(255, 82, 72, 200)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const IssuedBookAdminScreen(),
-                          ),
-                        );
-                      },
-                      child: containerForGridview("Issued Book",
-                          const Color.fromARGB(255, 82, 72, 200)),
-                    ),
-                  ],
-                ),
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
-                  
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -112,12 +81,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              IssuedBookScreen( user: user),
+                              IssuedBookScreen(user: user),
                         ),
                       );
                     },
-                    child: containerForGridview(
-                        "My Issued Book", const Color.fromARGB(255, 82, 72, 200)),
+                    child: containerForGridview("My Issued Book",
+                        const Color.fromARGB(255, 82, 72, 200)),
                   ),
                 ]),
                 bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
@@ -131,6 +100,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ]),
                 bigCard(context, "Event", Icons.event_outlined, [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const ApproveEventScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                      "Approve Events Admin",
+                      Colors.orange,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const CreateEventScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                      "Request Events",
+                      Colors.orange,
+                    ),
+                  ),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -203,6 +202,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ],
                 ),
+                bigCard(
+                  context,
+                  "Library Management Admin",
+                  Icons.local_library_outlined,
+                  [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const ApproveBookRequestAdminScreen(),
+                          ),
+                        );
+                      },
+                      child: containerForGridview("Approve Book",
+                          const Color.fromARGB(255, 82, 72, 200)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const IssuedBookAdminScreen(),
+                          ),
+                        );
+                      },
+                      child: containerForGridview("Issued Book",
+                          const Color.fromARGB(255, 82, 72, 200)),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AllBookScreen(),
+                          ),
+                        );
+                      },
+                      child: containerForGridview("Modify Books",
+                          const Color.fromARGB(255, 82, 72, 200)),
+                    ),
+                  ],
+                ),
               ],
             ),
       drawer: isloading == false
@@ -270,7 +315,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 ),
                                               )
                                             : const CircularProgressIndicator()
-                                        : buildImage(user['profilePicture'], user),
+                                        : buildImage(
+                                            user['profilePicture'], user),
                                     Column(
                                       children: [
                                         Text(
@@ -305,18 +351,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               child: buildItem(
                                   "My Profile", Icons.person_outline_outlined)),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const ApproveEventScreen(),
-                                  ),
-                                );
-                              },
-                              child: buildItem("Approve Events",
-                                  Icons.event_available_sharp)),
+                          // InkWell(
+                          //     onTap: () {
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (BuildContext context) =>
+                          //               const ApproveEventScreen(),
+                          //         ),
+                          //       );
+                          //     },
+                          //     child: buildItem("Approve Events",
+                          //         Icons.event_available_sharp)),
+
+                          // InkWell(
+                          //     onTap: () {
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (BuildContext context) =>
+                          //               const CreateEventScreen(),
+                          //         ),
+                          //       );
+                          //     },
+                          //     child: buildItem(
+                          //         "HomeScreen", Icons.event_available_sharp)),
 
                           InkWell(
                               onTap: () {
@@ -324,25 +383,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        const CreateEventScreen(),
+                                        const OnBoarding(),
                                   ),
                                 );
                               },
                               child: buildItem(
-                                  "HomeScreen", Icons.event_available_sharp)),
-
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const AllBookScreen(),
-                                  ),
-                                );
-                              },
-                              child: buildItem("AllbookScreen",
-                                  Icons.event_available_sharp)),
+                                  "OnBoarding", Icons.all_inclusive_rounded)),
                           // GestureDetector(
                           //   onTap: (() {
                           //     Navigator.push(

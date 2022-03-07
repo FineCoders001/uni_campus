@@ -83,8 +83,12 @@ flutter:
   assets:
     - assets/
     - assets/images/
-
-    
+    - assets/images/OnBoardingImages/Login.jpg
+    - assets/images/OnBoardingImages/Attendance.png
+    - assets/images/OnBoardingImages/E_library.jpg
+    - assets/images/OnBoardingImages/Event.jpg
+    - assets/images/OnBoardingImages/Exam.jpg
+    - assets/images/OnBoardingImages/ToDo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

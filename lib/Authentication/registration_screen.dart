@@ -56,7 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  color: const Color.fromARGB(255, 73, 128, 255),
+                  color: const Color.fromARGB(255, 2, 229, 202),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 50),
@@ -93,7 +93,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 50.0, vertical: 10),
-                              child: Image.asset("assets/images/Login.png"),
+                              child: Image.asset(
+                                  "assets/images/OnBoardingImages/Login.jpg"),
                             ),
                             Column(
                               children: [
@@ -108,13 +109,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromARGB(
-                                                255, 73, 128, 255),
+                                                255, 2, 229, 202),
                                             width: 2.5),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromARGB(
-                                                255, 73, 128, 255),
+                                                255, 2, 229, 202),
                                             width: 2.5),
                                       ),
                                     ),
@@ -136,13 +137,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromARGB(
-                                                255, 73, 128, 255),
+                                                255, 2, 229, 202),
                                             width: 2.5),
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromARGB(
-                                                255, 73, 128, 255),
+                                                255, 2, 229, 202),
                                             width: 2.5),
                                       ),
                                     ),
@@ -186,7 +187,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   width: MediaQuery.of(context).size.width,
                                   alignment: Alignment.center,
                                   decoration: const BoxDecoration(
-                                      color: Color.fromARGB(255, 73, 128, 255),
+                                      color: Color.fromARGB(255, 2, 229, 202),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10))),
                                   child: Padding(

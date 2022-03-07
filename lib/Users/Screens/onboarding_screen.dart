@@ -16,20 +16,38 @@ class _OnBoardingState extends State<OnBoarding> {
   //final _fkey = GlobalKey<FormState>;
   final List<Map<String, String>> l = [
     {
+      "title": "EXAMS",
+      "subtitle": "Time Table and Seating Arrangement.",
+      "info": "Of every upcoming Exams.",
+      "image": "assets/images/OnBoardingImages/Exam.jpg",
+    },
+    {
       "title": "EVENTS",
       "subtitle": "Know, Create and Participate.",
       "info": "Get information of events in your college.",
-      "image": "assets/images/Event.png",
+      "image": "assets/images/OnBoardingImages/Event.jpg",
     },
     {
       "title": "LIBRARY",
       "subtitle": "Issue, Request and Return.",
       "info": "Now Digitally..",
-      "image": "assets/images/Library.png",
+      "image": "assets/images/OnBoardingImages/E_library.jpg",
+    },
+    {
+      "title": "ATTENDANCE",
+      "subtitle": "Mark and Track your Attendance.",
+      "info": "Just by generating QR.",
+      "image": "assets/images/OnBoardingImages/Attendance.png",
+    },
+    {
+      "title": "TO-DO",
+      "subtitle": "Create your own To-Do list.",
+      "info": "Never forget anything.",
+      "image": "assets/images/OnBoardingImages/ToDo.jpg",
     },
     {
       "title": "AND MUCH MORE...",
-      "subtitle": "On your fingertips",
+      "subtitle": "On your fingertips.",
       "info": "Start now",
       "image": "assets/images/Login.png",
     },
@@ -135,13 +153,15 @@ class _OnBoardingState extends State<OnBoarding> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
-                                color: Color.fromARGB(255, 73, 128, 255),
+                                color: Color.fromARGB(255, 35, 201, 255),
                               ),
                               child: const Center(
                                   child: Text(
                                 "Start your journey",
                                 style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white),
                               )),
                             ),
                           )
@@ -804,7 +824,8 @@ AnimatedContainer _builddots(int index, int _currentpage) {
     duration: const Duration(milliseconds: 300),
     decoration: const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(50)),
-      color: Color.fromARGB(255, 73, 128, 255),
+      // color: Colors.redAccent
+      color: Color.fromARGB(255, 35, 201, 255),
     ),
     margin: const EdgeInsets.only(right: 5),
     height: 10,
