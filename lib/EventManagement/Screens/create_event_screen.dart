@@ -172,11 +172,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       elevation: 2,
                       child: Container(
                         decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/Card.png"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                            // image: DecorationImage(
+                            //   image: AssetImage("assets/images/Card.png"),
+                            //   fit: BoxFit.cover,
+                            // ),
+                            ),
                         child: Column(
                           children: [
                             Padding(
@@ -421,11 +421,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                     elevation: 5.0,
                     child: Container(
                       decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/Card.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          // image: DecorationImage(
+                          //   image: AssetImage("assets/images/Card.png"),
+                          //   fit: BoxFit.cover,
+                          // ),
+                          ),
                       child: Column(
                         children: [
                           Padding(
@@ -452,7 +452,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                 width: double.infinity,
                                 height: 50,
                                 child: Text(
-                                  "${months[selectedDate.month - 1]}${selectedDate.day}, ${selectedDate.year}",
+                                  "${months[selectedDate.month - 1]} ${selectedDate.day}, ${selectedDate.year}",
                                   style: const TextStyle(fontSize: 20),
                                 ),
                                 decoration: BoxDecoration(
@@ -551,23 +551,24 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                         },
                                       ),
                                     ),
-                                    DropdownButton<String>(
-                                      // ignore: unnecessary_null_comparison
-                                      hint: du == null
-                                          ? const Text("Select")
-                                          : Text(du),
-
-                                      items: <String>["Hour", "Day"]
-                                          .map((String v) {
-                                        return DropdownMenuItem(
-                                            value: v, child: Text(v));
-                                      }).toList(),
-
-                                      onChanged: (String? newdu) {
-                                        setState(() {
-                                          du = newdu as String;
-                                        });
-                                      },
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      color: Colors.white,
+                                      child: DropdownButton<String>(
+                                        underline: const SizedBox(),
+                                        hint: Text(du),
+                                        items: <String>["Hour", "Day"]
+                                            .map((String v) {
+                                          return DropdownMenuItem(
+                                              value: v, child: Text(v));
+                                        }).toList(),
+                                        onChanged: (String? newdu) {
+                                          setState(() {
+                                            du = newdu as String;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),

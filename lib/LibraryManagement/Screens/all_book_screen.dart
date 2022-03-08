@@ -40,13 +40,13 @@ class _AllBookScreenState extends State<AllBookScreen> {
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.symmetric(vertical: 20),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(5),
               color: Colors.white,
               boxShadow: const [
                 BoxShadow(
                   color: Colors.grey,
-                  offset: Offset(0.0, 1.0), //(x,y)
-                  blurRadius: 12.0,
+                  // offset: Offset(0.0, 1.0), //(x,y)
+                  blurRadius: 6.0,
                 ),
               ],
             ),
@@ -71,7 +71,7 @@ class _AllBookScreenState extends State<AllBookScreen> {
                           margin: const EdgeInsets.all(8),
                           //padding: EdgeInsets.all(8),
                           child: CircleAvatar(
-                            backgroundColor: Colors.yellow,
+                            backgroundColor: Colors.amberAccent,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
@@ -92,7 +92,10 @@ class _AllBookScreenState extends State<AllBookScreen> {
                                           'isInit': true
                                         });
                                   },
-                                  child: const Icon(Icons.edit)),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  )),
                             ),
                           )),
                       Container(
@@ -137,7 +140,10 @@ class _AllBookScreenState extends State<AllBookScreen> {
                                     ),
                                   );
                                 },
-                                child: const Icon(Icons.delete)),
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                )),
                           ),
                         ),
                       ),

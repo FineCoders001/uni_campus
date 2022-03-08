@@ -57,6 +57,7 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                   boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]),
               child: Center(
                 child: DropdownButton<String>(
+                  underline: const SizedBox(),
                   hint: examType == null
                       ? Text(
                           "Select Exam Type",

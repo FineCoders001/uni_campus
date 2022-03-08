@@ -146,42 +146,53 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //bookName.text="djjd";
     print("entered build ${book.bookPic.length}");
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+          elevation: 0,
+          centerTitle: true,
+          title: arguments['isInit'] == true
+              ? const Text(
+                  "Edit Book Details",
+                  style: TextStyle(fontSize: 23),
+                )
+              : const Text(
+                  "Add Book Details",
+                  style: TextStyle(fontSize: 23),
+                ),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: 25,
+              )),
+        ),
         body: Container(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/Background.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
+                // image: DecorationImage(
+                //   image: AssetImage("assets/images/Background.png"),
+                //   fit: BoxFit.cover,
+                // ),
+                ),
             child: Form(
                 key: _form,
                 child: Padding(
                     padding:
                         const EdgeInsets.only(left: 10, right: 10, top: 20),
                     child: ListView(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                              onPressed: () => Navigator.pop(context),
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                // color: Colors.white,
-                              )),
-                        ],
-                      ),
                       Card(
                         elevation: 5,
                         child: Container(
                           decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/Card.png"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                              // image: DecorationImage(
+                              //   image: AssetImage("assets/images/Card.png"),
+                              //   fit: BoxFit.cover,
+                              // ),
+                              ),
                           child: Column(
                             children: [
                               Padding(
@@ -212,7 +223,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                         borderSide: BorderSide(
                                             color: Colors.grey, width: 2.5),
                                       ),
-                                      hintText: "bookName",
+                                      hintText: "Book Name",
                                     ),
                                     onFieldSubmitted: (_) {
                                       FocusScope.of(context)
@@ -296,7 +307,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    contentPadding: EdgeInsets.all(15),
                                     hintText: "Pages",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -340,7 +350,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
                                   //initialValue: _initValues['bookDepartment'],
                                   controller: bookDepartment,
@@ -389,7 +399,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
                                   // initialValue: _initValues['bookPublication'],
                                   controller: bookPublication,
@@ -439,7 +449,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
                                   //  initialValue: _initValues['isbnNumber'],
                                   focusNode: _bookISBNNode,
@@ -455,7 +465,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   decoration: const InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    hintText: "Isbn number",
+                                    hintText: "ISBN Number",
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color:
@@ -490,7 +500,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(12.0),
                                 child: TextFormField(
                                   // initialValue: _initValues['bookQuantity'],
                                   controller: bookQuantity,
@@ -637,14 +647,23 @@ class _AddBookScreenState extends State<AddBookScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
-                                    child: Text(
-                                      "Add Book",
-                                      style: GoogleFonts.ubuntu(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                    child: arguments['isInit'] == true
+                                        ? Text(
+                                            "Save Book Details",
+                                            style: GoogleFonts.ubuntu(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : Text(
+                                            "Add Book Details",
+                                            style: GoogleFonts.ubuntu(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                   ),
                                 ),
                               )

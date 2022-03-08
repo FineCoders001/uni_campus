@@ -60,6 +60,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: isloading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 bigCard(context, "Library Management",
                     Icons.local_library_outlined, [
