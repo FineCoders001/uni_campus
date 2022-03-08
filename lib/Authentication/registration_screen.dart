@@ -90,11 +90,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         key: _formkey,
                         child: ListView(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 50.0, vertical: 10),
-                              child: Image.asset(
-                                  "assets/images/OnBoardingImages/Login.jpg"),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.35,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 50.0, vertical: 10),
+                                child: Image.asset("assets/images/Login.jpg"),
+                              ),
                             ),
                             Column(
                               children: [

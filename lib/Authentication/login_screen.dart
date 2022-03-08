@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50.0, vertical: 10),
                           child: Image.asset(
-                              "assets/images/OnBoardingImages/Login.jpg"),
+                              "assets/images/Login.jpg"),
                         ),
                       ),
                       Column(

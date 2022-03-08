@@ -83,7 +83,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/images/OnBoardingImages/Login.jpg
+    - assets/images/OnBoardingImages/MuchMore.png
     - assets/images/OnBoardingImages/Attendance.png
     - assets/images/OnBoardingImages/E_library.jpg
     - assets/images/OnBoardingImages/Event.jpg

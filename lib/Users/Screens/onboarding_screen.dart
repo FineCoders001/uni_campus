@@ -49,7 +49,7 @@ class _OnBoardingState extends State<OnBoarding> {
       "title": "AND MUCH MORE...",
       "subtitle": "On your fingertips.",
       "info": "Start now",
-      "image": "assets/images/Login.png",
+      "image": "assets/images/OnBoardingImages/MuchMore.png",
     },
   ];
   final _controller = PageController();
@@ -145,11 +145,18 @@ class _OnBoardingState extends State<OnBoarding> {
                           //         child: Image.asset(l[index]["image"]!))),
                           GestureDetector(
                             onTap: () async {
-                              await Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const ProfileForm()),
-                                  (_) => false);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const HomeScreen(),
+                                ),
+                              );
+                              // await Navigator.pushAndRemoveUntil(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (_) => const ProfileForm()),
+                              //     (_) => false);
                             },
                             child: Container(
                               width: 3 * MediaQuery.of(context).size.width / 4,
