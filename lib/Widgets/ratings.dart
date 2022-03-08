@@ -68,7 +68,7 @@ class _RatingsState extends State<Ratings> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              color: const Color.fromRGBO(232, 207, 9, 0.9),
+              color: Colors.amberAccent,
               padding: const EdgeInsets.all(5),
               child: Row(
                 children: [
@@ -78,6 +78,7 @@ class _RatingsState extends State<Ratings> {
                       (num.toStringAsFixed(1)),
                       style: const TextStyle(
                         fontSize: 16,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),

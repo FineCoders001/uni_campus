@@ -63,7 +63,7 @@ class _RatingBarState extends State<RatingBar> {
 
     return widget.reviewed
         ? Card(
-            elevation: 5,
+            elevation: 3,
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),

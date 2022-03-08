@@ -85,6 +85,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         child: Column(
           children: [
             Container(
+              padding: const EdgeInsets.all(8),
               // height: 200,
               width: double.infinity,
               decoration: const BoxDecoration(

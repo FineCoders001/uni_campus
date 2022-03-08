@@ -58,10 +58,17 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   shadowColor: Colors.transparent,
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const Icon(
+              Icons.arrow_back_rounded,
+              size: 25,
+              color: Colors.black,
+            )),
+      ),
       backgroundColor: Colors.white,
       body: DefaultTextStyle(
         style: GoogleFonts.ubuntu(color: Colors.black, fontSize: 15),
@@ -78,8 +85,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       child: Column(
                         children: [
                           Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: 15, top: 100),
+                            padding: const EdgeInsets.only(bottom: 15, top: 50),
                             child: Text(l[index]["title"]!,
                                 style: const TextStyle(fontSize: 30)),
                           ),
@@ -112,8 +118,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       child: Column(
                         children: [
                           Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: 15, top: 100),
+                            padding: const EdgeInsets.only(bottom: 15, top: 50),
                             child: Text(l[index]["title"]!,
                                 style: const TextStyle(fontSize: 30)),
                           ),

@@ -7,6 +7,7 @@ import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/all_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
+import 'package:uni_campus/Profile/Screens/todo_list.dart';
 import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 import 'package:uni_campus/main.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen_admin.dart';
@@ -389,6 +390,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               child: buildItem(
                                   "OnBoarding", Icons.all_inclusive_rounded)),
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const TodoList(),
+                                  ),
+                                );
+                              },
+                              child: buildItem(
+                                  "To-Do List", Icons.checklist_rtl_outlined)),
                           // GestureDetector(
                           //   onTap: (() {
                           //     Navigator.push(

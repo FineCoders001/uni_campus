@@ -106,15 +106,25 @@ class _BookHomeScreenState extends State<BookHomeScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 5,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: const Color.fromARGB(255, 82, 72, 200)),
-                                  padding: const EdgeInsets.all(15),
+                                    borderRadius: BorderRadius.circular(3),
+                                    border: Border.all(
+                                        width: 5,
+                                        color: const Color.fromARGB(
+                                            255, 82, 72, 200)),
+                                  ),
                                   child: GridTile(
-                                    child: CachedNetworkImage(
-                                      imageUrl: snapshot.docs[index]["bookPic"]
-                                          [0],
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) => Center(child: Lottie.asset("assets/loadpaperplane.json"),)
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: snapshot.docs[index]
+                                            ["bookPic"][0],
+                                        fit: BoxFit.fitWidth,
+                                        placeholder: (context, url) => Center(
+                                          child: Lottie.asset(
+                                              "assets/loadpaperplane.json"),
+                                        ),
+                                      ),
                                     ),
                                     footer: GridTileBar(
                                       backgroundColor: Colors.black87,

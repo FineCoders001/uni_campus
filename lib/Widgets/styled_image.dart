@@ -24,8 +24,8 @@ class _StyledImageState extends State<StyledImage> {
           activeIndex: activeIndex,
           count: widget.imageUrl.length,
           effect: const SwapEffect(
-              dotColor: Colors.blue,
-              activeDotColor: Colors.white,
+              dotColor: Color.fromARGB(150, 82, 72, 200),
+              activeDotColor: Color.fromARGB(255, 82, 72, 200),
               dotHeight: 13,
               dotWidth: 13),
         ),
@@ -35,24 +35,22 @@ class _StyledImageState extends State<StyledImage> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
     bool result = await InternetConnectionChecker().hasConnection;
-    if(result == true) {
+    if (result == true) {
       setState(() {
-        hasInternet=true;
+        hasInternet = true;
       });
       print('YAY! Free cute dog pics!');
     } else {
       setState(() {
-        hasInternet=false;
+        hasInternet = false;
       });
       print('No internet :( Reason:');
-
     }
   }
 
   @override
   void initState() {
     super.initState();
-
 
     InternetConnectionChecker().onStatusChange.listen((status) {
       print("status is $status");
@@ -76,55 +74,62 @@ class _StyledImageState extends State<StyledImage> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(50),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color.fromARGB(255, 82, 72, 200),
+            width: 5,
           ),
-          color: Colors.black12),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 9,
-            child: CarouselSlider.builder(
-              options: CarouselOptions(
-                  height: (MediaQuery.of(context).size.height) * 0.6,
-                  autoPlay: true,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: false,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      activeIndex = index;
-                    });
-                  }),
-              itemCount: widget.imageUrl.length,
-              itemBuilder: (context, index, realindex) {
-                return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 30),
-                    //width:300,
-                    color: Colors.grey,
-                    child: hasInternet
-                        ?
-                            // : Image.network(
-                            //     widget.imageUrl[index],
-                            //     fit: BoxFit.cover,
-                            //
-                            //   )
-                    CachedNetworkImage(
-                      imageUrl: "${widget.imageUrl[index]}",
-                      placeholder: (context, url) =>  Lottie.asset("assets/loadpaperplane.json"),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
-                    )
-                        : Lottie.asset("assets/noInternetConnection.json"));
-              },
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 8,
+              child: CarouselSlider.builder(
+                options: CarouselOptions(
+                    height: (MediaQuery.of(context).size.height) * 0.5,
+                    autoPlay: true,
+                    viewportFraction: 1,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activeIndex = index;
+                      });
+                    }),
+                itemCount: widget.imageUrl.length,
+                itemBuilder: (context, index, realindex) {
+                  return Container(
+                      margin: const EdgeInsets.symmetric(vertical: 30),
+                      //width:300,
+                      color: Colors.grey,
+                      child: hasInternet
+                          ?
+                          // : Image.network(
+                          //     widget.imageUrl[index],
+                          //     fit: BoxFit.cover,
+                          //
+                          //   )
+                          CachedNetworkImage(
+                              imageUrl: "${widget.imageUrl[index]}",
+                              placeholder: (context, url) =>
+                                  Lottie.asset("assets/loadpaperplane.json"),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            )
+                          : Lottie.asset("assets/noInternetConnection.json"));
+                },
+              ),
             ),
-          ),
-          Expanded(flex: 1, child: buildIndicator()),
-        ],
+            Expanded(flex: 1, child: buildIndicator()),
+          ],
+        ),
       ),
     );
   }

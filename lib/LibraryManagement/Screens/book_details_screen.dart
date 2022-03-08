@@ -55,8 +55,6 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
     var arguments = ModalRoute.of(context)?.settings.arguments as Map;
     book = arguments['book'];
     getRating();
-
-
   }
 
   @override
@@ -99,85 +97,83 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(flex: 5, child: StyledImage(book['bookPic'])),
+            Expanded(flex: 4, child: StyledImage(book['bookPic'])),
             Expanded(
               flex: 4,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Card(
                     elevation: 3.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 25.0, vertical: 20),
-                              child: Text(
-                                book['bookName'],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 28,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 25.0, vertical: 20),
+                                child: Text(
+                                  book['bookName'],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 28,
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          Reviews(book['bookId']),
-                                    ),
-                                  );
-                                },
-                                child: Ratings(
-                                    book, m['ratings'], m['ratingsCount']))
-                          ],
-                        ),
-                        book['bookQuantity'] - book['issuedQuantity'] <= 0
-                            ? const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: SizedBox(
-                            width: double.infinity,
-
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Out Of Stock',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            Reviews(book['bookId']),
+                                      ),
+                                    );
+                                  },
+                                  child: Ratings(
+                                      book, m['ratings'], m['ratingsCount']))
+                            ],
                           ),
-                        )
-                            : const Padding(
-                              padding: EdgeInsets.symmetric(vertical:8.0),
-                              child: SizedBox(
-                                  width: double.infinity,
-
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Book In Stock',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.w500,
+                          book['bookQuantity'] - book['issuedQuantity'] <= 0
+                              ? const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Out Of Stock',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Book In Stock',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                            ),
-                        Card(
-                          elevation: 7,
-                          child: Padding(
+                          Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Column(
                               children: [
@@ -206,17 +202,17 @@ class _BookDetailsScreenState extends ConsumerState<BookDetailsScreen> {
                               ],
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RatingBar(
-                              double.parse(m['ratings'].toString()),
-                              double.parse(m['ratingsCount'].toString()),
-                              book['bookReviewedUsers'],
-                              book['bookId'],
-                              reviewed),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RatingBar(
+                                double.parse(m['ratings'].toString()),
+                                double.parse(m['ratingsCount'].toString()),
+                                book['bookReviewedUsers'],
+                                book['bookId'],
+                                reviewed),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -347,17 +343,16 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
 
     super.didChangeDependencies();
     bool result = await InternetConnectionChecker().hasConnection;
-    if(result == true) {
+    if (result == true) {
       setState(() {
-        hasInternet=true;
+        hasInternet = true;
       });
       print('YAY! Free cute dog pics!');
     } else {
       setState(() {
-        hasInternet=false;
+        hasInternet = false;
       });
       print('No internet :( Reason:');
-
     }
   }
 
