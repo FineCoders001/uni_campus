@@ -39,7 +39,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     user = await _auth.createUserWithEmailAndPassword(
         email: emailText.text.trim(), password: passwordText.text.trim());
     await Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (_) => const OnBoarding()), (_) => false);
+        MaterialPageRoute(builder: (_) => const ProfileForm()), (_) => false);
 
     setState(() {
       isLoading = false;

@@ -176,10 +176,9 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 100,
+                            width: 150,
                             child: Text(
                               "Department: ${post.deptName}",
-                              maxLines: 2,
                             ),
                           ),
                           Padding(
@@ -524,10 +523,9 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 100,
+                            width: 150,
                             child: Text(
                               "Department: ${post.deptName}",
-                              maxLines: 2,
                             ),
                           ),
                           Padding(

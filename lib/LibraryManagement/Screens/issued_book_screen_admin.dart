@@ -98,11 +98,16 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
                         style: GoogleFonts.ubuntu(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Department: ${post.deptName}"),
+                          SizedBox(
+                              width: 150,
+                              child: Text("Department: ${post.deptName}")),
                           Padding(
                             padding: const EdgeInsets.only(right: 25),
                             child: Text(post.enroll),
@@ -124,6 +129,7 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
+                primary: false,
                 shrinkWrap: true,
                 itemCount: post.bookId.length,
                 itemBuilder: (context, index) {
