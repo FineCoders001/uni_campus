@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
 import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 
-import '../Users/Screens/onboarding_screen.dart';
-
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -35,11 +33,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return;
     }
     // _formkey.currentState?.save();
-
-    user = await _auth.createUserWithEmailAndPassword(
-        email: emailText.text.trim(), password: passwordText.text.trim());
+    try {
+      user = await _auth.createUserWithEmailAndPassword(
+          email: emailText.text.trim(), password: passwordText.text.trim());
+      
     await Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (_) => const ProfileForm()), (_) => false);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 1),
+          content:
+              Text(e.toString().split("] ")[1], textAlign: TextAlign.center),
+        ),
+      );
+    }
 
     setState(() {
       isLoading = false;
@@ -103,6 +111,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please enter Email ID";
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                     controller: emailText,
                                     decoration: const InputDecoration(
                                       fillColor: Colors.white,
@@ -121,7 +136,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             width: 2.5),
                                       ),
                                     ),
-
                                     //validator: (value) => EmailValidator.validate(value!) ? null : "Please enter a valid email",
                                   ),
                                 ),
@@ -150,7 +164,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       ),
                                     ),
                                     validator: (value) {
-                                      if (value != null && value.length < 8) {
+                                      if (value == null || value.length < 8) {
                                         return "Password must be atleast 8 characters long";
                                       } else {
                                         return null;
@@ -160,22 +174,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 ),
                               ],
                             ),
-                            // GestureDetector(
-                            //   onTap: () => {},
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: Container(
-                            //       alignment: Alignment.centerRight,
-                            //       child: Text(
-                            //         "Forgot Password?",
-                            //         style: GoogleFonts.ubuntu(
-                            //             fontSize: 15,
-                            //             color:
-                            //                 const Color.fromARGB(255, 73, 128, 255)),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                             const SizedBox(
                               height: 10,
                             ),

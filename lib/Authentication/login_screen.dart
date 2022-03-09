@@ -74,8 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50.0, vertical: 10),
-                          child: Image.asset(
-                              "assets/images/Login.jpg"),
+                          child: Image.asset("assets/images/Login.jpg"),
                         ),
                       ),
                       Column(
@@ -88,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               //   user["email"] = value.toString();
                               // },
                               validator: (value) {
-                                if (value == null && value!.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   return "Please enter a valid email";
                                 } else {
                                   return null;
@@ -98,12 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fillColor: Colors.white,
                                 filled: true,
                                 hintText: "Email",
-                                focusedBorder: OutlineInputBorder(
+                                border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
                                 ),
                                 enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 2, 229, 202),
+                                      width: 2.5),
+                                ),
+                                focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
@@ -119,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               //   user["password"] = newValue.toString();
                               // },
                               validator: (value) {
-                                if (value == null && value!.isEmpty) {
+                                if (value == null || value.isEmpty) {
                                   return "Please enter a valid password";
                                 } else {
                                   return null;
@@ -132,12 +136,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fillColor: Colors.white,
                                 filled: true,
                                 hintText: "Password",
-                                focusedBorder: OutlineInputBorder(
+                                border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
                                 ),
                                 enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 2, 229, 202),
+                                      width: 2.5),
+                                ),
+                                focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color.fromARGB(255, 2, 229, 202),
                                       width: 2.5),
@@ -233,8 +242,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _submit() async {
     if (_fkey.currentState!.validate()) {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: econ.text, password: pcin.text);
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: econ.text.trim(), password: pcin.text.trim());
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 1),
+            content: Text(e.toString().split("] ")[1],
+                textAlign: TextAlign.center),
+          ),
+        );
+      }
     }
   }
 }

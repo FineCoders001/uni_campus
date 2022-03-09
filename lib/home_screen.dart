@@ -425,8 +425,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           InkWell(
                             child: buildItem("Logout", Icons.logout_outlined),
-                            onTap: () {
-                              FirebaseAuth.instance.signOut();
+                            onTap: () async {
+                              await FirebaseAuth.instance.signOut();
                             },
                           ),
                           InkWell(
