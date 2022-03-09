@@ -440,7 +440,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   .then((value) => {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            duration: Duration(seconds: 1),
+                            duration: Duration(milliseconds: 1500),
                             content:
                                 Text('Issued', textAlign: TextAlign.center),
                           ),
@@ -455,7 +455,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
                   .then((value) => {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            duration: Duration(seconds: 1),
+                            duration: Duration(milliseconds: 1500),
                             content: Text('Request Deleted',
                                 textAlign: TextAlign.center),
                           ),
@@ -467,7 +467,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
             } else if (isIssued == "Out of Stock") {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  duration: Duration(seconds: 1),
+                  duration: Duration(milliseconds: 1500),
                   content: Text('Out of Stock', textAlign: TextAlign.center),
                 ),
               );

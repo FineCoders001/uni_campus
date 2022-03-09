@@ -267,7 +267,8 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
                                                             .showSnackBar(
                                                           const SnackBar(
                                                             duration: Duration(
-                                                                seconds: 1),
+                                                                milliseconds:
+                                                                    1500),
                                                             content: Text(
                                                               'Book marked as returned',
                                                               textAlign:

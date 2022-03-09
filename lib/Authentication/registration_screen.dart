@@ -36,13 +36,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     try {
       user = await _auth.createUserWithEmailAndPassword(
           email: emailText.text.trim(), password: passwordText.text.trim());
-      
-    await Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (_) => const ProfileForm()), (_) => false);
+
+      await Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (_) => const ProfileForm()), (_) => false);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          duration: const Duration(seconds: 1),
+          duration: const Duration(milliseconds: 1500),
           content:
               Text(e.toString().split("] ")[1], textAlign: TextAlign.center),
         ),

@@ -286,7 +286,7 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                                                         .showSnackBar(
                                                       const SnackBar(
                                                         duration: Duration(
-                                                            seconds: 1),
+                                                            milliseconds: 1500),
                                                         content: Text(
                                                             'Book Rejected',
                                                             textAlign: TextAlign
@@ -340,7 +340,8 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           duration: Duration(
-                                                              seconds: 1),
+                                                              milliseconds:
+                                                                  1500),
                                                           content: Text(
                                                               'Book Approved',
                                                               textAlign:
@@ -629,7 +630,8 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           duration: Duration(
-                                                              seconds: 1),
+                                                              milliseconds:
+                                                                  1500),
                                                           content: Text(
                                                               'Book Approved',
                                                               textAlign:
@@ -682,7 +684,8 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                           .showSnackBar(
                                                         const SnackBar(
                                                           duration: Duration(
-                                                              seconds: 1),
+                                                              milliseconds:
+                                                                  1500),
                                                           content: Text(
                                                               'Book Approved',
                                                               textAlign:

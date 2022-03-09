@@ -1,7 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:uni_campus/SeatingManagement/Utils/files_io.dart';
@@ -294,12 +293,35 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                 },
                 onTap: () async {
                   if (examType == null) {
-                    Fluttertoast.showToast(msg: "Select Exam Type");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(milliseconds: 1500),
+                        content: Text(
+                          'Select Exam type',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
                   } else if (timeTable == null) {
-                    Fluttertoast.showToast(msg: "Select File for Time Table");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(milliseconds: 1500),
+                        content: Text(
+                          'Select File for Time Table',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
                   } else if (arrangement == null) {
-                    Fluttertoast.showToast(
-                        msg: "Select File for Seating Arrangement");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(milliseconds: 1500),
+                        content: Text(
+                          'Select File for Seating Arrangement',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
                   } else {
                     List<String> examTypes = [
                       "Mid Semester",
@@ -349,8 +371,18 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                               arrangement!,
                               "$examType/SeatingArrangement",
                               "SeatingArrangement.csv")
-                          .then((value) => Fluttertoast.showToast(
-                              msg: "Both Files Uploaded Successfully"));
+                          .then(
+                            (value) =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(milliseconds: 1500),
+                                content: Text(
+                                  'Both Files Uploaded Successfully',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          );
                     });
                   }
                 },

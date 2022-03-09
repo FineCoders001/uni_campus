@@ -248,9 +248,9 @@ class _LoginScreenState extends State<LoginScreen> {
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            duration: const Duration(seconds: 1),
-            content: Text(e.toString().split("] ")[1],
-                textAlign: TextAlign.center),
+            duration: const Duration(milliseconds: 1500),
+            content:
+                Text(e.toString().split("] ")[1], textAlign: TextAlign.center),
           ),
         );
       }
