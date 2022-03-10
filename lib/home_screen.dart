@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
@@ -50,208 +51,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);
     var user = data.user;
-
+    int width(BuildContext context) =>
+        MediaQuery.of(context).size.width.toInt();
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         centerTitle: true,
         title: const Text("UniCampus"),
         //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
       ),
-      body: isloading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                bigCard(context, "Library Management",
-                    Icons.local_library_outlined, [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const BookHomeScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              IssuedBookScreen(user: user),
-                        ),
-                      );
-                    },
-                    child: containerForGridview("My Issued Book",
-                        const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                ]),
-                bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
-                  containerForGridview(
-                    "Generate QR Code",
-                    const Color.fromARGB(255, 60, 138, 63),
-                  ),
-                  containerForGridview(
-                    "My Attendance",
-                    const Color.fromARGB(255, 60, 138, 63),
-                  ),
-                ]),
-                bigCard(context, "Event", Icons.event_outlined, [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ApproveEventScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                      "Approve Events Admin",
-                      Colors.orange,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const CreateEventScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                      "Request Events",
-                      Colors.orange,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const EventScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                      "All Events",
-                      Colors.orange,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const MyEventScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                      "My Events",
-                      Colors.orange,
-                    ),
-                  ),
-                ]),
-                bigCard(
-                  context,
-                  "Exam Details",
-                  Icons.event_note_outlined,
-                  [
-                    //Widget for Exam Time Table
-                    InkWell(
-                      onTap: (() => {
-                            UserCrud().fetchUserProfile(),
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const ExamScreen(),
-                              ),
-                            ),
-                          }),
-                      child: containerForGridview(
-                        "Exam Time Table",
-                        Colors.blueAccent,
-                      ),
-                    ),
-
-                    //Widget for Upload Exam Details
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const UploadExamDetails(),
-                          ),
-                        );
-                      },
-                      child: containerForGridview(
-                        "Upload Exam Details",
-                        Colors.blueAccent,
-                      ),
-                    ),
-                  ],
-                ),
-                bigCard(
-                  context,
-                  "Library Management Admin",
-                  Icons.local_library_outlined,
-                  [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const ApproveBookRequestAdminScreen(),
-                          ),
-                        );
-                      },
-                      child: containerForGridview("Approve Book",
-                          const Color.fromARGB(255, 82, 72, 200)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const IssuedBookAdminScreen(),
-                          ),
-                        );
-                      },
-                      child: containerForGridview("Issued Book",
-                          const Color.fromARGB(255, 82, 72, 200)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const AllBookScreen(),
-                          ),
-                        );
-                      },
-                      child: containerForGridview("Modify Books",
-                          const Color.fromARGB(255, 82, 72, 200)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+      body: width(context) < 700
+          ? homeScreenWidget(context, 1, isloading, user)
+          : width(context) < 1150
+              ? homeScreenWidget(context, 2, isloading, user)
+              : homeScreenWidget(context, 3, isloading, user),
       drawer: isloading == false
           ? Drawer(
               child: Material(
@@ -446,6 +259,214 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           : const CircularProgressIndicator(),
     );
   }
+}
+
+Widget homeScreenWidget(
+  context,
+  int number,
+  isloading,
+  user,
+) {
+  return isloading
+      ? const Center(child: CircularProgressIndicator())
+      : SingleChildScrollView(
+          child: StaggeredGrid.count(
+            // physics: const BouncingScrollPhysics(),
+            // gridDelegate: null,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+            crossAxisCount: number,
+            children: [
+              bigCard(
+                  context, "Library Management", Icons.local_library_outlined, [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const BookHomeScreen(),
+                      ),
+                    );
+                  },
+                  child: containerForGridview(
+                      "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            IssuedBookScreen(user: user),
+                      ),
+                    );
+                  },
+                  child: containerForGridview(
+                      "My Issued Book", const Color.fromARGB(255, 82, 72, 200)),
+                ),
+              ]),
+              bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
+                containerForGridview(
+                  "Generate QR Code",
+                  const Color.fromARGB(255, 60, 138, 63),
+                ),
+                containerForGridview(
+                  "My Attendance",
+                  const Color.fromARGB(255, 60, 138, 63),
+                ),
+              ]),
+              bigCard(context, "Event", Icons.event_outlined, [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const ApproveEventScreen(),
+                      ),
+                    );
+                  },
+                  child: containerForGridview(
+                    "Approve Events Admin",
+                    Colors.orange,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const CreateEventScreen(),
+                      ),
+                    );
+                  },
+                  child: containerForGridview(
+                    "Request Events",
+                    Colors.orange,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const EventScreen(),
+                      ),
+                    );
+                  },
+                  child: containerForGridview(
+                    "All Events",
+                    Colors.orange,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const MyEventScreen(),
+                      ),
+                    );
+                  },
+                  child: containerForGridview(
+                    "My Events",
+                    Colors.orange,
+                  ),
+                ),
+              ]),
+              bigCard(
+                context,
+                "Exam Details",
+                Icons.event_note_outlined,
+                [
+                  //Widget for Exam Time Table
+                  InkWell(
+                    onTap: (() => {
+                          UserCrud().fetchUserProfile(),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const ExamScreen(),
+                            ),
+                          ),
+                        }),
+                    child: containerForGridview(
+                      "Exam Time Table",
+                      Colors.blueAccent,
+                    ),
+                  ),
+
+                  //Widget for Upload Exam Details
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const UploadExamDetails(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                      "Upload Exam Details",
+                      Colors.blueAccent,
+                    ),
+                  ),
+                ],
+              ),
+              bigCard(
+                context,
+                "Library Management Admin",
+                Icons.local_library_outlined,
+                [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const ApproveBookRequestAdminScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const IssuedBookAdminScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const AllBookScreen(),
+                        ),
+                      );
+                    },
+                    child: containerForGridview(
+                        "Modify Books", const Color.fromARGB(255, 82, 72, 200)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
 }
 
 Widget bigCard(context, String title, IconData icon, List<Widget> widget) {

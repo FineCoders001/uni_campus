@@ -55,8 +55,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      //designSize: Size(411.42857142857144, 866.2857142857143),
-      //minTextAdapt: true,
+      // designSize: Size(411.42857142857144, 866.2857142857143),
+      // minTextAdapt: true,
       // splitScreenMode: true,
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -67,7 +67,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return  Center(
+              return Center(
                 child: Lottie.asset("assets/loadpaperplane.json"),
               );
             } else if (userSnapshot.hasData) {
@@ -86,11 +86,10 @@ class _MyAppState extends ConsumerState<MyApp> {
           },
         ),
         routes: {
-          BookDetailsScreen.routename: ((context) =>  const BookDetailsScreen()),
-          AddBookScreen.routeName:(ctx) =>  const AddBookScreen(),
+          BookDetailsScreen.routename: ((context) => const BookDetailsScreen()),
+          AddBookScreen.routeName: (ctx) => const AddBookScreen(),
         },
       ),
     );
   }
 }
-

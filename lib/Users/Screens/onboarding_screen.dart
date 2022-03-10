@@ -145,13 +145,7 @@ class _OnBoardingState extends State<OnBoarding> {
                           //         child: Image.asset(l[index]["image"]!))),
                           GestureDetector(
                             onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const HomeScreen(),
-                                ),
-                              );
+                              Navigator.pop(context);
                               // await Navigator.pushAndRemoveUntil(
                               //     context,
                               //     MaterialPageRoute(
