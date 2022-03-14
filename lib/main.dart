@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
+import 'package:uni_campus/Provider/internet_provider.dart';
+import 'package:uni_campus/Widgets/no_internet_screen.dart';
 import 'Authentication/login_screen.dart';
 import 'LibraryManagement/Screens/book_details_screen.dart';
 import 'home_screen.dart';
@@ -35,8 +39,11 @@ Future<void> main() async {
             measurementId: "G-FCRTTT21CT"));
   }
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    provider.ChangeNotifierProvider(
+      create: (_) => Internet(),
+      child: const ProviderScope(
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -53,6 +60,12 @@ class MyApp extends StatefulHookConsumerWidget {
 
 class _MyAppState extends ConsumerState<MyApp> {
   @override
+  void initState() {
+    context.read<Internet>().checkInternet();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       // designSize: Size(411.42857142857144, 866.2857142857143),
@@ -63,28 +76,30 @@ class _MyAppState extends ConsumerState<MyApp> {
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         // home: OnBoarding(),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, userSnapshot) {
-            if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/loadpaperplane.json"),
-              );
-            } else if (userSnapshot.hasData) {
-              return const HomeScreen();
-            } else if (userSnapshot.hasError) {
-              return const Center(
-                child: Text(
-                  "Something Went Wrong",
-                  style: TextStyle(fontSize: 16),
-                ),
-              );
-            } else {
-              return const LoginScreen();
-              // return const RegistrationScreen();
-            }
-          },
-        ),
+        home: context.watch<Internet>().getInternet == false
+            ? const NoInternetScreen()
+            : StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (ctx, userSnapshot) {
+                  if (userSnapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: Lottie.asset("assets/loadpaperplane.json"),
+                    );
+                  } else if (userSnapshot.hasData) {
+                    return const HomeScreen();
+                  } else if (userSnapshot.hasError) {
+                    return const Center(
+                      child: Text(
+                        "Something Went Wrong",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    );
+                  } else {
+                    return const LoginScreen();
+                    // return const RegistrationScreen();
+                  }
+                },
+              ),
         routes: {
           BookDetailsScreen.routename: ((context) => const BookDetailsScreen()),
           AddBookScreen.routeName: (ctx) => const AddBookScreen(),

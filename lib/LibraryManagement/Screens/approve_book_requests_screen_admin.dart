@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/Widgets/no_internet_screen.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -23,55 +26,48 @@ class _ApproveBookRequestAdminScreenState
   int _pageIndex = 0;
   late List<Widget> tabPages;
   late PageController _pageController;
+  
   @override
   void didChangeDependencies() {
+    context.read<Internet>().checkInternet();
+    tabPages = [const NewRequestScreen(), const ReissueRequestScreen()];
+    _pageController = PageController(initialPage: _pageIndex);
     EditRequest().deleteOldRequest();
     super.didChangeDependencies();
   }
 
   @override
-  void dispose() {
-    EditRequest().deleteOldRequest();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    tabPages = [const NewRequestScreen(), const ReissueRequestScreen()];
-    _pageController = PageController(initialPage: _pageIndex);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-        centerTitle: true,
-        title: const Text("Approve Book Request"),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pending_actions_outlined),
-            label: 'New Request',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.refresh_outlined),
-            label: 'Reissue Request',
-          ),
-        ],
-        currentIndex: _pageIndex,
-        onTap: onTabTapped,
-        selectedItemColor: Colors.pinkAccent,
-      ),
-      body: PageView(
-        children: tabPages,
-        onPageChanged: onPageChanged,
-        controller: _pageController,
-      ),
-    );
+    return context.watch<Internet>().getInternet == false
+        ? const NoInternetScreen()
+        : Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+              centerTitle: true,
+              title: const Text("Approve Book Request"),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.pending_actions_outlined),
+                  label: 'New Request',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.refresh_outlined),
+                  label: 'Reissue Request',
+                ),
+              ],
+              currentIndex: _pageIndex,
+              onTap: onTabTapped,
+              selectedItemColor: Colors.pinkAccent,
+            ),
+            body: PageView(
+              children: tabPages,
+              onPageChanged: onPageChanged,
+              controller: _pageController,
+            ),
+          );
   }
 
   void onPageChanged(int page) {

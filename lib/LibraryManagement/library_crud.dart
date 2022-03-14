@@ -424,7 +424,6 @@ class EditRequestAdmin {
     var time = data['bookId'];
     for (int i = 0; i < time.length; i++) {
       if (data['bookId'][i].keys.elementAt(0) == bookId) {
-        print("object: ${data['bookId'][i].values.elementAt(0)}");
         await approvedReference.doc(enroll).update({
           'bookId': FieldValue.arrayRemove([
             {bookId: data['bookId'][i].values.elementAt(0)}
@@ -462,7 +461,6 @@ class EditRequestAdmin {
     var time = data['bookId'];
     for (int i = 0; i < time.length; i++) {
       if (data['bookId'][i].keys.elementAt(0) == bookId) {
-        print("object: ${data['bookId'][i].values.elementAt(0)}");
         await approvedReference.doc(enroll).update({
           'bookId': FieldValue.arrayRemove([
             {bookId: data['bookId'][i].values.elementAt(0)}

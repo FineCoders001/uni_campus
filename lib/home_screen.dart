@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
-import 'package:uni_campus/LibraryManagement/Screens/all_book_screen.dart';
+import 'package:uni_campus/LibraryManagement/Screens/modify_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
 import 'package:uni_campus/Profile/Screens/todo_list.dart';
+import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 import 'package:uni_campus/main.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen_admin.dart';
@@ -20,6 +22,7 @@ import 'package:uni_campus/SeatingManagement/Screens/upload_exam_details.dart';
 import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/Widgets/no_internet_screen.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,22 +32,25 @@ class HomeScreen extends StatefulHookConsumerWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late Stream stream;
   var isloading = true;
 
-  fetchTask() async {
-    await ref.read(userCrudProvider).fetchUserProfile();
-    isloading = false;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchTask();
-  }
+  // fetchTask() async {
+  // }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchTask();
+  // }
 
   @override
   void didChangeDependencies() async {
+    context.read<Internet>().checkInternet();
     super.didChangeDependencies();
+    if (context.watch<Internet>().getInternet) {
+      await ref.read(userCrudProvider).fetchUserProfile();
+      isloading = false;
+    }
   }
 
   @override
@@ -53,420 +59,418 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var user = data.user;
     int width(BuildContext context) =>
         MediaQuery.of(context).size.width.toInt();
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("UniCampus"),
-        //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-      ),
-      body: width(context) < 700
-          ? homeScreenWidget(context, 1, isloading, user)
-          : width(context) < 1150
-              ? homeScreenWidget(context, 2, isloading, user)
-              : homeScreenWidget(context, 3, isloading, user),
-      drawer: isloading == false
-          ? Drawer(
-              child: Material(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const ProfileScreen(),
-                                ),
-                              );
-                            },
-                            focusColor: Colors.white,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.pinkAccent,
-                                    Colors.redAccent,
-                                    Colors.orangeAccent,
-                                  ],
-                                ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 35),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    user['profilePicture'] == null ||
-                                            user['profilePicture'] == ""
-                                        ? user['userName'] != null
-                                            ? ClipOval(
-                                                child: Material(
-                                                  elevation: 5.0,
-                                                  shape: const CircleBorder(),
-                                                  clipBehavior: Clip.hardEdge,
-                                                  color: const Color.fromARGB(
-                                                      255, 65, 198, 255),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            45.0),
-                                                    child: Text(
-                                                      user['userName'][0],
-                                                      style: GoogleFonts.ubuntu(
-                                                          color: Colors.white,
-                                                          fontSize: 35,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            : const CircularProgressIndicator()
-                                        : buildImage(
-                                            user['profilePicture'], user),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          user['userName'],
-                                          style: GoogleFonts.ubuntu(
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                        Text(
-                                          "${currentUser?.email}",
-                                          style: GoogleFonts.ubuntu(
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const ProfileScreen(),
-                                  ),
-                                );
-                              },
-                              child: buildItem(
-                                  "My Profile", Icons.person_outline_outlined)),
-                          // InkWell(
-                          //     onTap: () {
-                          //       Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (BuildContext context) =>
-                          //               const ApproveEventScreen(),
-                          //         ),
-                          //       );
-                          //     },
-                          //     child: buildItem("Approve Events",
-                          //         Icons.event_available_sharp)),
-
-                          // InkWell(
-                          //     onTap: () {
-                          //       Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (BuildContext context) =>
-                          //               const CreateEventScreen(),
-                          //         ),
-                          //       );
-                          //     },
-                          //     child: buildItem(
-                          //         "HomeScreen", Icons.event_available_sharp)),
-
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const OnBoarding(),
-                                  ),
-                                );
-                              },
-                              child: buildItem(
-                                  "OnBoarding", Icons.all_inclusive_rounded)),
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const TodoList(),
-                                  ),
-                                );
-                              },
-                              child: buildItem(
-                                  "To-Do List", Icons.checklist_rtl_outlined)),
-                          // GestureDetector(
-                          //   onTap: (() {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (context) => const OnBoarding()));
-                          //   }),
-                          //   child: const Text("Onboarding"),
-                          // ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: FractionalOffset.bottomCenter,
+    return context.watch<Internet>().getInternet == false
+        ? const NoInternetScreen()
+        : Scaffold(
+            extendBody: true,
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text("UniCampus"),
+              //leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+            ),
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: width(context) < 700
+                  ? homeScreenWidget(context, 1, user)
+                  : width(context) < 1150
+                      ? homeScreenWidget(context, 2, user)
+                      : homeScreenWidget(context, 3, user),
+            ),
+            drawer: isloading == false
+                ? Drawer(
+                    child: Material(
+                      color: Colors.white,
                       child: Column(
-                        children: <Widget>[
-                          const Divider(
-                            thickness: 1.5,
-                            color: Color.fromARGB(255, 104, 100, 100),
+                        children: [
+                          Expanded(
+                            child: ListView(
+                              padding: EdgeInsets.zero,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const ProfileScreen(),
+                                      ),
+                                    );
+                                  },
+                                  focusColor: Colors.white,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Colors.pinkAccent,
+                                          Colors.redAccent,
+                                          Colors.orangeAccent,
+                                        ],
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 35),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          user['profilePicture'] == null ||
+                                                  user['profilePicture'] == ""
+                                              ? user['userName'] != null
+                                                  ? ClipOval(
+                                                      child: Material(
+                                                        elevation: 5.0,
+                                                        shape:
+                                                            const CircleBorder(),
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        color: const Color
+                                                                .fromARGB(
+                                                            255, 65, 198, 255),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(45.0),
+                                                          child: Text(
+                                                            user['userName'][0],
+                                                            style: GoogleFonts.ubuntu(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 35,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : const CircularProgressIndicator()
+                                              : buildImage(
+                                                  user['profilePicture'], user),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                user['userName'],
+                                                style: GoogleFonts.ubuntu(
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                              Text(
+                                                "${currentUser?.email}",
+                                                style: GoogleFonts.ubuntu(
+                                                    fontSize: 18,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const ProfileScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: buildItem("My Profile",
+                                        Icons.person_outline_outlined)),
+                                // InkWell(
+                                //     onTap: () {
+                                //       Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //           builder: (BuildContext context) =>
+                                //               const ApproveEventScreen(),
+                                //         ),
+                                //       );
+                                //     },
+                                //     child: buildItem("Approve Events",
+                                //         Icons.event_available_sharp)),
+
+                                // InkWell(
+                                //     onTap: () {
+                                //       Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //           builder: (BuildContext context) =>
+                                //               const CreateEventScreen(),
+                                //         ),
+                                //       );
+                                //     },
+                                //     child: buildItem(
+                                //         "HomeScreen", Icons.event_available_sharp)),
+
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const OnBoarding(),
+                                        ),
+                                      );
+                                    },
+                                    child: buildItem("OnBoarding",
+                                        Icons.all_inclusive_rounded)),
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const TodoList(),
+                                        ),
+                                      );
+                                    },
+                                    child: buildItem("To-Do List",
+                                        Icons.checklist_rtl_outlined)),
+                                // GestureDetector(
+                                //   onTap: (() {
+                                //     Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) => const OnBoarding()));
+                                //   }),
+                                //   child: const Text("Onboarding"),
+                                // ),
+                              ],
+                            ),
                           ),
-                          InkWell(
-                            child: buildItem("Logout", Icons.logout_outlined),
-                            onTap: () async {
-                              await FirebaseAuth.instance.signOut();
-                            },
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: buildItem(
-                              "Feedback",
-                              Icons.feedback_outlined,
+                          Align(
+                            alignment: FractionalOffset.bottomCenter,
+                            child: Column(
+                              children: <Widget>[
+                                const Divider(
+                                  thickness: 1.5,
+                                  color: Color.fromARGB(255, 104, 100, 100),
+                                ),
+                                InkWell(
+                                  child: buildItem(
+                                      "Logout", Icons.logout_outlined),
+                                  onTap: () async {
+                                    await FirebaseAuth.instance.signOut();
+                                  },
+                                ),
+                                InkWell(
+                                  onTap: () {},
+                                  child: buildItem(
+                                    "Feedback",
+                                    Icons.feedback_outlined,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            )
-          : const CircularProgressIndicator(),
-    );
+                  )
+                : const CircularProgressIndicator(),
+          );
   }
 }
 
 Widget homeScreenWidget(
   context,
   int number,
-  isloading,
   user,
 ) {
-  return isloading
-      ? const Center(child: CircularProgressIndicator())
-      : SingleChildScrollView(
-          child: StaggeredGrid.count(
-            // physics: const BouncingScrollPhysics(),
-            // gridDelegate: null,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            crossAxisCount: number,
-            children: [
-              bigCard(
-                  context, "Library Management", Icons.local_library_outlined, [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const BookHomeScreen(),
-                      ),
-                    );
-                  },
-                  child: containerForGridview(
-                      "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            IssuedBookScreen(user: user),
-                      ),
-                    );
-                  },
-                  child: containerForGridview(
-                      "My Issued Book", const Color.fromARGB(255, 82, 72, 200)),
-                ),
-              ]),
-              bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
-                containerForGridview(
-                  "Generate QR Code",
-                  const Color.fromARGB(255, 60, 138, 63),
-                ),
-                containerForGridview(
-                  "My Attendance",
-                  const Color.fromARGB(255, 60, 138, 63),
-                ),
-              ]),
-              bigCard(context, "Event", Icons.event_outlined, [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const ApproveEventScreen(),
-                      ),
-                    );
-                  },
-                  child: containerForGridview(
-                    "Approve Events Admin",
-                    Colors.orange,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const CreateEventScreen(),
-                      ),
-                    );
-                  },
-                  child: containerForGridview(
-                    "Request Events",
-                    Colors.orange,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const EventScreen(),
-                      ),
-                    );
-                  },
-                  child: containerForGridview(
-                    "All Events",
-                    Colors.orange,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const MyEventScreen(),
-                      ),
-                    );
-                  },
-                  child: containerForGridview(
-                    "My Events",
-                    Colors.orange,
-                  ),
-                ),
-              ]),
-              bigCard(
-                context,
-                "Exam Details",
-                Icons.event_note_outlined,
-                [
-                  //Widget for Exam Time Table
-                  InkWell(
-                    onTap: (() => {
-                          UserCrud().fetchUserProfile(),
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const ExamScreen(),
-                            ),
-                          ),
-                        }),
-                    child: containerForGridview(
-                      "Exam Time Table",
-                      Colors.blueAccent,
-                    ),
-                  ),
-
-                  //Widget for Upload Exam Details
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const UploadExamDetails(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                      "Upload Exam Details",
-                      Colors.blueAccent,
-                    ),
-                  ),
-                ],
+  return StaggeredGrid.count(
+    // physics: const BouncingScrollPhysics(),
+    // gridDelegate: null,
+    crossAxisSpacing: 5,
+    mainAxisSpacing: 5,
+    crossAxisCount: number,
+    children: [
+      bigCard(context, "Library Management", Icons.local_library_outlined, [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const BookHomeScreen(),
               ),
-              bigCard(
-                context,
-                "Library Management Admin",
-                Icons.local_library_outlined,
-                [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const ApproveBookRequestAdminScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const IssuedBookAdminScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const AllBookScreen(),
-                        ),
-                      );
-                    },
-                    child: containerForGridview(
-                        "Modify Books", const Color.fromARGB(255, 82, 72, 200)),
-                  ),
-                ],
+            );
+          },
+          child: containerForGridview(
+              "Issue Book", const Color.fromARGB(255, 82, 72, 200)),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => IssuedBookScreen(user: user),
               ),
-            ],
+            );
+          },
+          child: containerForGridview(
+              "My Issued Book", const Color.fromARGB(255, 82, 72, 200)),
+        ),
+      ]),
+      bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
+        containerForGridview(
+          "Generate QR Code",
+          const Color.fromARGB(255, 60, 138, 63),
+        ),
+        containerForGridview(
+          "My Attendance",
+          const Color.fromARGB(255, 60, 138, 63),
+        ),
+      ]),
+      bigCard(context, "Event", Icons.event_outlined, [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const ApproveEventScreen(),
+              ),
+            );
+          },
+          child: containerForGridview(
+            "Approve Events Admin",
+            Colors.orange,
           ),
-        );
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const CreateEventScreen(),
+              ),
+            );
+          },
+          child: containerForGridview(
+            "Request Events",
+            Colors.orange,
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const EventScreen(),
+              ),
+            );
+          },
+          child: containerForGridview(
+            "All Events",
+            Colors.orange,
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const MyEventScreen(),
+              ),
+            );
+          },
+          child: containerForGridview(
+            "My Events",
+            Colors.orange,
+          ),
+        ),
+      ]),
+      bigCard(
+        context,
+        "Exam Details",
+        Icons.event_note_outlined,
+        [
+          //Widget for Exam Time Table
+          InkWell(
+            onTap: (() => {
+                  UserCrud().fetchUserProfile(),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const ExamScreen(),
+                    ),
+                  ),
+                }),
+            child: containerForGridview(
+              "Exam Time Table",
+              Colors.blueAccent,
+            ),
+          ),
+
+          //Widget for Upload Exam Details
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const UploadExamDetails(),
+                ),
+              );
+            },
+            child: containerForGridview(
+              "Upload Exam Details",
+              Colors.blueAccent,
+            ),
+          ),
+        ],
+      ),
+      bigCard(
+        context,
+        "Library Management Admin",
+        Icons.local_library_outlined,
+        [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const ApproveBookRequestAdminScreen(),
+                ),
+              );
+            },
+            child: containerForGridview(
+                "Approve Book", const Color.fromARGB(255, 82, 72, 200)),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const IssuedBookAdminScreen(),
+                ),
+              );
+            },
+            child: containerForGridview(
+                "Issued Book", const Color.fromARGB(255, 82, 72, 200)),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ModifyBookScreen(),
+                ),
+              );
+            },
+            child: containerForGridview(
+                "Modify Books", const Color.fromARGB(255, 82, 72, 200)),
+          ),
+        ],
+      ),
+    ],
+  );
 }
 
 Widget bigCard(context, String title, IconData icon, List<Widget> widget) {

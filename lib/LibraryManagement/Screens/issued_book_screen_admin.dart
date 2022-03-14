@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/Widgets/no_internet_screen.dart';
 
 class IssuedBookAdminScreen extends StatefulHookConsumerWidget {
   const IssuedBookAdminScreen({Key? key}) : super(key: key);
@@ -16,9 +19,6 @@ class IssuedBookAdminScreen extends StatefulHookConsumerWidget {
 }
 
 class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
-  fetchTask() async {
-    await ref.read(userCrudProvider).fetchUserProfile();
-  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> bookData = [];
@@ -29,8 +29,19 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
       .doc("Books")
       .collection("AllBooks");
   bool isLoading = false;
+
   @override
-  void didChangeDependencies() {
+  void dispose() {
+    if (mounted) {
+      // _connectivity.disposeStream();
+    }
+    super.dispose();
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    context.read<Internet>().checkInternet();
+    await ref.read(userCrudProvider).fetchUserProfile();
     userCrud = ref.watch(userCrudProvider);
     user = userCrud.user;
     super.didChangeDependencies();
@@ -48,22 +59,24 @@ class _IssuedBookAdminScreenState extends ConsumerState<IssuedBookAdminScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: const Text("Issued Books"),
-        backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-        centerTitle: true,
-      ),
-      body: FirestoreListView<IssuedDetails>(
-        query: queryDetails,
-        pageSize: 5,
-        itemBuilder: (context, snapshot) {
-          final post = snapshot.data();
-          return approveCard(post, context);
-        },
-      ),
-    );
+    return context.watch<Internet>().getInternet == false
+        ? const NoInternetScreen()
+        : Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              title: const Text("Issued Books"),
+              backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+              centerTitle: true,
+            ),
+            body: FirestoreListView<IssuedDetails>(
+              query: queryDetails,
+              pageSize: 5,
+              itemBuilder: (context, snapshot) {
+                final post = snapshot.data();
+                return approveCard(post, context);
+              },
+            ),
+          );
   }
 
   Widget approveCard(IssuedDetails post, BuildContext context) {

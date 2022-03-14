@@ -376,8 +376,6 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    print("enter hua");
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

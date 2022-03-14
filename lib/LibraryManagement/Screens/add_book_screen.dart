@@ -4,8 +4,11 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
+import 'package:uni_campus/Provider/internet_provider.dart';
+import 'package:uni_campus/Widgets/no_internet_screen.dart';
 
 class AddBookScreen extends StatefulWidget {
   static const routeName = 'AddBookScreen';
@@ -57,8 +60,11 @@ class _AddBookScreenState extends State<AddBookScreen> {
   //   'isbnNumber': 0,
   //   'bookQuantity': 0,
   // };
+  
+
   @override
   void didChangeDependencies() {
+    context.read<Internet>().checkInternet();
     super.didChangeDependencies();
 
     arguments = ModalRoute.of(context)?.settings.arguments as Map;
@@ -146,43 +152,45 @@ class _AddBookScreenState extends State<AddBookScreen> {
   @override
   Widget build(BuildContext context) {
     print("entered build ${book.bookPic.length}");
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-          elevation: 0,
-          centerTitle: true,
-          title: arguments['isInit'] == true
-              ? const Text(
-                  "Edit Book Details",
-                  style: TextStyle(fontSize: 23),
-                )
-              : const Text(
-                  "Add Book Details",
-                  style: TextStyle(fontSize: 23),
-                ),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-                size: 25,
-              )),
-        ),
-        body: Container(
-            decoration: const BoxDecoration(
-                // image: DecorationImage(
-                //   image: AssetImage("assets/images/Background.png"),
-                //   fit: BoxFit.cover,
-                // ),
-                ),
-            child: Form(
+    return context.watch<Internet>().getInternet == false
+        ? const NoInternetScreen()
+        : Scaffold(
+            appBar: AppBar(
+              backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+              elevation: 0,
+              centerTitle: true,
+              title: arguments['isInit'] == true
+                  ? const Text(
+                      "Edit Book Details",
+                      style: TextStyle(fontSize: 23),
+                    )
+                  : const Text(
+                      "Add Book Details",
+                      style: TextStyle(fontSize: 23),
+                    ),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 25,
+                  )),
+            ),
+            body: Container(
+              decoration: const BoxDecoration(
+                  // image: DecorationImage(
+                  //   image: AssetImage("assets/images/Background.png"),
+                  //   fit: BoxFit.cover,
+                  // ),
+                  ),
+              child: Form(
                 key: _form,
                 child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: ListView(children: [
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                  child: ListView(
+                    children: [
                       Card(
                         elevation: 5,
                         child: Container(
@@ -670,7 +678,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
                           ),
                         ),
                       ),
-                    ])))));
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 
   Future<void> upload() async {

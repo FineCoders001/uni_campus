@@ -3,7 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
+import 'package:uni_campus/Provider/internet_provider.dart';
+import 'package:uni_campus/Widgets/no_internet_screen.dart';
 
 class IssuedBookScreen extends StatefulWidget {
   final Map<String, dynamic> user;
@@ -25,12 +28,14 @@ class _IssuedBookScreenState extends State<IssuedBookScreen> {
 
   @override
   void dispose() {
+    // _connectivity.disposeStream();
     EditRequest().deleteOldRequest();
     super.dispose();
   }
 
   @override
   void initState() {
+    context.read<Internet>().checkInternet();
     tabPages = [
       PendingRequestScreen(
         user: widget.user,
@@ -45,33 +50,35 @@ class _IssuedBookScreenState extends State<IssuedBookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-        centerTitle: true,
-        title: const Text("My Issued Book"),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pending_actions_outlined),
-            label: 'Requested',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_box_sharp),
-            label: 'Approved',
-          ),
-        ],
-        currentIndex: _pageIndex,
-        onTap: onTabTapped,
-        selectedItemColor: Colors.pinkAccent,
-      ),
-      body: PageView(
-        children: tabPages,
-        onPageChanged: onPageChanged,
-        controller: _pageController,
-      ),
-    );
+    return context.watch<Internet>().getInternet == false
+        ? const NoInternetScreen()
+        : Scaffold(
+            appBar: AppBar(
+              backgroundColor: const Color.fromARGB(255, 82, 72, 200),
+              centerTitle: true,
+              title: const Text("My Issued Book"),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.pending_actions_outlined),
+                  label: 'Requested',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.check_box_sharp),
+                  label: 'Approved',
+                ),
+              ],
+              currentIndex: _pageIndex,
+              onTap: onTabTapped,
+              selectedItemColor: Colors.pinkAccent,
+            ),
+            body: PageView(
+              children: tabPages,
+              onPageChanged: onPageChanged,
+              controller: _pageController,
+            ),
+          );
   }
 
   void onPageChanged(int page) {
