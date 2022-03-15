@@ -108,7 +108,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
         bookQuantity: book.bookQuantity,
         bookReviews: book.bookReviews,
         bookReviewedUsers: book.bookReviewedUsers);
-    print("idhar: ${book.isbnNumber}");
 
     try {
       if (arguments['isInit'] == false) {

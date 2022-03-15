@@ -75,7 +75,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       minTextAdapt: true,
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        // home: OnBoarding(),
         home: context.watch<Internet>().getInternet == false
             ? const NoInternetScreen()
             : StreamBuilder(
@@ -101,8 +100,8 @@ class _MyAppState extends ConsumerState<MyApp> {
                 },
               ),
         routes: {
-          BookDetailsScreen.routename: ((context) => const BookDetailsScreen()),
-          AddBookScreen.routeName: (ctx) => const AddBookScreen(),
+          BookDetailsScreen.routename: (context) => const BookDetailsScreen(),
+          AddBookScreen.routeName: (context) => const AddBookScreen(),
         },
       ),
     );

@@ -61,7 +61,6 @@ class AllEvents extends ChangeNotifier {
       //       //'id':docRef.id,
       //     }
       // );
-      print("fbkjnjkklllfkfkllmlfm");
       DocumentReference docRef = await FirebaseFirestore.instance
           .collection('RequestEvent')
           .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -114,7 +113,6 @@ class AllEvents extends ChangeNotifier {
         'eventStatus': "notApproved",
         'eventForSem': event.eventForSem
       });
-      print("zlklllilkllkllllllll");
 
       notifyListeners();
     } catch (e) {

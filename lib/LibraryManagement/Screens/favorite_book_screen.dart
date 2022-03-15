@@ -24,8 +24,6 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
       isloading = true;
     });
 
-    print("fjjf $i");
-
     if (l.length - i + 1 < 7) {
       for (i; i < l.length; i++) {
         print("i is $i");

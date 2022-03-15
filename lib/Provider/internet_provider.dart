@@ -37,6 +37,7 @@ class Internet with ChangeNotifier {
         break;
       default:
         temp = false;
+        break;
     }
     if (hasInternet != temp) {
       hasInternet = temp;

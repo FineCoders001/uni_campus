@@ -45,8 +45,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Screen heigth is ${MediaQuery.of(context).size.height}");
-    print("Screen heigth is ${MediaQuery.of(context).size.width}");
     var data = ref.watch(userCrudProvider);
     var u = data.user;
 
@@ -352,11 +350,11 @@ class _ProfilePicState extends ConsumerState<ProfilePic> {
                     if (result != null) {
                       PlatformFile file = result.files.first;
 
-                      print(file.name);
-                      print(file.bytes);
-                      print("");
-                      print(file.extension);
-                      print(file.path);
+                      // print(file.name);
+                      // print(file.bytes);
+                      // print("");
+                      // print(file.extension);
+                      // print(file.path);
 
                       File f = File(file.path.toString());
                       // firebase_storage.UploadTask uploadTask;

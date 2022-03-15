@@ -84,7 +84,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           eventDuration: _event.eventDuration + " " + du,
           eventForSem: sem.trim());
     }
-    print("entered fbkjf fbkjng gnkjnkg");
 
     try {
       await ref.read(eventProvider).requestEvent(_event);

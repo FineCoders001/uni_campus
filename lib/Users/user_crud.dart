@@ -20,7 +20,6 @@ class UserCrud extends ChangeNotifier {
   addProfilePicture(String urlLink) async {
     Map<String, dynamic> v;
     if (user['role'] == 'student') {
-      print("ghus gya");
       v = {
         'userName': user['userName'],
         'enroll': user['enroll'],
