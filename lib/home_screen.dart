@@ -5,6 +5,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
+import 'package:uni_campus/Attendance/generate_qr.dart';
+import 'package:uni_campus/Attendance/scan_qr.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/modify_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
@@ -318,9 +320,33 @@ Widget homeScreenWidget(
         ),
       ]),
       bigCard(context, "Mark'd", Icons.perm_contact_cal_outlined, [
-        containerForGridview(
-          "Generate QR Code",
-          const Color.fromARGB(255, 60, 138, 63),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const GenerateQr(),
+              ),
+            );
+          },
+          child: containerForGridview(
+            "Generate QR Code",
+            const Color.fromARGB(255, 60, 138, 63),
+          ),
+        ),
+        InkWell(
+          // onTap: () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (BuildContext context) => const (),
+          //     ),
+          //   );
+          // },
+          child: containerForGridview(
+            "My Attendance",
+            const Color.fromARGB(255, 60, 138, 63),
+          ),
         ),
         containerForGridview(
           "My Attendance",

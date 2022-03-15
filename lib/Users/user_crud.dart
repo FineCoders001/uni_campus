@@ -112,7 +112,7 @@ class UserCrud extends ChangeNotifier {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update({'favBooks': favBooks});
-    user['favBooks']=favBooks;
+    user['favBooks'] = favBooks;
     notifyListeners();
   }
 }
