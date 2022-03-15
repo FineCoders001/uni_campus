@@ -5,6 +5,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
+import 'package:uni_campus/Attendance/display_curlist.dart';
+import 'package:uni_campus/Attendance/display_my_attendance.dart';
 import 'package:uni_campus/Attendance/generate_qr.dart';
 import 'package:uni_campus/Attendance/scan_qr.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
@@ -335,22 +337,32 @@ Widget homeScreenWidget(
           ),
         ),
         InkWell(
-          // onTap: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (BuildContext context) => const (),
-          //     ),
-          //   );
-          // },
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const Select(),
+              ),
+            );
+          },
+          child: containerForGridview(
+            "Scan QR Code",
+            const Color.fromARGB(255, 60, 138, 63),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const DisplayUserAttendace(),
+              ),
+            );
+          },
           child: containerForGridview(
             "My Attendance",
             const Color.fromARGB(255, 60, 138, 63),
           ),
-        ),
-        containerForGridview(
-          "My Attendance",
-          const Color.fromARGB(255, 60, 138, 63),
         ),
       ]),
       bigCard(context, "Event", Icons.event_outlined, [

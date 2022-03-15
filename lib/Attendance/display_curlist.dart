@@ -9,11 +9,26 @@ class Select extends StatefulWidget {
 }
 
 class _SelectState extends State<Select> {
+  List<String> months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
   String? s;
-  String? y;
+  String y = DateTime.now().year.toString();
   String? sem;
   @override
   Widget build(BuildContext context) {
+    String m = months[DateTime.now().month - 1];
     return Scaffold(
       body: Center(
         child: Column(
@@ -41,19 +56,19 @@ class _SelectState extends State<Select> {
                 },
               ),
             ),
-            DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: y,
-                items: <String>["2022", "2023", "2024", "2025"].map((String v) {
-                  return DropdownMenuItem(value: v, child: Text(v));
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    y = value;
-                  });
-                },
-              ),
-            ),
+            // DropdownButtonHideUnderline(
+            //   child: DropdownButton<String>(
+            //     value: y,
+            //     items: <String>["2022", "2023", "2024", "2025"].map((String v) {
+            //       return DropdownMenuItem(value: v, child: Text(v));
+            //     }).toList(),
+            //     onChanged: (value) {
+            //       setState(() {
+            //         y = value;
+            //       });
+            //     },
+            //   ),
+            // ),
             DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 value: sem,
@@ -76,6 +91,32 @@ class _SelectState extends State<Select> {
                 },
               ),
             ),
+            // DropdownButtonHideUnderline(
+            //   child: DropdownButton<String>(
+            //     value: m,
+            //     items: <String>[
+            //       'January',
+            //       'February',
+            //       'March',
+            //       'April',
+            //       'May',
+            //       'June',
+            //       'July',
+            //       'August',
+            //       'September',
+            //       'October',
+            //       'November',
+            //       'December'
+            //     ].map((String v) {
+            //       return DropdownMenuItem(value: v, child: Text(v));
+            //     }).toList(),
+            //     onChanged: (value) {
+            //       setState(() {
+            //         m = value;
+            //       });
+            //     },
+            //   ),
+            // ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -83,6 +124,7 @@ class _SelectState extends State<Select> {
                     de: s,
                     se: sem,
                     ye: y,
+                    mo: m,
                   );
                 }));
               },
