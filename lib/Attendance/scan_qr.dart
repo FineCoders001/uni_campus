@@ -4,16 +4,18 @@ import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'package:uni_campus/Attendance/view_list.dart';
 
 class ScanQR extends StatefulWidget {
-  final dynamic de;
-  final dynamic se;
-  final dynamic ye;
-  final dynamic mo;
+  final dynamic department;
+  final dynamic semester;
+  final dynamic year;
+  final dynamic month;
+  final dynamic date;
   const ScanQR(
       {Key? key,
-      required this.de,
-      required this.ye,
-      required this.mo,
-      required this.se})
+      required this.department,
+      required this.year,
+      required this.month,
+      required this.semester,
+      required this.date})
       : super(key: key);
 
   @override
@@ -29,11 +31,12 @@ class _ScanQRState extends State<ScanQR> {
   @override
   void initState() {
     at = Attend(
-        dept: widget.de,
-        year: widget.ye,
-        month: widget.mo,
-        semester: widget.se,
-        map: <String>[]);
+        dept: widget.department,
+        year: widget.year,
+        month: widget.month,
+        semester: widget.semester,
+        map: <String>[],
+        date: widget.date);
     super.initState();
   }
 
@@ -47,7 +50,7 @@ class _ScanQRState extends State<ScanQR> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("${at.dept} ${at.year} ${at.month} ${at.semester}"),
+            Text("${at.dept} ${at.year} ${at.month} ${at.semester} ${at.date}"),
             SizedBox(
               height: MediaQuery.of(context).size.height / 2,
               child: ListView(

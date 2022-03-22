@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/firestore.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 
 class DisplayUserAttendace extends StatefulWidget {
@@ -11,6 +11,7 @@ class DisplayUserAttendace extends StatefulWidget {
 }
 
 class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
+  late List<Attend> li = [];
   @override
   Widget build(BuildContext context) {
     final list = FirebaseFirestore.instance
@@ -19,20 +20,47 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
         .collection("March")
         .doc("Semester 7")
         .collection("Information Technology")
-        .where("Map", arrayContainsAny: ["SpiderMan"]).withConverter<Attend>(
-            fromFirestore: (snapshot, _) => Attend.fromJson(snapshot.data()!),
-            toFirestore: (attend, _) => attend.toJson());
+        .where("Map",
+            arrayContainsAny: [FirebaseAuth.instance.currentUser!.email]).get();
     return Scaffold(
-      body: FirestoreListView<Attend>(
-        query: list,
-        itemBuilder: (context, snapshot) {
-          final listdata = snapshot.data();
-          return ListTile(
-            title: Text("${listdata.year} ${listdata.month} ${listdata.dept}"),
-            subtitle: Text(listdata.map.toString()),
-          );
-        },
+      body: Center(
+        child: FutureBuilder(
+          future: list,
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.hasData) {
+              var l = snapshot.data!.docs;
+              return Center(
+                child: ListView.builder(
+                  itemCount: l.length,
+                  itemBuilder: (context, index) => ListTile(
+                    title: Text(
+                        "${l[index].get("Department")} ${l[index].get("Date")}"),
+                    subtitle: Text(l[index].get("Month").toString()),
+                  ),
+                ),
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        ),
       ),
+      // body: FirestoreListView<Attend>(
+      //   query: list,
+      //   itemBuilder: (context, snapshot) {
+      //     print(" data ${snapshot.data()}");
+      //     final listdata = snapshot.data();
+      //     print(listdata.toJson().toString());
+      //     print(FirebaseAuth.instance.currentUser!.email);
+      //     print(
+      //         " data ${snapshot.id} ${listdata.year} ${listdata.month} ${listdata.dept}");
+      //     return ListTile(
+      //       // title: Text("${listdata.year} ${listdata.month} ${listdata.dept}"),
+      //       subtitle: Text(listdata.map.toString()),
+      //     );
+      //   },
+      // ),
     );
   }
 }

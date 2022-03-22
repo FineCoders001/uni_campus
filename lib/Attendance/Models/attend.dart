@@ -2,6 +2,7 @@ class Attend {
   late final String dept;
   late final String year;
   late final String month;
+  late final String date;
   late final String semester;
   late final List<dynamic> map;
 
@@ -11,6 +12,7 @@ class Attend {
     required this.semester,
     required this.month,
     required this.map,
+    required this.date,
   });
   Attend.fromJson(Map json)
       : this(
@@ -18,7 +20,8 @@ class Attend {
             year: json["Year"] as String,
             month: json["Month"] as String,
             semester: json["Semester"] as String,
-            map: json["Map"]);
+            map: json["Map"],
+            date: json["Date"] as String);
 
   Map<String, Object?> toJson() {
     return {
@@ -26,7 +29,8 @@ class Attend {
       'Year': year,
       'Month': month,
       'Semester': semester,
-      'Map': map
+      'Map': map,
+      'Date': date
     };
   }
 
