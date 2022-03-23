@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:uni_campus/Attendance/display_curlist.dart';
 import 'package:uni_campus/Attendance/display_my_attendance.dart';
 import 'package:uni_campus/Attendance/generate_qr.dart';
-import 'package:uni_campus/Attendance/scan_qr.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/modify_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
