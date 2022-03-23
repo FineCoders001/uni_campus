@@ -12,9 +12,24 @@ class DisplayUserAttendace extends StatefulWidget {
 
 class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
   late List<Attend> li = [];
+  late Future<QuerySnapshot<Map<String, dynamic>>> list;
+  // @override
+  // Future<void> didChangeDependencies() async {
+  //   list = await FirebaseFirestore.instance
+  //       .collection("Attendance")
+  //       .doc("2022")
+  //       .collection("March")
+  //       .doc("Semester 7")
+  //       .collection("Information Technology")
+  //       .where("Map",
+  //           arrayContainsAny: [FirebaseAuth.instance.currentUser!.email]).get();
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final list = FirebaseFirestore.instance
+    list = FirebaseFirestore.instance
         .collection("Attendance")
         .doc("2022")
         .collection("March")
@@ -36,7 +51,8 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                   itemBuilder: (context, index) => ListTile(
                     title: Text(
                         "${l[index].get("Department")} ${l[index].get("Date")}"),
-                    subtitle: Text(l[index].get("Month").toString()),
+                    subtitle: Text(
+                        "${l[index].get("Month").toString()} ${l[index].id}"),
                   ),
                 ),
               );
