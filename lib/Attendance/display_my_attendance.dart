@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 
 class DisplayUserAttendace extends StatefulWidget {
@@ -13,20 +14,6 @@ class DisplayUserAttendace extends StatefulWidget {
 class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
   late List<Attend> li = [];
   late Future<QuerySnapshot<Map<String, dynamic>>> list;
-  // @override
-  // Future<void> didChangeDependencies() async {
-  //   list = await FirebaseFirestore.instance
-  //       .collection("Attendance")
-  //       .doc("2022")
-  //       .collection("March")
-  //       .doc("Semester 7")
-  //       .collection("Information Technology")
-  //       .where("Map",
-  //           arrayContainsAny: [FirebaseAuth.instance.currentUser!.email]).get();
-  //   // TODO: implement didChangeDependencies
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     list = FirebaseFirestore.instance
@@ -58,18 +45,29 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
           future: list,
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.data?.size != null) {
               var l = snapshot.data!.docs;
-              return Center(
-                child: ListView.builder(
-                  itemCount: l.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                        "${l[index].get("Department")} ${l[index].get("Date")}"),
-                    subtitle: Text(
-                        "${l[index].get("Month").toString()} ${l[index].id}"),
+              return Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: SfCalendar(
+                      view: CalendarView.month,
+                      initialSelectedDate: DateTime.now(),
+                      //dataSource: //DS,
+                    ),
                   ),
-                ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: l.length,
+                    itemBuilder: (context, index) => ListTile(
+                      title: Text(
+                          "${l[index].get("Department")} ${l[index].get("Date")}"),
+                      subtitle: Text(
+                          "${l[index].get("Month").toString()} ${l[index].id}"),
+                    ),
+                  ),
+                ],
               );
             } else {
               return const CircularProgressIndicator();
@@ -93,5 +91,9 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
       //   },
       // ),
     );
+  }
+
+  CalendarDataSource<Object?>? dS(Object? l) {
+    return null;
   }
 }
