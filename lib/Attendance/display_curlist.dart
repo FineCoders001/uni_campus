@@ -25,6 +25,7 @@ class _SelectState extends State<Select> {
   ];
   String? s;
   String y = DateTime.now().year.toString();
+  String d = DateTime.now().toString();
   String? sem;
   @override
   Widget build(BuildContext context) {
@@ -121,14 +122,10 @@ class _SelectState extends State<Select> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ScanQR(
-                    de: s,
-                    se: sem,
-                    ye: y,
-                    mo: m,
-                  );
+                      department: s, semester: sem, year: y, month: m, date: d);
                 }));
               },
-              child: const Text("Sumbit"),
+              child: const Text("Submit"),
             ),
           ],
         ),
