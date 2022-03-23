@@ -44,7 +44,19 @@ class _ScanQRState extends State<ScanQR> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${at.dept} ${at.year} ${at.semester}"),
+        backgroundColor: const Color.fromARGB(255, 60, 138, 63),
+        elevation: 0,
+        centerTitle: true,
+        title: Text("Scan QR ${at.dept} ${at.year} ${at.semester}"),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+              size: 25,
+            )),
       ),
       body: Center(
         child: Column(
