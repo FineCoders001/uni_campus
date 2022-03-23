@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 
 class DisplayUserAttendace extends StatefulWidget {
@@ -44,18 +45,29 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
           future: list,
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.data!.size < 0) {
+            if (snapshot.data?.size != null) {
               var l = snapshot.data!.docs;
-              return Center(
-                child: ListView.builder(
-                  itemCount: l.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                        "${l[index].get("Department")} ${l[index].get("Date")}"),
-                    subtitle: Text(
-                        "${l[index].get("Month").toString()} ${l[index].id}"),
+              return Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: SfCalendar(
+                      view: CalendarView.month,
+                      initialSelectedDate: DateTime.now(),
+                      //dataSource: //DS,
+                    ),
                   ),
-                ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: l.length,
+                    itemBuilder: (context, index) => ListTile(
+                      title: Text(
+                          "${l[index].get("Department")} ${l[index].get("Date")}"),
+                      subtitle: Text(
+                          "${l[index].get("Month").toString()} ${l[index].id}"),
+                    ),
+                  ),
+                ],
               );
             } else {
               return const CircularProgressIndicator();
@@ -79,5 +91,9 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
       //   },
       // ),
     );
+  }
+
+  CalendarDataSource<Object?>? dS(Object? l) {
+    return null;
   }
 }
