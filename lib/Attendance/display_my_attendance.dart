@@ -65,7 +65,7 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
               return Column(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
+                    height: 3 * MediaQuery.of(context).size.height / 4,
                     child: SfCalendar(
                       allowedViews: const [
                         CalendarView.month,
@@ -77,14 +77,16 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                       dataSource: DS(_getds(snap)),
                     ),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snap.length,
-                    itemBuilder: (context, index) => ListTile(
-                      title: Text(
-                          "${snap[index].get("Department")} ${snap[index].get("Date")}"),
-                      subtitle: Text(
-                          "${snap[index].get("Month").toString()} ${snap[index].id}"),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snap.length,
+                      itemBuilder: (context, index) => ListTile(
+                        title: Text(
+                            "${snap[index].get("Department")} ${snap[index].get("Date")}"),
+                        subtitle: Text(
+                            "${snap[index].get("Month").toString()} ${snap[index].id}"),
+                      ),
                     ),
                   ),
                 ],
