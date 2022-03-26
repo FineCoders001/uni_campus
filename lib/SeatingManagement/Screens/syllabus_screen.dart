@@ -210,7 +210,10 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Container(
-          decoration: BoxDecoration(border: Border.all()),
+          decoration: BoxDecoration(
+            border: Border.all(),
+            color: Colors.white,
+          ),
           child: ListTile(
             trailing: const Icon(Icons.search_rounded),
             title: TextFormField(
@@ -232,33 +235,36 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: searchResult.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  tileColor: Colors.redAccent,
-                  title: Text(
-                    "Subject Code: ${searchResult[index]}",
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  trailing: IconButton(
-                    onPressed: (() => OpenFile.open(_folders[index].path)),
-                    icon: const Icon(
-                      Icons.open_in_new_rounded,
-                      color: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+        child: ListView.builder(
+          itemCount: searchResult.length,
+          itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(5)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Subject Code: ${searchResult[index]}",
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                  ),
+                    IconButton(
+                      onPressed: (() => OpenFile.open(_folders[index].path)),
+                      icon: const Icon(
+                        Icons.open_in_new_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-        ],
+              )),
+        ),
       ),
     );
   }
