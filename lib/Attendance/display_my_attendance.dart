@@ -5,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
-import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
-
 import 'Models/meeting.dart';
 
 class DisplayUserAttendace extends StatefulWidget {
