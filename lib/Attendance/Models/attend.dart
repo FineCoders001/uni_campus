@@ -33,8 +33,4 @@ class Attend {
       'Date': date
     };
   }
-
-  // adddata(Attend a) {
-  //   return FirebaseFirestore.instance.collection("Attendance").doc(year).collection();
-  // }
 }
