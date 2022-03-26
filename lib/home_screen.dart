@@ -14,6 +14,7 @@ import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.da
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen.dart';
 import 'package:uni_campus/Profile/Screens/todo_list.dart';
 import 'package:uni_campus/Provider/internet_provider.dart';
+import 'package:uni_campus/SeatingManagement/Screens/syllabus_screen.dart';
 import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
 import 'package:uni_campus/main.dart';
 import 'package:uni_campus/LibraryManagement/Screens/approve_book_requests_screen_admin.dart';
@@ -443,7 +444,21 @@ Widget homeScreenWidget(
               Colors.blueAccent,
             ),
           ),
-
+          InkWell(
+            onTap: (() => {
+                  UserCrud().fetchUserProfile(),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const SyllabusScreen(),
+                    ),
+                  ),
+                }),
+            child: containerForGridview(
+              "Syllabus",
+              Colors.blueAccent,
+            ),
+          ),
           //Widget for Upload Exam Details
           InkWell(
             onTap: () {
