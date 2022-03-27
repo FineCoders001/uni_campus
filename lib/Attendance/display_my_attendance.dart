@@ -83,9 +83,9 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                       itemCount: snap.length,
                       itemBuilder: (context, index) => ListTile(
                         title: Text(
-                            "${snap[index].get("Department")} ${snap[index].get("Date")}"),
+                            "${snap[index].get("Subject")} ${snap[index].get("Date").toString().substring(0, 10)}"),
                         subtitle: Text(
-                            "${snap[index].get("Month").toString()} ${snap[index].id}"),
+                            "${snap[index].get("Date").toString().substring(11, 16)} ${snap[index].id}"),
                       ),
                     ),
                   ),
@@ -104,7 +104,7 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
     final List<Meeting> meetings = <Meeting>[];
     for (int i = 0; i < snap.length; i++) {
       meetings.add(Meeting(
-          snap[i].get("Date").toString(),
+          snap[i].get("Subject").toString(),
           DateTime.parse(snap[i].get("Date")),
           DateTime.parse(snap[i].get("Date")).add(const Duration(hours: 1)),
           Colors.primaries[Random().nextInt(Colors.primaries.length)]));

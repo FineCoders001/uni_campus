@@ -3,6 +3,7 @@ class Attend {
   late final String year;
   late final String month;
   late final String date;
+  late final String subject;
   late final String semester;
   late final List<dynamic> map;
 
@@ -11,6 +12,7 @@ class Attend {
     required this.year,
     required this.semester,
     required this.month,
+    required this.subject,
     required this.map,
     required this.date,
   });
@@ -19,6 +21,7 @@ class Attend {
             dept: json["Department"] as String,
             year: json["Year"] as String,
             month: json["Month"] as String,
+            subject: json["Subject"] as String,
             semester: json["Semester"] as String,
             map: json["Map"],
             date: json["Date"] as String);
@@ -28,6 +31,7 @@ class Attend {
       'Department': dept,
       'Year': year,
       'Month': month,
+      'Subject': subject,
       'Semester': semester,
       'Map': map,
       'Date': date

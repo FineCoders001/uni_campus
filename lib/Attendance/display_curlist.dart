@@ -24,6 +24,7 @@ class _SelectState extends State<Select> {
     'December'
   ];
   String dept = "Information Technology";
+  late String subj = "";
   String y = DateTime.now().year.toString();
   String d = DateTime.now().toString();
   String sem = "Semester 1";
@@ -90,19 +91,6 @@ class _SelectState extends State<Select> {
                 ),
               ),
             ),
-            // DropdownButtonHideUnderline(
-            //   child: DropdownButton<String>(
-            //     value: y,
-            //     items: <String>["2022", "2023", "2024", "2025"].map((String v) {
-            //       return DropdownMenuItem(value: v, child: Text(v));
-            //     }).toList(),
-            //     onChanged: (value) {
-            //       setState(() {
-            //         y = value;
-            //       });
-            //     },
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -142,33 +130,29 @@ class _SelectState extends State<Select> {
                 ),
               ),
             ),
-            // DropdownButtonHideUnderline(
-            //   child: DropdownButton<String>(
-            //     value: m,
-            //     items: <String>[
-            //       'January',
-            //       'February',
-            //       'March',
-            //       'April',
-            //       'May',
-            //       'June',
-            //       'July',
-            //       'August',
-            //       'September',
-            //       'October',
-            //       'November',
-            //       'December'
-            //     ].map((String v) {
-            //       return DropdownMenuItem(value: v, child: Text(v));
-            //     }).toList(),
-            //     onChanged: (value) {
-            //       setState(() {
-            //         m = value;
-            //       });
-            //     },
-            //   ),
-            // ),
-            
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Form(
+                child: TextFormField(
+                  initialValue: subj,
+                  textCapitalization: TextCapitalization.characters,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a valid subject";
+                    } else {
+                      return null;
+                    }
+                  },
+                  onChanged: (value) {
+                    if (value != "" || value.isNotEmpty) {
+                      setState(() {
+                        subj = value;
+                      });
+                    }
+                  },
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: ElevatedButton(
@@ -180,6 +164,7 @@ class _SelectState extends State<Select> {
                         return ScanQR(
                             department: dept,
                             semester: sem,
+                            subject: subj,
                             year: y,
                             month: m,
                             date: d);

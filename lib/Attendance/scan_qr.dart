@@ -8,12 +8,14 @@ class ScanQR extends StatefulWidget {
   final dynamic semester;
   final dynamic year;
   final dynamic month;
+  final dynamic subject;
   final dynamic date;
   const ScanQR(
       {Key? key,
       required this.department,
       required this.year,
       required this.month,
+      required this.subject,
       required this.semester,
       required this.date})
       : super(key: key);
@@ -34,6 +36,7 @@ class _ScanQRState extends State<ScanQR> {
         dept: widget.department,
         year: widget.year,
         month: widget.month,
+        subject: widget.subject,
         semester: widget.semester,
         map: <String>[],
         date: widget.date);
@@ -59,41 +62,44 @@ class _ScanQRState extends State<ScanQR> {
             )),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("${at.dept} ${at.year} ${at.month} ${at.semester} ${at.date}"),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: ListView(
-                children: [
-                  IconButton(
-                    onPressed: _scan,
-                    icon: const Icon(Icons.camera),
-                  ),
-                  Center(
-                    child: Text(scanRes),
-                  ),
-                  IconButton(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                  "${at.dept} ${at.year} ${at.month} ${at.semester} ${at.date} ${at.subject}"),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: ListView(
+                  children: [
+                    IconButton(
+                      onPressed: _scan,
+                      icon: const Icon(Icons.camera),
+                    ),
+                    Center(
+                      child: Text(scanRes),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          at.map.add(scanRes);
+                        },
+                        icon: const Icon(Icons.add)),
+                    IconButton(
                       onPressed: () {
-                        at.map.add(scanRes);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return ViewList(d: at);
+                          }),
+                        );
                       },
-                      icon: const Icon(Icons.add)),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ViewList(d: at);
-                        }),
-                      );
-                    },
-                    icon: const Icon(Icons.view_agenda),
-                  ),
-                ],
+                      icon: const Icon(Icons.view_agenda),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
