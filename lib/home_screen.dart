@@ -290,6 +290,7 @@ Widget homeScreenWidget(
 ) {
   return user["role"] == "student"
       ? StaggeredGrid.count(
+          // FOR STUDENTS
           // physics: const BouncingScrollPhysics(),
           // gridDelegate: null,
           crossAxisSpacing: 5,
@@ -537,7 +538,7 @@ Widget homeScreenWidget(
           children: [
               bigCard(
                 context,
-                "Library Management Admin",
+                "Library Management",
                 Icons.local_library_outlined,
                 [
                   InkWell(
@@ -649,7 +650,7 @@ Widget homeScreenWidget(
                     );
                   },
                   child: containerForGridview(
-                    "Approve Events Admin",
+                    "Approve Events",
                     Colors.orange,
                   ),
                 ),
