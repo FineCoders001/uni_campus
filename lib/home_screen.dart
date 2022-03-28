@@ -339,20 +339,20 @@ Widget homeScreenWidget(
                   const Color.fromARGB(255, 60, 138, 63),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const Select(),
-                    ),
-                  );
-                },
-                child: containerForGridview(
-                  "Scan QR Code",
-                  const Color.fromARGB(255, 60, 138, 63),
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (BuildContext context) => const Select(),
+              //       ),
+              //     );
+              //   },
+              //   child: containerForGridview(
+              //     "Scan QR Code",
+              //     const Color.fromARGB(255, 60, 138, 63),
+              //   ),
+              // ),
               InkWell(
                 onTap: () {
                   Navigator.push(
