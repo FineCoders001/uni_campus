@@ -18,9 +18,8 @@ class _SyllabusScreenState extends State<SyllabusScreen> {
   late PageController _pageController;
   @override
   void initState() {
-    tabPages = [const DownloadSyllabusTab(), const DownloadedSyllabusTab()];
+    tabPages = const [DownloadSyllabusTab(), DownloadedSyllabusTab()];
     _pageController = PageController(initialPage: _pageIndex);
-    super.didChangeDependencies();
     super.initState();
   }
 
@@ -133,7 +132,6 @@ class _DownloadSyllabusTabState extends State<DownloadSyllabusTab> {
                     );
                   }
                 } catch (error) {
-                  print(error);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       duration: Duration(milliseconds: 1500),
@@ -193,13 +191,14 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
     searchCode.addListener(() {});
     final myDir = Directory(
         "/storage/emulated/0/Android/data/com.example.uni_campus/files/Syllabus");
-
-    setState(() {
-      _folders = myDir.listSync(recursive: true, followLinks: false);
-    });
-    for (int i = 0; i < _folders.length; i++) {
-      subjectList.add(_folders[i].toString().split('/')[9].substring(0, 7));
-      searchResult.add(_folders[i].toString().split('/')[9].substring(0, 7));
+    if (myDir.existsSync()) {
+      setState(() {
+        _folders = myDir.listSync(recursive: true, followLinks: false);
+      });
+      for (int i = 0; i < _folders.length; i++) {
+        subjectList.add(_folders[i].toString().split('/')[9].substring(0, 7));
+        searchResult.add(_folders[i].toString().split('/')[9].substring(0, 7));
+      }
     }
     super.initState();
   }
@@ -207,7 +206,7 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Padding(
+      bottomSheet: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Container(
           decoration: BoxDecoration(
@@ -217,6 +216,7 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
           child: ListTile(
             trailing: const Icon(Icons.search_rounded),
             title: TextFormField(
+              keyboardType: TextInputType.number,
               controller: searchCode,
               onChanged: ((value) {
                 setState(() {
@@ -240,30 +240,90 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
         child: ListView.builder(
           itemCount: searchResult.length,
           itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Subject Code: ${searchResult[index]}",
-                      style: const TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    IconButton(
-                      onPressed: (() => OpenFile.open(_folders[index].path)),
-                      icon: const Icon(
-                        Icons.open_in_new_rounded,
-                        color: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(5)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Subject Code: ${searchResult[index]}",
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: (() async {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text("Delete this file?"),
+                              content: Text(
+                                  'This will delete ${searchResult[index]}.pdf permanently.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    try {
+                                      var myDir = File(_folders[index].path);
+                                      await myDir.delete();
+                                      setState(() {
+                                        subjectList.removeAt(index);
+                                        searchResult = subjectList;
+                                      });
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Something Went Wrong',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    "Yes",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    "No",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                        icon: const Icon(
+                          Icons.delete_outline_rounded,
+                          color: Colors.white,
+                          size: 27,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              )),
+                      IconButton(
+                        onPressed: (() => OpenFile.open(_folders[index].path)),
+                        icon: const Icon(
+                          Icons.open_in_new_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
