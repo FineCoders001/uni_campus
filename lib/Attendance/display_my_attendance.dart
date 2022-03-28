@@ -84,8 +84,10 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                       itemBuilder: (context, index) => ListTile(
                         title: Text(
                             "${snap[index].get("Subject")} ${snap[index].get("Date").toString().substring(0, 10)}"),
-                        subtitle: Text(
-                            "${snap[index].get("Date").toString().substring(11, 16)}"),
+                        subtitle: Text(snap[index]
+                            .get("Date")
+                            .toString()
+                            .substring(11, 16)),
                       ),
                     ),
                   ),
