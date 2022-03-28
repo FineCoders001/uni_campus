@@ -85,7 +85,7 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                         title: Text(
                             "${snap[index].get("Subject")} ${snap[index].get("Date").toString().substring(0, 10)}"),
                         subtitle: Text(
-                            "${snap[index].get("Date").toString().substring(11, 16)} ${snap[index].id}"),
+                            "${snap[index].get("Date").toString().substring(11, 16)}"),
                       ),
                     ),
                   ),
