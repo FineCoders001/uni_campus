@@ -242,7 +242,7 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
           itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(5)),
