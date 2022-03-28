@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,29 +16,47 @@ class DisplayUserAttendace extends StatefulWidget {
 
 class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
   late List<Attend> li = [];
-  late Future<QuerySnapshot<Map<String, dynamic>>> list;
-
+  late Query<Map<String, dynamic>> list = FirebaseFirestore.instance
+      .collection("Attendance")
+      .doc(DateTime.now().year.toString())
+      .collection(months[calendarMonth])
+      .doc("Semester 7")
+      .collection("Information Technology")
+      .where("Map", arrayContainsAny: [
+    FirebaseAuth.instance.currentUser!.email!.toString()
+  ]);
+  final CalendarController _calendarController = CalendarController();
+  late int calendarMonth = DateTime.now().month - 1;
+  List<String> months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
   @override
-  Widget build(BuildContext context) {
-    // print("Data " +
-    //     FirebaseAuth.instance.currentUser!.email!.toString() +
-    //     " " +
-    //     RegExp.escape(DateTime.now().toString()));
-    // print(RegExp(FirebaseAuth.instance.currentUser!.email!.toString() +
-    //         r'^\s+[0-9]+:+[0-9]+:[0-9]+\.+[0-9]+$')
-    //     .hasMatch(dad));
-    // print(RegExp(FirebaseAuth.instance.currentUser!.email!.toString() +
-    //         r"(\s)([0-9]+-)([0-9]+-)([0-9]+)(\s)([0-9]+:)([0-9]+:)([0-9]+)(\.)([0-9]+)")
-    //     .stringMatch(FirebaseAuth.instance.currentUser!.email!.toString()));
+  void didChangeDependencies() {
     list = FirebaseFirestore.instance
         .collection("Attendance")
         .doc(DateTime.now().year.toString())
-        .collection("March")
+        .collection(months[calendarMonth])
         .doc("Semester 7")
         .collection("Information Technology")
         .where("Map", arrayContainsAny: [
       FirebaseAuth.instance.currentUser!.email!.toString()
-    ]).get();
+    ]);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -59,7 +76,15 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
       ),
       body: Center(
         child: FutureBuilder(
-          future: list,
+          future: FirebaseFirestore.instance
+              .collection("Attendance")
+              .doc(DateTime.now().year.toString())
+              .collection(months[calendarMonth])
+              .doc("Semester 7")
+              .collection("Information Technology")
+              .where("Map", arrayContainsAny: [
+            FirebaseAuth.instance.currentUser!.email!.toString()
+          ]).get(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.data?.size != null) {
@@ -69,6 +94,20 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                   SizedBox(
                     height: 3 * MediaQuery.of(context).size.height / 4,
                     child: SfCalendar(
+                      controller: _calendarController,
+                      showDatePickerButton: true,
+                      onViewChanged: (value) {
+                        int calLength = value.visibleDates.length;
+                        int sum = 0;
+                        for (int i = 0; i < calLength; i++) {
+                          sum += value.visibleDates[i].month;
+                        }
+
+                        calendarMonth =
+                            int.parse((sum / calLength).floor().toString());
+
+                        super.didChangeDependencies();
+                      },
                       appointmentTextStyle: GoogleFonts.ubuntu(),
                       allowedViews: const [
                         CalendarView.month,
