@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'Models/meeting.dart';
@@ -40,6 +41,7 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
       FirebaseAuth.instance.currentUser!.email!.toString()
     ]).get();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
         elevation: 0,
@@ -67,6 +69,7 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                   SizedBox(
                     height: 3 * MediaQuery.of(context).size.height / 4,
                     child: SfCalendar(
+                      appointmentTextStyle: GoogleFonts.ubuntu(),
                       allowedViews: const [
                         CalendarView.month,
                         CalendarView.week
