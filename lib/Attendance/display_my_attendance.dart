@@ -7,14 +7,14 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'Models/meeting.dart';
 
-class DisplayUserAttendace extends StatefulWidget {
-  const DisplayUserAttendace({Key? key}) : super(key: key);
+class DisplayUserAttendance extends StatefulWidget {
+  const DisplayUserAttendance({Key? key}) : super(key: key);
 
   @override
-  State<DisplayUserAttendace> createState() => _DisplayUserAttendaceState();
+  State<DisplayUserAttendance> createState() => _DisplayUserAttendanceState();
 }
 
-class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
+class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
   late List<Attend> li = [];
   late Query<Map<String, dynamic>> list = FirebaseFirestore.instance
       .collection("Attendance")
@@ -25,6 +25,8 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
       .where("Map", arrayContainsAny: [
     FirebaseAuth.instance.currentUser!.email!.toString()
   ]);
+  late final ValueNotifier<Query<Map<String, dynamic>>> _valuecontroller =
+      ValueNotifier<Query<Map<String, dynamic>>>(list);
   final CalendarController _calendarController = CalendarController();
   late int calendarMonth = DateTime.now().month - 1;
   List<String> months = [
@@ -41,19 +43,6 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
     'November',
     'December'
   ];
-  @override
-  void didChangeDependencies() {
-    list = FirebaseFirestore.instance
-        .collection("Attendance")
-        .doc(DateTime.now().year.toString())
-        .collection(months[calendarMonth])
-        .doc("Semester 7")
-        .collection("Information Technology")
-        .where("Map", arrayContainsAny: [
-      FirebaseAuth.instance.currentUser!.email!.toString()
-    ]);
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +65,7 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
       ),
       body: Center(
         child: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection("Attendance")
-              .doc(DateTime.now().year.toString())
-              .collection(months[calendarMonth])
-              .doc("Semester 7")
-              .collection("Information Technology")
-              .where("Map", arrayContainsAny: [
-            FirebaseAuth.instance.currentUser!.email!.toString()
-          ]).get(),
+          future: list.get(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.data?.size != null) {
@@ -104,9 +85,11 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                         }
 
                         calendarMonth =
-                            int.parse((sum / calLength).floor().toString());
-
-                        super.didChangeDependencies();
+                            int.parse((sum / calLength).floor().toString()) - 1;
+                        Future.delayed(Duration.zero, () {
+                          _valuecontroller.value =
+                              _changeQuery(calendarMonth, months);
+                        });
                       },
                       appointmentTextStyle: GoogleFonts.ubuntu(),
                       allowedViews: const [
@@ -120,19 +103,45 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snap.length,
-                      itemBuilder: (context, index) => ListTile(
-                        title: Text(
-                            "${snap[index].get("Subject")} ${snap[index].get("Date").toString().substring(0, 10)}"),
-                        subtitle: Text(snap[index]
-                            .get("Date")
-                            .toString()
-                            .substring(11, 16)),
-                      ),
+                    child: ValueListenableBuilder<Query<Map<String, dynamic>>>(
+                      valueListenable: _valuecontroller,
+                      builder: (BuildContext context, value, Widget? child) {
+                        print("Valuenotifier " + value.get().toString());
+                        return FutureBuilder(
+                            future: value.get(),
+                            builder: (context,
+                                AsyncSnapshot<
+                                        QuerySnapshot<Map<String, dynamic>>>
+                                    snapshot) {
+                              var calsnap = snapshot.data?.docs;
+                              print("calsnap " + calsnap.toString());
+                              try {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: calsnap!.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(
+                                            "${calsnap[index].get("Subject")} ${calsnap[index].get("Date").toString().substring(0, 10)}"),
+                                        subtitle: Text(snap[index]
+                                            .get("Date")
+                                            .toString()
+                                            .substring(11, 16)),
+                                      );
+                                    });
+                              } catch (e) {
+                                if (calsnap == []) {
+                                  return const Center(
+                                    child: Text("No Data Found"),
+                                  );
+                                }
+                              }
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            });
+                      },
                     ),
-                  ),
+                  )
                 ],
               );
             } else {
@@ -155,4 +164,18 @@ class _DisplayUserAttendaceState extends State<DisplayUserAttendace> {
     }
     return meetings;
   }
+}
+
+Query<Map<String, dynamic>> _changeQuery(
+    int calendarMonth, List<String> months) {
+  print("changes" + calendarMonth.toString());
+  return FirebaseFirestore.instance
+      .collection("Attendance")
+      .doc(DateTime.now().year.toString())
+      .collection(months[calendarMonth])
+      .doc("Semester 7")
+      .collection("Information Technology")
+      .where("Map", arrayContainsAny: [
+    FirebaseAuth.instance.currentUser!.email!.toString()
+  ]);
 }

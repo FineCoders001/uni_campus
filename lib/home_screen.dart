@@ -360,7 +360,7 @@ Widget homeScreenWidget(
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          const DisplayUserAttendace(),
+                          const DisplayUserAttendance(),
                     ),
                   );
                 },
@@ -733,7 +733,7 @@ Widget homeScreenWidget(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            const DisplayUserAttendace(),
+                            const DisplayUserAttendance(),
                       ),
                     );
                   },
