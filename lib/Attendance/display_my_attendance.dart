@@ -106,7 +106,6 @@ class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
                     child: ValueListenableBuilder<Query<Map<String, dynamic>>>(
                       valueListenable: _valuecontroller,
                       builder: (BuildContext context, value, Widget? child) {
-                        print("Valuenotifier " + value.get().toString());
                         return FutureBuilder(
                             future: value.get(),
                             builder: (context,
@@ -114,7 +113,6 @@ class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
                                         QuerySnapshot<Map<String, dynamic>>>
                                     snapshot) {
                               var calsnap = snapshot.data?.docs;
-                              print("calsnap " + calsnap.toString());
                               try {
                                 return ListView.builder(
                                     shrinkWrap: true,
