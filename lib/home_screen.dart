@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_campus/Attendance/display_curlist.dart';
-import 'package:uni_campus/Attendance/display_my_attendance.dart';
 import 'package:uni_campus/Attendance/generate_qr.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/modify_book_screen.dart';
@@ -27,6 +26,8 @@ import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+
+import 'Attendance/display_attendance.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -360,7 +361,7 @@ Widget homeScreenWidget(
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          const DisplayUserAttendance(),
+                          const DisplayAttendance(),
                     ),
                   );
                 },
@@ -733,12 +734,12 @@ Widget homeScreenWidget(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            const DisplayUserAttendance(),
+                            const DisplayAttendance(),
                       ),
                     );
                   },
                   child: containerForGridview(
-                    "My Attendance",
+                    "Attendance",
                     const Color.fromARGB(255, 60, 138, 63),
                   ),
                 ),
