@@ -3,31 +3,52 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/Users/user_crud.dart';
 import 'Models/meeting.dart';
 
-class DisplayUserAttendance extends StatefulWidget {
+class DisplayUserAttendance extends StatefulHookConsumerWidget {
   const DisplayUserAttendance({Key? key}) : super(key: key);
 
   @override
-  State<DisplayUserAttendance> createState() => _DisplayUserAttendanceState();
+  _DisplayUserAttendanceState createState() => _DisplayUserAttendanceState();
 }
 
-class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
+class _DisplayUserAttendanceState extends ConsumerState<DisplayUserAttendance> {
+  late UserCrud usercrud;
+  late User user;
+
   late List<Attend> li = [];
   late Query<Map<String, dynamic>> list = FirebaseFirestore.instance
       .collection("Attendance")
       .doc(DateTime.now().year.toString())
       .collection(months[calendarMonth])
-      .doc("Semester 7")
-      .collection("Information Technology")
+      .doc(sem[int.parse(ref.watch(userCrudProvider).user["semester"]) - 1])
+      .collection(ref.watch(userCrudProvider).user["deptName"])
       .where("Map", arrayContainsAny: [
     FirebaseAuth.instance.currentUser!.email!.toString()
   ]);
+
+  Query<Map<String, dynamic>> _changeQuery(
+      int calendarMonth, List<String> months) {
+    var listn = FirebaseFirestore.instance
+        .collection("Attendance")
+        .doc(DateTime.now().year.toString())
+        .collection(months[calendarMonth])
+        .doc(sem[int.parse(ref.watch(userCrudProvider).user["semester"]) - 1])
+        .collection("Information Technology")
+        .where("Map", arrayContainsAny: [
+      FirebaseAuth.instance.currentUser!.email!.toString()
+    ]);
+    return listn;
+  }
+
   late final ValueNotifier<Query<Map<String, dynamic>>> _valuecontroller =
       ValueNotifier<Query<Map<String, dynamic>>>(list);
-  final CalendarController _calendarController = CalendarController();
+  late final CalendarController _calendarController = CalendarController();
   late int calendarMonth = DateTime.now().month - 1;
   List<String> months = [
     'January',
@@ -42,6 +63,16 @@ class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
     'October',
     'November',
     'December'
+  ];
+  List<String> sem = [
+    'Semester 1',
+    'Semester 2',
+    'Semester 3',
+    'Semester 4',
+    'Semester 5',
+    'Semester 6',
+    'Semester 7',
+    'Semester 8',
   ];
 
   @override
@@ -83,7 +114,6 @@ class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
                         for (int i = 0; i < calLength; i++) {
                           sum += value.visibleDates[i].month;
                         }
-
                         calendarMonth =
                             int.parse((sum / calLength).floor().toString()) - 1;
                         Future.delayed(Duration.zero, () {
@@ -121,21 +151,17 @@ class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
                                       return ListTile(
                                         title: Text(
                                             "${calsnap[index].get("Subject")} ${calsnap[index].get("Date").toString().substring(0, 10)}"),
-                                        subtitle: Text(snap[index]
+                                        subtitle: Text(calsnap[index]
                                             .get("Date")
                                             .toString()
                                             .substring(11, 16)),
                                       );
                                     });
                               } catch (e) {
-                                if (calsnap == []) {
-                                  return const Center(
-                                    child: Text("No Data Found"),
-                                  );
-                                }
+                                return const Center(
+                                  child: Text("No Data Found"),
+                                );
                               }
-                              return const Center(
-                                  child: CircularProgressIndicator());
                             });
                       },
                     ),
@@ -162,18 +188,4 @@ class _DisplayUserAttendanceState extends State<DisplayUserAttendance> {
     }
     return meetings;
   }
-}
-
-Query<Map<String, dynamic>> _changeQuery(
-    int calendarMonth, List<String> months) {
-  print("changes" + calendarMonth.toString());
-  return FirebaseFirestore.instance
-      .collection("Attendance")
-      .doc(DateTime.now().year.toString())
-      .collection(months[calendarMonth])
-      .doc("Semester 7")
-      .collection("Information Technology")
-      .where("Map", arrayContainsAny: [
-    FirebaseAuth.instance.currentUser!.email!.toString()
-  ]);
 }
