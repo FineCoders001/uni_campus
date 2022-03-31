@@ -15,11 +15,12 @@ class _ViewListState extends State<ViewList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
           return addAttendance();
         },
-        child: const Text("Submit"),
+        label: const Text("Submit"),
+        icon: const Icon(Icons.add),
       ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
@@ -37,7 +38,7 @@ class _ViewListState extends State<ViewList> {
             )),
       ),
       body: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
           ListTile(
             title: Text("Faculty : " + widget.d.facultyName),
@@ -55,34 +56,35 @@ class _ViewListState extends State<ViewList> {
                 " Time : " +
                 widget.d.date.substring(11, 16)),
           ),
-          SingleChildScrollView(
-            child: ListView.builder(
-              itemCount: widget.d.map.isNotEmpty ? widget.d.map.length : 1,
-              itemBuilder: (context, index) {
-                if (widget.d.map.isNotEmpty) {
-                  return ListTile(
-                    title: Text(widget.d.map[index]),
-                  );
-                } else {
-                  return const ListTile(
-                    title: Text("No data Added"),
-                  );
-                }
-              },
-            ),
-          ),
+          widget.d.map.isEmpty
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: const Center(child: Text("No Data Added")),
+                )
+              : ListView.builder(
+                  itemCount: widget.d.map.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(widget.d.map[index]),
+                    );
+                  })
         ],
       ),
     );
   }
 
-  void addAttendance() {
-    FirebaseFirestore.instance
+  Future<void> addAttendance() async {
+    await FirebaseFirestore.instance
         .collection("Attendance")
         .doc(widget.d.year)
         .collection(widget.d.month)
         .doc(widget.d.semester)
         .collection(widget.d.dept)
-        .add(widget.d.toJson());
+        .add(widget.d.toJson())
+        .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                duration: Duration(milliseconds: 1500),
+                content: Text('Data Added Successfully',
+                    textAlign: TextAlign.center))));
   }
 }
