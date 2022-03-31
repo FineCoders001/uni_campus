@@ -38,7 +38,7 @@ class _ViewListState extends State<ViewList> {
             )),
       ),
       body: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             title: Text("Faculty : " + widget.d.facultyName),
@@ -51,23 +51,46 @@ class _ViewListState extends State<ViewList> {
                 widget.d.semester),
           ),
           ListTile(
-            title: Text("Date : " +
-                widget.d.date.substring(0, 10) +
-                " Time : " +
-                widget.d.date.substring(11, 16)),
+            title: Text(
+              "Date : " +
+                  widget.d.date.substring(0, 10) +
+                  " Time : " +
+                  widget.d.date.substring(11, 16),
+            ),
           ),
-          widget.d.map.isEmpty
-              ? SizedBox(
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: const Center(child: Text("No Data Added")),
-                )
-              : ListView.builder(
-                  itemCount: widget.d.map.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(widget.d.map[index]),
-                    );
-                  })
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.60,
+            child: Container(
+              child: widget.d.map.isEmpty
+                  ? const Center(
+                      child: Text("No Data Added"),
+                    )
+                  : ListView.builder(
+                      itemCount: widget.d.map.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: const [BoxShadow(blurRadius: 4)]),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.grey,
+                                child: Text(
+                                  index.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              title: Text(widget.d.map[index]),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ),
         ],
       ),
     );
