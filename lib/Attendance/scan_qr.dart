@@ -89,46 +89,71 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          width: 96,
-                          height: 96,
-                          imageUrl: user['profilePicture'],
-                          placeholder: (context, url) => ClipOval(
-                            child: Material(
-                              elevation: 5.0,
-                              shape: const CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              color: const Color.fromARGB(255, 65, 198, 255),
-                              child: Center(
-                                child: Text(
-                                  user['userName'][0],
-                                  style: GoogleFonts.ubuntu(
-                                      color: Colors.white,
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.bold),
+                        child: user['profilePicture'] == ""
+                            ? SizedBox(
+                                height: 96,
+                                width: 96,
+                                child: ClipOval(
+                                  child: Material(
+                                    elevation: 5.0,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    color:
+                                        const Color.fromARGB(255, 65, 198, 255),
+                                    child: Center(
+                                      child: Text(
+                                        user['userName'][0],
+                                        style: GoogleFonts.ubuntu(
+                                            color: Colors.white,
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 96,
+                                height: 96,
+                                imageUrl: user['profilePicture'],
+                                placeholder: (context, url) => ClipOval(
+                                  child: Material(
+                                    elevation: 5.0,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    color:
+                                        const Color.fromARGB(255, 65, 198, 255),
+                                    child: Center(
+                                      child: Text(
+                                        user['userName'][0],
+                                        style: GoogleFonts.ubuntu(
+                                            color: Colors.white,
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => ClipOval(
+                                  child: Material(
+                                    elevation: 5.0,
+                                    shape: const CircleBorder(),
+                                    clipBehavior: Clip.hardEdge,
+                                    color:
+                                        const Color.fromARGB(255, 65, 198, 255),
+                                    child: Center(
+                                      child: Text(
+                                        user['userName'][0],
+                                        style: GoogleFonts.ubuntu(
+                                            color: Colors.white,
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => ClipOval(
-                            child: Material(
-                              elevation: 5.0,
-                              shape: const CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              color: const Color.fromARGB(255, 65, 198, 255),
-                              child: Center(
-                                child: Text(
-                                  user['userName'][0],
-                                  style: GoogleFonts.ubuntu(
-                                      color: Colors.white,
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
@@ -206,7 +231,7 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                               Text(
                                 'Capture QR',
                                 style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
+                                    fontSize: 17, color: Colors.white),
                               ),
                               Icon(
                                 Icons.camera_alt_outlined,
@@ -259,12 +284,12 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                                   ? const Text(
                                       'Add Enrollment',
                                       style: TextStyle(
-                                          fontSize: 20, color: Colors.white),
+                                          fontSize: 17, color: Colors.white),
                                     )
                                   : Text(
                                       'Add: $scanRes',
                                       style: const TextStyle(
-                                          fontSize: 20, color: Colors.white),
+                                          fontSize: 17, color: Colors.white),
                                     ),
                               const Icon(
                                 Icons.person_add_outlined,
@@ -301,7 +326,7 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                               Text(
                                 'Check Student list',
                                 style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
+                                    fontSize: 17, color: Colors.white),
                               ),
                               Icon(
                                 Icons.list_alt_rounded,
