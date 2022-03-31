@@ -99,7 +99,15 @@ class _ScanQRState extends State<ScanQR> {
                     IconButton(
                         tooltip: "Add",
                         onPressed: () {
-                          at.map.add(scanRes);
+                          if (at.map.contains(scanRes)) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    duration: Duration(milliseconds: 1500),
+                                    content: Text('Already Added',
+                                        textAlign: TextAlign.center)));
+                          } else {
+                            at.map.add(scanRes);
+                          }
                         },
                         icon: const Icon(Icons.add)),
                     IconButton(

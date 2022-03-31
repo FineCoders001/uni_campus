@@ -13,13 +13,14 @@ class ViewList extends StatefulWidget {
 
 class _ViewListState extends State<ViewList> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          return addAttendance();
+        },
+        child: const Text("Submit"),
+      ),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
         elevation: 0,
@@ -35,21 +36,42 @@ class _ViewListState extends State<ViewList> {
               size: 25,
             )),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(widget.d.toJson().toString()),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                return addAttendance();
+      body: Column(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ListTile(
+            title: Text("Faculty : " + widget.d.facultyName),
+            subtitle: Text("Department : " + widget.d.dept),
+          ),
+          ListTile(
+            title: Text("Subject : " +
+                widget.d.subject +
+                " Semester : " +
+                widget.d.semester),
+          ),
+          ListTile(
+            title: Text("Date : " +
+                widget.d.date.substring(0, 10) +
+                " Time : " +
+                widget.d.date.substring(11, 16)),
+          ),
+          SingleChildScrollView(
+            child: ListView.builder(
+              itemCount: widget.d.map.isNotEmpty ? widget.d.map.length : 1,
+              itemBuilder: (context, index) {
+                if (widget.d.map.isNotEmpty) {
+                  return ListTile(
+                    title: Text(widget.d.map[index]),
+                  );
+                } else {
+                  return const ListTile(
+                    title: Text("No data Added"),
+                  );
+                }
               },
-              child: const Text("Submit"),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
