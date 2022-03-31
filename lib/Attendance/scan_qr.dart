@@ -10,6 +10,7 @@ class ScanQR extends StatefulWidget {
   final dynamic month;
   final dynamic subject;
   final dynamic date;
+  final dynamic facultyName;
   const ScanQR(
       {Key? key,
       required this.department,
@@ -17,7 +18,8 @@ class ScanQR extends StatefulWidget {
       required this.month,
       required this.subject,
       required this.semester,
-      required this.date})
+      required this.date,
+      required this.facultyName})
       : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class _ScanQRState extends State<ScanQR> {
   @override
   void initState() {
     at = Attend(
+        facultyName: widget.facultyName,
         dept: widget.department,
         year: widget.year,
         month: widget.month,
@@ -50,7 +53,7 @@ class _ScanQRState extends State<ScanQR> {
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
         elevation: 0,
         centerTitle: true,
-        title: Text("Scan QR ${at.dept} ${at.year} ${at.semester}"),
+        title: const Text("Scan QR"),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -64,27 +67,43 @@ class _ScanQRState extends State<ScanQR> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                  "${at.dept} ${at.year} ${at.month} ${at.semester} ${at.date} ${at.subject}"),
+              ListTile(
+                title: Text("Faculty : " + at.facultyName.toString()),
+              ),
+              ListTile(
+                title: Text("Department : " + at.dept.toString()),
+                subtitle: Text(
+                    "Semester : " + at.semester + " Subject : " + at.subject),
+              ),
+              ListTile(
+                title: Text("Date : " + at.date.toString().substring(0, 10)),
+                subtitle:
+                    Text("Time : " + at.date.toString().substring(11, 16)),
+              ),
+              // Text(
+              //     "${at.dept} ${at.year} ${at.month} ${at.semester} ${at.date} ${at.subject} ${at.facultyName}"),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height / 3,
                 child: ListView(
                   children: [
                     IconButton(
                       onPressed: _scan,
+                      tooltip: "Capture QR",
                       icon: const Icon(Icons.camera),
                     ),
                     Center(
                       child: Text(scanRes),
                     ),
                     IconButton(
+                        tooltip: "Add",
                         onPressed: () {
                           at.map.add(scanRes);
                         },
                         icon: const Icon(Icons.add)),
                     IconButton(
+                      tooltip: "See the list",
                       onPressed: () {
                         Navigator.push(
                           context,

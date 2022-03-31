@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Attendance/scan_qr.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
-class Select extends StatefulWidget {
+class Select extends StatefulHookConsumerWidget {
   const Select({Key? key}) : super(key: key);
 
   @override
   _SelectState createState() => _SelectState();
 }
 
-class _SelectState extends State<Select> {
+class _SelectState extends ConsumerState<Select> {
   List<String> months = [
     'January',
     'February',
@@ -24,14 +26,23 @@ class _SelectState extends State<Select> {
     'December'
   ];
   String dept = "Information Technology";
-  late String subj = "";
+  String subj = "";
+  String facName = "";
   String y = DateTime.now().year.toString();
   String d = DateTime.now().toString();
   String sem = "Semester 1";
+
+  @override
+  void initState() {
+    facName = ref.read(userCrudProvider).user["userName"];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     String m = months[DateTime.now().month - 1];
 
+    TextEditingController _formcontroller = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
@@ -131,25 +142,21 @@ class _SelectState extends State<Select> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Form(
                 child: TextFormField(
-                  initialValue: subj,
-                  textCapitalization: TextCapitalization.characters,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please enter a valid subject";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onChanged: (value) {
-                    if (value != "" || value.isNotEmpty) {
-                      setState(() {
-                        subj = value;
-                      });
-                    }
-                  },
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2.5),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2.5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2.5),
+                      ),
+                      hintText: "Enter Subject Name (eg: CN, ADA) "),
+                  controller: _formcontroller,
                 ),
               ),
             ),
@@ -157,20 +164,30 @@ class _SelectState extends State<Select> {
               padding: const EdgeInsets.only(top: 20.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ScanQR(
-                            department: dept,
-                            semester: sem,
-                            subject: subj,
-                            year: y,
-                            month: m,
-                            date: d);
-                      },
-                    ),
-                  );
+                  if (_formcontroller.value.text.toString() != "") {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ScanQR(
+                              facultyName: facName,
+                              department: dept,
+                              semester: sem,
+                              subject: _formcontroller.value.text
+                                  .toString()
+                                  .toUpperCase(),
+                              year: y,
+                              month: m,
+                              date: d);
+                        },
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        duration: Duration(milliseconds: 1500),
+                        content: Text('Subject cannot be empty',
+                            textAlign: TextAlign.center)));
+                  }
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
