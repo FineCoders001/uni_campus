@@ -247,7 +247,18 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                           horizontal: 32, vertical: 8),
                       child: InkWell(
                         onTap: () {
-                          if (at.map.contains(scanRes)) {
+                          if(scanRes ==""){
+                             ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(milliseconds: 1500),
+                                content: Text(
+                                  'Please Scan QR first',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                          else if (at.map.contains(scanRes)) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 duration: Duration(milliseconds: 1500),
