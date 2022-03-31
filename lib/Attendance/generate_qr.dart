@@ -1,10 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
-class GenerateQr extends StatelessWidget {
+class GenerateQr extends StatefulHookConsumerWidget {
   const GenerateQr({Key? key}) : super(key: key);
+
+  @override
+  _GenerateQrState createState() => _GenerateQrState();
+}
+
+class _GenerateQrState extends ConsumerState<GenerateQr> {
+  late String enroll;
+  @override
+  void initState() {
+    enroll = ref.read(userCrudProvider).user["enroll"].toString();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +48,7 @@ class GenerateQr extends StatelessWidget {
                   GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             QrImage(
-              data: FirebaseAuth.instance.currentUser!.email.toString() +
-                  " " +
-                  DateTime.now().toString(),
+              data: enroll + " " + DateTime.now().toString(),
               version: QrVersions.auto,
               size: 200,
             ),

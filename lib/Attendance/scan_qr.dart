@@ -128,7 +128,7 @@ class _ScanQRState extends State<ScanQR> {
     final result = await BarcodeScanner.scan();
     setState(
       () {
-        scanRes = result.rawContent.toString();
+        scanRes = result.rawContent.toString().substring(0, 12);
       },
     );
   }

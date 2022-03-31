@@ -32,6 +32,7 @@ class _DisplayAttendanceState extends ConsumerState<DisplayAttendance> {
     'November',
     'December'
   ];
+
   List<String> sem = [
     'Semester 1',
     'Semester 2',
@@ -42,6 +43,7 @@ class _DisplayAttendanceState extends ConsumerState<DisplayAttendance> {
     'Semester 7',
     'Semester 8',
   ];
+
   List<Meeting> _getds(List<QueryDocumentSnapshot<Map<String, dynamic>>> snap) {
     final List<Meeting> meetings = <Meeting>[];
     for (int i = 0; i < snap.length; i++) {
@@ -53,6 +55,14 @@ class _DisplayAttendanceState extends ConsumerState<DisplayAttendance> {
     }
     return meetings;
   }
+
+  // late String enroll;
+
+  // @override
+  // void initState() {
+  //   enroll = ref.read(userCrudProvider).user["enroll"].toString();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +78,7 @@ class _DisplayAttendanceState extends ConsumerState<DisplayAttendance> {
                         1])
                 .collection(ref.watch(userCrudProvider).user["deptName"])
                 .where("Map", arrayContainsAny: [
-      FirebaseAuth.instance.currentUser!.email.toString()
+      ref.watch(userCrudProvider).user["enroll"].toString()
     ]).get());
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -88,34 +98,36 @@ class _DisplayAttendanceState extends ConsumerState<DisplayAttendance> {
             )),
       ),
       body: ValueListenableBuilder<Future<QuerySnapshot<Map<String, dynamic>>>>(
-          valueListenable: valueListenable,
-          builder: (context, value, child) {
-            return FutureBuilder(
-                future: valueListenable.value,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  var calendata = snapshot.data!.docs;
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 3 * MediaQuery.of(context).size.height / 4,
-                        child: SfCalendar(
-                          maxDate: DateTime.now(),
-                          allowedViews: const [CalendarView.week],
-                          showDatePickerButton: true,
-                          initialDisplayDate: DateTime.now(),
-                          dataSource: DS(_getds(calendata)),
-                          onViewChanged: (value) {
-                            int calLength = value.visibleDates.length;
-                            int sum = 0;
-                            for (int i = 0; i < calLength; i++) {
-                              sum += value.visibleDates[i].month;
-                            }
-                            calendarMonth = int.parse(
-                                    (sum / calLength).floor().toString()) -
-                                1;
-                            Future.delayed(Duration.zero, () {
+        valueListenable: valueListenable,
+        builder: (context, value, child) {
+          return FutureBuilder(
+            future: valueListenable.value,
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              if (snapshot.hasData) {
+                var calendata = snapshot.data!.docs;
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 3 * MediaQuery.of(context).size.height / 4,
+                      child: SfCalendar(
+                        maxDate: DateTime.now(),
+                        allowedViews: const [CalendarView.week],
+                        showDatePickerButton: true,
+                        initialDisplayDate: DateTime.now(),
+                        dataSource: DS(_getds(calendata)),
+                        onViewChanged: (value) {
+                          int calLength = value.visibleDates.length;
+                          int sum = 0;
+                          for (int i = 0; i < calLength; i++) {
+                            sum += value.visibleDates[i].month;
+                          }
+                          calendarMonth =
+                              int.parse((sum / calLength).floor().toString()) -
+                                  1;
+                          Future.delayed(
+                            Duration.zero,
+                            () {
                               valueListenable.value = FirebaseFirestore.instance
                                   .collection("Attendance")
                                   .doc(DateTime.now().year.toString())
@@ -128,37 +140,55 @@ class _DisplayAttendanceState extends ConsumerState<DisplayAttendance> {
                                       .watch(userCrudProvider)
                                       .user["deptName"])
                                   .where("Map", arrayContainsAny: [
-                                FirebaseAuth.instance.currentUser!.email
+                                ref
+                                    .watch(userCrudProvider)
+                                    .user["enroll"]
                                     .toString()
                               ]).get();
-                            });
-                          },
-                        ),
+                            },
+                          );
+                        },
                       ),
-                      Expanded(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: calendata.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: Text(calendata[index]
-                                          .get("Subject")
-                                          .toString() +
-                                      " " +
-                                      calendata[index]
-                                          .get("Date")
-                                          .toString()
-                                          .substring(0, 10)),
-                                  subtitle: Text(calendata[index]
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: calendata.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              calendata[index].get("Subject").toString() +
+                                  " " +
+                                  calendata[index]
+                                      .get("FacultyName")
+                                      .toString(),
+                            ),
+                            subtitle: Text(
+                              calendata[index]
                                       .get("Date")
                                       .toString()
-                                      .substring(11, 16)),
-                                );
-                              })),
-                    ],
-                  );
-                });
-          }),
+                                      .substring(0, 10) +
+                                  " " +
+                                  calendata[index]
+                                      .get("Date")
+                                      .toString()
+                                      .substring(11, 16),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }
