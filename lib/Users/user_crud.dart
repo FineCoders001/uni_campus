@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uni_campus/Users/Models/user.dart';
-import '../main.dart';
+import 'package:uni_campus/main.dart';
 
 class UserCrud extends ChangeNotifier {
   Map<String, dynamic> user = {};

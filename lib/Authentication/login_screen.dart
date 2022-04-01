@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/Authentication/forgot_password.dart';
 import 'package:uni_campus/Authentication/registration_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -245,6 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: econ.text.trim(), password: pcin.text.trim());
+        currentUser = FirebaseAuth.instance.currentUser;
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
