@@ -120,81 +120,82 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           fontSize: 15.sp, color: Colors.white),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
-                    child: Row(
-                      children: [
-                        Material(
-                          color: Colors.amber,
-                          elevation: 5,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0.h, horizontal: 15.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "My",
-                                    style: GoogleFonts.ubuntu(
-                                        fontSize: 12.sp, color: Colors.white),
-                                  ),
-                                  Text(
-                                    "Results",
-                                    style: GoogleFonts.ubuntu(
-                                        fontSize: 24.sp, color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.amber,
-                          elevation: 5,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const TodoList(),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.h, horizontal: 10.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "My",
-                                    style: GoogleFonts.ubuntu(
-                                        fontSize: 12.sp, color: Colors.white),
-                                  ),
-                                  Text(
-                                    "TODO List",
-                                    style: GoogleFonts.ubuntu(
-                                        fontSize: 24.sp, color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding:
+                  //       EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
+                  //   child: Row(
+                  //     children: [
+                  // Material(
+                  //   color: Colors.amber,
+                  //   elevation: 5,
+                  //   shape: const RoundedRectangleBorder(
+                  //       borderRadius:
+                  //           BorderRadius.all(Radius.circular(10))),
+                  //   child: InkWell(
+                  //     onTap: () {},
+                  //     child: Padding(
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: 20.0.h, horizontal: 15.w),
+                  //       child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Text(
+                  //             "My",
+                  //             style: GoogleFonts.ubuntu(
+                  //                 fontSize: 12.sp, color: Colors.white),
+                  //           ),
+                  //           Text(
+                  //             "Results",
+                  //             style: GoogleFonts.ubuntu(
+                  //                 fontSize: 24.sp, color: Colors.white),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  // Material(
+                  //   color: Colors.amber,
+                  //   elevation: 5,
+                  //   shape: const RoundedRectangleBorder(
+                  //       borderRadius:
+                  //           BorderRadius.all(Radius.circular(10))),
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (BuildContext context) =>
+                  //               const TodoList(),
+                  //         ),
+                  //       );
+                  //     },
+                  //     child: Padding(
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: 20.h, horizontal: 10.w),
+                  //       child: Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Text(
+                  //             "My",
+                  //             style: GoogleFonts.ubuntu(
+                  //                 fontSize: 12.sp, color: Colors.white),
+                  //           ),
+                  //           Text(
+                  //             "TODO List",
+                  //             style: GoogleFonts.ubuntu(
+                  //                 fontSize: 24.sp, color: Colors.white),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  //     ],
+                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -202,70 +203,109 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             // buildItem(u['collegeName'], "2018 - 2022"),
             // buildItem(u['deptName'], "Department"),
             // buildItem(semRoman[int.parse(u['semester'])], "Semester")
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Material(
-                elevation: 5,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: const Icon(Icons.library_books_outlined),
-                        trailing: buildEditIcon(),
-                        title: Text(
-                          u['enroll'],
-                        ),
-                        subtitle: const Text(
-                          "Enrollment",
-                        ),
+            u['role'] == "student"
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 7,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(Icons.library_books_outlined),
+                              trailing: buildEditIcon(),
+                              title: Text(
+                                u['enroll'],
+                              ),
+                              subtitle: const Text(
+                                "Enrollment",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(Icons.school_outlined),
+                              trailing: buildEditIcon(),
+                              title: Text(
+                                u['collegeName'],
+                              ),
+                              subtitle: Text(
+                                "${u['styear']} - ${u['enyear']}",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(Icons.local_library_outlined),
+                              trailing: buildEditIcon(),
+                              title: Text(
+                                u['deptName'],
+                              ),
+                              subtitle: const Text(
+                                "Department",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(Icons.arrow_forward),
+                              trailing: buildEditIcon(),
+                              title: Text(
+                                semRoman[int.parse(u['semester'])],
+                              ),
+                              subtitle: const Text(
+                                "Semester",
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: const Icon(Icons.school_outlined),
-                        trailing: buildEditIcon(),
-                        title: Text(
-                          u['collegeName'],
-                        ),
-                        subtitle: Text(
-                          "${u['styear']} - ${u['enyear']}",
-                        ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 5,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(Icons.school_outlined),
+                              trailing: buildEditIcon(),
+                              title: Text(
+                                u['collegeName'],
+                              ),
+                              subtitle: const Text(
+                                "College",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: const Icon(Icons.arrow_forward),
+                              trailing: buildEditIcon(),
+                              title: Text(
+                                u['role'].toString().toUpperCase(),
+                              ),
+                              subtitle: const Text(
+                                "Role",
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: const Icon(Icons.local_library_outlined),
-                        trailing: buildEditIcon(),
-                        title: Text(
-                          u['deptName'],
-                        ),
-                        subtitle: const Text(
-                          "Department",
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: const Icon(Icons.arrow_forward),
-                        trailing: buildEditIcon(),
-                        title: Text(
-                          semRoman[int.parse(u['semester'])],
-                        ),
-                        subtitle: const Text(
-                          "Semester",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
+                  ),
           ],
         ),
       ),
