@@ -45,11 +45,15 @@ class _SelectState extends ConsumerState<Select> {
 
     TextEditingController _formcontroller = TextEditingController();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
         elevation: 0,
         centerTitle: true,
-        title: const Text("Subject Information"),
+        title: Text(
+          "Add Subject Details",
+          style: GoogleFonts.ubuntu(),
+        ),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -208,13 +212,22 @@ class _SelectState extends ConsumerState<Select> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1),
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1),
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 1),
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     hintText:
                                         "Enter Subject Name (eg: CN, ADA) "),
@@ -266,7 +279,7 @@ class _SelectState extends ConsumerState<Select> {
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    "Submit",
+                    "Proceed",
                     style: TextStyle(fontSize: 22),
                   ),
                 ),

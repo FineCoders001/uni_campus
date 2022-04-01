@@ -171,24 +171,6 @@ class _ViewListState extends ConsumerState<ViewList> {
               ),
             ),
           ),
-          // ListTile(
-          //   title: Text("Faculty : " + widget.d.facultyName),
-          //   subtitle: Text("Department : " + widget.d.dept),
-          // ),
-          // ListTile(
-          //   title: Text("Subject : " +
-          //       widget.d.subject +
-          //       " Semester : " +
-          //       widget.d.semester),
-          // ),
-          // ListTile(
-          //   title: Text(
-          //     "Date : " +
-          //         widget.d.date.substring(0, 10) +
-          //         " Time : " +
-          //         widget.d.date.substring(11, 16),
-          //   ),
-          // ),
           widget.d.map.isEmpty
               ? const Text(
                   "No students added",
@@ -231,40 +213,6 @@ class _ViewListState extends ConsumerState<ViewList> {
                     ),
                   ),
                 ),
-
-          // SizedBox(
-          //   height: MediaQuery.of(context).size.height * 0.60,
-          //   child: Container(
-          //     child: widget.d.map.isEmpty
-          //         ? const Center(
-          //             child: Text("No Data Added"),
-          //           )
-          //         : ListView.builder(
-          //             itemCount: widget.d.map.length,
-          //             itemBuilder: (context, index) {
-          //               return Padding(
-          //                 padding: const EdgeInsets.all(10.0),
-          //                 child: Container(
-          //                   decoration: BoxDecoration(
-          //                       color: Colors.white,
-          //                       borderRadius: BorderRadius.circular(5),
-          //                       boxShadow: const [BoxShadow(blurRadius: 4)]),
-          //                   child: ListTile(
-          //                     leading: CircleAvatar(
-          //                       backgroundColor: Colors.grey,
-          //                       child: Text(
-          //                         index.toString(),
-          //                         style: const TextStyle(color: Colors.white),
-          //                       ),
-          //                     ),
-          //                     title: Text(widget.d.map[index]),
-          //                   ),
-          //                 ),
-          //               );
-          //             },
-          //           ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -278,10 +226,14 @@ class _ViewListState extends ConsumerState<ViewList> {
         .doc(widget.d.semester)
         .collection(widget.d.dept)
         .add(widget.d.toJson())
-        .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+        .then(
+          (value) => ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                duration: Duration(milliseconds: 1500),
-                content: Text('Data Added Successfully',
-                    textAlign: TextAlign.center))));
+              duration: Duration(milliseconds: 1500),
+              content:
+                  Text('Data Added Successfully', textAlign: TextAlign.center),
+            ),
+          ),
+        );
   }
 }

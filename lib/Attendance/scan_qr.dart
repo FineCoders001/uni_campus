@@ -195,19 +195,6 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                   ),
                 ),
               ),
-
-              // ListTile(
-              //   title: Text("Faculty : " + at.facultyName.toString()),
-              // ),
-              // ListTile(
-              //   title: Text("Department : " + at.dept.toString()),
-              //   subtitle: Text(
-              //       "Semester : " + at.semester + " Subject : " + at.subject),
-              // ),
-
-              // Text(
-              //     "${at.dept} ${at.year} ${at.month} ${at.semester} ${at.date} ${at.subject} ${at.facultyName}"),
-
               const SizedBox(height: 25),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 3,
@@ -247,9 +234,10 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                           horizontal: 32, vertical: 8),
                       child: InkWell(
                         onTap: () {
-                          if(scanRes ==""){
-                             ScaffoldMessenger.of(context).showSnackBar(
+                          if (scanRes == "") {
+                            ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
+                                backgroundColor: Colors.redAccent,
                                 duration: Duration(milliseconds: 1500),
                                 content: Text(
                                   'Please Scan QR first',
@@ -257,10 +245,10 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                                 ),
                               ),
                             );
-                          }
-                          else if (at.map.contains(scanRes)) {
+                          } else if (at.map.contains(scanRes)) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
+                                backgroundColor: Colors.blueAccent,
                                 duration: Duration(milliseconds: 1500),
                                 content: Text(
                                   'Already Added',
@@ -272,6 +260,7 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                             at.map.add(scanRes);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
+                                backgroundColor: Colors.greenAccent,
                                 duration: const Duration(milliseconds: 1500),
                                 content: Text(
                                   'Added $scanRes to the list',
@@ -348,40 +337,6 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                         ),
                       ),
                     ),
-                    // IconButton(
-                    //   onPressed: _scan,
-                    //   tooltip: "Capture QR",
-                    //   icon: const Icon(Icons.camera),
-                    // ),
-                    // Center(
-                    //   child: Text(scanRes),
-                    // ),
-                    // IconButton(
-                    //     tooltip: "Add",
-                    //     onPressed: () {
-                    //       if (at.map.contains(scanRes)) {
-                    //         ScaffoldMessenger.of(context).showSnackBar(
-                    //             const SnackBar(
-                    //                 duration: Duration(milliseconds: 1500),
-                    //                 content: Text('Already Added',
-                    //                     textAlign: TextAlign.center)));
-                    //       } else {
-                    //         at.map.add(scanRes);
-                    //       }
-                    //     },
-                    //     icon: const Icon(Icons.add)),
-                    // IconButton(
-                    //   tooltip: "See the list",
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(builder: (context) {
-                    //         return ViewList(d: at);
-                    //       }),
-                    //     );
-                    //   },
-                    //   icon: const Icon(Icons.view_agenda),
-                    // ),
                   ],
                 ),
               ),
