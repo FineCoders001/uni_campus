@@ -71,7 +71,7 @@ class _SelectState extends ConsumerState<Select> {
                   border: Border.all(width: 2),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: DropdownButton<String>(
                     isDense: true,
                     underline: const SizedBox(),
@@ -110,7 +110,7 @@ class _SelectState extends ConsumerState<Select> {
                   border: Border.all(width: 2),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: DropdownButton<String>(
                     isDense: true,
                     underline: const SizedBox(),
@@ -142,7 +142,8 @@ class _SelectState extends ConsumerState<Select> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 35.0, vertical: 15),
               child: Form(
                 child: TextFormField(
                   decoration: const InputDecoration(
@@ -192,7 +193,7 @@ class _SelectState extends ConsumerState<Select> {
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Submit", style: TextStyle(fontSize: 22)),
+                  child: Text("Add Students", style: TextStyle(fontSize: 22)),
                 ),
               ),
             ),
