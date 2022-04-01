@@ -175,6 +175,7 @@ class _DisplayFacultyAttendanceState
                                 : ListTile(
                                     onTap: <Widget>() {
                                       return showModalBottomSheet(
+                                        enableDrag: true,
                                         shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.vertical(
                                             top: Radius.circular(25),
