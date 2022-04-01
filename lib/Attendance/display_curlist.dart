@@ -184,6 +184,7 @@ class _SelectState extends ConsumerState<Select> {
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.redAccent,
                         duration: Duration(milliseconds: 1500),
                         content: Text('Subject cannot be empty',
                             textAlign: TextAlign.center)));
