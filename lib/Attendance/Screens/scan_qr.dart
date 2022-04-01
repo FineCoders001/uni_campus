@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
-import 'package:uni_campus/Attendance/view_list.dart';
+import 'package:uni_campus/Attendance/Screens/view_list.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
 class ScanQR extends StatefulHookConsumerWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uni_campus/Attendance/scan_qr.dart';
+import 'package:uni_campus/Attendance/Screens/scan_qr.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 
 class Select extends StatefulHookConsumerWidget {
