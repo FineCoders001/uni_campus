@@ -5,8 +5,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
-import 'package:uni_campus/Attendance/display_curlist.dart';
-import 'package:uni_campus/Attendance/generate_qr.dart';
+import 'package:uni_campus/Attendance/Screens/display_curlist.dart';
+import 'package:uni_campus/Attendance/Screens/generate_qr.dart';
+import 'package:uni_campus/Attendance/Screens/select_attendance.dart';
 import 'package:uni_campus/EventManagement/Screens/create_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/modify_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/issued_book_screen_admin.dart';
@@ -26,7 +27,6 @@ import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
-import 'Attendance/display_attendance.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -361,8 +361,7 @@ Widget homeScreenWidget(
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const DisplayAttendance(),
+                      builder: (BuildContext context) => const MyAttendance(),
                     ),
                   );
                 },
@@ -734,8 +733,7 @@ Widget homeScreenWidget(
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const DisplayAttendance(),
+                        builder: (BuildContext context) => const MyAttendance(),
                       ),
                     );
                   },
