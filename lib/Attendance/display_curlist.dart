@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Attendance/scan_qr.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
@@ -48,7 +49,7 @@ class _SelectState extends ConsumerState<Select> {
         backgroundColor: const Color.fromARGB(255, 60, 138, 63),
         elevation: 0,
         centerTitle: true,
-        title: const Text("Display Current List"),
+        title: const Text("Subject Information"),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -64,104 +65,172 @@ class _SelectState extends ConsumerState<Select> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Container(
                 decoration: BoxDecoration(
+                  border: Border.all(width: 3),
                   borderRadius: BorderRadius.circular(5),
-                  border: Border.all(width: 2),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: DropdownButton<String>(
-                    isDense: true,
-                    underline: const SizedBox(),
-                    value: dept,
-                    items: <String>[
-                      "Information Technology",
-                      "Mechanical",
-                      "Civil",
-                      "Chemical",
-                      "Power Electronics",
-                      "Industrial",
-                      "Electrical",
-                      "Computer Engineering"
-                    ].map((String v) {
-                      return DropdownMenuItem(
-                          value: v,
-                          child: Text(
-                            v,
-                            style: const TextStyle(fontSize: 20),
-                          ));
-                    }).toList(),
-                    onChanged: (nevalue) {
-                      setState(() {
-                        dept = nevalue!;
-                      });
-                    },
-                  ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Center(
+                                child: Text(
+                                  "Department",
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 26,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: DropdownButton<String>(
+                                  isDense: true,
+                                  underline: const SizedBox(),
+                                  value: dept,
+                                  items: <String>[
+                                    "Information Technology",
+                                    "Mechanical",
+                                    "Civil",
+                                    "Chemical",
+                                    "Power Electronics",
+                                    "Industrial",
+                                    "Electrical",
+                                    "Computer Engineering"
+                                  ].map((String v) {
+                                    return DropdownMenuItem(
+                                        value: v,
+                                        child: Text(
+                                          v,
+                                          style: const TextStyle(fontSize: 20),
+                                        ));
+                                  }).toList(),
+                                  onChanged: (nevalue) {
+                                    setState(() {
+                                      dept = nevalue!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Center(
+                                child: Text(
+                                  "Semester",
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 26,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: DropdownButton<String>(
+                                  isDense: true,
+                                  underline: const SizedBox(),
+                                  value: sem,
+                                  items: <String>[
+                                    "Semester 1",
+                                    "Semester 2",
+                                    "Semester 3",
+                                    "Semester 4",
+                                    "Semester 5",
+                                    "Semester 6",
+                                    "Semester 7",
+                                    "Semester 8"
+                                  ].map((String v) {
+                                    return DropdownMenuItem(
+                                        value: v,
+                                        child: Text(
+                                          v,
+                                          style: const TextStyle(fontSize: 20),
+                                        ));
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      sem = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Center(
+                                child: Text(
+                                  "Subject",
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 26,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Form(
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 1),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 1),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 1),
+                                    ),
+                                    hintText:
+                                        "Enter Subject Name (eg: CN, ADA) "),
+                                controller: _formcontroller,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(width: 2),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: DropdownButton<String>(
-                    isDense: true,
-                    underline: const SizedBox(),
-                    value: sem,
-                    items: <String>[
-                      "Semester 1",
-                      "Semester 2",
-                      "Semester 3",
-                      "Semester 4",
-                      "Semester 5",
-                      "Semester 6",
-                      "Semester 7",
-                      "Semester 8"
-                    ].map((String v) {
-                      return DropdownMenuItem(
-                          value: v,
-                          child: Text(
-                            v,
-                            style: const TextStyle(fontSize: 20),
-                          ));
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        sem = value!;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 35.0, vertical: 15),
-              child: Form(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2.5),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2.5),
-                      ),
-                      hintText: "Enter Subject Name (eg: CN, ADA) "),
-                  controller: _formcontroller,
-                ),
-              ),
-            ),
-            Padding(
+              //Button
               padding: const EdgeInsets.only(top: 20.0),
               child: ElevatedButton(
                 onPressed: () {
@@ -184,16 +253,22 @@ class _SelectState extends ConsumerState<Select> {
                       ),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
                         backgroundColor: Colors.redAccent,
                         duration: Duration(milliseconds: 1500),
                         content: Text('Subject cannot be empty',
-                            textAlign: TextAlign.center)));
+                            textAlign: TextAlign.center),
+                      ),
+                    );
                   }
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Add Students", style: TextStyle(fontSize: 22)),
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(fontSize: 22),
+                  ),
                 ),
               ),
             ),
