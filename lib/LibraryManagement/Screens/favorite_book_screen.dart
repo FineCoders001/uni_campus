@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_details_screen.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class FavoriteBookScreen extends StatefulHookConsumerWidget {
   const FavoriteBookScreen({Key? key}) : super(key: key);
@@ -95,7 +96,13 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
         : Scaffold(
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 82, 72, 200),
-              title: const Text("Favorites",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white),),
+              title: const Text(
+                "Favorites",
+                style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
               centerTitle: true,
               actions: [
                 Padding(
@@ -172,20 +179,23 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                 Column(
                                   children: [
                                     Container(
-                                      height: 100,
-                                      width: 70,
-                                      color: const Color.fromARGB(255, 82, 72, 200),
-                                      // child: Image.network(
-                                      //   m[index]['bookPic'][0],
-                                      //   fit: BoxFit.cover,
-                                      // ),
-                                        child:CachedNetworkImage(
+                                        height: 100,
+                                        width: 70,
+                                        color: const Color.fromARGB(
+                                            255, 82, 72, 200),
+                                        // child: Image.network(
+                                        //   m[index]['bookPic'][0],
+                                        //   fit: BoxFit.cover,
+                                        // ),
+                                        child: CachedNetworkImage(
                                           imageUrl: "${m[index]['bookPic'][0]}",
                                           fit: BoxFit.contain,
-                                          placeholder: (context, url) =>  Lottie.asset("assets/loadpaperplane.json"),
-                                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                                        )
-                                    ),
+                                          placeholder: (context, url) =>
+                                              Lottie.asset(
+                                                  "assets/loadpaperplane.json"),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        )),
                                   ],
                                 )
                               ],
@@ -225,13 +235,10 @@ class _FavoriteBookScreenState extends ConsumerState<FavoriteBookScreen> {
                                             ref
                                                 .read(userCrudProvider)
                                                 .user['favBooks'] = l;
-                                            var snackBar = const SnackBar(
-                                                content: Text(
-                                                    'Something Went Wrong',
-                                                    textAlign:
-                                                        TextAlign.center));
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar);
+                                            buildSnackBar(
+                                                context,
+                                                Colors.redAccent,
+                                                'Something Went Wrong');
                                           }
                                           Navigator.pop(context);
                                         },

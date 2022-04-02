@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_campus/Authentication/login_screen.dart';
 import 'package:uni_campus/Users/Screens/onboarding_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -40,13 +41,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       await Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (_) => const ProfileForm()), (_) => false);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: const Duration(milliseconds: 1500),
-          content:
-              Text(e.toString().split("] ")[1], textAlign: TextAlign.center),
-        ),
-      );
+      buildSnackBar(context, Colors.redAccent, e.toString().split("] ")[1]);
     }
 
     setState(() {

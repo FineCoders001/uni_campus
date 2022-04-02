@@ -50,6 +50,16 @@ Future<void> main() async {
 
 //Store o =new Store();
 User? currentUser = FirebaseAuth.instance.currentUser;
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> buildSnackBar(
+    BuildContext context, Color toastColor, String toastMessage) {
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: toastColor,
+      duration: const Duration(milliseconds: 1500),
+      content: Text(toastMessage, textAlign: TextAlign.center),
+    ),
+  );
+}
 
 class MyApp extends StatefulHookConsumerWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -69,10 +69,6 @@ class _CircularFabWidgetState extends State<CircularFabWidget>
               } else {
                 anicon.forward();
               }
-            } else {
-              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text(data),
-              // ));
             }
           },
           tooltip: data,

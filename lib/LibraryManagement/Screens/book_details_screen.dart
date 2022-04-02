@@ -10,6 +10,7 @@ import 'package:uni_campus/LibraryManagement/Widgets/reviews.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
+import 'package:uni_campus/main.dart';
 import 'package:uni_campus/widgets/ratings.dart';
 import 'package:uni_campus/widgets/styled_image.dart';
 import 'favorite_book_screen.dart';
@@ -365,10 +366,9 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         GestureDetector(
           onTap: () async {
             if (!hasInternet) {
-              var snackBar = const SnackBar(
-                  content: Text('Check Your Internet Connection',
-                      textAlign: TextAlign.center));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              buildSnackBar(
+                  context, Colors.blueAccent, 'Check Your Internet Connection');
+
               return;
             }
             if (userCrud.user['favBooks'].contains(widget.book['bookId']) ==
@@ -376,20 +376,14 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               try {
                 await userCrud.addToFav(
                     widget.book['bookId'], userCrud.user['favBooks']);
-
+                buildSnackBar(
+                    context, Colors.greenAccent, 'Added to favorites');
                 // ref.read(userCrudProvider).user['favBooks'].add(widget.book['bookId']);
 
-                var snackBar = const SnackBar(
-                    content: Text('Added to favorites',
-                        textAlign: TextAlign.center));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } catch (e) {
-                var snackBar = const SnackBar(
-                  content:
-                      Text('Something Went Wrong', textAlign: TextAlign.center),
-                  padding: EdgeInsets.all(12),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                buildSnackBar(
+                    context, Colors.redAccent, 'Something Went Wrong');
+
                 print(e);
               }
             } else {
@@ -427,10 +421,8 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
         GestureDetector(
           onTap: () async {
             if (!hasInternet) {
-              var snackBar = const SnackBar(
-                  content: Text('Check Your Internet Connection',
-                      textAlign: TextAlign.center));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              buildSnackBar(
+                  context, Colors.blueAccent, 'Check Your Internet Connection');
               return;
             }
             if (isIssued == "Issue Book") {
@@ -438,13 +430,7 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               await EditRequest()
                   .requestBook(widget.book["bookId"], user)
                   .then((value) => {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(milliseconds: 1500),
-                            content:
-                                Text('Issued', textAlign: TextAlign.center),
-                          ),
-                        ),
+                        buildSnackBar(context, Colors.greenAccent, 'Issued'),
                         setState(() {
                           isIssued = "Cancel Request";
                         }),
@@ -453,24 +439,14 @@ class _BottomButtonState extends ConsumerState<BottomButton> {
               await EditRequest()
                   .deleteRequest(widget.book["bookId"], user)
                   .then((value) => {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(milliseconds: 1500),
-                            content: Text('Request Deleted',
-                                textAlign: TextAlign.center),
-                          ),
-                        ),
+                        buildSnackBar(
+                            context, Colors.greenAccent, 'Request Deleted'),
                         setState(() {
                           isIssued = "Issue Book";
                         }),
                       });
             } else if (isIssued == "Out of Stock") {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  duration: Duration(milliseconds: 1500),
-                  content: Text('Out of Stock', textAlign: TextAlign.center),
-                ),
-              );
+              buildSnackBar(context, Colors.redAccent, 'Out of Stock');
             }
           },
           child: Container(

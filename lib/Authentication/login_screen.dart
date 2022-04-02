@@ -248,13 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
             email: econ.text.trim(), password: pcin.text.trim());
         currentUser = FirebaseAuth.instance.currentUser;
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: const Duration(milliseconds: 1500),
-            content:
-                Text(e.toString().split("] ")[1], textAlign: TextAlign.center),
-          ),
-        );
+        buildSnackBar(context, Colors.redAccent, e.toString().split("] ")[1]);
       }
     }
   }

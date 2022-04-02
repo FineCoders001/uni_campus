@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'package:uni_campus/Attendance/Screens/view_list.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class ScanQR extends StatefulHookConsumerWidget {
   final dynamic department;
@@ -235,39 +236,15 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                       child: InkWell(
                         onTap: () {
                           if (scanRes == "") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.redAccent,
-                                duration: Duration(milliseconds: 1500),
-                                content: Text(
-                                  'Please Scan QR first',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
+                            buildSnackBar(context, Colors.redAccent,
+                                'Please Scan QR first');
                           } else if (at.map.contains(scanRes)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.blueAccent,
-                                duration: Duration(milliseconds: 1500),
-                                content: Text(
-                                  'Already Added',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
+                            buildSnackBar(
+                                context, Colors.blueAccent, 'Already Added');
                           } else {
                             at.map.add(scanRes);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.greenAccent,
-                                duration: const Duration(milliseconds: 1500),
-                                content: Text(
-                                  'Added $scanRes to the list',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
+                            buildSnackBar(context, Colors.greenAccent,
+                                'Added $scanRes to the list');
                           }
                         },
                         child: Container(

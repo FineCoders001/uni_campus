@@ -7,6 +7,7 @@ import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class ModifyBookScreen extends StatefulWidget {
   const ModifyBookScreen({Key? key}) : super(key: key);
@@ -24,12 +25,13 @@ class _ModifyBookScreenState extends State<ModifyBookScreen> {
         fromFirestore: (snapshot, _) => BookDetails.fromJson(snapshot.data()!),
         toFirestore: (bookDetails, _) => bookDetails.toJson(),
       );
-  
+
   @override
   void initState() {
     context.read<Internet>().checkInternet();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return context.watch<Internet>().getInternet == false
@@ -132,16 +134,10 @@ class _ModifyBookScreenState extends State<ModifyBookScreen> {
                                                       await DeleteBooks()
                                                           .deleteBooks(book);
                                                     } catch (e) {
-                                                      var snackBar = const SnackBar(
-                                                          content: Text(
-                                                              'Something Went Wrong',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center));
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              snackBar);
+                                                      buildSnackBar(
+                                                          context,
+                                                          Colors.redAccent,
+                                                          'Something Went Wrong');
                                                     }
                                                     Navigator.pop(context);
                                                   },

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Attendance/Screens/scan_qr.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class Select extends StatefulHookConsumerWidget {
   const Select({Key? key}) : super(key: key);
@@ -266,14 +267,8 @@ class _SelectState extends ConsumerState<Select> {
                       ),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.redAccent,
-                        duration: Duration(milliseconds: 1500),
-                        content: Text('Subject cannot be empty',
-                            textAlign: TextAlign.center),
-                      ),
-                    );
+                    buildSnackBar(
+                        context, Colors.redAccent, 'Subject cannot be empty');
                   }
                 },
                 child: const Padding(

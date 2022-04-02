@@ -10,6 +10,7 @@ import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+import 'package:uni_campus/main.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -26,7 +27,7 @@ class _ApproveBookRequestAdminScreenState
   int _pageIndex = 0;
   late List<Widget> tabPages;
   late PageController _pageController;
-  
+
   @override
   void didChangeDependencies() {
     context.read<Internet>().checkInternet();
@@ -276,19 +277,11 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                                                         .elementAt(0))
                                                 .then(
                                                   (value) => {
-                                                    ScaffoldMessenger.of(
-                                                            _scaffoldKey
-                                                                .currentContext!)
-                                                        .showSnackBar(
-                                                      const SnackBar(
-                                                        duration: Duration(
-                                                            milliseconds: 1500),
-                                                        content: Text(
-                                                            'Book Rejected',
-                                                            textAlign: TextAlign
-                                                                .center),
-                                                      ),
-                                                    ),
+                                                    buildSnackBar(
+                                                        _scaffoldKey
+                                                            .currentContext!,
+                                                        Colors.redAccent,
+                                                        'Book Rejected'),
                                                   },
                                                 );
                                           }),
@@ -330,21 +323,11 @@ class _NewRequestScreenState extends ConsumerState<NewRequestScreen> {
                                                     post.bookId[index].keys
                                                         .elementAt(0))
                                                 .then((value) => {
-                                                      ScaffoldMessenger.of(
-                                                              _scaffoldKey
-                                                                  .currentContext!)
-                                                          .showSnackBar(
-                                                        const SnackBar(
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  1500),
-                                                          content: Text(
-                                                              'Book Approved',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center),
-                                                        ),
-                                                      )
+                                                      buildSnackBar(
+                                                          _scaffoldKey
+                                                              .currentContext!,
+                                                          Colors.greenAccent,
+                                                          'Book Approved'),
                                                     });
                                           },
                                           child: Container(
@@ -620,21 +603,11 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                     },
                                                     post.bookId[index])
                                                 .then((value) => {
-                                                      ScaffoldMessenger.of(
-                                                              _scaffoldKey
-                                                                  .currentContext!)
-                                                          .showSnackBar(
-                                                        const SnackBar(
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  1500),
-                                                          content: Text(
-                                                              'Book Approved',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center),
-                                                        ),
-                                                      )
+                                                      buildSnackBar(
+                                                          _scaffoldKey
+                                                              .currentContext!,
+                                                          Colors.greenAccent,
+                                                          'Book Approved'),
                                                     });
                                           },
                                           child: Container(
@@ -674,21 +647,11 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                     },
                                                     post.bookId[index])
                                                 .then((value) => {
-                                                      ScaffoldMessenger.of(
-                                                              _scaffoldKey
-                                                                  .currentContext!)
-                                                          .showSnackBar(
-                                                        const SnackBar(
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  1500),
-                                                          content: Text(
-                                                              'Book Approved',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center),
-                                                        ),
-                                                      )
+                                                      buildSnackBar(
+                                                          _scaffoldKey
+                                                              .currentContext!,
+                                                          Colors.greenAccent,
+                                                          'Book Approved'),
                                                     });
                                           },
                                           child: Container(

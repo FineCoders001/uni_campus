@@ -8,6 +8,7 @@ import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/SeatingManagement/Utils/files_io.dart';
 import 'package:uni_campus/SeatingManagement/Utils/upload_download.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class UploadExamDetails extends StatefulWidget {
   const UploadExamDetails({Key? key}) : super(key: key);
@@ -21,12 +22,12 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
   String text = "No File Selected";
   FilePickerResult? arrangement;
   FilePickerResult? timeTable;
-  
+
   @override
   void initState() {
     context.read<Internet>().checkInternet();
     super.initState();
-  }  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,35 +254,14 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                     child: InkWell(
                       onTap: () async {
                         if (examType == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              duration: Duration(milliseconds: 1500),
-                              content: Text(
-                                'Select Exam type',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
+                          buildSnackBar(
+                              context, Colors.blueAccent, 'Select Exam type');
                         } else if (timeTable == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              duration: Duration(milliseconds: 1500),
-                              content: Text(
-                                'Select File for Time Table',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
+                          buildSnackBar(context, Colors.blueAccent,
+                              'Select File for Time Table');
                         } else if (arrangement == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              duration: Duration(milliseconds: 1500),
-                              content: Text(
-                                'Select File for Seating Arrangement',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
+                          buildSnackBar(context, Colors.blueAccent,
+                              'Select File for Seating Arrangement');
                         } else {
                           List<String> examTypes = [
                             "Mid Semester",
@@ -333,16 +313,10 @@ class _UploadExamDetailsState extends State<UploadExamDetails> {
                                       "$examType/SeatingArrangement",
                                       "SeatingArrangement.csv")
                                   .then(
-                                    (value) => ScaffoldMessenger.of(context)
-                                        .showSnackBar(
-                                      const SnackBar(
-                                        duration: Duration(milliseconds: 1500),
-                                        content: Text(
-                                          'Both Files Uploaded Successfully',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
+                                    (value) => buildSnackBar(
+                                        context,
+                                        Colors.greenAccent,
+                                        'Both Files Uploaded Successfully'),
                                   );
                             },
                           );

@@ -9,6 +9,7 @@ import 'package:uni_campus/LibraryManagement/library_crud.dart';
 import 'package:uni_campus/LibraryManagement/Models/book_details.dart';
 import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+import 'package:uni_campus/main.dart';
 
 class AddBookScreen extends StatefulWidget {
   static const routeName = 'AddBookScreen';
@@ -60,7 +61,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
   //   'isbnNumber': 0,
   //   'bookQuantity': 0,
   // };
-  
 
   @override
   void didChangeDependencies() {
@@ -112,10 +112,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     try {
       if (arguments['isInit'] == false) {
         if (book.bookPic.isEmpty) {
-          var snackBar = const SnackBar(
-              content:
-                  Text("Image upload pending", textAlign: TextAlign.center));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          buildSnackBar(context, Colors.blueAccent, "Image upload pending");
           return;
         }
 
@@ -734,11 +731,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
           downloadLink = await snapshot.ref.getDownloadURL();
           book.bookPic.add(downloadLink);
         }
-
-        var snackBar = const SnackBar(
-            content: Text('Image  Uploaded Successfully',
-                textAlign: TextAlign.center));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        buildSnackBar(
+            context, Colors.greenAccent, 'Image  Uploaded Successfully');
         setState(() {
           isLoading = false;
           bookName.text = bookName.text;

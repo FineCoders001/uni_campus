@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uni_campus/Attendance/Models/attend.dart';
 import 'package:uni_campus/Profile/Screens/profile_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:uni_campus/main.dart';
 
 class ViewList extends StatefulHookConsumerWidget {
   final Attend d;
@@ -227,13 +228,8 @@ class _ViewListState extends ConsumerState<ViewList> {
         .collection(widget.d.dept)
         .add(widget.d.toJson())
         .then(
-          (value) => ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              duration: Duration(milliseconds: 1500),
-              content:
-                  Text('Data Added Successfully', textAlign: TextAlign.center),
-            ),
-          ),
+          (value) => buildSnackBar(
+              context, Colors.greenAccent, 'Data Added Successfully'),
         );
   }
 }

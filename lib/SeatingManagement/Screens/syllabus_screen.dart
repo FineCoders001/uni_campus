@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:open_file/open_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_campus/main.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -123,22 +124,12 @@ class _DownloadSyllabusTabState extends State<DownloadSyllabusTab> {
                     await file.writeAsBytes(bytes);
                     OpenFile.open("$localPath/$code.pdf");
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        duration: Duration(milliseconds: 1500),
-                        content: Text('Please Check Subject code.',
-                            textAlign: TextAlign.center),
-                      ),
-                    );
+                    buildSnackBar(context, Colors.redAccent,
+                        'Please Check Subject code.');
                   }
                 } catch (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1500),
-                      content: Text("Something went wrong",
-                          textAlign: TextAlign.center),
-                    ),
-                  );
+                  buildSnackBar(
+                      context, Colors.redAccent, "Something went wrong");
                 }
               }),
               child: Container(
@@ -275,15 +266,8 @@ class _DownloadedSyllabusTabState extends State<DownloadedSyllabusTab> {
                                         searchResult = subjectList;
                                       });
                                     } catch (e) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            'Something Went Wrong',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      );
+                                      buildSnackBar(context, Colors.redAccent,
+                                          'Something Went Wrong');
                                     }
                                     Navigator.pop(context);
                                   },
