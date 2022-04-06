@@ -238,11 +238,12 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                           if (scanRes == "") {
                             buildSnackBar(context, Colors.redAccent,
                                 'Please Scan QR first');
-                          } else if (at.map.contains(scanRes)) {
+                          } else if (at.map
+                              .contains(scanRes.toString().substring(0, 12))) {
                             buildSnackBar(
                                 context, Colors.blueAccent, 'Already Added');
                           } else {
-                            at.map.add(scanRes);
+                            at.map.add(scanRes.toString().substring(0, 12));
                             buildSnackBar(context, Colors.greenAccent,
                                 'Added $scanRes to the list');
                           }
@@ -263,10 +264,21 @@ class _ScanQRState extends ConsumerState<ScanQR> {
                                       style: TextStyle(
                                           fontSize: 17, color: Colors.white),
                                     )
-                                  : Text(
-                                      'Add: $scanRes',
-                                      style: const TextStyle(
-                                          fontSize: 17, color: Colors.white),
+                                  : Column(
+                                      children: [
+                                        Text(
+                                          'Add: ${scanRes.toString().substring(0, 12)}',
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              color: Colors.white),
+                                        ),
+                                        Text(
+                                          "At: ${DateFormat("dd MMM yyyy").add_jm().format(DateTime.parse(scanRes.toString().substring(13)))}",
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              color: Colors.white),
+                                        ),
+                                      ],
                                     ),
                               const Icon(
                                 Icons.person_add_outlined,
@@ -328,7 +340,7 @@ class _ScanQRState extends ConsumerState<ScanQR> {
     final result = await BarcodeScanner.scan();
     setState(
       () {
-        scanRes = result.rawContent.toString().substring(0, 12);
+        scanRes = result.rawContent.toString();
       },
     );
   }
