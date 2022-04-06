@@ -47,25 +47,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     var data = ref.watch(userCrudProvider);
     var u = data.user;
 
-    buildEditIcon() {
-      return Container(
-        margin: const EdgeInsets.all(8),
-        //padding: EdgeInsets.all(8),
-        child: CircleAvatar(
-          backgroundColor: Colors.amber,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {},
-              child: const Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
+    // buildEditIcon() {
+    //   return Container(
+    //     margin: const EdgeInsets.all(8),
+    //     //padding: EdgeInsets.all(8),
+    //     child: CircleAvatar(
+    //       backgroundColor: Colors.amber,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: InkWell(
+    //           onTap: () {},
+    //           child: const Icon(
+    //             Icons.edit,
+    //             color: Colors.white,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -215,7 +215,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: const Icon(Icons.library_books_outlined),
-                              trailing: buildEditIcon(),
+                              // trailing: buildEditIcon(),
                               title: Text(
                                 u['enroll'],
                               ),
@@ -228,7 +228,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: const Icon(Icons.school_outlined),
-                              trailing: buildEditIcon(),
+                              // trailing: buildEditIcon(),
                               title: Text(
                                 u['collegeName'],
                               ),
@@ -241,7 +241,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: const Icon(Icons.local_library_outlined),
-                              trailing: buildEditIcon(),
+                              // trailing: buildEditIcon(),
                               title: Text(
                                 u['deptName'],
                               ),
@@ -254,7 +254,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: const Icon(Icons.arrow_forward),
-                              trailing: buildEditIcon(),
+                              // trailing: buildEditIcon(),
                               title: Text(
                                 semRoman[int.parse(u['semester'])],
                               ),
@@ -279,7 +279,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: const Icon(Icons.school_outlined),
-                              trailing: buildEditIcon(),
+                              // trailing: buildEditIcon(),
                               title: Text(
                                 u['collegeName'],
                               ),
@@ -292,7 +292,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               leading: const Icon(Icons.arrow_forward),
-                              trailing: buildEditIcon(),
+                              // trailing: buildEditIcon(),
                               title: Text(
                                 u['role'].toString().toUpperCase(),
                               ),
