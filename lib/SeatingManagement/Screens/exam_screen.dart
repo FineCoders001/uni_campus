@@ -31,12 +31,13 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     var data = ref.watch(userCrudProvider);
     var userData = data.user;
-    enroll = int.parse(userData['enroll']);
+    if (userData['role'] == "student") {
+      enroll = int.parse(userData['enroll']);
+    }
     return context.watch<Internet>().getInternet == false
         ? const NoInternetScreen()
         : n == 0
@@ -91,181 +92,192 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
                           itemBuilder: ((BuildContext context, index) {
                             return GestureDetector(
                               onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.5,
-                                      child: ListView(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              width: double.infinity,
-                                              child: Text(
-                                                timeTable[index]["Subject"],
-                                                style: GoogleFonts.ubuntu(
-                                                  fontSize: 35,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons
-                                                          .calendar_month_outlined,
-                                                      color: Colors.black,
-                                                    ),
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Text(
-                                                        DateFormat(
-                                                                'dd MMM yyyy')
-                                                            .format(DateTime
-                                                                .parse(timeTable[
-                                                                        index]
-                                                                    ['Date'])),
-                                                        style:
-                                                            GoogleFonts.ubuntu(
-                                                          fontSize: 25,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    timeTable[index]["Time"],
-                                                    style: GoogleFonts.ubuntu(
-                                                      fontSize: 25,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                if (userData['role'] == "student") {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.5,
+                                        child: ListView(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                width: double.infinity,
+                                                child: Text(
+                                                  timeTable[index]["Subject"],
+                                                  style: GoogleFonts.ubuntu(
+                                                    fontSize: 35,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Card(
-                                              child: fetched < 0
-                                                  ? Center(
-                                                      child: Padding(
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons
+                                                            .calendar_month_outlined,
+                                                        color: Colors.black,
+                                                      ),
+                                                      Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          DateFormat(
+                                                                  'dd MMM yyyy')
+                                                              .format(DateTime
+                                                                  .parse(timeTable[
+                                                                          index]
+                                                                      [
+                                                                      'Date'])),
+                                                          style: GoogleFonts
+                                                              .ubuntu(
+                                                            fontSize: 25,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Container(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      timeTable[index]["Time"],
+                                                      style: GoogleFonts.ubuntu(
+                                                        fontSize: 25,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Card(
+                                                child: fetched < 0
+                                                    ? Center(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10.0),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                "Fetching Arrangement",
+                                                                style: GoogleFonts.ubuntu(
+                                                                    fontSize:
+                                                                        25,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              const CircularProgressIndicator(),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .all(10.0),
+                                                                .all(12.0),
                                                         child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
                                                           children: [
-                                                            Text(
-                                                              "Fetching Arrangement",
-                                                              style: GoogleFonts.ubuntu(
+                                                            Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              width: double
+                                                                  .infinity,
+                                                              child: Text(
+                                                                "Seating Arrangement",
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .ubuntu(
                                                                   fontSize: 25,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                                ),
+                                                              ),
                                                             ),
                                                             const SizedBox(
-                                                              height: 20,
+                                                              height: 7,
                                                             ),
-                                                            const CircularProgressIndicator(),
+                                                            ListTile(
+                                                              leading: const Icon(
+                                                                  Icons
+                                                                      .school_outlined),
+                                                              title: Text(
+                                                                "Department  : ${seatingArrangement[fetched]["Department"] ?? seatingArrangement[fetched]["department"]}",
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .ubuntu(
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            ListTile(
+                                                              leading: const Icon(
+                                                                  Icons
+                                                                      .meeting_room_outlined),
+                                                              title: Text(
+                                                                "Room No.       : ${seatingArrangement[fetched]["Room"] ?? seatingArrangement[fetched]["room"]}",
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .ubuntu(
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            ListTile(
+                                                              leading: const Icon(
+                                                                  Icons
+                                                                      .event_seat_outlined),
+                                                              title: Text(
+                                                                "Bench              : ${seatingArrangement[fetched]["Bench"] ?? seatingArrangement[fetched]["bench"]}",
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .ubuntu(
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
-                                                    )
-                                                  : Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              12.0),
-                                                      child: Column(
-                                                        children: [
-                                                          Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            width:
-                                                                double.infinity,
-                                                            child: Text(
-                                                              "Seating Arrangement",
-                                                              style: GoogleFonts
-                                                                  .ubuntu(
-                                                                fontSize: 25,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 7,
-                                                          ),
-                                                          ListTile(
-                                                            leading: const Icon(
-                                                                Icons
-                                                                    .school_outlined),
-                                                            title: Text(
-                                                              "Department  : ${seatingArrangement[fetched]["Department"] ?? seatingArrangement[fetched]["department"]}",
-                                                              style: GoogleFonts
-                                                                  .ubuntu(
-                                                                fontSize: 20,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ListTile(
-                                                            leading: const Icon(
-                                                                Icons
-                                                                    .meeting_room_outlined),
-                                                            title: Text(
-                                                              "Room No.       : ${seatingArrangement[fetched]["Room"] ?? seatingArrangement[fetched]["room"]}",
-                                                              style: GoogleFonts
-                                                                  .ubuntu(
-                                                                fontSize: 20,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ListTile(
-                                                            leading: const Icon(
-                                                                Icons
-                                                                    .event_seat_outlined),
-                                                            title: Text(
-                                                              "Bench              : ${seatingArrangement[fetched]["Bench"] ?? seatingArrangement[fetched]["bench"]}",
-                                                              style: GoogleFonts
-                                                                  .ubuntu(
-                                                                fontSize: 20,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
