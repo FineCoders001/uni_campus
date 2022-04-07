@@ -161,7 +161,8 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
                                                   child: Container(
                                                     alignment: Alignment.center,
                                                     child: Text(
-                                                      timeTable[index]["Time"],
+                                                      timeTable[index]["Time"]
+                                                          .toString(),
                                                       style: GoogleFonts.ubuntu(
                                                         fontSize: 25,
                                                         fontWeight:
@@ -313,7 +314,7 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
                                                   ["Code"]
                                               .toString()),
                                           trailing: DateTime.parse(
-                                                      timeTable[0]["Date"])
+                                                      timeTable[index]["Date"])
                                                   .isAfter(DateTime.now())
                                               ? const Icon(
                                                   Icons
