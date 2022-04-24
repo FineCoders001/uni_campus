@@ -28,6 +28,7 @@ import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
 import 'package:uni_campus/notifications.dart';
+import 'package:uni_campus/upload_users.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -240,6 +241,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     },
                                     child: buildItem("Notification",
                                         Icons.keyboard_arrow_left_sharp)),
+                                //
+
+                                //mul users
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const MulptipleUsers(),
+                                        ),
+                                      );
+                                    },
+                                    child: buildItem("users",
+                                        Icons.keyboard_arrow_left_sharp)),
+
                                 //
                                 InkWell(
                                     onTap: () {
