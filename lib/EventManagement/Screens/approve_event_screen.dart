@@ -95,15 +95,17 @@ class _ApproveEventScreenState extends State<ApproveEventScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        icon: const CircleAvatar(
-                                            backgroundColor: Colors.red,
-                                            child: Icon(
-                                              Icons.clear_rounded,
-                                              color: Colors.white,
-                                            ))),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: const CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                        child: Icon(
+                                          Icons.clear_rounded,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 Row(
@@ -113,8 +115,9 @@ class _ApproveEventScreenState extends State<ApproveEventScreen> {
                                       padding: const EdgeInsets.all(12.0),
                                       child: Text(
                                         post.eventName,
+                                        maxLines: 2,
                                         style: GoogleFonts.ubuntu(
-                                            fontSize: 38,
+                                            fontSize: 28,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),

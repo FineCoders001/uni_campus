@@ -250,33 +250,33 @@ class ParticipateEvents {
           .collection("MyApprovedEvents")
           .doc(event.id)
           .update({
-        'eventName': event.eventName,
-        'venue': event.venue,
-        'description': event.description,
-        'deptLevel': event.deptLevel,
-        'eventDate': event.eventDate,
-        'eventStartTime': event.eventStartTime,
-        'eventDuration': event.eventDuration,
-        'id': event.id,
-        'eventStatus': event.eventStatus,
+        // 'eventName': event.eventName,
+        // 'venue': event.venue,
+        // 'description': event.description,
+        // 'deptLevel': event.deptLevel,
+        // 'eventDate': event.eventDate,
+        // 'eventStartTime': event.eventStartTime,
+        // 'eventDuration': event.eventDuration,
+        // 'id': event.id,
+        // 'eventStatus': event.eventStatus,
         'participants': event.participants,
-        'eventForSem': event.eventForSem
+        // 'eventForSem': event.eventForSem
       });
 
       await FirebaseFirestore.instance
           .collection('AllApprovedEvents')
           .doc(event.id)
           .update({
-        'eventName': event.eventName,
-        'venue': event.venue,
-        'description': event.description,
-        'deptLevel': event.deptLevel,
-        'eventDate': event.eventDate,
-        'eventStartTime': event.eventStartTime,
-        'eventDuration': event.eventDuration,
-        'id': event.id,
+        // 'eventName': event.eventName,
+        // 'venue': event.venue,
+        // 'description': event.description,
+        // 'deptLevel': event.deptLevel,
+        // 'eventDate': event.eventDate,
+        // 'eventStartTime': event.eventStartTime,
+        // 'eventDuration': event.eventDuration,
+        // 'id': event.id,
         'participants': event.participants,
-        'eventForSem': event.eventForSem
+        // 'eventForSem': event.eventForSem
       });
     } catch (e) {
       rethrow;

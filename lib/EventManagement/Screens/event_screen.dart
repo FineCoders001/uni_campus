@@ -226,7 +226,7 @@ class _EventScreenState extends ConsumerState<EventScreen>
                                     child: Text(
                                       post.eventName,
                                       style: GoogleFonts.ubuntu(
-                                          fontSize: 38,
+                                          fontSize: 28,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
