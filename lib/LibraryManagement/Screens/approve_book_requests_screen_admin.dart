@@ -606,8 +606,8 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                       buildSnackBar(
                                                           _scaffoldKey
                                                               .currentContext!,
-                                                          Colors.greenAccent,
-                                                          'Book Approved'),
+                                                              Colors.redAccent,
+                                                          'Book Rejected'),
                                                     });
                                           },
                                           child: Container(
@@ -651,7 +651,8 @@ class _ReissueRequestScreenState extends ConsumerState<ReissueRequestScreen> {
                                                           _scaffoldKey
                                                               .currentContext!,
                                                           Colors.greenAccent,
-                                                          'Book Approved'),
+                                                          'Book Approved'
+                                                          ),
                                                     });
                                           },
                                           child: Container(
