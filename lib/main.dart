@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:uni_campus/LibraryManagement/Screens/add_book_screen.dart';
 import 'package:uni_campus/Provider/internet_provider.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+import 'package:uni_campus/notifications.dart';
 import 'Authentication/login_screen.dart';
 import 'LibraryManagement/Screens/book_details_screen.dart';
 import 'home_screen.dart';
@@ -38,6 +40,19 @@ Future<void> main() async {
             appId: "1:142536551485:web:1603614567f6e4909cce54",
             measurementId: "G-FCRTTT21CT"));
   }
+
+// noti
+  //final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //FlutterLocalNotificationsPlugin();
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    badge: true,
+    alert: true,
+    sound: true,
+  );
+  await FirebaseMessaging.instance
+      .subscribeToTopic(currentUser!.uid.toString());
+  await Notifications.init();
+//
   runApp(
     provider.ChangeNotifierProvider(
       create: (_) => Internet(),
@@ -72,6 +87,19 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     context.read<Internet>().checkInternet();
+    //noti
+
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      if (event.notification != null) {
+        if (WidgetsBinding.instance?.lifecycleState ==
+            AppLifecycleState.resumed) {
+          Notifications.showNotification(
+              title: event.notification!.title, body: event.notification!.body);
+        }
+      }
+    });
+    //
     super.initState();
   }
 

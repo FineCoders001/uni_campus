@@ -27,6 +27,8 @@ import 'package:uni_campus/EventManagement/Screens/approve_event_screen.dart';
 import 'package:uni_campus/LibraryManagement/Screens/book_home_screen.dart';
 import 'package:uni_campus/Users/user_crud.dart';
 import 'package:uni_campus/Widgets/no_internet_screen.dart';
+import 'package:uni_campus/notifications.dart';
+import 'package:uni_campus/upload_users.dart';
 
 class HomeScreen extends StatefulHookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -227,6 +229,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     },
                                     child: buildItem("OnBoarding",
                                         Icons.all_inclusive_rounded)),
+                                //noti
+                                InkWell(
+                                    onTap: () {
+                                      Notifications
+                                          .callOnFcmApiSendPushNotifications(
+                                              topic:
+                                                  "DJfm5B0bYONbqvLUV6BPLoRtr2Z2",
+                                              title: "Hello",
+                                              body: "Your id is 180310116011");
+                                    },
+                                    child: buildItem("Notification",
+                                        Icons.keyboard_arrow_left_sharp)),
+                                //
+
+                                //mul users
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const MulptipleUsers(),
+                                        ),
+                                      );
+                                    },
+                                    child: buildItem("users",
+                                        Icons.keyboard_arrow_left_sharp)),
+
+                                //
                                 InkWell(
                                     onTap: () {
                                       Navigator.push(
