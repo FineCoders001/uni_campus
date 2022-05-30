@@ -63,7 +63,7 @@ class ShowDialog{
                       child: Text(
                         post.eventName,
                         style: GoogleFonts.ubuntu(
-                            fontSize: 38, fontWeight: FontWeight.bold),
+                            fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
