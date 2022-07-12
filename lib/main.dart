@@ -29,7 +29,8 @@ Future<void> main() async {
             messagingSenderId: "142536551485",
             appId: "1:142536551485:web:1603614567f6e4909cce54",
             measurementId: "G-FCRTTT21CT"));
-  } else {
+  } 
+  else {
     await Firebase.initializeApp(
         options: const FirebaseOptions(
             apiKey: "AIzaSyCck4jYwBKMTba1LVHrJXHFTy1zuEyBmxg",
